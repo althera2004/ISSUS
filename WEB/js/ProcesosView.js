@@ -1,7 +1,7 @@
 ﻿function SaveProcess() {
     var ok = true;
-    document.getElementById('TxtNameErrorDuplicated').style.display = 'none';
-    if (!RequiredFieldText('TxtName')) { ok = false; }
+    $("#TxtNameErrorDuplicated").hide();
+    if (!RequiredFieldText("TxtName")) { ok = false; }
     else
     {
         var duplicated = false;
@@ -13,14 +13,14 @@
         }
 
         if (duplicated === true) {
-            document.getElementById('TxtNameErrorDuplicated').style.display = 'block';
-            document.getElementById('TxtNameLabel').style.color = '#f00';
+            $("#TxtNameErrorDuplicated").show();
+            $("#TxtNameLabel").css("color", Color.Error);
             ok = false;
         }
     }
 
-    if (!RequiredFieldText('TxtJobPosition')) { ok = false; }
-    if (!RequiredFieldText('TxtProcessType')) { ok = false; }
+    if (!RequiredFieldText("TxtJobPosition")) { ok = false; }
+    if (!RequiredFieldText("TxtProcessType")) { ok = false; }
 
     if (ok === false) {
         window.scrollTo(0, 0);
@@ -45,7 +45,7 @@ function ProcessInsert() {
             "ProcessType": processTypeSelected,
             "Start": $("#TxtInicio").val(),
             "Work": $("#TxtDesarrollo").val(),
-            "End": $("#TxtFinalizacion").val(),
+            "End": $("#TxtFinalizacion").val()
         },
         "userId": user.Id
     };
@@ -66,7 +66,7 @@ function ProcessInsert() {
                 alertUI(response.d.MessageError);
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -105,7 +105,7 @@ function ProcessUpdate() {
                 alertUI(response.d.MessageError);
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -141,33 +141,33 @@ function ProcessTypeChanged(sender) {
 }
 
 function ProcessTypeDelete(sender) {
-    document.getElementById('dialogProcessType').parentNode.style.cssText += 'z-Index:1039 !important';
-    $('#ProcessTypeName').html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
+    document.getElementById("dialogProcessType").parentNode.style.cssText += "z-Index:1039 !important";
+    $("#ProcessTypeName").html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $("#ProcessTypeDeleteDialog").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_Process_Popup_DeleteProcessType_Title + '</h4>',
-        title_html: true,
-        buttons:
+    $("#ProcessTypeDeleteDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Process_Popup_DeleteProcessType_Title + "</h4>",
+        "title_html": true,
+        "buttons":
         [
             {
-                html: "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
+                "html": "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-danger btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                     ProcessTypeDeleteConfirmed(Selected);
                 }
             },
             {
-                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
         ],
-        close: function () { document.getElementById('dialogProcessType').parentNode.style.cssText += 'z-Index:1050 !important'; }
+        "close": function () { document.getElementById("dialogProcessType").parentNode.style.cssText += "z-Index:1050 !important"; }
     });
 }
 
@@ -177,7 +177,7 @@ function ProcessTypeUpdate(sender) {
     document.getElementById('TxtProcessTypeNameErrorDuplicated').style.display = 'none';
     $('#TxtProcessTypeName').val(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $("#ProcessTypeUpdateDialog").removeClass("hide").dialog({
+    $("#ProcessTypeUpdateDialog").removeClass("hide").dialog({
         resizable: false,
         width: 600,
         modal: true,
@@ -636,27 +636,27 @@ function FillCmbJobPosition() {
 }
 
 function FillCmbTipo() {
-    VoidTable('CmbTipo');
-    var optionDefault = document.createElement('option');
+    VoidTable("CmbTipo");
+    var optionDefault = document.createElement("option");
     optionDefault.value = 0;
     optionDefault.appendChild(document.createTextNode(Dictionary.Common_SelectAll));
-    document.getElementById('CmbTipo').appendChild(optionDefault);
+    document.getElementById("CmbTipo").appendChild(optionDefault);
 
     for (var x = 0; x < processTypeCompany.length; x++) {
-        var option = document.createElement('option');
+        var option = document.createElement("option");
         option.value = processTypeCompany[x].Id;
         option.appendChild(document.createTextNode(processTypeCompany[x].Description));
         if (processTypeSelected === processTypeCompany[x].Id) {
             option.selected = true;
         }
 
-        document.getElementById('CmbTipo').appendChild(option);
+        document.getElementById("CmbTipo").appendChild(option);
     }
 }
 
 function CmbJobPositionChanged() {
-    jobPositionSelected = document.getElementById('CmbJobPosition').value * 1;
-    var text = '';
+    jobPositionSelected = $("#CmbJobPosition").val() * 1;
+    var text = "";
     for (var x = 0; x < jobPositionCompany.length; x++) {
         if (jobPositionSelected === jobPositionCompany[x].Id) {
             text = jobPositionCompany[x].Description;
@@ -692,16 +692,120 @@ if (ApplicationUser.Grants.Proccess.Write === false) {
     $("#BtnSave").hide();
 }
 
-window.onload = function()
-{
+window.onload = function () {
+    $("#BtnRestaurar").on("click", Restaurar);
+    $("#BtnAnular").on("click", AnularPopup);
+    ButtonLayout();
     document.getElementById("CmbJobPosition").focus();
     FillCmbJobPosition();
     FillCmbTipo();
     Resize();
+    var options = $.extend({}, $.datepicker.regional[ApplicationUser.Language], { "autoclose": true, "todayHighlight": true });
+    $(".date-picker").datepicker(options);
+};
+
+function ButtonLayout() {
+    $("#BtnRestaurar").hide();
+    $("#BtnAnular").hide();
+    return;
+    if (process.DisabledOn === null) {
+        $("#BtnAnular").show();
+        console.log(1);
+    } else {
+        console.log(2);
+        $("#BtnRestaurar").show();
+    }
 }
-window.onresize = function () { Resize(); }
+
+function Restaurar() {
+
+}
+
+window.onresize = function () { Resize(); };
 
 function Resize() {
     var containerHeight = $(window).height();
     $("#ListDataDiv").height(containerHeight - 360);
+}
+
+function AnularPopup() {
+    $("#dialogAnular").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_Process_PopupAnular_Title,
+        "width": 400,
+        "buttons":
+            [
+                {
+                    "id": "BtnAnularOk",
+                    "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Item_Process_Btn_Anular,
+                    "class": "btn btn-success btn-xs",
+                    "click": function () { AnularConfirmed(); }
+                },
+                {
+                    "id": "BtnAnularCancel",
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () { $(this).dialog("close"); }
+                }
+            ]
+    });
+}
+
+function AnularConfirmed() {
+    $("#TxtDateLabel").css("color", "#000");
+    $("#CmbDisabledLabel").css("color", "#000");
+    $("#TxtDateErrorRequired").hide();
+    $("#TxtDateErrorMalformed").hide();
+    $("#CmbDisabledErrorRequired").hide();
+
+    var ok = true;
+
+    if ($("#TxtDate").val() === "") {
+        ok = false;
+        $("#TxtDateLabel").css("color", Color.Error);
+        $("#TxtDateDateRequired").show();
+    }
+    else {
+        if (validateDate($("#TxtDate").val()) === false) {
+            ok = false;
+            $("#TxtDateLabel").css("color", Color.Error);
+            $("#TxtDateMalformed").show();
+        }
+    }
+
+    if ($("#CmbDisabledBy").val() * 1 < 1) {
+        ok = false;
+        $("#CmbDisabledLabel").css("color", Color.Error);
+        $("#CmbDisabledErrorRequired").show();
+    }
+
+    if (ok === false) {
+        return false;
+    }
+
+    var data = {
+        "processId": process.Id,
+        "companyId": Company.Id,
+        "responsible": $("#CmbDisabledBy").val() * 1,
+        "date": GetDate($("#TxtDate").val(), "/"),
+        "applicationUserId": user.Id
+    };
+    anulationData = data;
+    $("#dialogAnular").dialog("close");
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/ProcessActions.asmx/Anulate",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            ButtonLayout();
+        },
+        "error": function (msg) {
+            LoadingHide();
+            alertUI(msg.responseText);
+        }
+    });
 }

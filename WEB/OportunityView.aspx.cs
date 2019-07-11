@@ -639,10 +639,10 @@ public partial class OportunityView : Page
         this.RenderDocuments();
 
         this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.Dictionary["Item_Oportunity_Tab_Basic"], Available = true });
-        this.tabBar.AddTab(new Tab { Id = "accion", Available = true, Active = true, Label = this.Dictionary["Item_Oportunity_Tab_Action"], Hidden = true });
-        this.tabBar.AddTab(new Tab { Id = "costes", Available = true, Active = true, Label = this.Dictionary["Item_Oportunity_Tab_Costs"], Hidden = true });
+        this.tabBar.AddTab(new Tab { Id = "accion", Available = this.ApplicationUser.HasGrantToRead(ApplicationGrant.IncidentActions), Active = true, Label = this.Dictionary["Item_Oportunity_Tab_Action"], Hidden = true });
+        this.tabBar.AddTab(new Tab { Id = "costes", Available = this.ApplicationUser.HasGrantToRead(ApplicationGrant.IncidentActions) && this.ApplicationUser.HasGrantToRead(ApplicationGrant.Cost), Active = true, Label = this.Dictionary["Item_Oportunity_Tab_Costs"], Hidden = true });
         this.tabBar.AddTab(new Tab { Id = "graphic", Available = true, Active = true, Label = this.Dictionary["Item_Oportunity_Tab_Graphics"], Hidden = true });
-        this.tabBar.AddTab(new Tab { Id = "historyActions",Available = true, Active = historyActionActive == true, Label = this.Dictionary["Item_Oportunity_Tab_HistoryActions"], Hidden = !historyActionActive });
+        this.tabBar.AddTab(new Tab { Id = "historyActions",Available = this.ApplicationUser.HasGrantToRead(ApplicationGrant.IncidentActions), Active = historyActionActive == true, Label = this.Dictionary["Item_Oportunity_Tab_HistoryActions"], Hidden = !historyActionActive });
         this.tabBar.AddTab(new Tab { Id = "uploadFiles", Available = true, Active = true, Label = this.Dictionary["Item_Oportunity_Tab_UploadFiles"], Hidden = this.Oportunity.Id < 1 });
     }
 

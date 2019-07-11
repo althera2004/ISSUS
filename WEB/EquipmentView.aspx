@@ -163,6 +163,17 @@
                                                                 </div>
                                                                 <div class="form-group" style="height:35px;">
                                                                 </div>
+                                                                <div class="form-group" id="TxtICDFirstDateRow" style="visibility:hidden;">
+                                                                    <label id="TxtICDFirstDateLabel" class="col-sm-4"><%=this.Dictionary["Common_FirstDate"] %></label>
+                                                                    <div class="col-sm-4">                                                                                                                            
+                                                                        <div class="input-group">
+                                                                            <input class="form-control date-picker" id="TxtICDFirstDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" value="" />
+                                                                            <span id="TxtICDFirstDateBtn" class="input-group-addon" onclick="document.getElementById('TxtICDFirstDate').focus();">
+                                                                                <i class="icon-calendar bigger-110"></i>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>	
+                                                                </div>
                                                                 <div class="form-group">
                                                                     <div class="col-xs-9">&nbsp;</div>
                                                                     <div class="col-xs-3">
@@ -210,6 +221,17 @@
                                                                         <span class="ErrorMessage" id="CmbCalibrationExternalProviderErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                                     </div>
                                                                     <div class="col-sm-1" id="CmbCalibrationExternalProviderBar"><button class="btn btn-light" style="height:30px;" title="<%=this.Dictionary["Item_Providers"] %>" id="BtnCalibrationExternalProviderBAR">...</button></div>
+                                                                </div>
+                                                                <div class="form-group" id="TxtECDFirstDateRow" style="visibility:hidden;">
+                                                                    <label id="TxtECDFirstDateLabel" class="col-sm-4"><%=this.Dictionary["Common_FirstDate"] %></label>
+                                                                    <div class="col-sm-4">                                                                                                                            
+                                                                        <div class="input-group">
+                                                                            <input class="form-control date-picker" id="TxtECDFirstDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" value="" />
+                                                                            <span id="TxtECDFirstDateBtn" class="input-group-addon" onclick="document.getElementById('TxtECDFirstDate').focus();">
+                                                                                <i class="icon-calendar bigger-110"></i>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>	
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <div class="col-xs-9">&nbsp;</div>
@@ -316,6 +338,17 @@
                                                                     <%=this.VerificationInternalCmbResponsible.Render%>
                                                                 </div>
                                                                 <div class="form-group" style="height:35px;">&nbsp;</div>
+                                                                <div class="form-group" id="TxtIVDFirstDateRow" style="visibility:hidden;">
+                                                                    <label id="TxtIVDFirstDateLabel" class="col-sm-4"><%=this.Dictionary["Common_FirstDate"] %></label>
+                                                                    <div class="col-sm-4">                                                                                                                            
+                                                                        <div class="input-group">
+                                                                            <input class="form-control date-picker" id="TxtIVDFirstDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" value="" />
+                                                                            <span id="TxtIVDFirstDateBtn" class="input-group-addon" onclick="document.getElementById('TxtIVDFirstDate').focus();">
+                                                                                <i class="icon-calendar bigger-110"></i>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>	
+                                                                </div>
                                                                 <div class="form-group">
                                                                     <div class="col-xs-9">&nbsp;</div>
                                                                     <div class="col-xs-3">
@@ -363,6 +396,17 @@
                                                                         <span class="ErrorMessage" id="CmbVerificationExternalProviderErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                                     </div>
                                                                     <div class="col-sm-1" id="CmbVerificationExternalProviderBar"><button class="btn btn-light" style="height:30px;" title="<%=this.Dictionary["Item_Providers"] %>" id="BtnVerificationExternalProviderBAR">...</button></div>
+                                                                </div>
+                                                                <div class="form-group" id="TxtEVDFirstDateRow" style="visibility:hidden;">
+                                                                    <label id="TxtEVDFirstDateLabel" class="col-sm-4"><%=this.Dictionary["Common_FirstDate"] %></label>
+                                                                    <div class="col-sm-4">                                                                                                                            
+                                                                        <div class="input-group">
+                                                                            <input class="form-control date-picker" id="TxtEVDFirstDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" value="" />
+                                                                            <span id="TxtEVDFirstDateBtn" class="input-group-addon" onclick="document.getElementById('TxtEVDFirstDate').focus();">
+                                                                                <i class="icon-calendar bigger-110"></i>
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>	
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <div class="col-xs-9">&nbsp;</div>
@@ -1247,7 +1291,7 @@
                         }
                     }));
 
-                    var options = $.extend({}, $.datepicker.regional["ca"], { dateFormat: "dd/mm/yy", autoclose: true, todayHighlight: true });
+                    var options = $.extend({}, $.datepicker.regional[user.Language], { "dateFormat": "dd/mm/yy", "autoclose": true, "todayHighlight": true });
                     $(".date-picker").datepicker(options);
                     $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
 
@@ -1302,121 +1346,121 @@
                         ShowMaintaimentPopup(0);
                     });
                     
-                    $("#BtnNewMaintainmentAct").on('click', function (e){
+                    $("#BtnNewMaintainmentAct").on("click", function (e){
                         e.preventDefault();
                         EquipmentMaintenanceDefinitionRegister(null);
                     });
 
-                    $("#BtnNewCalibration").on('click', function (e) {
+                    $("#BtnNewCalibration").on("click", function (e) {
                         e.preventDefault();
                         ShowDialogNewCalibrationPopup(0);
                     });
 
-                    $("#BtnNewVerification").on('click', function (e) {
+                    $("#BtnNewVerification").on("click", function (e) {
                         e.preventDefault();
                         ShowDialogEquipmentVerificacionPopup(0);
                     });
 
-                    $("#BtnEquipmentScaleDivisionBAR").on('click', function (e) {
+                    $("#BtnEquipmentScaleDivisionBAR").on("click", function (e) {
                         e.preventDefault();
                         ShowEquipmentScaleDivisionBarPopup();
                     });
 
-                    $('#BtnCalibrationActProviderBAR').on('click', function (e) {
+                    $("#BtnCalibrationActProviderBAR").on("click", function (e) {
                         e.preventDefault();
-                        ShowProviderBarPopup('EquipmentCalibrationAct');
+                        ShowProviderBarPopup("EquipmentCalibrationAct");
                     });
 
-                    $('#BtnVerificationActProviderBAR').on('click', function (e) {
+                    $("#BtnVerificationActProviderBAR").on("click", function (e) {
                         e.preventDefault();
-                        ShowProviderBarPopup('EquipmentVerificationAct');
+                        ShowProviderBarPopup("EquipmentVerificationAct");
                     });
 
-                    $('#BtnNewMaintainmentProviderBAR').on('click', function (e) {
+                    $("#BtnNewMaintainmentProviderBAR").on("click", function (e) {
                         e.preventDefault();
-                        ShowProviderBarPopup('EquipmentMaintenanceDefinition');
+                        ShowProviderBarPopup("EquipmentMaintenanceDefinition");
                     });
 
-                    $('#BtnCmbEquipmentMaintenanceActProviderBAR').on('click', function (e) {
+                    $("#BtnCmbEquipmentMaintenanceActProviderBAR").on("click", function (e) {
                         e.preventDefault();
-                        ShowProviderBarPopup('EquipmentMaintenanceAct');
+                        ShowProviderBarPopup("EquipmentMaintenanceAct");
                     });
 
-                    $('#BtnCalibrationExternalProviderBAR').on('click', function (e){
+                    $("#BtnCalibrationExternalProviderBAR").on("click", function (e){
                         e.preventDefault();
-                        ShowProviderBarPopup('EquipmentCalibrationDefinition');
+                        ShowProviderBarPopup("EquipmentCalibrationDefinition");
                     });
 
-                    $('#BtnVerificationExternalProviderBAR').on('click', function (e){
+                    $("#BtnVerificationExternalProviderBAR").on("click", function (e){
                         e.preventDefault();
-                        ShowProviderBarPopup('EquipmentVerificationDefinition');
+                        ShowProviderBarPopup("EquipmentVerificationDefinition");
                     });
 
-                    $('#BtnCmbEquipmentRepairProviderBAR').on('click', function (e){
+                    $("#BtnCmbEquipmentRepairProviderBAR").on("click", function (e){
                         e.preventDefault();
-                        ShowProviderBarPopup('EquipmentEquipmentRepair');
+                        ShowProviderBarPopup("EquipmentEquipmentRepair");
                     });
 
-                    $('#EquipmentRepairNewBtn').on('click', function (e) {
+                    $("#EquipmentRepairNewBtn").on("click", function (e) {
                         e.preventDefault();
                         EquipmentRepairNew();
                     });
                     
-                    $('#Contentholder1_status0').on('click', function(e)
+                    $("#Contentholder1_status0").on("click", function(e)
                     {
                         CalibrationCheckChanged();
                     });
 
-                    $('#Contentholder1_status1').on('click', function(e)
+                    $("#Contentholder1_status1").on("click", function(e)
                     {
                         VerificationCheckChanged();
                     });
 
-                    $('#Contentholder1_status2').on('click', function(e)
+                    $("#Contentholder1_status2").on("click", function(e)
                     {
                         MaintenanceCheckChanged();
                     });
                     
-                    $('#BtnCalibrationInternalSave').on('click', function(e)
+                    $("#BtnCalibrationInternalSave").on("click", function(e)
                     {
                         e.preventDefault();
                         CalibrationInternalSave();
                     });
                     
-                    $('#BtnCalibrationExternalSave').on('click', function(e)
+                    $("#BtnCalibrationExternalSave").on("click", function(e)
                     {
                         e.preventDefault();
                         CalibrationExternalSave();
                     });
                     
-                    $('#BtnVerificationInternalSave').on('click', function(e)
+                    $("#BtnVerificationInternalSave").on("click", function(e)
                     {
                         e.preventDefault();
                         VerificationInternalSave();
                     });
                     
-                    $('#BtnVerificationExternalSave').on('click', function(e)
+                    $("#BtnVerificationExternalSave").on("click", function(e)
                     {
                         e.preventDefault();
                         VerificationExternalSave();
                     });
                     
                     if(ApplicationUser.ShowHelp===true){
-                        SetToolTip('TxtCode',Dictionary.Item_Equipment_Help_Code);
-                        SetToolTip('TxtDescription',Dictionary.Item_Equipment_Help_Description);
-                        SetToolTip('TxtTradeMark',Dictionary.Item_Equipment_Help_TradeMark);
-                        SetToolTip('TxtModel',Dictionary.Item_Equipment_Help_Model);
-                        SetToolTip('TxtSerialNumber',Dictionary.Item_Equipment_Help_SerialNumber);
-                        SetToolTip('TxtLocation',Dictionary.Item_Equipment_Help_Location);
-                        SetToolTip('TxtMeasureRange',Dictionary.Item_Equipment_Help_MeasureRange);
-                        SetToolTip('TxtScaleDivision',Dictionary.Item_Equipment_Help_ScaleDivision);
-                        SetToolTip('DivCmbEquipmentScaleDivision',Dictionary.Item_Equipment_Help_EquipmentScaleDivision);
-                        SetToolTip('BtnEquipmentScaleDivisionBAR',Dictionary.Item_Equipment_Help_EquipmentScaleDivisionBAR);
-                        SetToolTip('DivCmbResponsible',Dictionary.Item_Equipment_Help_Responsible);
-                        SetToolTip('Contentholder1_status0',Dictionary.Item_Equipment_Help_CalibrationCheck);
-                        SetToolTip('Contentholder1_status1',Dictionary.Item_Equipment_Help_VerificationCheck);
-                        SetToolTip('Contentholder1_status2',Dictionary.Item_Equipment_Help_MaintenanceCheck);
-                        SetToolTip('TxtObservations',Dictionary.Item_Equipment_Help_Observations);
+                        SetToolTip("TxtCode",Dictionary.Item_Equipment_Help_Code);
+                        SetToolTip("TxtDescription",Dictionary.Item_Equipment_Help_Description);
+                        SetToolTip("TxtTradeMark",Dictionary.Item_Equipment_Help_TradeMark);
+                        SetToolTip("TxtModel",Dictionary.Item_Equipment_Help_Model);
+                        SetToolTip("TxtSerialNumber",Dictionary.Item_Equipment_Help_SerialNumber);
+                        SetToolTip("TxtLocation",Dictionary.Item_Equipment_Help_Location);
+                        SetToolTip("TxtMeasureRange",Dictionary.Item_Equipment_Help_MeasureRange);
+                        SetToolTip("TxtScaleDivision",Dictionary.Item_Equipment_Help_ScaleDivision);
+                        SetToolTip("DivCmbEquipmentScaleDivision",Dictionary.Item_Equipment_Help_EquipmentScaleDivision);
+                        SetToolTip("BtnEquipmentScaleDivisionBAR",Dictionary.Item_Equipment_Help_EquipmentScaleDivisionBAR);
+                        SetToolTip("DivCmbResponsible",Dictionary.Item_Equipment_Help_Responsible);
+                        SetToolTip("Contentholder1_status0",Dictionary.Item_Equipment_Help_CalibrationCheck);
+                        SetToolTip("Contentholder1_status1",Dictionary.Item_Equipment_Help_VerificationCheck);
+                        SetToolTip("Contentholder1_status2",Dictionary.Item_Equipment_Help_MaintenanceCheck);
+                        SetToolTip("TxtObservations",Dictionary.Item_Equipment_Help_Observations);
                         $("[data-rel=tooltip]").tooltip();
                     }
 
@@ -1430,14 +1474,14 @@
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
                     reader.onload = function (e) {
-                        $('#blah').attr('src', e.target.result);
+                        $("#blah").attr("src", e.target.result);
                     }
                     reader.readAsDataURL(input.files[0]);
                 }
             }
 
             $("#imgInp").change(function () {
-                console.log('image changed')
+                console.log("image changed")
                 readURL(this);
                 return false;
             });
@@ -1454,11 +1498,11 @@
             if (Equipment.Id > 0) {
                 SetCalibrationForm();
                 SetVerificationForm();
-                EquipmentMaintenanceDefinitionRenderTable('TableEquipmentMaintenanceDefinition');
-                EquipmentMaintenanceActRenderTable('TableEquipmentMaintenanceAct');
-                EquipmentRepairRenderTable('TableEquipmentRepair');
-                EquipmentCalibrationActRenderTable('TableEquipmentCalibrationAct');
-                EquipmentVerificationActRenderTable('TableEquipmentVerificationAct');
+                EquipmentMaintenanceDefinitionRenderTable("TableEquipmentMaintenanceDefinition");
+                EquipmentMaintenanceActRenderTable("TableEquipmentMaintenanceAct");
+                EquipmentRepairRenderTable("TableEquipmentRepair");
+                EquipmentCalibrationActRenderTable("TableEquipmentCalibrationAct");
+                EquipmentVerificationActRenderTable("TableEquipmentVerificationAct");
             }
 
             function GetEmployeeById(id) {
@@ -1471,41 +1515,42 @@
             }
 
             function CmbEquipmentScaleDivisionChanged() {
-                $('#TxtEquipmentScaleDivision').val($('#CmbEquipmentScaleDivision').val());
+                $("#TxtEquipmentScaleDivision").val($("#CmbEquipmentScaleDivision").val());
             }
+
             function CmbResponsibleChanged() { /* NOOP */ }
 
             function EquipmentCalibrationActEdit(sender){
-                SelectedEquipmentCalibrationActId = sender.parentNode.parentNode.id.substring(23)*1;
+                SelectedEquipmentCalibrationActId = sender.parentNode.parentNode.id.substring(23) * 1;
                 SelectedEquipmentCalibrationAct = EquipmentCalibrationActgetById(SelectedEquipmentCalibrationActId);
-                if(SelectedEquipmentCalibrationAct==null){alert('no');return false;}
+                if (SelectedEquipmentCalibrationAct == null) { return false; }
                 FillCmbEquipmentCalibrationActResponsible();
                 FillCmbEquipmentCalibrationActProvider();
                 EquipmentCalibrationActEditFormFill(SelectedEquipmentCalibrationAct);
-                var dialog = $("#dialogEquipmentCalibrationForm").removeClass("hide").dialog({
+                $("#dialogEquipmentCalibrationForm").removeClass("hide").dialog({
                     "resizable": false,
                     "modal": true,
                     "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentCalibrationAct_PopupUpdate_Title + "</h4>",
                     "title_html": true,
                     "width": 400,
                     "buttons": [
-                                {
-                                    "id": 'BtnNewEquipmentCalibrationActSave',
-                                    "html": "<i class='icon-refresh bigger-110'></i>&nbsp;" + Dictionary.Common_Update,
-                                    "class": "btn btn-success btn-xs",
-                                    "click": function () {
-                                        EquipmentCalibrationSave();
-                                    }
-                                },
-                                {
-                                    "id": 'BtnNewEquipmentCalibrationActCancel',
-                                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
-                                    "class": "btn btn-xs",
-                                    "click": function () {
-                                        $(this).dialog("close");
-                                    }
-                                }
-                            ]
+                        {
+                            "id": 'BtnNewEquipmentCalibrationActSave',
+                            "html": "<i class='icon-refresh bigger-110'></i>&nbsp;" + Dictionary.Common_Update,
+                            "class": "btn btn-success btn-xs",
+                            "click": function () {
+                                EquipmentCalibrationSave();
+                            }
+                        },
+                        {
+                            "id": 'BtnNewEquipmentCalibrationActCancel',
+                            "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                            "class": "btn btn-xs",
+                            "click": function () {
+                                $(this).dialog("close");
+                            }
+                        }
+                    ]
                 });
 
                 if (Equipment.EndDate !== null) {
@@ -1516,17 +1561,15 @@
             function EquipmentCalibrationActDelete(sender){
                 SelectedEquipmentCalibrationActId = sender.parentNode.parentNode.id.substring(23) * 1;
                 SelectedEquipmentCalibrationAct = EquipmentCalibrationActgetById(SelectedEquipmentCalibrationActId);
-                if(SelectedEquipmentCalibrationAct==null){return false;}
-
+                if (SelectedEquipmentCalibrationAct == null) { return false; }
                 $("#dialogEquipmentCalibrationActDeleteName").html(" la calibración?");
-
-                var dialog = $("#dialogEquipmentCalibrationActDelete").removeClass("hide").dialog({
-                        "resizable": false,
-                        "modal": true,
-                        "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentCalibrationAct_PopupDelete_Title + "</h4>",
-                        "title_html": true,
-                        "width": 500,
-                        "buttons": [
+                $("#dialogEquipmentCalibrationActDelete").removeClass("hide").dialog({
+                    "resizable": false,
+                    "modal": true,
+                    "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentCalibrationAct_PopupDelete_Title + "</h4>",
+                    "title_html": true,
+                    "width": 500,
+                    "buttons": [
                         {
                             "id": "BtnNewCalibrationActSave",
                             "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
@@ -1544,7 +1587,7 @@
                             }
                         }
                     ]
-                    });
+                });
             }
 
             function EquipmentVerificationActEdit(sender) {
@@ -1554,7 +1597,7 @@
                 FillCmbEquipmentVerificationActResponsible();
                 FillCmbEquipmentVerificationActProvider();
                 EquipmentVerificationActEditFormFill(SelectedEquipmentVerificationAct);
-                var dialog = $("#dialogEquipmentVerificacionForm").removeClass("hide").dialog({
+                $("#dialogEquipmentVerificacionForm").removeClass("hide").dialog({
                     "resizable": false,
                     "modal": true,
                     "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentVerification_PopupUpdate_Title + "</h4>",
@@ -1591,8 +1634,8 @@
                 SelectedEquipmentVerificationAct = EquipmentVerificationActgetById(SelectedEquipmentVerificationActId);
                 if (SelectedEquipmentVerificationAct == null) { return false; }
 
-                document.getElementById('dialogEquipmentVerificationActDeleteName').innerHTML = " la verificación?";
-                var dialog = $("#dialogEquipmentVerificationActDelete").removeClass("hide").dialog({
+                $("#dialogEquipmentVerificationActDeleteName").html(" la verificación?");
+                $("#dialogEquipmentVerificationActDelete").removeClass("hide").dialog({
                     "resizable": false,
                     "modal": true,
                     "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentVerification_Popup_Delete_Title + "</h4>",
@@ -1686,48 +1729,50 @@
 
             var emptyCalibration =
             {
-                "Id":0,
-                "EquipmentId":0,
-                "CompanyId":0,
-                "CalibrationType":0,
-                "Description":"",
-                "Periodicity":0,
-                "Uncertainty":0,
-                "Range":"",
-                "Pattern":"",
-                "Cost":0,
-                "Notes":"",
-                "Provider":{"Id":0,"Value":""},
+                "Id": 0,
+                "EquipmentId": 0,
+                "CompanyId": 0,
+                "CalibrationType": 0,
+                "Description": "",
+                "Periodicity": 0,
+                "Uncertainty": 0,
+                "Range": "",
+                "FirstDate": null,
+                "Pattern": "",
+                "Cost": 0,
+                "Notes": "",
+                "Provider": { "Id": 0, "Value": "" },
                 "Responsible":
                 {
-                    "Id":0,
-                    "CompanyId":0,
-                    "Name":"",
-                    "LastName":""
+                    "Id": 0,
+                    "CompanyId": 0,
+                    "Name": "",
+                    "LastName": ""
                 }
-            }
+            };
 
-            var emptyVerification = 
+            var emptyVerification =
             {
-                "Id":0,
-                "EquipmentId":0,
-                "CompanyId":0,
-                "CalibrationType":0,
-                "Description":"",
-                "Periodicity":0,
-                "Uncertainty":0,
-                "Range":"",
-                "Pattern":"",
-                "Cost":0,
-                "Notes":"",
+                "Id": 0,
+                "EquipmentId": 0,
+                "CompanyId": 0,
+                "CalibrationType": 0,
+                "Description": "",
+                "Periodicity": 0,
+                "Uncertainty": 0,
+                "Range": "",
+                "FirstDate": null,
+                "Pattern": "",
+                "Cost": 0,
+                "Notes": "",
                 "Responsible":
                 {
-                    "Id":0,
-                    "CompanyId":0,
-                    "Name":"",
-                    "LastName":""
+                    "Id": 0,
+                    "CompanyId": 0,
+                    "Name": "",
+                    "LastName": ""
                 }
-            }
+            };
 
             if(Equipment.InternalCalibration==null)
             {

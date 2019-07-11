@@ -23,14 +23,16 @@
 	<script>
 		var userLanguage = "<%=this.UserLanguage %>";
 		var dateFrom = "<%=this.DateFrom%>";
-		var dateTo = "<%=this.DateTo%>";
+        var dateTo = "<%=this.DateTo%>";
+        var learningData = [<%=this.LeargingData %>];
+        var Filter = "<%=this.LearningFilterData %>";
 	</script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
                             <div class="col-xs-12">
-                                <table cellpadding="2" cellspacing="2">
+                                <table cellpadding="2" cellspacing="2" style="width:100%;">
                                     <tr>
                                         <td id="TxtDateFromLabel"><strong><%=this.Dictionary["Item_Learning_Filter_Periode1"] %>:</strong></td>
 										<td>
@@ -63,10 +65,15 @@
                                         <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                         <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                         <td><strong><%=this.Dictionary["Item_Learning_FieldLabel_Status"] %>:</strong></td>
-                                        <td>&nbsp;&nbsp;&nbsp;<input runat="server" type="radio" id="status0" name="status" value="0" onclick="Go(2,0);" /><%=this.Dictionary["Item_Learning_Status_InProgress"] %></td>
-                                        <td>&nbsp;&nbsp;&nbsp;<input runat="server" type="radio" id="status1" name="status" value="1" onclick="Go(2,1);" /><%=this.Dictionary["Item_Learning_Status_Done"] %></td>
-                                        <td>&nbsp;&nbsp;&nbsp;<input runat="server" type="radio" id="status2" name="status" value="2" onclick="Go(2,2);" /><%=this.Dictionary["Item_Learning_Status_Evaluated"] %></td>
-                                        <td>&nbsp;&nbsp;&nbsp;<input runat="server" type="radio" id="status3" name="status" value="3" onclick="Go(2,3);" /><%=this.Dictionary["Common_All_Female_Plural"] %></td>
+                                        <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="status0" onclick="Go();" /><%=this.Dictionary["Item_Learning_Status_InProgress"] %></td>
+                                        <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="status1" onclick="Go();" /><%=this.Dictionary["Item_Learning_Status_Started"] %></td>
+                                        <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="status2" onclick="Go();" /><%=this.Dictionary["Item_Learning_Status_Done"] %></td>
+                                        <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="status3" onclick="Go();" /><%=this.Dictionary["Item_Learning_Status_Evaluated"] %></td>
+                                        <!--<td>&nbsp;&nbsp;&nbsp;<input runat="server" type="checkbox" id="status4" name="status" value="-1" onclick="Go();" /><%=this.Dictionary["Common_All_Female_Plural"] %></td>-->
+                                        
+                                        <td style="text-align:right;">
+                                            <button class="btn btn-success btn-filter" type="button" id="BtnRestoreFilter" onclick="RestoreFilter();" title="<%= this.Dictionary["Common_All_Male_Plural"] %>"><i class="icon-refresh"></i></button>
+                                        </td>
                                     </tr>
                                 </table>
                             </div>
@@ -80,35 +87,29 @@
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataHeader">
                                                         <th onclick="Sort(this,'ListDataTable','text',false);" id="th0" class="sort search"><%=this.Dictionary["Item_Learning_ListHeader_Course"] %></th>
-                                                        
-														<!-- <th class="hidden-480" style="width:100px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_EstimatedDate"] %></th> -->
-														<!-- <th class="hidden-480" style="width:100px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_DateComplete"] %></th> -->                                                     
-														<!-- <th class="hidden-480" style="width:100px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_Status"] %></th> -->
-														<!-- <th class="hidden-480" style="width:150px; text-align:right;"><%=this.Dictionary["Item_Learning_ListHeader_Cost"] %></th> -->
-														
-														<th onclick="Sort(this,'ListDataTable','date',false);" id="th1" class="hidden-480 sort search" style="width:100px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_EstimatedDate"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable','date',false);" id="th1" class="hidden-480 sort search" style="width:100px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_EstimatedDate"] %></th>
 														<th onclick="Sort(this,'ListDataTable','date',false);" id="th2" class="hidden-480 sort search" style="width:100px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_DateComplete"] %></th>
-														<th onclick="Sort(this,'ListDataTable','text',false);" id="th3" class="hidden-480 sort search" style="width:100px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_Status"] %></th>
-														<th onclick="Sort(this,'ListDataTable','money',false);" id="th4" class="hidden-480 sort search" style="width:150px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_Cost"] %></th>
+														<th onclick="Sort(this,'ListDataTable','text',false);" id="th3" class="hidden-480 sort" style="width:100px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_Status"] %></th>
+														<th onclick="Sort(this,'ListDataTable','money',false);" id="th4" class="hidden-480 sort totalizable" style="width:150px; text-align:center;"><%=this.Dictionary["Item_Learning_ListHeader_Cost"] %></th>
                                                         <th class="hidden-480" style="width:106px !important;">&nbsp;</th>
                                                     </tr>
                                                 </thead>
-                                            </table>                                            
-                                            <div id="ListDataDiv" style="overflow: scroll; overflow-x: hidden; padding: 0;">
-                                                <table class="table table-bordered table-striped" style="border-top: none;">
-                                                    <tbody id="ListDataTable">
-                                                        <asp:Literal runat="server" ID="LtLearningTable"></asp:Literal>
-                                                    </tbody>
+                                            </table>
+                                            <div id="ListDataDiv" style="overflow:scroll;overflow-x:hidden;padding:0;">
+                                                <table class="table table-bordered table-striped" style="border-top:none;">  
+                                                    <tbody id="ListDataTable"><tr><td><%=this.Dictionary["Common_Loading"] %>...</td></tr></tbody>
                                                 </table>
                                             </div>
-                                            
-                                            <table class="table table-bordered table-striped" style="margin: 0">
+                                            <div id="NoData" style="display:none;width:100%;height:99%;background-color:#eef;text-align:center;font-size:large;color:#aaf;">&nbsp;<div style="height:40%;"></div><i class="icon-info-sign"></i>&nbsp;<%=this.Dictionary["Common_VoidSearchResult"] %></div>
+                                            <table class="table table-bordered table-striped" style="margin:0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataFooter">
-                                                        <td style="color:#333;" colspan="3"><%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<strong><asp:Literal runat="server" ID="LtCount"></asp:Literal></strong></td>
-                                                        <td style="color:#333;width:100px;text-align:right;"><%=this.Dictionary["Common_Total"] %>&nbsp</td>
-                                                        <td style="color:#333;width:150px;text-align:right;"><strong><asp:Literal runat="server" ID="LtTotal"></asp:Literal></strong></td>
-                                                        <td style="color:#333;width:107px !important;">&nbsp;</td>
+                                                        <th class="thin-border-bottom">
+                                                            <%=this.Dictionary["Common_RegisterCount"] %>:&nbsp;<span id="TotalList" style="font-weight:bold;"></span>
+                                                            <span style="float:right"><%=this.Dictionary["Common_Total"] %></span>
+                                                        </th>
+                                                        <th style="width:150px;text-align:right;"><strong><span id="TotalAmount"></span></strong></th>
+                                                        <th style="width:107px;">&nbsp;</th>
                                                     </tr>
                                                 </thead>
                                             </table>

@@ -58,12 +58,12 @@
                                                 <li class="active" id="TabHome">
                                                     <a data-toggle="tab" href="#home"><%=this.Dictionary["Item_Process_Tab_Principal"] %></a>
                                                 </li>
-                                                <li id="tabIndicators">                                                    
+                                                <!--<li id="tabIndicators">                                                    
                                                     <a data-toggle="tab" href="#indicators"><%=this.Dictionary["Item_Process_Tab_Indicators"] %></a>
                                                 </li>
                                                 <li id="tabQuestionarios">                                                    
                                                     <a data-toggle="tab" href="#questionarios">Cuestionarios</a>
-                                                </li>
+                                                </li>-->
                                                 <% if (this.Proceso.Id > 0) { %>
                                                 <li id="tabAttachments">                                                    
                                                     <a data-toggle="tab" href="#uploadFiles"><%=this.Dictionary["Item_IncidentAction_Tab_UploadFiles"] %></a>
@@ -359,6 +359,38 @@
                                 <p><%=this.Dictionary["Item_Process_FieldLabel_Name"] %>&nbsp;&nbsp;<input type="text" id="TxtProcessTypeNewName" size="50" placeholder="<%= this.Dictionary["Item_Process_FieldLabel_Name"] %>" maxlength="50" onblur="this.value=$.trim(this.value);" /></p>
                                 <span class="ErrorMessage" id="TxtProcessTypeNewNameErrorRequired"><%= this.Dictionary["Common_Required"] %></span>
                                 <span class="ErrorMessage" id="TxtProcessTypeNewNameErrorDuplicated"><%= this.Dictionary["Common_AlreadyExists"] %></span>
+                            </div>
+
+                            <div id="dialogAnular" class="hide" style="width: 400px;">
+                                <form class="form-horizontal" role="form" id="FormDialogAnular">
+                                    <div class="form-group">  
+                                        <label id="CmbDisabledLabel" class="col-sm-4 control-label no-padding-right"><%=this.Dictionary["Common_Responsible"] %><span style="color:#f00;">*</span>:</label>
+                                        <div class="col-sm-8">
+                                            <select id="CmbDisabledBy" class="col-sm-12">
+                                                <option value="-1"><%= this.Dictionary["Common_SelectOne"] %></option>
+                                                <asp:Literal runat="server" ID="LtCmbDisabledBy"></asp:Literal>
+                                            </select>
+                                            <span class="ErrorMessage" id="CmbDisabledErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id="TxtDateLabel" class="col-sm-4 control-label no-padding-right"><%=this.Dictionary["Common_Date"] %><span style="color:#f00;">*</span>:</label>
+                                        <div class="col-sm-8">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 tooltip-info">
+                                                    <div class="input-group">
+                                                        <input class="form-control date-picker" style="width:90px;" id="TxtDate" type="text" data-date-format="dd/mm/yyyy" placeholder="<%=this.Dictionary["Common_Date"] %>" maxlength="10" />
+                                                        <span class="input-group-addon" onclick="document.getElementById('TxtDate').focus();">
+                                                            <i class="icon-calendar bigger-110"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <span class="ErrorMessage" id="TxtDateErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                <span class="ErrorMessage" id="TxtDateErrorMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">

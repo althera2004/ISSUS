@@ -289,7 +289,7 @@ function UpdateFinalResult() {
     }
     else
     {
-        $("#FinalResult").css("color", "#f00");
+        $("#FinalResult").css("color", Color.Error);
         document.getElementById("ApplyActionNoFinal").style.visibility = "hidden";
     }
 }
@@ -305,6 +305,12 @@ function ApplyActionRadio() {
     }
 
     if (document.getElementById("StartApplyActionYes").checked === true) {
+        if (user.Grants.IncidentActions.Write !== true) {
+            alertUI(Dictionary.Item_IncidentAction_Message_NoGrants, null, 500);
+            $("#StartApplyActionYes").removeAttr("checked");
+            return false;
+        }
+
         ApplyActionTrue();
         SetCloseRequired();
         alertUI(Dictionary.Item_BusinessRisk_Warning_ActionTabAvailable, null, 500);
@@ -905,8 +911,8 @@ function ValidateData() {
                 if (riskStartDate > dateWhatHappened) {
                     $("#TxtActionWhatHappenedDateOverDate").show();
                     $("#DateStartDateOutOfDate").show();
-                    $("#TxtActionWhatHappenedDateLabel").css("color", "#f00");
-                    $("#TxtDateStartLabel").css("color", "#f00");
+                    $("#TxtActionWhatHappenedDateLabel").css("color", Color.Error);
+                    $("#TxtDateStartLabel").css("color", Color.Error);
                     ErrorMessageInicial.push(Dictionary.Item_BusinessRisk_ErrorMessage_StartDateOverdate);
                     ErrorMessageAccion.push(Dictionary.Item_BusinessRisk_ErrorMessage_WhatHappendOverdate);
                     ok = false;
@@ -1072,7 +1078,7 @@ function ValidateData() {
         else {
             if (businessRisk.FinalProbability === 0) {
                 ok = false;
-                $("#TxtFinalProbabilityLabel").css("color", "#f00");
+                $("#TxtFinalProbabilityLabel").css("color", Color.Error);
                 ErrorMessageFinal.push(Dictionary.Item_BusinessRisk_ErrorMessage_FinalProbabilityRequired);
             }
             else {
@@ -1081,7 +1087,7 @@ function ValidateData() {
 
             if (businessRisk.FinalSeverity === 0) {
                 ok = false;
-                $("#TxtFinalSeverityLabel").css("color", "#f00");
+                $("#TxtFinalSeverityLabel").css("color", Color.Error);
                 ErrorMessageFinal.push(Dictionary.Item_BusinessRisk_ErrorMessage_FinalSeverityRequired);
             }
             else {
@@ -1901,13 +1907,13 @@ function AnularConfirmed() {
 
     if ($("#TxtActionClosedDate").val() === "") {
         ok = false;
-        $("@TxtActionClosedDateLabel").css("color", "#f00");
+        $("@TxtActionClosedDateLabel").css("color", Color.Error);
         $("#TxtActionClosedDateDateRequired").show();
     }
     else {
         if (validateDate($("#TxtActionClosedDate").val()) === false) {
             ok = false;
-            $("#TxtActionClosedDateLabel").css("color", "#f00");
+            $("#TxtActionClosedDateLabel").css("color", Color.Error);
             $("#TxtActionClosedDateDateMalformed").show();
         }
         else {
@@ -1916,14 +1922,14 @@ function AnularConfirmed() {
             if (closeDate < actionsDate) {
                 ok = false;
                 $("#TxtActionClosedDateErrorCross").show();
-                $("#TxtActionClosedDateLabel").css("color", "#f00");
+                $("#TxtActionClosedDateLabel").css("color", Color.Error);
             }
         }
     }
 
     if ($("#CmbActionClosedResponsible").val() * 1 < 1) {
         ok = false;
-        $("#CmbActionClosedResponsibleLabel").css("color", "#f00");
+        $("#CmbActionClosedResponsibleLabel").css("color", Color.Error);
         $("#CmbActionClosedResponsibleErrorRequired").show();
     }
 

@@ -73,11 +73,10 @@
 
     var placeholder = $("#piechart-placeholder").css({ "width": "90%", "min-height": "150px" });
 
-    console.log("QuotePercentage", ToMoneyFormat(diskQuote[12].value, 2));
-    $("#QuotePercentage").html(ToMoneyFormat(diskQuote[12].value, 2));
+    console.log("QuotePercentage", ToMoneyFormat(diskQuote[diskQuote.length-1].value, 2));
+    $("#QuotePercentage").html(ToMoneyFormat(diskQuote[diskQuote.length - 1].value, 2));
 
     function drawPieChart(placeholder, data, position) {
-
         CmbAddressChanged();
         console.log("drawPieChart1", data);
         console.log("drawPieChart2", diskQuote);
@@ -106,7 +105,7 @@
                 "hoverable": true,
                 "clickable": false
             }
-        })
+        });
     }
 
     drawPieChart(placeholder, diskQuote);
@@ -224,7 +223,7 @@ function ValidateForm() {
     if ($("#TxtName").val() === "") {
         ok = false;
         $("#TxtNameErrorRequired").style.display = "block";
-        $("#TxtNameLabel").css("color", "#f00");
+        $("#TxtNameLabel").css("color", Color.Error);
     }
     else {
         $("#TxtNameErrorRequired").hide();
@@ -235,7 +234,7 @@ function ValidateForm() {
         ok = false;
         $("#TxtNifErrorRequired").show();;
         $("#TxtNifErrorMalformed").hide();
-        $("#TxtNifLabel").css("color", "#f00");
+        $("#TxtNifLabel").css("color", Color.Error);
     }
     else {
         $("#TxtNifErrorRequired").hide();
@@ -243,7 +242,7 @@ function ValidateForm() {
         if (valida_nif_cif_nie(document.getElementById("TxtNif").value) < 1 && $("#TxtCountry").val() === "España") {
             ok = false;
             $("#TxtNifErrorMalformed").style.display = "block";
-            $("#TxtNifLabel").css("color", "#f00");
+            $("#TxtNifLabel").css("color", Color.Error);
         }
         else {
             $("#TxtNifErrorMalformed").hide();

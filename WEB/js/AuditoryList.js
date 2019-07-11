@@ -1,5 +1,14 @@
 ﻿var lockOrderList = false;
-Resize();    
+Resize();
+
+var StatusColors = {
+    "Planificando": "#6fb3e0",
+    "Planificada": "#ff0",
+    "EnCurso": "#ffb752",
+    "Pendiente": "#d15b47",
+    "Cerrada": "#87b87f",
+    "Validada": "#555"
+};
 
 jQuery(function ($) {
     var options = $.extend({}, $.datepicker.regional[userLanguage], { "autoclose": true, "todayHighlight": true });
@@ -98,7 +107,14 @@ function AuditoryGetFilter(exportType) {
 }
 
 function Go(sender) {
-    document.location = "AuditoryView.aspx?id=" + sender.id;
+    for (var x = 0; x < AuditoryList.length; x++) {
+        if (AuditoryList[x].Id === sender.id * 1) {
+            if (AuditoryList[x].Type === 1) { document.location = "AuditoryExternaView.aspx?id=" + sender.id; }
+            else { document.location = "AuditoryView.aspx?id=" + sender.id; }
+        }
+    }
+
+    return false;    
 }
 
 function ItemRenderTable(list) {
@@ -119,38 +135,31 @@ function ItemRenderTable(list) {
         row.id = item.Id;
         total += item.Amount;
 
-        var colorStatus0 = "#777";
-        var colorStatus1 = "#77f";
-        var colorStatus2 = "#33f";
-        var colorStatus3 = "#00f";
-        var colorStatus4 = "#ff7";
-        var colorStatus5 = "#ff0";
-
         var iconStatus = document.createElement("I");
         iconStatus.className = "icon-circle bigger-110";
         switch (item.Status) {
             case 0:
-                iconStatus.style.color = colorStatus0;
+                iconStatus.style.color = StatusColors.Planificando;
                 iconStatus.title = Dictionary.Item_Adutory_Status_Label_0;
                 break;
             case 1:
-                iconStatus.style.color = colorStatus1;
+                iconStatus.style.color = StatusColors.Planificada;
                 iconStatus.title = Dictionary.Item_Adutory_Status_Label_1;
                 break;
             case 2:
-                iconStatus.style.color = colorStatus2;
+                iconStatus.style.color = StatusColors.EnCurso;
                 iconStatus.title = Dictionary.Item_Adutory_Status_Label_2;
                 break;
             case 3:
-                iconStatus.style.color = colorStatus3;
+                iconStatus.style.color = StatusColors.Pendiente;
                 iconStatus.title = Dictionary.Item_Adutory_Status_Label_3;
                 break;
             case 4:
-                iconStatus.style.color = colorStatus4;
+                iconStatus.style.color = StatusColors.Cerrada;
                 iconStatus.title = Dictionary.Item_Adutory_Status_Label_4;
                 break;
             case 5:
-                iconStatus.style.color = colorStatus5;
+                iconStatus.style.color = StatusColors.Validada;
                 iconStatus.title = Dictionary.Item_Adutory_Status_Label_5;
                 break;
         }
@@ -159,7 +168,13 @@ function ItemRenderTable(list) {
 
         var AuditoryLink = document.createElement("A");
         AuditoryLink.title = item.Description;
-        AuditoryLink.href = "AuditoryView.aspx?id=" + item.Id;
+        if (item.Type === 1) {
+            AuditoryLink.href = "AuditoryExternaView.aspx?id=" + item.Id;
+        }
+        else {
+            AuditoryLink.href = "AuditoryView.aspx?id=" + item.Id;
+        }
+
         AuditoryLink.appendChild(document.createTextNode(item.Description));
         tdDescription.appendChild(AuditoryLink);
 
@@ -206,9 +221,7 @@ function ItemRenderTable(list) {
         }
 
         tdActions.style.width = "90px";
-
         row.appendChild(tdActions);
-
         target.appendChild(row);
 
         if ($.inArray(item.Description, items) === -1) {
@@ -260,7 +273,7 @@ function ItemRenderTable(list) {
 }
 
 function ShowStatusHelp() {
-    var dialog = $("#StatusHelpDialog").removeClass("hide").dialog({
+    $("#StatusHelpDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_Auditory_Help_Status_Title + "</h4>",
@@ -298,7 +311,7 @@ function ShowSelectDialog() {
                             document.location = "AuditoryView.aspx?id=-1&t=0";
                         }
                         else if (document.getElementById("AuditoryTypeSelect1").checked) {
-                            document.location = "AuditoryView.aspx?id=-1&t=1";
+                            document.location = "AuditoryExternaView.aspx?id=-1&t=1";
                         }
                         else if (document.getElementById("AuditoryTypeSelect2").checked) {
                             document.location = "AuditoryView.aspx?id=-1&t=2";
@@ -325,7 +338,7 @@ function AuditoryDelete(sender) {
     AuditorySelected = AuditoryGetById(AuditorySelectedId);
     if (AuditorySelected === null) { return false; }
     $("#AuditoryDeleteName").html(AuditorySelected.Description);
-    var dialog = $("#AuditoryDeleteDialog").removeClass("hide").dialog({
+    $("#AuditoryDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_Auditory_Popup_Delete_Title + "</h4>",
@@ -395,7 +408,7 @@ function AuditoryDuplicate(sender) {
     if (AuditorySelected === null) { return false; }
     $("#AuditoryToDuplicateName").html(AuditorySelected.Description);
     $("#AuditoryNewDescription").val(ProposeName(AuditorySelected.Description));
-    var dialog = $("#AuditoryDuplicateDialog").removeClass("hide").dialog({
+    $("#AuditoryDuplicateDialog").removeClass("hide").dialog({
         "resizable": false,
         "width": 800,
         "modal": true,
@@ -485,6 +498,13 @@ function Resize() {
 }
 
 window.onload = function () {
+    $("#StatusIcon0").css("color", StatusColors.Planificando);
+    $("#StatusIcon1").css("color", StatusColors.Planificada);
+    $("#StatusIcon2").css("color", StatusColors.EnCurso);
+    $("#StatusIcon3").css("color", StatusColors.Pendiente);
+    $("#StatusIcon4").css("color", StatusColors.Cerrada);
+    $("#StatusIcon5").css("color", StatusColors.Validada);
+
     if (document.getElementById("BtnNewItem") !== null) {
         document.getElementById("BtnNewItem").onclick = null;
         $("#BtnNewItem").on("click", ShowSelectDialog);

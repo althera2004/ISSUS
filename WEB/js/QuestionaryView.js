@@ -88,19 +88,19 @@ function ValidateForm() {
     $("#TxtRuleNameErrorRequired").hide();
 
     if ($("#TxtName").val() === "") {
-        $("#TxtNameLabel").css("color", "#f00");
+        $("#TxtNameLabel").css("color", Color.Error);
         $("#TxtNameErrorRequired").show();
         ok = false;
     }
 
     if ($("#CmbProcess").val() * 1 < 1) {
-        $("#TxtProcessNameLabel").css("color", "#f00");
+        $("#TxtProcessNameLabel").css("color", Color.Error);
         $("#TxtProcessNameErrorRequired").show();
         ok = false;
     }
 
     if ($("#CmbRule").val() * 1 < 1) {
-        $("#TxtRuleNameLabel").css("color", "#f00");
+        $("#TxtRuleNameLabel").css("color", Color.Error);
         $("#TxtRuleNameErrorRequired").show();
         ok = false;
     }
@@ -282,7 +282,7 @@ function EditQuestionConfirmed(id) {
     textToUpdate = $("#TxtQuestionaryQuestionUpdateName").val();
 
     if (textToUpdate === "") {
-        $("#TxtQuestionaryQuestionUpdateNameLabel").css("color", "#f00");
+        $("#TxtQuestionaryQuestionUpdateNameLabel").css("color", Color.Error);
         $("#TxtQuestionaryQuestionUpdateNameErrorRequired").show();
         return false;
     }
@@ -334,14 +334,14 @@ function InsertQuestion() {
         "buttons":
             [
                 {
-                    "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
-                    "class": "btn btn-danger btn-xs",
+                    "html": "<i class=\"icon-check bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                    "class": "btn btn-success btn-xs",
                     "click": function () {
                         InsertQuestionConfirmed(selected);
                     }
                 },
                 {
-                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                     "class": "btn btn-xs",
                     "click": function () {
                         $(this).dialog("close");
@@ -355,7 +355,7 @@ function InsertQuestionConfirmed(id) {
     textToUpdate = $("#TxtQuestionaryQuestionNewName").val();
 
     if (textToUpdate === "") {
-        $("#TxtQuestionaryQuestionNewNameLabel").css("color", "#f00");
+        $("#TxtQuestionaryQuestionNewNameLabel").css("color", Color.Error);
         $("#TxtQuestionaryQuestionNewNameErrorRequired").show();
         return false;
     }

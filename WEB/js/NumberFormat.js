@@ -32,9 +32,20 @@ function numberDecimalDown(e) {
     }
 
     numberActual = e.currentTarget.value;
+
+    if (code === 189) {
+        if (e.currentTarget.value.indexOf('-') !== -1) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        else {
+            e.currentTarget.value = "-" + e.currentTarget.value;
+        }
+    }
+
     if (code === 188 || code === 110 || code === 190) {
         e.currentTarget.value = numberActual.split(",").join(".");
-        if (numberActual.indexOf(".") != -1) {
+        if (numberActual.indexOf(".") !== -1) {
             e.preventDefault();
             e.stopPropagation();
         }
@@ -56,7 +67,7 @@ function numberDecimalUp(e) {
     var code = (e.keyCode ? e.keyCode : e.which);
     numberActual = e.currentTarget.value;
 
-    if (numberActual.indexOf(",") != -1) {
+    if (numberActual.indexOf(",") !== -1) {
         e.currentTarget.value = numberActual.split(",").join(".");
     }
 
@@ -85,7 +96,7 @@ function numberIntegerFocus(e) {
         e.currentTarget.value = "";
     }
 
-    if (isNaN(value)) {
+    if (isNaN(e.currentTarget.value)) {
         e.currentTarget.value = keyFocus;
         value = keyFocus;
         e.preventDefault();
@@ -134,9 +145,7 @@ function moneyBlur(e) {
         value = value = StringToNumberNullable(value, ".", ",");
     }
 
-    if (e.currentTarget.className.indexOf("nullable") != -1 && value === "") {
-    }
-    else {
+    if (e.currentTarget.className.indexOf("nullable") === -1 || value !== "") {
         value = Math.round(value * 100) / 100;
         value = ToMoneyFormat(value, 2);
         e.currentTarget.value = value;
@@ -154,9 +163,7 @@ function numberDecimalBlur6(e) {
         console.log("Not a number", e.currentTarget.value);
     }
 
-    if (e.currentTarget.className.indexOf("nullable") != -1 && value === "") {
-    }
-    else {
+    if (e.currentTarget.className.indexOf("nullable") === -1 || value !== "") {
         value = Math.round(value * 1000000) / 1000000;
         // @alex: poner puntos de millar
         // e.currentTarget.value = value.toString().split('.').join(Dictionary.NumericDecimalSeparator);
@@ -166,9 +173,16 @@ function numberDecimalBlur6(e) {
 
 function numberDecimalBlur4(e) {
     var value = e.currentTarget.value;
-    if (e.currentTarget.className.indexOf("nullable") != -1 && value === "") {
+
+    if (isNaN(value)) {
+        e.currentTarget.value = keyFocus;
+        value = keyFocus;
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("Not a number", e.currentTarget.value);
     }
-    else {
+
+    if (e.currentTarget.className.indexOf("nullable") === -1 || value !== "") {
         value = Math.round(value * 10000) / 10000;
         // @alex: poner puntos de millar
         // e.currentTarget.value = value.toString().split('.').join(Dictionary.NumericDecimalSeparator);
@@ -176,17 +190,16 @@ function numberDecimalBlur4(e) {
     }
 }
 
-function numberDecimalBlur6(e) {
-    var value = e.currentTarget.value;
-    if (e.currentTarget.className.indexOf("nullable") != -1 && value === "") {
-    }
-    else {
-        value = Math.round(value * 1000000) / 1000000;
-        // @alex: poner puntos de millar
-        // e.currentTarget.value = value.toString().split('.').join(Dictionary.NumericDecimalSeparator);
-        e.currentTarget.value = ToMoneyFormat(value, 6);
-    }
-}
+//function numberDecimalBlur6(e) {
+//    var value = e.currentTarget.value;
+
+//    if (e.currentTarget.className.indexOf("nullable") === -1 || value !== "") {
+//        value = Math.round(value * 1000000) / 1000000;
+//        // @alex: poner puntos de millar
+//        // e.currentTarget.value = value.toString().split('.').join(Dictionary.NumericDecimalSeparator);
+//        e.currentTarget.value = ToMoneyFormat(value, 6);
+//    }
+//}
 
 function numberIntegerBlur(e) {
     e.currentTarget.value = ToMoneyFormat(e.currentTarget.value * 1, 0);

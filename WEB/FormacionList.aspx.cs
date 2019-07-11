@@ -31,6 +31,8 @@ public partial class FormacionList : Page
     public string DateFrom { get; private set; }
     public string DateTo { get; private set; }
 
+    public string LeargingData { get; private set; }
+
     /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
@@ -49,6 +51,8 @@ public partial class FormacionList : Page
     }
 
     private LearningFilter learningFilter;
+
+    public string LearningFilterData { get; private set; }
 
     /// <summary>Gets dictionary for fixed labels</summary>
     public Dictionary<string, string> Dictionary
@@ -88,56 +92,11 @@ public partial class FormacionList : Page
     /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
-        DateTime? yearFrom = null;
-        DateTime? yearTo = null;
-        int mode = 3;
-
-        if (this.Request.QueryString["yearfrom"] != null)
-        {
-            if (this.Request.QueryString["yearfrom"] != "0")
-            {
-                yearFrom = GisoFramework.Tools.TextToDate(this.Request.QueryString["yearfrom"]);
-                DateFrom = this.Request.QueryString["yearfrom"];
-            }
-        }
-
-        if (this.Request.QueryString["yearto"] != null)
-        {
-            if (this.Request.QueryString["yearto"] != "0")
-            {
-                yearTo = GisoFramework.Tools.TextToDate(this.Request.QueryString["yearto"]);
-                DateTo = this.Request.QueryString["yearto"];
-            }
-        }
-
-        if (this.Request.QueryString["mode"] != null)
-        {
-            mode = Convert.ToInt32(this.Request.QueryString["mode"], CultureInfo.InvariantCulture);
-        }
-
         this.user = (ApplicationUser)Session["User"];
         this.company = (Company)Session["company"];
+        this.LearningFilterData = this.Session["LearningFilter"] as string;
 
-        switch (mode)
-        {
-            case 0:
-                this.status0.Attributes.Add("checked", "cheked");
-                break;
-            case 1:
-                this.status1.Attributes.Add("checked", "cheked");
-                break;
-            case 2:
-                this.status2.Attributes.Add("checked", "cheked");
-                break;
-            case 3:
-                this.status3.Attributes.Add("checked", "cheked");
-                break;
-        }
-
-        if (!this.Page.IsPostBack)
-        {
-            this.learningFilter = new LearningFilter(this.company.Id) { Mode = mode, YearFrom = yearFrom, YearTo = yearTo };
-        }
+        this.learningFilter = new LearningFilter(this.company.Id);
 
         this.dictionary = Session["Dictionary"] as Dictionary<string, string>; 
         this.master = this.Master as Giso;
@@ -157,19 +116,27 @@ public partial class FormacionList : Page
         decimal total = 0;
         int count = 0;
         var res = new StringBuilder();
+        var list = new StringBuilder();
         var searchedItems = new List<string>();
+        bool firstRow = true;
         foreach (var learning in this.learningFilter.Filter())
         {
-            res.Append(ListRow(this.dictionary, learning));
-            if (!searchedItems.Contains(learning.Description))
+            if (firstRow)
             {
-                searchedItems.Add(learning.Description);
+                firstRow = false;
             }
+            else
+            {
+                list.Append(",");
+            }
+
+            list.Append(learning.Json);
 
             count++;
             total += learning.Amount;
-        } 
+        }
 
+        this.LeargingData = list.ToString();
         searchedItems.Sort();
         bool first = true;
         var sea = new StringBuilder();
@@ -195,17 +162,6 @@ public partial class FormacionList : Page
         }
 
         this.master.SearcheableItems = sea.ToString();
-        this.LtLearningTable.Text = res.ToString();
-        this.LtCount.Text = count.ToString();
-        this.LtTotal.Text = string.Format(
-            CultureInfo.InvariantCulture,
-            //@"{0:#0.00}",
-			@"{0:#,##0.00}",
-            total).Replace(',','*').Replace('.',',').Replace('*','.');
-    
-
-        //this.LtTotal.Text = string.Format(CultureInfo.InvariantCulture,@"{0:#,##0.00}",total).Replace('.',',');
-		this.LtTotal.Text = string.Format(CultureInfo.GetCultureInfo("es-es"), "{0:#,##0.00}",total);	//GTK
 	}
 
     /// <summary>Gets a row of learning for learnings list table</summary>
@@ -242,9 +198,12 @@ public partial class FormacionList : Page
                 statusText = dictionary["Item_Learning_Status_InProgress"];
                 break;
             case 1:
-                statusText = dictionary["Item_Learning_Status_Finished"];
+                statusText = dictionary["Item_Learning_Status_Started"];
                 break;
             case 2:
+                statusText = dictionary["Item_Learning_Status_Finished"];
+                break;
+            case 3:
                 statusText = dictionary["Item_Learning_Status_Evaluated"];
                 break;
             default:

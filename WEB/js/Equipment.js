@@ -7,26 +7,24 @@ $("#BtnRecordShowNone").remove();
 
 var initialDateText = Dictionary.Item_EquipmentErrorInitialDate + " " + limitInitialDate;
 $("#TxtStartDateDateMalformed").after("<span class=\"ErrorMessage\" id=\"TxtStartDatePostInitial\" style=\"display:none;\">" + initialDateText + "</span>");
-$("#TxtScaleDivision").val(ToMoneyFormat(Equipment.ScaleDivision,4));
+$("#TxtScaleDivision").val(ToMoneyFormat(Equipment.ScaleDivision, 4));
+
 function CalibrationCheckChanged() {
-    if (Equipment.Id === 0) {
-        return;
+    if (Equipment.Id > 0) {
+        document.getElementById("Tabcalibracion").style.display = document.getElementById("Contentholder1_status0").checked ? "" : "none";
     }
-    document.getElementById("Tabcalibracion").style.display = document.getElementById("Contentholder1_status0").checked ? "" : "none";
 }
 
 function VerificationCheckChanged() {
-    if (Equipment.Id === 0) {
-        return;
+    if (Equipment.Id > 0) {
+        document.getElementById("Tabverificacion").style.display = document.getElementById("Contentholder1_status1").checked ? "" : "none";
     }
-    document.getElementById("Tabverificacion").style.display = document.getElementById("Contentholder1_status1").checked ? "" : "none";
 }
 
 function MaintenanceCheckChanged() {
-    if (Equipment.Id === 0) {
-        return;
+    if (Equipment.Id > 0) {
+        document.getElementById("Tabmantenimiento").style.display = document.getElementById("Contentholder1_status2").checked ? "" : "none";
     }
-    document.getElementById("Tabmantenimiento").style.display = document.getElementById("Contentholder1_status2").checked ? "" : "none";
 }
 
 function ShowNewVerificationButton() {
@@ -68,6 +66,7 @@ function SaveEquipment() {
             "Periodicity": ParseInputValueToNumber($("#TxtCalibrationInternalPeriodicity").val()),
             "Uncertainty": ParseInputValueToNumber($("#TxtCalibrationInternalUncertainty").val()),
             "Range": $("#TxtCalibrationInternalRange").val(),
+            "FirstDate": GetDate($("#TxtICDFirstDate").val(), "/", true),
             "Pattern": $("#TxtCalibrationInternalPattern").val(),
             "Cost": ParseInputValueToNumber($("#TxtCalibrationInternalCost").val()),
             "Notes": $("#TxtCalibrationInternalNotes").val(),
@@ -86,6 +85,7 @@ function SaveEquipment() {
             "Periodicity": ParseInputValueToNumber($("#TxtCalibrationExternalPeriodicity").val()),
             "Uncertainty": ParseInputValueToNumber($("#TxtCalibrationExternalUncertainty").val()),
             "Range": $("#TxtCalibrationExternalRange").val(),
+            "FirstDate": GetDate($("#TxtECDFirstDate").val(), "/", true),
             "Pattern": $("#TxtCalibrationExternalPattern").val(),
             "Cost": ParseInputValueToNumber($("#TxtCalibrationExternalCost").val()),
             "Notes": $("#TxtCalibrationExternalNotes").val(),
@@ -104,6 +104,7 @@ function SaveEquipment() {
             "Periodicity": ParseInputValueToNumber($("#TxtVerificationInternalPeriodicity").val()),
             "Uncertainty": StringToNumberNullable($("#TxtVerificationInternalUncertainty").val(), ".", ","),
             "Range": $("#TxtVerificationInternalRange").val(),
+            "FirstDate": GetDate($("#TxtIVDFirstDate").val(), "/", true),
             "Pattern": $("#TxtVerificationInternalPattern").val(),
             "Cost": StringToNumberNullable($("#TxtVerificationInternalCost").val(), ".", ","),
             "Notes": $("#TxtVerificationInternalNotes").val(),
@@ -121,6 +122,7 @@ function SaveEquipment() {
             "Periodicity": ParseInputValueToNumber($("#TxtVerificationExternalPeriodicity").val()),
             "Uncertainty": StringToNumberNullable($("#TxtVerificationExternalUncertainty").val(), ".", ","),
             "Range": $("#TxtVerificationExternalRange").val(),
+            "FirstDate": GetDate($("#TxtEVDFirstDate").val(), "/", true),
             "Pattern": $("#TxtVerificationExternalPattern").val(),
             "Cost": StringToNumberNullable($("#TxtVerificationExternalCost").val(), ".", ","),
             "Notes": $("#TxtVerificationExternalNotes").val(),
@@ -290,25 +292,33 @@ window.onload = function () {
     }
 
     AnulateLayout();
+
+    // Rellenar fechas de primer vencimiento si existen
+    // -----------------------------------------------------------
+    if (Equipment.InternalCalibration !== null && Equipment.InternalCalibration.FirstDate !== null) { $("#TxtICDFirstDate").val(GetDateYYYYMMDDText(Equipment.InternalCalibration.FirstDate, "/", false)); }
+    if (Equipment.ExternalCalibration !== null && Equipment.ExternalCalibration.FirstDate !== null) { $("#TxtECDFirstDate").val(GetDateYYYYMMDDText(Equipment.ExternalCalibration.FirstDate, "/", false)); }
+    if (Equipment.InternalVerification !== null && Equipment.InternalVerification.FirstDate !== null) { $("#TxtIVDFirstDate").val(GetDateYYYYMMDDText(Equipment.InternalVerification.FirstDate, "/", false)); }
+    if (Equipment.ExternalVerification !== null && Equipment.ExternalVerification.FirstDate !== null) { $("#TxtEVDFirstDate").val(GetDateYYYYMMDDText(Equipment.ExternalVerification.FirstDate, "/", false)); }
+    // -----------------------------------------------------------
 };
 
 function ValidateForm(form) {
     var result = new Array();
     $("#TxtStartDatePostInitial").hide();
     for (var x = 0; x < form.RequiredFields.length; x++) {
-        if (RequiredFieldText(form.RequiredFields[x]) === false) { result.push('Revise los campos obligatorios del equipo.'); }
+        if (RequiredFieldText(form.RequiredFields[x]) === false) { result.push(Dictionary.Item_Equipment_Error_RequiredFields); }
     }
 
     for (var y = 0; y < form.DuplicatedFields.length; y++) {
-        if (DuplicatedFiled(form.DuplicatedFields[y]) === false) { result.push('Los datos del equipo están repetidos.'); }
+        if (DuplicatedFiled(form.DuplicatedFields[y]) === false) { result.push(Dictionary.Item_Equipment_Error_DuplicateData); }
     }
 
     for (var z = 0; z < form.MinimumOptions.length; z++) {
-        if (RequiredMinimumCheckBox(form.MinimumOptions[z]) === false) { result.push('Elija almenos una opción.'); }
+        if (RequiredMinimumCheckBox(form.MinimumOptions[z]) === false) { result.push(Dictionary.Item_Equipment_Error_NoOptions); }
     }
 
-    if (!RequiredFieldCombo('CmbResponsible')) {
-        result.push('Hay que informar el responsable del equipo.');
+    if (!RequiredFieldCombo("CmbResponsible")) {
+        result.push(Dictionary.Item_Equipment_Error_NoRisponsible);
     }
 
     if (Equipment.Id > 0) {
@@ -317,33 +327,32 @@ function ValidateForm(form) {
         var MaintenanceSet = document.getElementById('Contentholder1_status2').checked;
 
         if (CalibrationSet === true) {
-            var CInternalSet = document.getElementById('CalibrationInternalActive').checked;
-            var CExternalSet = document.getElementById('CalibrationExternalActive').checked;
+            var CInternalSet = document.getElementById("CalibrationInternalActive").checked;
+            var CExternalSet = document.getElementById("CalibrationExternalActive").checked;
             if (CInternalSet === false && CExternalSet === false) {
-                result.push('Hay que definir almenos una calibración.')
+                result.push(Dictionary.Item_Equipment_Calibration_Error_None);
             }
             else {
-
                 if (CInternalSet === true) {
-                    if (!RequiredFieldText('TxtCalibrationInternalOperation')) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_InternalOperation_Required) }
-                    if (!RequiredFieldText('TxtCalibrationInternalPeriodicity')) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_InternalPeriodicity_Required) }
-                    if (!RequiredFieldText('TxtCalibrationInternalUncertainty')) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_InternalUncertainty_Required) }
-                    if (!RequiredFieldText('TxtCalibrationInternalRange')) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_InternalRangeRequired) }
-                    if (!RequiredFieldText('TxtCalibrationInternalPattern')) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_InternalPatternRequired) }
+                    if (!RequiredFieldText("TxtCalibrationInternalOperation")) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_InternalOperation_Required); }
+                    if (!RequiredFieldText("TxtCalibrationInternalPeriodicity")) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_InternalPeriodicity_Required); }
+                    if (!RequiredFieldText("TxtCalibrationInternalUncertainty")) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_InternalUncertainty_Required); }
+                    if (!RequiredFieldText("TxtCalibrationInternalRange")) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_InternalRangeRequired); }
+                    if (!RequiredFieldText("TxtCalibrationInternalPattern")) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_InternalPatternRequired); }
                     // ISSUS-18
-                    //if(!RequiredFieldText('TxtCalibrationInternalCost')) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_InternalCost_Required)}
-                    if (!RequiredFieldCombo('CmbCalibrationInternalResponsible')) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_InternalResponsibleRequired) }
+                    //if(!RequiredFieldText("TxtCalibrationInternalCost")) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_InternalCost_Required)}
+                    if (!RequiredFieldCombo("CmbCalibrationInternalResponsible")) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_InternalResponsibleRequired); }
                 }
 
                 if (CExternalSet === true) {
-                    if (!RequiredFieldText('TxtCalibrationExternalOperation')) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_ExternalOperation_Required) }
-                    if (!RequiredFieldText('TxtCalibrationExternalPeriodicity')) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_ExternalPeriodicity_Required) }
-                    if (!RequiredFieldText('TxtCalibrationExternalUncertainty')) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_ExternalUncertainty_Required) }
-                    if (!RequiredFieldText('TxtCalibrationExternalRange')) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_ExternalRange_Required) }
-                    if (!RequiredFieldText('TxtCalibrationExternalPattern')) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_ExternalPattern_Required) }
+                    if (!RequiredFieldText("TxtCalibrationExternalOperation")) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_ExternalOperation_Required); }
+                    if (!RequiredFieldText("TxtCalibrationExternalPeriodicity")) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_ExternalPeriodicity_Required); }
+                    if (!RequiredFieldText("TxtCalibrationExternalUncertainty")) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_ExternalUncertainty_Required); }
+                    if (!RequiredFieldText("TxtCalibrationExternalRange")) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_ExternalRange_Required); }
+                    if (!RequiredFieldText("TxtCalibrationExternalPattern")) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_ExternalPattern_Required); }
                     // ISSUS-18
-                    //if(!RequiredFieldText('TxtCalibrationExternalCost')) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_ExternalCost_Required)}
-                    if (!RequiredFieldCombo('CmbCalibrationExternalResponsible')) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_ExternalResponsible_Required) }
+                    //if(!RequiredFieldText("TxtCalibrationExternalCost")) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_ExternalCost_Required)}
+                    if (!RequiredFieldCombo("CmbCalibrationExternalResponsible")) { result.push(Dictionary.Item_EquipmentCalibration_ErrorMessage_ExternalResponsible_Required); }
                 }
             }
         }
@@ -352,36 +361,36 @@ function ValidateForm(form) {
             var VInternalSet = document.getElementById("VerificationInternalActive").checked;
             var VExternalSet = document.getElementById("VerificationExternalActive").checked;
             if (VInternalSet === false && VExternalSet === false) {
-                result.push("Hay que definir almenos una verificación.");
+                result.push(Dictionary.Item_Equipment_Verification_Error_None);
             }
             else {
                 if (VInternalSet === true) {
-                    if (!RequiredFieldText('TxtVerificationInternalOperation')) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_InternalOperation_Required) }
-                    if(!RequiredFieldText('TxtVerificationInternalPeriodicity')) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_InternalPeriodicity_Required)}
-                    //if(!RequiredFieldText('TxtVerificationInternalUncertainty')) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_InternalUncertainty_Required)}
-                    //if (!RequiredFieldText('TxtVerificationInternalRange')) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_InternalRange_Required) }
-                    //if (!RequiredFieldText('TxtVerificationInternalPattern')) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_InternalPattern_Required) }
+                    if (!RequiredFieldText("TxtVerificationInternalOperation")) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_InternalOperation_Required) }
+                    if(!RequiredFieldText("TxtVerificationInternalPeriodicity")) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_InternalPeriodicity_Required)}
+                    //if(!RequiredFieldText("TxtVerificationInternalUncertainty")) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_InternalUncertainty_Required)}
+                    //if (!RequiredFieldText("TxtVerificationInternalRange")) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_InternalRange_Required) }
+                    //if (!RequiredFieldText("TxtVerificationInternalPattern")) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_InternalPattern_Required) }
                     // ISSUS-18
-                    // if(!RequiredFieldText('TxtVerificationInternalCost')) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_InternalCost_Required)}
-                    if (!RequiredFieldCombo('CmbVerificationInternalResponsible')) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_InternalResponsible_Required) }
+                    // if(!RequiredFieldText("TxtVerificationInternalCost")) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_InternalCost_Required)}
+                    if (!RequiredFieldCombo("CmbVerificationInternalResponsible")) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_InternalResponsible_Required) }
                 }
 
                 if (VExternalSet === true) {
-                    if (!RequiredFieldText('TxtVerificationExternalOperation')) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_ExternalOperation_Required) }
-                    if(!RequiredFieldText('TxtVerificationExternalPeriodicity')) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_ExternalPeriodicity_Required)}
-                    //if(!RequiredFieldText('TxtVerificationExternalUncertainty')) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_ExternalUncertainty_Required)}
-                    //if(!RequiredFieldText('TxtVerificationExternalRange')) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_ExternalRange_Required)}
-                    //if (!RequiredFieldText('TxtVerificationExternalPattern')) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_ExternalPattern_Required) }
+                    if (!RequiredFieldText("TxtVerificationExternalOperation")) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_ExternalOperation_Required); }
+                    if (!RequiredFieldText("TxtVerificationExternalPeriodicity")) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_ExternalPeriodicity_Required); }
+                    //if(!RequiredFieldText("TxtVerificationExternalUncertainty")) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_ExternalUncertainty_Required)}
+                    //if(!RequiredFieldText("TxtVerificationExternalRange")) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_ExternalRange_Required)}
+                    //if (!RequiredFieldText("TxtVerificationExternalPattern")) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_ExternalPattern_Required) }
                     // ISSUS-18
-                    // if(!RequiredFieldText('TxtVerificationExternalCost')) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_ExternalCost_Required)}
-                    if (!RequiredFieldCombo('CmbVerificationExternalResponsible')) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_ExternalResponsible_Required) }
+                    // if(!RequiredFieldText("TxtVerificationExternalCost")) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_ExternalCost_Required)}
+                    if (!RequiredFieldCombo("CmbVerificationExternalResponsible")) { result.push(Dictionary.Item_EquipmentVerification_ErrorMessage_ExternalResponsible_Required); }
                 }
             }
         }
 
         if (MaintenanceSet === true) {
             if (EquipmentMaintenanceDefinitionList.length === 0) {
-                result.push(Dictionary.Item_EquipmentMaintenance_Required)
+                result.push(Dictionary.Item_EquipmentMaintenance_Required);
             }
         }
 
@@ -453,7 +462,7 @@ function AnularConfirmed() {
     else {
         if (validateDate($("#TxtEndDate").val()) === false) {
             ok = false;
-            $("#TxtEndDateLabel").css("color", "#f00");
+            $("#TxtEndDateLabel").css("color", Color.Error);
             $("#TxtEndDateMalformed").show();
         }
     }

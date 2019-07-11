@@ -48,15 +48,6 @@ public partial class BusinessRisksList : Page
         }
     }
 
-    /// <summary>Public access to businessRisk</summary>
-    public BusinessRisk BusinessRisk
-    {
-        get
-        {
-            return this.businessRisk;
-        }
-    }
-
     /// <summary>Application user logged in session</summary>
     private ApplicationUser user;
 
@@ -82,13 +73,13 @@ public partial class BusinessRisksList : Page
     public UIDataHeader DataHeader { get; set; }
 
     /// <summary>Json containing the items in the BusinessRisk</summary>
-    public string RiskJson
+    public string BusinessRiskList
     {
         get
         {
             var res = new StringBuilder("[");
             bool first = true;
-            foreach (var BusinessRiskGraph in BusinessRisk.ActiveByCompany(Company.Id))
+            foreach (var businessRisk in BusinessRisk.ActiveByCompany(Company.Id))
             {
                 if (first)
                 {
@@ -99,11 +90,20 @@ public partial class BusinessRisksList : Page
                     res.Append(",");
                 }
 
-                res.Append(BusinessRiskGraph.JsonResult);
+                res.Append(businessRisk.JsonResult);
             }
 
             res.Append("]");
             return res.ToString();
+        }
+    }
+    
+    /// <summary>Json containing the items in the Oportunity</summary>
+    public string OportunityList
+    {
+        get
+        {
+            return Oportunity.AllJsonList(this.Company.Id);
         }
     }
 

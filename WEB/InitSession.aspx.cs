@@ -31,6 +31,9 @@ public partial class InitSession : Page
         this.Session["BusinessRiskFilter"] = @"{""companyId"": 0,""from"": null,""to"": null,""rulesId"": 0,""processId"": 0,""itemType"": 0,""type"": 0}";
         this.Session["AuditoryFilter"] = @"{""companyId"": 0, ""externa"": true, ""from"": null, ""interna"": true, ""provider"": true, ""status0"": true, ""status1"": true, ""status2"": true, ""status3"": true, ""status4"": true, ""status5"": false, ""to"": null }";
         this.Session["QuestionaryFilter"] = @"{""apartadoNorma"": ""-1"", ""companyId"": 0,""processId"": -1,""ruleId"": -1}";
+        this.Session["ProcessFilter"] = @"AI";
+        this.Session["EquipmentFilter"] = @"CVM|1";
+        this.Session["LearningFilter"] = @"0123||";
         var user = new ApplicationUser(Convert.ToInt32(this.Request.Form["UserId"]));
         if (user.CompanyId == 0)
         {

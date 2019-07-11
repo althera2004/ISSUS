@@ -50,6 +50,8 @@ public partial class ActionView : Page
     public BarPopup ProviderBarPopups { get; set; }
     public BarPopup CustomerBarPopups { get; set; }
 
+    public string OriginItemLink { get; private set; }
+
     public string IncidentActionCosts
     {
         get
@@ -299,33 +301,40 @@ public partial class ActionView : Page
             this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"], ColumnsSpan = 12 });
 
             this.master.ItemCode = this.IncidentAction.Description;
+            this.OriginItemLink = this.Dictionary["Item_IncidentAction_Origin2"];
 
             if (this.IncidentAction.IncidentId.HasValue && this.IncidentAction.IncidentId > 0)
             {
                 this.Incident = Incident.GetById(this.IncidentAction.IncidentId.Value, this.Company.Id);
+                this.OriginItemLink = this.Dictionary["Item_IncidentAction_Origin3"] + " " + this.Incident.Link;
             }
 
             if (this.IncidentAction.BusinessRiskId.HasValue && this.IncidentAction.BusinessRiskId > 0)
             {
                 this.BusinessRisk = BusinessRisk.ById(this.Company.Id, this.IncidentAction.BusinessRiskId.Value);
+                this.OriginItemLink = this.Dictionary["Item_IncidentAction_Origin4"] + " " + this.BusinessRisk.Link;
             }
 
             if(this.IncidentAction.Objetivo.Id > 0)
             {
                 this.Objetivo = this.IncidentAction.Objetivo;
+                this.OriginItemLink = this.Dictionary["Item_IncidentAction_Origin5"] + " " + this.Objetivo.Link;
             }
 
             if (this.IncidentAction.Oportunity.Id > 0)
             {
                 this.Oportunity = this.IncidentAction.Oportunity;
+                this.OriginItemLink = this.Dictionary["Item_IncidentAction_Origin6"] + " " + this.Oportunity.Link;
             }
 
             if (this.IncidentAction.AuditoryId.HasValue && this.IncidentAction.AuditoryId > 0)
             {
                 this.Auditory = Auditory.ById(this.IncidentAction.AuditoryId.Value, this.Company.Id);
+                this.Oportunity = this.IncidentAction.Oportunity;
+                this.OriginItemLink = this.Dictionary["Item_IncidentAction_Origin1"] + " " + this.Auditory.Link;
             }
 
-            this.RenderDocuments();
+            this.RenderDocuments();            
         }
         else
         {
@@ -343,6 +352,8 @@ public partial class ActionView : Page
                 this.IncidentAction.WhatHappened = this.Objetivo.Description;
                 this.IncidentAction.WhatHappenedOn = DateTime.Now;
             }
+
+            this.OriginItemLink = this.Dictionary["Item_IncidentAction_Origin2"];
         }
 
         this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.Dictionary["Item_IncidentAction_Tab_Basic"], Available = true });

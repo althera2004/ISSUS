@@ -36,7 +36,6 @@ function Login() {
     }
 
     if (ok) {
-        var webMethod = "/Async/LoginActions.asmx/GetLogin";
         var data = {
             "email": $("#TxtUserName").val(),
             "password": $("#TxtPassword").val(),
@@ -44,12 +43,12 @@ function Login() {
         };
 
         $.ajax({
-            type: "POST",
-            url: webMethod,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(data, null, 2),
-            success: function (msg) {
+            "type": "POST",
+            "url": "/Async/LoginActions.asmx/GetLogin",
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": JSON.stringify(data, null, 2),
+            "success": function (msg) {
                 var result = msg.d;
 
                 if (msg.d.ReturnValue.Id === -1) {
@@ -96,7 +95,7 @@ function Login() {
 
                 return false;
             },
-            error: function (msg) {
+            "error": function () {
                 document.getElementById("ErrorSpan").style.display = "block";
             }
         });

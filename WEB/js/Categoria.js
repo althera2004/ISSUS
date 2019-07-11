@@ -1,13 +1,13 @@
 ﻿function CmbCategoryChanged() {
-    categorySelected = document.getElementById("CmbCategory").value * 1;
+    categorySelected = $("#CmbCategory").val() * 1;
     var text = "";
     for (var x = 0; x < categorias.length; x++) {
-        if (categorias[x].Id == categorySelected) {
+        if (categorias[x].Id === categorySelected) {
             text = categorias[x].Description;
         }
     }
 
-    document.getElementById("TxtCategory").value = text;
+    $("#TxtCategory").val(text);
 }
 
 function FillCmbCategory() {
@@ -21,7 +21,7 @@ function FillCmbCategory() {
         var option = document.createElement("option");
         option.value = categorias[x].Id;
         option.appendChild(document.createTextNode(categorias[x].Description));
-        if (categorySelected == categorias[x].Id) {
+        if (categorySelected === categorias[x].Id) {
             option.selected = true;
         }
 
@@ -32,8 +32,8 @@ function FillCmbCategory() {
 function RenderCategoryTable()
 {
     // Cargar las categorias en la tabla
-    var target = document.getElementById('CategorySelectable');
-    VoidTable('CategorySelectable');
+    var target = document.getElementById("CategorySelectable");
+    VoidTable("CategorySelectable");
     categorias.sort(CompareDocumentCategory);
     for (var x = 0; x < categorias.length; x++) {
         var category = categorias[x];
@@ -114,7 +114,7 @@ function CompareDocumentCategory(a, b) {
 
 function CategoryChanged(sender) {
     var id = sender.parentNode.parentNode.parentNode.id * 1;
-    $("#dialogCategory").dialog('close');
+    $("#dialogCategory").dialog("close");
     categorySelected = id;
     SetCategoryText();
     FillCmbCategory();
@@ -123,7 +123,7 @@ function CategoryChanged(sender) {
 function SetCategoryText() {
     for (var x = 0; x < categorias.length; x++) {
         if (categorias[x].Id === categorySelected) {
-            document.getElementById('TxtCategory').value = categorias[x].Description;
+            $("#TxtCategory").val(categorias[x].Description);
             break;
         }
     }
@@ -149,40 +149,41 @@ function SetCategoria(e) {
 }
 
 function CategoryDelete(sender) {
-    document.getElementById('dialogCategory').parentNode.style.cssText += 'z-Index:1039 !important';
-    $('#CategoryName').html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
+    document.getElementById("dialogCategory").parentNode.style.cssText += "z-Index:1039 !important";
+    $("#CategoryName").html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $("#CategoryDeleteDialog").removeClass("hide").dialog({
+    $("#CategoryDeleteDialog").removeClass("hide").dialog({
         resizable: false,
         modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_DocumentCategory_Popup_Delete_Title + '</h4>',
+        title: "<h4 class=\"smaller\">" + Dictionary.Item_DocumentCategory_Popup_Delete_Title + "</h4>",
         title_html: true,
         buttons: 
         [
             {
-                html: "<i class='icon-trash bigger-110'></i>&nbsp; " + Dictionary.Common_Delete,
+                "id": "BtnDeleteCategoryOk",
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp; " + Dictionary.Common_Delete,
                 "class": "btn btn-danger btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                     CategoryDeleteConfirmed(Selected);
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp; " + Dictionary.Common_Cancel,
+                "id": "BtnDeleteCategoryCancel",
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp; " + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () {
+                "click": function () {
                     $(this).dialog("close");
                 }
             }
         ],
-        close: function () {document.getElementById('dialogCategory').parentNode.style.cssText += 'z-Index:1050 !important'; }
+        close: function () {document.getElementById("dialogCategory").parentNode.style.cssText += "z-Index:1050 !important"; }
     });
 }
 
 function CategoryDeleteConfirmed(id) {
     // 1.- Desactivar en la BBDD
-    var webMethod = "/Async/DocumentActions.asmx/CategoryDelete";
-    var description = '';
+    var description = "";
     for (var x = 0; x < categorias.length; x++) {
         if (categorias[x].Id === id) {
             description = categorias[x].Description;
@@ -190,48 +191,48 @@ function CategoryDeleteConfirmed(id) {
         }
     }
     var data = {
-        'categoryId': id,
-        'description': description,
-        'companyId': Company.Id,
-        'userId': user.Id
+        "categoryId": id,
+        "description": description,
+        "companyId": Company.Id,
+        "userId": user.Id
     };
 
     LoadingShow();
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/DocumentActions.asmx/CategoryDelete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             alertUI(jqXHR.responseText);
         }
     });
 
     // 2.- Desactivar en HTML
     var temp = new Array();
-    for (var x = 0; x < categorias.length; x++) {
-        if (categorias[x].Id !== id) {
-            temp.push(categorias[x]);
+    for (var y = 0; y < categorias.length; x++) {
+        if (categorias[y].Id !== id) {
+            temp.push(categorias[y]);
         }
     }
 
     categorias = new Array();
-    for (var x = 0; x < temp.length; x++) {
-        categorias.push(temp[x]);
+    for (var z = 0; z < temp.length; z++) {
+        categorias.push(temp[z]);
     }
 
     // 3.- Eliminar la fila de la tabla del popup
-    var target = document.getElementById('CategorySelectable');
-    for (var x = 0; x < target.childNodes.length; x++) {
-        if (target.childNodes[x].id == id) {
-            target.childNodes[x].style.display = 'none';
+    var target = document.getElementById("CategorySelectable");
+    for (var w = 0; w < target.childNodes.length; w++) {
+        if (target.childNodes[w].id === id) {
+            target.childNodes[w].style.display = "none";
             break;
         }
     }
@@ -240,95 +241,94 @@ function CategoryDeleteConfirmed(id) {
 }
 
 function CategoryUpdate(sender) {
-    document.getElementById('dialogCategory').parentNode.style.cssText += 'z-Index:1039 !important';
-    $('#TxtCategoryName').val(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
+    document.getElementById("dialogCategory").parentNode.style.cssText += "z-Index:1039 !important";
+    $("#TxtCategoryName").val(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $("#CategoryUpdateDialog").removeClass("hide").dialog({
-        resizable: false,
-        width: 500,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_DocumentCategory_Popup_Update_Title+'</h4>',
-        title_html: true,
-        buttons:
-        [
-            {
-                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
-                "class": "btn btn-success btn-xs",
-                click: function () {
-                    var ok = true;
-                    if (document.getElementById('TxtCategoryName').value == '') {
-                        document.getElementById('TxtCategoryNameErrorRequired').style.display = 'block';
-                        ok = false;
-                    }
-                    else {
-                        document.getElementById('TxtCategoryNameErrorRequired').style.display = 'none';
-                    }
-
-                    var duplicated = false;
-                    for (var x = 0; x < categorias.length; x++) {
-                        if (document.getElementById('TxtCategoryName').value.toLowerCase() == categorias[x].Description.toLowerCase() && categorias[x].Id != Selected) {
-                            duplicated = true;
-                            break;
+    $("#CategoryUpdateDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "width": 500,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_DocumentCategory_Popup_Update_Title + "</h4>",
+        "title_html": true,
+        "buttons":
+            [
+                {
+                    "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                    "class": "btn btn-success btn-xs",
+                    "click": function () {
+                        var ok = true;
+                        if ($("#TxtCategoryName").val() === "") {
+                            $("#TxtCategoryNameErrorRequired").show();
+                            ok = false;
                         }
-                    }
+                        else {
+                            $("#TxtCategoryNameErrorRequired").hide();
+                        }
 
-                    if (duplicated === true) {
-                        document.getElementById('TxtCategoryNameErrorDuplicated').style.display = 'block';
-                        ok = false;
-                    }
-                    else {
-                        document.getElementById('TxtCategoryNameErrorDuplicated').style.display = 'none';
-                    }
+                        var duplicated = false;
+                        for (var x = 0; x < categorias.length; x++) {
+                            if ($("#TxtCategoryName").val().toLowerCase() === categorias[x].Description.toLowerCase() && categorias[x].Id !== Selected) {
+                                duplicated = true;
+                                break;
+                            }
+                        }
 
-                    if (ok === false) {
-                        window.scrollTo(0, 0);
-                        return false;
-                    }
+                        if (duplicated === true) {
+                            $("#TxtCategoryNameErrorDuplicated").show();
+                            ok = false;
+                        }
+                        else {
+                            $("#TxtCategoryNameErrorDuplicated").hide();
+                        }
 
-                    document.getElementById('TxtCategoryNameErrorRequired').style.display = 'none';
-                    document.getElementById('TxtCategoryNameErrorDuplicated').style.display = 'none';
-                    $(this).dialog("close");
-                    CategoryUpdateConfirmed(Selected, document.getElementById('TxtCategoryName').value);
+                        if (ok === false) {
+                            window.scrollTo(0, 0);
+                            return false;
+                        }
+
+                        $("#TxtCategoryNameErrorRequired").hide();
+                        $("#TxtCategoryNameErrorDuplicated").hide();
+                        $(this).dialog("close");
+                        CategoryUpdateConfirmed(Selected, $("#TxtCategoryName").val());
+                    }
+                },
+                {
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () {
+                        $("#TxtCategoryNameErrorRequired").hide();
+                        $("#TxtCategoryNameErrorDuplicated").hide();
+                        $(this).dialog("close");
+                    }
                 }
-            },
-            {
-                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
-                "class": "btn btn-xs",
-                click: function () {
-                    document.getElementById('TxtCategoryNameErrorRequired').style.display = 'none';
-                    document.getElementById('TxtCategoryNameErrorDuplicated').style.display = 'none';
-                    $(this).dialog("close");
-                }
-            }
-        ],
-        close: function () { document.getElementById('dialogCategory').parentNode.style.cssText += 'z-Index:1050 !important'; }
+            ],
+        close: function () { document.getElementById("dialogCategory").parentNode.style.cssText += "z-Index:1050 !important"; }
     });
 }
 
 function CategoryUpdateConfirmed(id, newDescription) {
     // 1.- Modificar en la BBDD
-    var webMethod = "/Async/DocumentActions.asmx/CategoryUpdate";
     var data = {
-        'categoryId': id,
-        'description': newDescription,
-        'companyId': Company.Id,
-        'userId': user.Id
+        "categoryId": id,
+        "description": newDescription,
+        "companyId": Company.Id,
+        "userId": user.Id
     };
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type": "POST",
+        "url": "/Async/DocumentActions.asmx/CategoryUpdate",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -347,66 +347,66 @@ function CategoryUpdateConfirmed(id, newDescription) {
     }
 
     categorias = new Array();
-    for (var x = 0; x < temp.length; x++) {
-        categorias.push(temp[x]);
+    for (var y = 0; y < temp.length; y++) {
+        categorias.push(temp[y]);
     }
 
     // 3.- Modificar la fila de la tabla del popup
-    var target = document.getElementById('CategorySelectable');
-    for (var x = 0; x < target.childNodes.length; x++) {
-        if (target.childNodes[x].id == id) {
-            target.childNodes[x].childNodes[0].innerHTML = newDescription;
+    var target = document.getElementById("CategorySelectable");
+    for (var z = 0; z < target.childNodes.length; z++) {
+        if (target.childNodes[z].id === id) {
+            target.childNodes[z].childNodes[0].innerHTML = newDescription;
             break;
         }
     }
 
     // 4.- Modificar el texto si es el seleccionado
     if (categorySelected === id) {
-        document.getElementById('TxtCategory').value = newDescription;
+        $("#TxtCategory").val(newDescription);
     }
 
     FillCmbCategory();
 }
 
-function CategoryInsert(sender) {
-    document.getElementById('dialogCategory').parentNode.style.cssText += 'z-Index:1039 !important';
-    document.getElementById('TxtCategoryNewName').value = '';
+function CategoryInsert() {
+    document.getElementById("dialogCategory").parentNode.style.cssText += "z-Index:1039 !important";
+    $("#TxtCategoryNewName").va("");
     Selected = 0;
     var dialog = $("#CategoryInsertDialog").removeClass("hide").dialog({
-        resizable: false,
-        width: 500,
-        modal: true,
-        title: '<h4 class="smaller">' + Dictionary.Item_Document_Popup_AddCotegory_Title+'</h4>',
-        title_html: true,
-        buttons:
+        "resizable": false,
+        "width": 500,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Document_Popup_AddCotegory_Title + "</h4>",
+        "title_html": true,
+        "buttons":
         [
             {
-                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
-                click: function () {
+                "click": function () {
                     var ok = true;
-                    if (document.getElementById('TxtCategoryNewName').value == '') {
-                        document.getElementById('TxtCategoryNewNameErrorRequired').style.display = 'block';
+                    if ($("#TxtCategoryNewName").val() === "") {
+                        $("#TxtCategoryNewNameErrorRequired").show();
                         ok = false;
                     }
                     else {
-                        document.getElementById('TxtCategoryNewNameErrorRequired').style.display = 'none';
+                        $("#TxtCategoryNewNameErrorRequired").hide();
                     }
 
                     var duplicated = false;
                     for (var x = 0; x < categorias.length; x++) {
-                        if (document.getElementById('TxtCategoryNewName').value.toLowerCase() == categorias[x].Description.toLowerCase()) {
+                        if ($("#TxtCategoryNewName").val().toLowerCase() === categorias[x].Description.toLowerCase()) {
                             duplicated = true;
                             break;
                         }
                     }
 
                     if (duplicated === true) {
-                        document.getElementById('TxtCategoryNewNameErrorDuplicated').style.display = 'block';
+                        $("#TxtCategoryNewNameErrorDuplicated").show();
                         ok = false;
                     }
                     else {
-                        document.getElementById('TxtCategoryNewNameErrorDuplicated').style.display = 'none';
+                        $("#TxtCategoryNewNameErrorDuplicated").hide();
                     }
 
                     if (ok === false) {
@@ -414,45 +414,44 @@ function CategoryInsert(sender) {
                         return false;
                     }
 
-                    document.getElementById('TxtCategoryNewNameErrorRequired').style.display = 'none';
-                    document.getElementById('TxtCategoryNewNameErrorDuplicated').style.display = 'none';
+                    $("#TxtCategoryNewNameErrorRequired").hide();
+                    $("#TxtCategoryNewNameErrorDuplicated").hide();
                     $(this).dialog("close");
-                    CategoryInsertConfirmed(Selected, document.getElementById('TxtCategoryNewName').value);
+                    CategoryInsertConfirmed(Selected, $("TxtCategoryNewName").val());
                 }
             },
             {
-                html: "<i class='icon-remove bigger-110'></i>&nbsp" + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
-                click: function () {
-                    document.getElementById('TxtCategoryNewNameErrorRequired').style.display = 'none';
-                    document.getElementById('TxtCategoryNewNameErrorDuplicated').style.display = 'none';
+                "click": function () {
+                    $("#TxtCategoryNewNameErrorRequired").hide();
+                    $("#TxtCategoryNewNameErrorDuplicated").hide();
                     $(this).dialog("close");
                 }
             }
         ],
-        close: function () { document.getElementById('dialogCategory').parentNode.style.cssText += 'z-Index:1050 !important'; }
+        close: function () { document.getElementById("dialogCategory").parentNode.style.cssText += "z-Index:1050 !important"; }
     });
 }
 
 function CategoryInsertConfirmed(id, newDescription) {
     // 1.- Modificar en la BBDD
-    var webMethod = "/Async/DocumentActions.asmx/CategoryInsert";
     var data = {
-        'categoryId': 0,
-        'description': newDescription,
-        'companyId': Company.Id,
-        'userId': user.Id
+        "categoryId": 0,
+        "description": newDescription,
+        "companyId": Company.Id,
+        "userId": user.Id
     };
 
     var newId = 0;
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (response) {
+        "type: "POST",
+        "url": "/Async/DocumentActions.asmx/CategoryInsert",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
             LoadingHide();
             if (response.d.Success === true) {
                 newId = response.d.MessageError * 1;
@@ -470,7 +469,7 @@ function CategoryInsertConfirmed(id, newDescription) {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }

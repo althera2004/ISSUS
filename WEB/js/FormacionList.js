@@ -43,19 +43,44 @@ function selectRow(sender) {
     selectedRows = selectedRowsTemp;
 }
 
-function Go(param, value) {
-    var yearFrom = $("#TxtDateFrom").val();
-    var yearTo =$("#TxtDateTo").val();
-    var mode = 3;
-    if (document.getElementById("Contentholder1_status0").checked) mode = 0;
-    if (document.getElementById("Contentholder1_status1").checked) mode = 1;
-    if (document.getElementById("Contentholder1_status2").checked) mode = 2;
-    document.location = "FormacionList.aspx?mode=" + mode + "&yearFrom=" + yearFrom + "&yearTo=" + yearTo;
+function RestoreFilter() {
+    document.getElementById("status0").checked = true;
+    document.getElementById("status1").checked = true;
+    document.getElementById("status2").checked = true;
+    document.getElementById("status3").checked = true;
+    $("#TxtDateFrom").val("");
+    $("#TxtDateTo").val("");
+    Go();
+}
+
+function Go() {
+    CheckBoxLayout();    
+    SetFilter();
+    RenderLearningTable();
+}
+
+function CheckBoxLayout() {
+    $("#status0").removeAttr("disabled");
+    $("#status1").removeAttr("disabled");
+    $("#status2").removeAttr("disabled");
+    $("#status3").removeAttr("disabled");
+
+    var selected = document.getElementById("status0").checked ? 1 : 0;
+    selected += document.getElementById("status1").checked ? 1 : 0;
+    selected += document.getElementById("status2").checked ? 1 : 0;
+    selected += document.getElementById("status3").checked ? 1 : 0;
+
+    if (selected === 1) {
+        if (document.getElementById("status0").checked === true) { $("#status0").attr("disabled", "disabled"); }
+        if (document.getElementById("status1").checked === true) { $("#status1").attr("disabled", "disabled"); }
+        if (document.getElementById("status2").checked === true) { $("#status2").attr("disabled", "disabled"); }
+        if (document.getElementById("status3").checked === true) { $("#status3").attr("disabled", "disabled"); }
+    }
 }
 
 function LearningDelete(id, description) {
     $("#LearningName").html(description);
-    var dialog = $("#LearningDeleteDialog").removeClass("hide").dialog({
+    $("#LearningDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "width": 500,
         "modal": true,
@@ -154,8 +179,8 @@ jQuery(function ($) {
                     alertUI(response.d.MessageError);
                 }
             },
-            error: function (jqXHR, textStatus, errorThrown) {
-                alertUI(jqXHR.responseText);
+            "error": function (msg) {
+                alertUI(msg.responseText);
             }
         });
     });
@@ -182,8 +207,8 @@ jQuery(function ($) {
                     alertUI(response.d.MessageError);
                 }
             },
-            "error": function (jqXHR, textStatus, errorThrown) {
-                alertUI(jqXHR.responseText);
+            "error": function (msg) {
+                alertUI(msg.responseText);
             }
         });
     });
@@ -209,8 +234,8 @@ jQuery(function ($) {
                     alertUI(response.d.MessageError);
                 }
             },
-            "error": function (jqXHR) {
-                alertUI(jqXHR.responseText);
+            "error": function (msg) {
+                alertUI(msg.responseText);
             }
         });
     });
@@ -225,10 +250,11 @@ if (typeof user.Grants.Learning === "undefined" || user.Grants.Learning.Delete =
 }
 
 function Export() {
-    var status = 3;
+    var status = -1;
     if (document.getElementById("Contentholder1_status0").checked === true) { status = 0; }
     if (document.getElementById("Contentholder1_status1").checked === true) { status = 1; }
     if (document.getElementById("Contentholder1_status2").checked === true) { status = 2; }
+    if (document.getElementById("Contentholder1_status3").checked === true) { status = 3; }
     var data =
         {
             "companyId": Company.Id,
@@ -267,23 +293,64 @@ function Export() {
     });
 }
 
+function SetFilter() {
+    var filter = "";
+    if (document.getElementById("status0").checked === true) { filter += "0"; }
+    if (document.getElementById("status1").checked === true) { filter += "1"; }
+    if (document.getElementById("status2").checked === true) { filter += "2"; }
+    if (document.getElementById("status3").checked === true) { filter += "3"; }
+    filter += "|";
+    filter += $("#TxtDateFrom").val();
+    filter += "|";
+    filter += $("#TxtDateTo").val();
+
+    var data = { "filter": filter };
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/LearningActions.asmx/SetFilter",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function () {
+            console.log("SetFilter", "OK");
+        },
+        "error": function (msg) {
+            console.log("SetFilter", msg.responseText);
+        }
+    });
+}
+
 window.onload = function () {
+    // Set filter
+    // ---------------------------------------
+    console.log("Filter", Filter);
+    var modes = Filter.split('|')[0];
+    document.getElementById("status0").checked = modes.indexOf("0") !== -1;
+    document.getElementById("status1").checked = modes.indexOf("1") !== -1;
+    document.getElementById("status2").checked = modes.indexOf("2") !== -1;
+    document.getElementById("status3").checked = modes.indexOf("3") !== -1;
+    $("#TxtDateFrom").val(Filter.split('|')[1]);
+    $("#TxtDateTo").val(Filter.split('|')[2]);
+
+
+    CheckBoxLayout();
+    // ---------------------------------------
+
+
     $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
     $(".page-header .col-sm-8").addClass("col-sm-6");
     $(".page-header .col-sm-8").removeClass("col-sm-8");
     $(".page-header .col-sm-4").addClass("col-sm-6");
     $(".page-header .col-sm-4").removeClass("col-sm-4");
     $("#th0").click();
-	var options = $.extend({}, $.datepicker.regional[userLanguage], { autoclose: true, todayHighlight: true });
-    $(".date-picker").datepicker(options);
-	
-	$("#TxtDateFrom").val(dateFrom);
-	$("#TxtDateTo").val(dateTo);
-	
+	var options = $.extend({}, $.datepicker.regional[userLanguage], { "autoclose": true, "todayHighlight": true });
+    $(".date-picker").datepicker(options);	
 	$("#TxtDateFrom").on("change", DateChange);
     $("#TxtDateTo").on("change", DateChange);
 
     Resize();
+    RenderLearningTable();
 };
 
 window.onresize = function () {
@@ -303,8 +370,8 @@ function DateChange(){
 	
     if ($("#TxtDateFrom").val() !== "" && $("#TxtDateTo").val() !== "") {
         if (dateFrom > dateTo) {
-            $("#TxtDateFromLabel").css("color", "#f00");
-            $("#TxtDateToLabel").css("color", "#f00");
+            $("#TxtDateFromLabel").css("color", Color.Error);
+            $("#TxtDateToLabel").css("color", Color.Error);
             $("#TxtDateFromErrorDateRange").show();
             $("#TxtDateToErrorDateRange").show();
             ok = false;
@@ -319,4 +386,112 @@ function DateChange(){
 function Resize() {
     var containerHeight = $(window).height();
     $("#ListDataDiv").height(containerHeight - 410);
+}
+
+var tableTotal = 0;
+var tableCount = 0;
+function RenderLearningTable() {
+    tableCount = 0;
+    tableTotal = 0;
+    $("#ListDataTable").html("");
+    $("#ListDataDiv").hide();
+    $("#NoData").hide();
+
+    if (learningData.length > 0) {
+        var tableContent = "";
+        for (var x = 0; x < learningData.length; x++) {
+            if (learningData[x].Status === 0 && document.getElementById("status0").checked === false) { continue; }
+            if (learningData[x].Status === 1 && document.getElementById("status1").checked === false) { continue; }
+            if (learningData[x].Status === 2 && document.getElementById("status2").checked === false) { continue; }
+            if (learningData[x].Status === 3 && document.getElementById("status3").checked === false) { continue; }
+
+            if ($("#TxtDateFrom").val() !== "") {
+                var from = GetDate($("#TxtDateFrom").val(), "/", false);
+                var compareStart = GetDate(learningData[x].DateEstimated, "/", false);
+                if (typeof learningData[x].RealStart !== "undefined" && learningData[x].RealStart !== null && learningData[x].RealStart !== "") {
+                    compareStart = GetDate(learningData[x].RealStart, "/", false);
+                }
+
+                if (compareStart < from) { continue; }
+            }
+
+            if ($("#TxtDateTo").val() !== "") {
+                var to = GetDate($("#TxtDateTo").val(), "/", false);
+                var compareFinish = GetDate(learningData[x].DateEstimated, "/", false);
+                if (typeof learningData[x].RealStart !== "undefined" && learningData[x].RealStart !== null && learningData[x].RealStart !== "") {
+                    compareFinish = GetDate(learningData[x].RealStart, "/", false);
+                }
+
+                if (typeof learningData[x].RealFinish !== "undefined" && learningData[x].RealFinish !== null && learningData[x].RealFinish !== "") {
+                    compareFinish = GetDate(learningData[x].RealFinish, "/", false);
+                }
+
+                if (compareFinish > to) { continue; }
+            }
+
+            tableContent += RenderLearningRow(learningData[x]);
+            tableCount++;
+            tableTotal += learningData[x].Amount;
+        }
+
+        $("#ListDataTable").html(tableContent);
+        $("#ListDataDiv").show();
+    }
+
+    if (tableCount === 0) {
+        $("#NoData").show();
+    }
+
+    $("#TotalList").html(tableCount);
+    $("#TotalAmount").html(ToMoneyFormat(tableTotal,2));
+}
+
+function RenderLearningRow(data) {
+/*<tr></tr>*/
+    var realStart = "";
+    if (typeof data.Realstart !== "undefined" && data.Realstart !== null && data.Realstart !== "") {
+        realStart = data.Realstart;
+    }
+
+    if (realStart === "") {
+        if (typeof data.DateEstimated !== "undefined" && data.DateEstimated !== null && data.DateEstimated !== "") {
+            realStart = data.DateEstimated;
+        }
+    }
+
+    var realFinish = "";
+    if (typeof data.RealFinish !== "undefined" && data.RealFinish !== null && data.RealFinish !== "") {
+        realFinish = data.RealFinish;
+    }
+
+    var estadoText = Dictionary.Item_Learning_Status_InProgress;
+    switch (data.Status) {
+        case 1:
+            estadoText = Dictionary.Item_Learning_Status_Started;
+            break;
+        case 2:
+            estadoText = Dictionary.Item_Learning_Status_Finished;
+            break;
+        case 3:
+            estadoText = Dictionary.Item_Learning_Status_Evaluated;
+            break;
+    }
+
+    var res = "";
+    res += "<tr><td>";
+    res += "    <a href=\"FormacionView.aspx?id=" + data.Id + "\">" + data.Description + "</a>";
+    res += "  </td><td align=\"center\" style=\"width:100px;white-space:nowrap;\">" + realStart;
+    res += "  </td><td align=\"center\" style=\"width:100px;white-space:nowrap;\">" + realFinish;
+    res += "  </td><td align=\"center\" class=\"hidden-480\" style=\"width:100px;white-space:nowrap;\">" + estadoText;
+    res += "  </td><td align=\"right\" class=\"hidden-480\" style=\"width:150px;white-space:nowrap;\">" + ToMoneyFormat(data.Amount, 2);
+    res += "  </td><td class=\"hidden-480\" style=\"width:90px;white-space:nowrap;\">";
+    res += "    <span title=\"Editar " + data.Id + "\" class=\"btn btn-xs btn-info\" onclick=\"LearningUpdate(" + data.Id + ");\">";
+    res += "      <i class=\"icon-edit bigger-120\"></i>";
+    res += "    </span>&nbsp;";
+    res += "    <span title=\"Eliminar " + data.Id + "\" class=\"btn btn-xs btn-danger\" onclick=\"LearningDelete(" + data.Id + "');\">";
+    res += "      <i class=\"icon-trash bigger-120\"></i>";
+    res += "    </span>";
+    res += "  </td>";
+    res += "</tr>";
+    return res;
 }

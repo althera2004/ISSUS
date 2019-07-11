@@ -66,5 +66,7 @@
         public const int ReportStart = 42;
         public const int ReportEnd = 43;
         public const int PreviewDate = 44;
+
+        public const int PuntosFuertes = 45;
     }
 }

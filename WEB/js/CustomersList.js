@@ -26,7 +26,7 @@ function CustomerDeleteAction() {
 function CustomerDelete(id, name) {
     $("#CustomerName").html(name);
     CustomerSelected = id;
-    var dialog = $("#CustomerDeleteDialog").removeClass("hide").dialog({
+    $("#CustomerDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_Customer_Popup_Delete_Title + "</h4>",
@@ -51,7 +51,7 @@ function CustomerDelete(id, name) {
     });
 }
 
-function CustomerUpdate(id, name) {
+function CustomerUpdate(id) {
     document.location = "CustomerView.aspx?id" + id;
     return false;
 }
@@ -76,10 +76,9 @@ jQuery(function ($) {
 });
 
 function Resize() {
-    var listTable = document.getElementById("ListDataDiv");
     var containerHeight = $(window).height();
-    listTable.style.height = (containerHeight - 310) + "px";
+    $("#ListDataDiv").height(containerHeight - 310);
 }
 
-window.onload = function () { Resize(); }
-window.onresize = function () { Resize(); }
+window.onload = function () { Resize(); };
+window.onresize = function () { Resize(); };

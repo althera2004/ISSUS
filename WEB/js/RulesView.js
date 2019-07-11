@@ -16,14 +16,14 @@ function ValidateForm()
 
     if (name === "") {
         ok = false;
-        $("#TxtNameLabel").css("color", "#f00");
+        $("#TxtNameLabel").css("color", Color.Error);
         $("#TxtNameErrorRequired").show();
     }
     else {
         for (var x = 0; x < companyRules.length; x++) {
             if (companyRules[x].Description === name && companyRules[x].Id !== rule.Id) {
                 ok = false;
-                $("#TxtNameLabel").css("color", "#f00");
+                $("#TxtNameLabel").css("color", Color.Error);
                 $("#TxtNameErrorDuplicated").show();
                 break;
             }
@@ -32,7 +32,7 @@ function ValidateForm()
 
     if (limit === "") {
         ok = false;
-        $("#TxtLimitLabel").css("color", "#f00");
+        $("#TxtLimitLabel").css("color", Color.Error);
         $("#TxtLimitErrorRequired").show();
     }
     else {

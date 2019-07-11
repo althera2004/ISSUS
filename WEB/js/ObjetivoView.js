@@ -5,6 +5,7 @@ var recordsGraph = [];
 var periodicityIndicador = null;
 
 window.onload = function () {
+    $("#nav-search").remove();
     if (ItemData.Id < 1) {
         $("#TxtFechaCierrePrevista").val("");
         document.getElementById("Contentholder1_RVinculatedNo").checked = true;
@@ -52,7 +53,7 @@ window.onload = function () {
     $("#BtnRecordFilter").on("click", ObjetivoRegistroFilter);
     $("#BtnRecordNew").on("click", RecordNew);
     $("#BtnSave").on("click", Save);
-    $("#BtnCancel").on("click", function (e) { document.location = referrer; });
+    $("#BtnCancel").on("click", function () { document.location = referrer; });
 
     $("#Contentholder1_RVinculatedYes").on("change", IndicatorVinculatedLayout);
     $("#Contentholder1_RVinculatedNo").on("change", IndicatorVinculatedLayout);
@@ -290,36 +291,36 @@ function Validate() {
 
     if ($("#TxtName").val() === "") {
         ok = false;
-        $("#TxtNameLabel").css("color", "#f00");
+        $("#TxtNameLabel").css("color", Color.Error);
         $("#TxtNameErrorRequired").show();
     }
     else {
         if (ObjetivoExists($("#TxtName").val())) {
-            $("#TxtNameLabel").css("color", "#f00");
+            $("#TxtNameLabel").css("color", Color.Error);
             $("#TxtNameErrorDuplicated").show();
         }
     }
 
     if ($("#TxtPeriodicity").val() * 1 === 0) {
         ok = false;
-        $("#TxtPeriodicityLabel").css("color", "#f00");
+        $("#TxtPeriodicityLabel").css("color", Color.Error);
         $("#TxtPeriodicityErrorRequired").show();
     }
 
     if ($("#TxtDescription").val() === "") {
         ok = false;
-        $("#TxtDescriptionLabel").css("color", "#f00");
+        $("#TxtDescriptionLabel").css("color", Color.Error);
         $("#TxtDescriptionErrorRequired").show();
     }
 
     if ($("#TxtFechaAlta").val() === "") {
         ok = false;
-        $("#TxtFechaAltaLabel").css("color", "#f00");
+        $("#TxtFechaAltaLabel").css("color", Color.Error);
         $("#TxtFechaAltaErrorRequired").show();
     }
     else {
         if (validateDate($("#TxtFechaAlta").val()) === false) {
-            document.getElementById("TxtFechaAltaLabel").css("color", "#f00");
+            document.getElementById("TxtFechaAltaLabel").css("color", Color.Error);
             document.getElementById("TxtFechaAltaDateMalformed").style.display = "";
         }
     }
@@ -771,37 +772,37 @@ function ValidateRegistroForm() {
 
     if ($("#TxtRegistroValue").val() === "") {
         ok = false;
-        $("#TxtRegistroValueLabel").css("color", "#f00");
+        $("#TxtRegistroValueLabel").css("color", Color.Error);
         $("#TxtRegistroValueErrorRequired").show();
     }
 
     if ($("#TxtRegistroComments").val() === "" && IndicadorObjetivo === null) {
         ok = false;
-        $("#TxtRegistroCommentsLabel").css("color", "#f00");
+        $("#TxtRegistroCommentsLabel").css("color", Color.Error);
         $("#TxtRegistroCommentsErrorRequired").show();
     }
 
     if ($("#CmbResponsibleRecord").val() * 1 < 1) {
         ok = false;
-        $("#CmbResponsibleRecordLabel").css("color", "#f00");
+        $("#CmbResponsibleRecordLabel").css("color", Color.Error);
         $("#CmbResponsibleRecordErrorRequired").show();
     }
 
     if ($("#TxtRecordDate").val() === "") {
         ok = false;
-        $("#TxtRecordDateLabel").css("color", "#f00");
+        $("#TxtRecordDateLabel").css("color", Color.Error);
         $("#TxtRecordDateRequired").show();
     }
     else if (validateDate($("#TxtRecordDate").val()) === false) {
         ok = false;
-        $("#TxtRecordDateLabel").css("color", "#f00");
+        $("#TxtRecordDateLabel").css("color", Color.Error);
         $("#TxtRecordDateMalformed").show();
     }
     else {
         var date = GetDate($("#TxtRecordDate").val(), "/", false);
         if (date > new Date()) {
             ok = false;
-            $("#TxtRecordDateLabel").css("color", "#f00");
+            $("#TxtRecordDateLabel").css("color", Color.Error);
             $("#TxtRecordDateMaximumToday").show();
         }
 
@@ -812,7 +813,7 @@ function ValidateRegistroForm() {
                 ok = false;
                 $("#TxtRecordDateMinimum").html(Dictionary.Item_Objetivo_Error_DateMinimum + " <strong>" + $("#TxtFechaAlta").val() + "</strong>");
                 $("#TxtRecordDateMinimum").show();
-                $("#TxtRecordDateLabel").css("color", "#f00");
+                $("#TxtRecordDateLabel").css("color", Color.Error);
             }
         }
     }
@@ -1245,13 +1246,13 @@ function AnularConfirmed() {
     else {
         if (validateDate($("#TxtFechaCierreReal").val()) === false) {
             ok = false;
-            $("#TxtFechaCierreRealLabel").css("color", "#f00");
+            $("#TxtFechaCierreRealLabel").css("color", Color.Error);
             $("#TxtFechaCierreRealDateMalformed").show();
         }
         else {
             var date = GetDate($("#TxtFechaCierreReal").val(), "/", false);
             if (date > new Date()) {
-                $("#TxtFechaCierreRealLabel").css("color", "#f00");
+                $("#TxtFechaCierreRealLabel").css("color", Color.Error);
                 $("#TxtFechaCierreRealCrossDate").show();
             }
         }
@@ -1509,6 +1510,18 @@ function DataIsChanged() {
         metaComparer = $("#CmbMetaComparer").val();
     }
 
+    // Evitar saltar el popup de cambios por culpa de los valores por defecto "0" y "-1"
+    // -----------------------------------------------------------------------------------------
+	var endResponsibleId = $("#CmbEndResponsible").val() * 1;
+    var responsibleId = $("#CmbResponsible").val() * 1;
+
+    if (endResponsibleId < 1) { endResponsibleId = -1; }
+    if (responsibleId < 1) { responsibleId = -1; }
+
+    if (OriginalItemData.Responsible.Id < 1) { OriginalItemData.Responsible.Id = -1; }
+    if (OriginalItemData.EndResponsible.Id < 1) { OriginalItemData.EndResponsible.Id = -1; }
+    // -----------------------------------------------------------------------------------------
+
     var actual =  {
         "Id": ItemData.Id,
         "CompanyId": Company.Id,
@@ -1519,8 +1532,8 @@ function DataIsChanged() {
         "Notes": $("#TxtNotes").val(),
         "VinculatedToIndicator": indicatorId > 0,
         "IndicatorId": indicatorId,
-        "Responsible": { "Id": $("#CmbResponsible").val() * 1, "Value": "", "Active": false },
-        "EndResponsible": { "Id": $("#CmbEndResponsible").val() * 1, "Value": "", "Active": false },
+        "Responsible": { "Id": responsibleId, "Value": "", "Active": false },
+        "EndResponsible": { "Id": endResponsibleId, "Value": "", "Active": false },
         "StartDate": GetDate($("#TxtFechaAlta").val(), "/", true),
         "PreviewEndDate": GetDate($("#TxtFechaCierrePrevista").val(), "/", false),
         "EndDate": GetDate($("#TxtFechaCierreReal").val(), "/", false),

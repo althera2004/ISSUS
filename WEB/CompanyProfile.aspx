@@ -38,7 +38,7 @@
                                             <div class="form-group">
                                                 <label class="col-sm-1 control-label no-padding-right" id="TxtHeadquartersLabel"><%=this.Dictionary["Item_CompanyProfile_FieldLabel_Headquarters"] %><span style="color:#f00">*</span></label>
                                                 <div class="col-sm-11">
-                                                    <input type="text" id="TxtHeadquarters" placeholder="Item_CompanyProfile_FieldLabel_Headquarters" class="col-xs-12 col-sm-12 tooltip-info" data-rel="tooltip" value="<%=this.Company.Headquarters %>" maxlength="50" readonly="readonly" />
+                                                    <input type="text" id="TxtHeadquarters" placeholder="<%=this.Dictionary["Item_CompanyProfile_FieldLabel_Headquarters"] %>" class="col-xs-12 col-sm-12 tooltip-info" data-rel="tooltip" value="<%=this.Company.Headquarters %>" maxlength="50" readonly="readonly" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -172,7 +172,7 @@
 											    <div id="piechart-placeholder" style="width: 90%; min-height: 150px; height:400px; padding: 0px; position: relative;"><canvas class="flot-base" width="358" height="150" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 358px; height: 150px;"></canvas><canvas class="flot-overlay" width="358" height="150" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 358px; height: 150px;"></canvas><div class="legend"><div style="position: absolute; width: 93px; height: 120px; top: 15px; right: -30px; background-color: rgb(255, 255, 255); opacity: 0.85;"> </div><table style="position:absolute;top:15px;right:-30px;;font-size:smaller;color:#545454"><tbody><tr><td class="legendColorBox"><div style="border:1px solid null;padding:1px"><div style="width:4px;height:0;border:5px solid #68BC31;overflow:hidden"></div></div></td><td class="legendLabel">social networks</td></tr><tr><td class="legendColorBox"><div style="border:1px solid null;padding:1px"><div style="width:4px;height:0;border:5px solid #2091CF;overflow:hidden"></div></div></td><td class="legendLabel">search engines</td></tr><tr><td class="legendColorBox"><div style="border:1px solid null;padding:1px"><div style="width:4px;height:0;border:5px solid #AF4E96;overflow:hidden"></div></div></td><td class="legendLabel">ad campaigns</td></tr><tr><td class="legendColorBox"><div style="border:1px solid null;padding:1px"><div style="width:4px;height:0;border:5px solid #DA5430;overflow:hidden"></div></div></td><td class="legendLabel">direct traffic</td></tr><tr><td class="legendColorBox"><div style="border:1px solid null;padding:1px"><div style="width:4px;height:0;border:5px solid #FEE074;overflow:hidden"></div></div></td><td class="legendLabel">other</td></tr></tbody></table></div></div>
 											</div>-->
                                             <div class="row">        
-                                                <div class="col-xs-12 col-sm-6 widget-container-col ui-sortable" style="min-height: 300px;">										
+                                                <div class="col-xs-12 col-sm-8 widget-container-col ui-sortable" style="min-height: 300px;">										
 			                                        <div class="widget-box ui-sortable-handle" style="opacity: 1; z-index: 0;" id="PieWidget">
 				                                        <div class="widget-header"><h5 class="widget-title"><%=this.Dictionary["Item_Attach_DiskQuote"] %>&nbsp;<%=this.AsignedQuote %>MB</h5></div>
 				                                        <div class="widget-body">
@@ -184,7 +184,21 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-xs-12 col-sm-6 widget-container-col ui-sortable" style="min-height: 300px;"></div>
+                                                <div class="col-xs-12 col-sm-4 widget-container-col ui-sortable" style="min-height: 300px;">
+                                                    <div class="widget-box ui-sortable-handle" style="opacity: 1; z-index: 0;" id="tableWidget">
+				                                        <div class="widget-header"><h5 class="widget-title"><%=this.Dictionary["Item_Attach_DiskQuote"] %>&nbsp;<%=this.AsignedQuote %>MB</h5></div>
+				                                        <div class="widget-body">
+                                                            <div class="alert alert-info">
+						                                        <i class="ace-icon fa icon-info-sign fa-2x"></i>
+                                                                <span id="changeMessage2"><%=this.Dictionary["Item_Attach_DiskFreeLabel3"] %><span id="QuotePercentage2" style="font-weight:bold;"></span></span>
+					                                        </div>
+					                                        <div id="TableDisk" style="height:300px;text-align:center;">
+                                                                <table style="width:100%;">
+                                                                    <tbody id="TableDiskBody" cellpadding="4" style="font:normal 12px Arial"></tbody>
+                                                                </table>
+					                                        </div>
+                                                        </div>
+                                                    </div></div>
                                             </div>
                                         </div>
                                         <!--
@@ -427,8 +441,20 @@
             function Resize() {
                 var listTable = document.getElementById('pdfViewer');
                 var containerHeight = $(window).height();
-                listTable.style.height = (containerHeight - 310) + 'px';
+                listTable.style.height = (containerHeight - 310) + "px";
             }
+
+            window.onload = function () {
+                var res = "";
+                for (var x = 0; x < diskQuote.length -1; x++) {
+                    res += "<tr><td style=\"text-align:left;\">" + diskQuote[x].label + "</td><td style=\"text-align:right;\">&nbsp;&nbsp;" + ToMoneyFormat(diskQuote[x].total, 2) + " MB</td></tr>";
+                }
+
+                $("#QuotePercentage2").html(ToMoneyFormat(diskQuote[x].total, 2) + " MB ");
+                $("#TableDiskBody").html(res);
+            }
+
+            $("#TableDiskBody").html(res);
 
             Resize();
         </script>

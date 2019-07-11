@@ -847,6 +847,12 @@ function RActionChanged() {
 
     if(document.getElementById("RActionYes").checked === true)
     {
+        if (user.Grants.IncidentActions !== true) {
+            alertUI(Dictionary.Item_IncidentAction_Message_NoGrants, null, 500);
+            $("#RActionYes").removeAttr("checked");
+            return false;
+        }
+
         alertUI(Dictionary.Item_Incident_Warning_ActionTabAvailable, null, 500);
 
         $("#Tabaccion").show();
@@ -1183,7 +1189,7 @@ window.onload = function () {
         res += "<h3 style=\"display:inline;\">" + Dictionary.Common_Message_ItemNoAccess + "</h3>";
         res += "</div>";
         $("#accion").html(res);
-        $("#ChkActionCosts").remove();
+        $("#ChkActionCosts").hide();
         document.getElementById("Chk1").disabled = true;
     }
 
@@ -1287,7 +1293,7 @@ function AnularConfirmed() {
     else {
         if (validateDate($("#TxtClosedDate").val()) === false) {
             ok = false;
-            $("#TxtClosedDateLabel").css("color", "#f00");
+            $("#TxtClosedDateLabel").css("color", Color.Error);
             $("#TxtClosedDateDateMalformed").show();
         }
         else {
@@ -1456,7 +1462,7 @@ function AnularConfirmedAccion() {
     else {
         if (validateDate($("#TxtActionClosedDate").val()) === false) {
             ok = false;
-            $("#TxtActionClosedDateLabel").css("color", "#f00");
+            $("#TxtActionClosedDateLabel").css("color", Color.Error);
             $("#TxtActionClosedDateDateMalformed").show();
         }
     }

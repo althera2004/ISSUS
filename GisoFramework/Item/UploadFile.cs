@@ -594,20 +594,21 @@ namespace GisoFramework.Item
 
             path = string.Format(CultureInfo.InvariantCulture, @"{0}DOCS\{1}\", path, company.Id);
 
-            long documents = 0;
-            long equipments = 0;
-            long incidents = 0;
-            long incidentActions = 0;
-            long businessRisk = 0;
-            long employee = 0;
-            long oportunity = 0;
-            long indicator = 0;
-            long objetive = 0;
-            long jobPosition = 0;
-            long learning = 0;
-            long processes = 0;
-            long other = 0;
-            long free = company.DiskQuote;
+            decimal documents = 0;
+            decimal equipments = 0;
+            decimal incidents = 0;
+            decimal incidentActions = 0;
+            decimal businessRisk = 0;
+            decimal auditory = 0;
+            decimal employee = 0;
+            decimal oportunity = 0;
+            decimal indicator = 0;
+            decimal objetive = 0;
+            decimal jobPosition = 0;
+            decimal learning = 0;
+            decimal processes = 0;
+            decimal other = 0;
+            decimal free = company.DiskQuote;
 
             if (!Directory.Exists(path))
             {
@@ -617,10 +618,13 @@ namespace GisoFramework.Item
             var files = Directory.GetFiles(path);
             foreach (string file in files)
             {
-                long size = new FileInfo(file).Length;
+                decimal size = Convert.ToDecimal(new FileInfo(file).Length) / (1024 * 1024);
                 string fileName = Path.GetFileName(file).Split('_')[0];
                 switch (fileName)
                 {
+                    case "Auditory":
+                        auditory += size;
+                        break;
                     case "Document":
                         documents += size;
                         break;
@@ -633,7 +637,7 @@ namespace GisoFramework.Item
                     case "IncidentActions":
                         incidentActions += size;
                         break;
-                    case "Employee":
+                    case "Employees":
                         employee += size;
                         break;
                     case "Processes":
@@ -642,10 +646,10 @@ namespace GisoFramework.Item
                     case "Learning":
                         learning += size;
                         break;
-                    case "Oportinuty":
+                    case "Oportunity":
                         oportunity += size;
                         break;
-                    case "JobPosition":
+                    case "JobPositions":
                         jobPosition += size;
                         break;
                     case "BusinessRisks":
@@ -667,21 +671,23 @@ namespace GisoFramework.Item
             return string.Format(
                 CultureInfo.InvariantCulture,
                 @"[
-                    {{""label"": ""{14}"", ""value"": {0}}},
-                    {{""label"": ""{15}"", ""value"": {1}}},
-                    {{""label"": ""{16}"", ""value"": {2}}},
-                    {{""label"": ""{17}"", ""value"": {3}}},
-                    {{""label"": ""{18}"", ""value"": {4}}},
-                    {{""label"": ""{19}"", ""value"": {5}}},
-                    {{""label"": ""{20}"", ""value"": {6}}},
-                    {{""label"": ""{21}"", ""value"": {7}}},
-                    {{""label"": ""{22}"", ""value"": {8}}},
-                    {{""label"": ""{23}"", ""value"": {9}}},
-                    {{""label"": ""{24}"", ""value"": {10}}},
-                    {{""label"": ""{25}"", ""value"": {11}}},
-                    {{""label"": ""{26}"", ""value"": {12}}},
-                    {{""label"": ""{27}"", ""value"": {13}}}
+                    {{""label"": ""{15}"", ""total"": {30}, ""value"": {0}}},
+                    {{""label"": ""{16}"", ""total"": {31}, ""value"": {1}}},
+                    {{""label"": ""{17}"", ""total"": {32}, ""value"": {2}}},
+                    {{""label"": ""{18}"", ""total"": {33}, ""value"": {3}}},
+                    {{""label"": ""{19}"", ""total"": {34}, ""value"": {4}}},
+                    {{""label"": ""{20}"", ""total"": {35}, ""value"": {5}}},
+                    {{""label"": ""{21}"", ""total"": {36}, ""value"": {6}}},
+                    {{""label"": ""{22}"", ""total"": {38}, ""value"": {7}}},
+                    {{""label"": ""{23}"", ""total"": {39}, ""value"": {8}}},
+                    {{""label"": ""{24}"", ""total"": {30}, ""value"": {9}}},
+                    {{""label"": ""{25}"", ""total"": {40}, ""value"": {10}}},
+                    {{""label"": ""{26}"", ""total"": {41}, ""value"": {11}}},
+                    {{""label"": ""{27}"", ""total"": {42}, ""value"": {12}}},
+                    {{""label"": ""{28}"", ""total"": {43}, ""value"": {13}}},
+                    {{""label"": ""{29}"", ""total"": {44}, ""value"": {14}}}
                 ];",
+                auditory * 100M / company.DiskQuote,
                 documents * 100M / company.DiskQuote,
                 equipments * 100M / company.DiskQuote,
                 incidents * 100M / company.DiskQuote,
@@ -696,6 +702,7 @@ namespace GisoFramework.Item
                 learning * 100M / company.DiskQuote,
                 other * 100M / company.DiskQuote,
                 free * 100M / company.DiskQuote,
+                Tools.JsonCompliant(dictionary["Item_Auditory"].Trim()),
                 Tools.JsonCompliant(dictionary["Item_Documents"].Trim()),
                 Tools.JsonCompliant(dictionary["Item_Equipments"].Trim()),
                 Tools.JsonCompliant(dictionary["Item_Incidents"].Trim()),
@@ -709,7 +716,22 @@ namespace GisoFramework.Item
                 Tools.JsonCompliant(dictionary["Item_Indicadores"].Trim()),
                 Tools.JsonCompliant(dictionary["Item_Learning"].Trim()),
                 Tools.JsonCompliant(dictionary["DiskQuote_Other"].Trim()),
-                Tools.JsonCompliant(dictionary["DiskQuote_Free"].Trim()));
+                Tools.JsonCompliant(dictionary["DiskQuote_Free"].Trim()),
+                auditory,
+                documents,
+                equipments,
+                incidents,
+                incidentActions,
+                businessRisk,
+                jobPosition,
+                employee,
+                oportunity,
+                processes,
+                objetive,
+                indicator,
+                learning,
+                other,
+                free);
         }
     }
 }

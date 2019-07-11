@@ -249,6 +249,7 @@ Item_Attachment_Header_CreateDate::Subido el
 Item_Attachment_Header_Description::Descripción
 Item_Attachment_Header_FileName::Fichero
 Item_Attachment_Header_Size::Tamaño
+Item_Attachment_Popup_Warning::Esta acción no se puede deshacer
 Item_Attachment_SectionTitle::Documentos adjuntos
 Item_Attachment_Size::Tamaño
 Item_Backup::Back-Up
@@ -267,7 +268,7 @@ Item_BusinessRisk::Riesgo
 Item_BusinessRisk_Btn_NewIPR::Fijar nuevo IPR
 Item_BusinessRisk_Button_CategoryBAR::Gestión de normas
 Item_BusinessRisk_Button_CloseAction::Cerrar la acción
-Item_BusinessRisk_Button_New::Añadir riesgo
+Item_BusinessRisk_Button_New::Añadir
 Item_BusinessRisk_Button_RestoreAction::Restaurar la acción
 Item_BusinessRisk_ErrorMesagge_OutOfDate::La fecha debe ser posterior a
 Item_BusinessRisk_ErrorMessage_ActionVerDate::La acción no puede empezar antes que el Riesgo
@@ -550,8 +551,8 @@ Item_Document_Popup_AddSource_Title::Añadir una procedencia
 Item_Document_PopupAnular_Title::Inactivar un documento
 Item_Document_PopupCategory_Header::Categoría
 Item_Document_PopupCategory_Title::Categorías de documento
-Item_Document_PopupDelete_Message::¿Eliminar el documento
-Item_Document_PopupDelete_Title::Eliminar documento
+Item_Document_PopupDelete_Message::¿Eliminar el documento?
+Item_Document_PopupDelete_Title::Eliminar el documento
 Item_Document_PopupSource_Header::Procedencia
 Item_Document_PopupSource_Title::Procedencias de documento
 Item_Document_Status_Active_Single::Activo
@@ -1531,7 +1532,7 @@ Item_Oportunities::Oportunidades
 Item_Oportunity::Oportunidad
 Item_Oportunity_Btn_NewIPR::Fijar nuevo IPR
 Item_Oportunity_Button_CategoryBAR::Gestión de normas
-Item_Oportunity_Button_New::Añadir oportunidad
+Item_Oportunity_Button_New::Añadir
 Item_Oportunity_Detail::Ficha de la Oportunidad
 Item_Oportunity_ErrorMesagge_OutOfDate::Fecha no válida
 Item_Oportunity_ErrorMessage_ActionVerDate::La acción no puede empezar antes que la Oportunidad
@@ -1749,10 +1750,10 @@ Item_User_List_Header_Read::Lectura
 Item_User_List_Header_UserName::Usuario/a
 Item_User_List_Header_Write::Modificación
 Item_User_MailResetPassword_Subject::Reinicio de contraseña en ISSUS de un usuario propietario
-Item_User_Message_AfterChangePassword::Al cambiar la contraseña se reinicia la sesión, para poder entrar con la nueva.
-Item_User_Message_GrantsAvaiable::Se ha generado la pestaña de permisos. Por favor, activa los necesarios para que el/la usuario/a pueda utilizar la aplicación.
+Item_User_Message_AfterChangePassword::Al cambiar la contraseña se reinicia la sesión, para entrar con la nueva
+Item_User_Message_GrantsAvaiable::Se ha generado la pestaña de permisos. Activarlos para que el/la usuario/a pueda utilizar la aplicación
 Item_User_Message_ResetPassword_Ok::Se ha restablecido la contraseña
-Item_User_Message_WelcommeMailSent::Se ha enviado un correo al nuevo usuario con las instrucciones de acceso a la aplicación
+Item_User_Message_WelcommeMailSent::Se ha enviado un correo con las instrucciones de acceso a la aplicación
 Item_User_NewPassword::Nueva contraseña
 Item_User_PopupDelete_Message::¿Eliminar?
 Item_User_Profile_Title_Settings::Configuración
@@ -1868,6 +1869,7 @@ Item_Auditory_BreadCrumb_Edit::Ficha de auditoria
 Item_Auditory_Label_Amount::Cost
 Item_Auditory_Label_InternalResponsible::Responsable interno
 Item_Auditory_Label_Description::Descripción
+Item_Auditory_Label_PuntosFuertes::Puntos fuertes
 Item_Auditory_Label_Scope::Ámbito
 Item_Auditory_Label_Notes::Notas
 Item_Auditory_Label_Address::Dirección
@@ -1927,6 +1929,26 @@ Item_Auditory_Btn_Validation::Validar auditoria
 Item_Auditory_Btn_PopupValidation::Validar
 Item_Auditory_Btn_Close::Cerrar auditoria
 Item_Auditory_Label_Action::Genera acción
+Item_Auditory_ValidateCuestionarioCrossDate::No puede ser anterio al inicio de los cuestionarios
 Item_Auditory_ValidateCrossDate::No puede ser anterior a la fecha final
-Item_Learning_Message_NoAssistants::No es pot finalitzar la formación sense asistents
+Item_Learning_Message_NoAssistants::No se puede finalizar la formación sin asistentes
 Common_PDF_Filter_Contains::Contiene
+Item_Auditory_FoundNoAction::Cap troballa genera una acció
+Item_Auditory_ImprovementNoAction::Cap millora genera una acció
+Common_Status_ActivePlural::Activos
+Common_Status_InactivePlural::Inactivos
+Item_Process_Btn_Restaurar::Activar
+Item_Process_Btn_Anular::Desactivar
+Item_Process_PopupAnular_Title::Desactivar proceso
+Item_Auditory_Message_ActionsZombie::Las acciones no estarán disponibles en el sistema hasta que no se valide la auditoria
+Item_Auditory_ErrorMessage_QuestionairesClosed::Para validar la auditoria se ha de indicar el inicio i el final
+Item_Adutiry_Message_NoActions::No hay ninguna acción definida a la auditoria.
+Item_IncidentAction_Message_NoGrants::No tiene permisos para trabajar con acciones
+Common_FirstDate::Fecha primer registro
+Item_Equipment_Calibration_Error_None::Se ha de definir al menos una calibració.
+Item_Equipment_Verification_Error_None::Se ha de definir al menos una verificació.
+Item_Equipment_Error_NoRisponsible::Se ha de informar el responsable del equipo.
+Item_Equipment_Error_NoOptions::elija al menos una opción.
+Item_Equipment_Error_DuplicateData::Los datos del equipo están repetidos.
+Item_Equipment_Error_RequiredFields::Revise los campos obligatorios del equipo.
+Common_Loading::Cargando datos

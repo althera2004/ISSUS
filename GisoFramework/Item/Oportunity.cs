@@ -99,7 +99,7 @@ namespace GisoFramework.Item
                     this.ModifiedBy.JsonKeyValue,
                     this.ModifiedOn,
                     Tools.JsonValue(this.Active),
-                    this.AnulateBy.JsonKeyValue,
+                    this.AnulateBy == null ? Constant.JavaScriptNull : this.AnulateBy.JsonKeyValue,
                     Tools.JsonValue(this.AnulateDate),
                     Tools.JsonCompliant(this.AnulateReason),
                     this.FinalCost.HasValue ? string.Format(CultureInfo.InvariantCulture, "{0}", this.FinalCost) : Constant.JavaScriptNull,
@@ -198,7 +198,7 @@ namespace GisoFramework.Item
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
                     cmd.Connection = cnn;
-                    cmd.Parameters.Add(DataParameter.Input("@CompannyId", companyId));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                     try
                     {
                         cmd.Connection.Open();
@@ -262,17 +262,6 @@ namespace GisoFramework.Item
                                     {
                                         Id = rdr.GetInt64(ColumnsOportunityGet.RuleId),
                                         Description = rdr.GetString(ColumnsOportunityGet.RuleDescription)
-                                    };
-                                }
-
-                                if (!rdr.IsDBNull(ColumnsOportunityGet.AnulateBy))
-                                {
-                                    newOportunity.AnulateDate = rdr.GetDateTime(ColumnsOportunityGet.AnulateDate);
-                                    newOportunity.AnulateReason = rdr.GetString(ColumnsOportunityGet.AnulateReason);
-                                    newOportunity.AnulateBy = new ApplicationUser
-                                    {
-                                        Id = rdr.GetInt32(ColumnsOportunityGet.AnulateBy),
-                                        UserName = rdr.GetString(ColumnsOportunityGet.AnulateByName)
                                     };
                                 }
 
@@ -665,6 +654,17 @@ namespace GisoFramework.Item
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.SetSuccess();
+                        if (res.Success)
+                        {
+                            Tools.DeleteAttachs(companyId, "Oportunity", oportunityId);
+                        }
+
+                        var action = IncidentAction.ByOportunityId(oportunityId, companyId);
+                        if (action != null)
+                        {
+                            action.CompanyId = companyId;
+                            action.Delete(applicationUserId);
+                        }
                     }
                     finally
                     {

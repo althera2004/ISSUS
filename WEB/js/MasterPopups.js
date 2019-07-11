@@ -6,8 +6,9 @@
     else {
         lockedPopupId = "";
     }
+
     $("#AlertUIMessage").html(message);
-    var dialog = $("#AlertUIDialog").removeClass("hide").dialog({
+    $("#AlertUIDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Aviso,
@@ -39,7 +40,7 @@ function alertInfoUI(message, action, blockPopup) {
         lockedPopupId = "";
     }
     $("#InfoUIMessage").html(message);
-    var dialog = $("#InfoUIDialog").removeClass("hide").dialog({
+    $("#InfoUIDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Aviso,
@@ -55,7 +56,7 @@ function alertInfoUI(message, action, blockPopup) {
                 }
             }
         ],
-        close: function () {
+        "close": function () {
             if (lockedPopupId !== "") {
                 document.getElementById(lockedPopupId).parentNode.style.cssText += "z-Index:1050 !important";
             }
@@ -72,7 +73,7 @@ function warningInfoUI(message, action, width, blockPopup) {
         lockedPopupId = "";
     }
     $("#WarningUIMessage").html(message);
-    var dialog = $("#WarningUIDialog").removeClass("hide").dialog({
+    $("#WarningUIDialog").removeClass("hide").dialog({
         "resizable": false,
         "width": width === null ? 300 : width,
         "modal": true,
@@ -109,7 +110,7 @@ function successInfoUI(message, action, width) {
         lockedPopupId = "";
     }
     $("#SuccessUIMessage").html(message);
-    var dialog = $("#SuccessUIDialog").removeClass("hide").dialog({
+    $("#SuccessUIDialog").removeClass("hide").dialog({
         "resizable": false,
         "width": width === null ? 300 : width,
         "modal": true,
@@ -138,7 +139,7 @@ function successInfoUI(message, action, width) {
 
 function promptInfoUI(message, width, actionYes, actionNo) {
     $("#PromptUIMessage").html(message);
-    var dialog = $("#PromptUIDialog").removeClass("hide").dialog({
+    $("#PromptUIDialog").removeClass("hide").dialog({
         "resizable": false,
         "width": width === null ? 300 : width,
         "modal": true,

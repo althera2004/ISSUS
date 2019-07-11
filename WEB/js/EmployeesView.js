@@ -1,14 +1,13 @@
 ﻿function SaveSkill()
 {
-    var webMethod = "/Async/EmployeeActions.asmx/EmployeeSkillsInsert";
     var data = { 
         skills: {
             "Id": 0,
             "Employee": employee,
-            "Academic": document.getElementById('TxtAcademic').value.trim(),
-            "Specific": document.getElementById('TxtSpecific').value.trim(),
-            "WorkExperience": document.getElementById('TxtWorkExperience').value.trim(),
-            "Ability": document.getElementById('TxtHability').value.trim(),
+            "Academic": $("#TxtAcademic").val().trim(),
+            "Specific": $("#TxtSpecific").val().trim(),
+            "WorkExperience": $("#TxtWorkExperience").val().trim(),
+            "Ability": $("#TxtHability").val().trim(),
             "AcademicValid": document.getElementById('AcademicValidYes').checked ? true : (document.getElementById('AcademicValidNo').checked ? false : null),
             "SpecificValid": document.getElementById('SpecificValidYes').checked ? true : (document.getElementById('SpecificValidNo').checked ? false : null),
             "WorkExperienceValid": document.getElementById('WorkExperienceValidYes').checked ? true : (document.getElementById('WorkExperienceValidNo').checked ? false : null),
@@ -20,11 +19,11 @@
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
         "type": "POST",
-        "url": webMethod,
+        "url": "/Async/EmployeeActions.asmx/EmployeeSkillsInsert",
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function (msg) {
+        "success": function () {
             document.location = referrer;
         },
         "error": function (msg) {
@@ -74,57 +73,53 @@ function ValidateForm()
     var errorNif = false;
     var ddData = $("#CmbPais").data("ddslick");
     var country = ddData.selectedData.value;
-    document.getElementById("TxtNombreErrorDuplicated").style.display = "none";
-    document.getElementById("TxtApellido1ErrorDuplicated").style.display = "none";
-    document.getElementById("TxtEmailErrorDuplicated").style.display = "none";
+    $("#TxtNombreErrorDuplicated").hide();
+    $("#TxtApellido1ErrorDuplicated").hide();
+    $("#TxtEmailErrorDuplicated").hide();
 
     if(RequiredFieldText("TxtNombre") === false) { ok = false; }
     if(RequiredFieldText("TxtApellido1") === false) { ok = false; }
     var nifError = false;
-    if(document.getElementById("TxtNif").value !== "" && country === "España")
+    if($("#TxtNif").val() !== "" && country === "España")
     {
         if(MalFormedNif("TxtNif") === false){ nifError = true; ok = false; }                    
     }
     else
     {
-        document.getElementById("TxtNifLabel").style.color = "#000";
-        document.getElementById("TxtNifErrorMalformed").style.display = "none";
+        $("#TxtNifLabel").css("color", "#000");
+        $("#TxtNifErrorMalformed").hide();
     }
 
-    if(document.getElementById("TxtNif").value !== "")
+    if($("#TxtNif").val() !== "")
     {
-        for(var x=0; x<Company.Employees.length;x++)
-        {
-            if(Company.Employees[x].Nif === document.getElementById("TxtNif").value && Company.Employees[x].Id !== employeeId && Company.Employees[x].Active === true)
-            {
-                document.getElementById("TxtNifErrorDuplicated").style.display = "block";                            
+        for (var x = 0; x < Company.Employees.length; x++) {
+            if (Company.Employees[x].Nif === document.getElementById("TxtNif").value && Company.Employees[x].Id !== employeeId && Company.Employees[x].Active === true) {
+                document.getElementById("TxtNifErrorDuplicated").style.display = "block";
                 document.getElementById("TxtNifErrorDuplicated").innerHTML = Dictionary.Item_Employee_ErrorMessage_NifAlreadyExists + ":<br />" + Company.Employees[x].Name + " " + Company.Employees[x].LastName;
                 document.getElementById("TxtNifLabel").style.color = "#f00";
                 ok = false;
                 break;
             }
-            else
-            {
-                document.getElementById("TxtNifErrorDuplicated").style.display = "none";
-                if(errorNif === false)
-                {
-                    document.getElementById("TxtNifLabel").style.color = "#000";
+            else {
+                $("#TxtNifErrorDuplicated").hide();
+                if (errorNif === false) {
+                    $("#TxtNifLabel").css("color", "#000");
                 }
             }
         }
     }
     else
     {
-        document.getElementById("TxtNifErrorDuplicated").style.display = "none";
+        $("#TxtNifErrorDuplicated").hide();
         if(errorNif === false)
         {
-            document.getElementById("TxtNifLabel").style.color = "#000";
+            $("#TxtNifLabel").css("color", "#000");
         }
     }
 
-    if(document.getElementById("TxtNombre").value !== "" &&
-       document.getElementById("TxtApellido1").value !== "" &&
-       document.getElementById("TxtEmail").value !== "")
+    if($("#TxtNombre").val() !== "" &&
+       $("#TxtApellido1").val() !== "" &&
+       $("#TxtEmail").val() !== "")
     {
         var foundEmployee=false;
         for(var y=0; y<Company.Employees.length;y++)
@@ -142,33 +137,27 @@ function ValidateForm()
 
         if(foundEmployee === true)
         {
-            document.getElementById("TxtNombreErrorDuplicated").style.display = "block";
-            document.getElementById("TxtApellido1ErrorDuplicated").style.display = "block";
-            document.getElementById("TxtEmailErrorDuplicated").style.display = "block";
-            document.getElementById("TxtNombreLabel").style.color = "#f00";
-            document.getElementById("TxtApellido1Label").style.color = "#f00";
-            document.getElementById("TxtEmailLabel").style.color = "#f00";
+            $("#TxtNombreErrorDuplicated").show();
+            $("#TxtApellido1ErrorDuplicated").show();
+            $("#TxtEmailErrorDuplicated").show();
+            $("#TxtNombreLabel").css("color", Color.Error);
+            $("#TxtApellido1Label").css("color", Color.Error);
+            $("#TxtEmailLabel").css("color", Color.Error);
             ok = false;
         }
         else
         {
-            document.getElementById("TxtNombreErrorDuplicated").style.display = "none";
-            document.getElementById("TxtApellido1ErrorDuplicated").style.display = "none";
-            document.getElementById("TxtEmailErrorDuplicated").style.display = "none";
+            $("#TxtNombreErrorDuplicated").hide();
+            $("#TxtApellido1ErrorDuplicated").hide();
+            $("#TxtEmailErrorDuplicated").hide();
         }
     }
 
-    //if(RequiredFieldText("TxtTelefono") === false) { ok = false; }
     if(RequiredFieldText("TxtEmail") === false) { ok = false; }
     else
     {
         if(MalFormedEmail("TxtEmail") === false) { ok = false; }
     }
-    //if(RequiredFieldText("TxtDireccion") === false) { ok = false; }
-    //if(RequiredFieldText("TxtCp") === false) { ok = false; }
-    //if(RequiredFieldText("TxtPoblacion") === false) { ok = false; }
-    //if(RequiredFieldText("TxtProvincia") === false) { ok = false; }
-    //if(RequiredFieldText("TxtPais") === false) { ok = false; }
     return ok;
 }
 
@@ -196,7 +185,7 @@ function Restore()
                 alertUI(response.d.MessageError);
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -269,9 +258,9 @@ jQuery(function ($) {
     $("#BtnCancelInternalLearning").on("click", Cancel);
 
     function Cancel() {
-        var location = document.location + '';
-        if (location.indexOf('&New=true') !== -1) {
-            document.location = 'EmployeesList.aspx';
+        var location = document.location + "";
+        if (location.indexOf("&New=true") !== -1) {
+            document.location = "EmployeesList.aspx";
         }
         else {
             document.location = referrer;
@@ -450,7 +439,7 @@ jQuery(function ($) {
         todayHighlight: true,
         language: "ca"
     })*/
-    var options = $.extend({}, $.datepicker.regional["ca"], { autoclose: true, todayHighlight: true });
+    var options = $.extend({}, $.datepicker.regional[user.Language], { "autoclose": true, "todayHighlight": true });
     $(".date-picker").datepicker(options);
     $(".date-picker").on("blur", function () { DatePickerChanged(this); });
 });            
@@ -647,39 +636,32 @@ function HideJobPositionRow(list)
 
 console.log("ApplicationUser.Grants.Employee.Write", ApplicationUser.Grants.Employee.Write);
 if (ApplicationUser.Grants.Employee.Write === false) {
-    document.getElementById("TxtNombre").disabled = true;
-    document.getElementById("TxtApellido1").disabled = true;
-    document.getElementById("TxtNif").disabled = true;
-    document.getElementById("TxtTelefono").disabled = true;
-    document.getElementById("TxtEmail").disabled = true;
-    document.getElementById("TxtDireccion").disabled = true;
-    document.getElementById("TxtCp").disabled = true;
-    document.getElementById("TxtPoblacion").disabled = true;
-    document.getElementById("TxtProvincia").disabled = true;
-    document.getElementById("TxtNotas").disabled = true;
-    if (document.getElementById("TxtEndDate") !== null) {
-        document.getElementById("TxtEndDate").disabled = true;
-    }
+    $("#TxtNombre").attr("disabled", "disabled");
+    $("#TxtApellido1").attr("disabled", "disabled");
+    $("#TxtNif").attr("disabled", "disabled");
+    $("#TxtTelefono").attr("disabled", "disabled");
+    $("#TxtEmail").attr("disabled", "disabled");
+    $("#TxtDireccion").attr("disabled", "disabled");
+    $("#TxtCp").attr("disabled", "disabled");
+    $("#TxtPoblacion").attr("disabled", "disabled");
+    $("#TxtProvincia").attr("disabled", "disabled");
+    $("#TxtNotas").attr("disabled", "disabled");
+    $("#TxtEndDate").attr("disabled", "disabled");
+    $("#CmbPais").attr("disabled", "disabled");
 
-    if (document.getElementById("CmbPais") !== null) {
-        document.getElementById("CmbPais").disabled = true;
-    }
+    $("#TxtAcademic").attr("readOnly", "readonly");
+    $("#TxtSpecific").attr("readOnly", "readonly");
+    $("#TxtWorkExperience").attr("readOnly", "readonly");
+    $("#TxtHability").attr("readOnly", "readonly");
 
-    document.getElementById("TxtAcademic").readOnly = true;
-    document.getElementById("TxtSpecific").readOnly = true;
-    document.getElementById("TxtWorkExperience").readOnly = true;
-    document.getElementById("TxtHability").readOnly = true;
-
-    if (document.getElementById("WorkExperienceValidYes") !== null) {
-        document.getElementById("WorkExperienceValidYes").disabled = true;
-        document.getElementById("WorkExperienceValidNo").disabled = true;
-        document.getElementById("HabilityValidYes").disabled = true;
-        document.getElementById("HabilityValidNo").disabled = true;
-        document.getElementById("AcademicValidYes").disabled = true;
-        document.getElementById("AcademicValidNo").disabled = true;
-        document.getElementById("SpecificValidYes").disabled = true;
-        document.getElementById("SpecificValidNo").disabled = true;
-    }
+    $("#WorkExperienceValidYes").attr("disabled", "disabled");
+    $("#WorkExperienceValidNo").attr("disabled", "disabled");
+    $("#HabilityValidYes").attr("disabled", "disabled");
+    $("#HabilityValidNo").attr("disabled", "disabled");
+    $("#AcademicValidYes").attr("disabled", "disabled");
+    $("#AcademicValidNo").attr("disabled", "disabled");
+    $("#SpecificValidYes").attr("disabled", "disabled");
+    $("#SpecificValidNo").attr("disabled", "disabled");
 
     $("#BtnEndDate").hide();
     $("#BtnNewJobPosition").hide();
@@ -737,13 +719,13 @@ function AnularConfirmed() {
     
     if ($("#TxtEndDate").val() === "") {
         ok = false;
-        $("#TxtEndDateLabel").css("color", "#f00");
+        $("#TxtEndDateLabel").css("color", Color.Error);
         $("#TxtEndDateErrorRequired").show();
     }
     else {
         if (validateDate($("#TxtEndDate").val()) === false) {
             ok = false;
-            $("#TxtEndDateLabel").css("color", "#f00");
+            $("#TxtEndDateLabel").css("color", Color.Error);
             $("#TxtEndDateMalformed").show();
         }
     }
@@ -817,7 +799,7 @@ window.onload = function () {
         }
     }
 
-    if (WorkExperienceValidYes !== null) {
+    if (document.getElementById("WorkExperienceValidYes") !== null) {
         if (SkillWorkExperienceValid !== null) {
             if (SkillWorkExperienceValid === true) {
                 document.getElementById("WorkExperienceValidYes").checked = true;
@@ -842,7 +824,7 @@ window.onload = function () {
     }
 
     UpdateSkillProfile();
-}
+};
 
 function EmployeeDeleteAlert(id, description) {
     EmployeeDeleteId = id;

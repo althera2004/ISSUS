@@ -13,6 +13,7 @@ namespace GisoFramework.Item
     using System.Data;
     using System.Data.SqlClient;
     using System.Globalization;
+    using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
 
     /// <summary>Implements LearningFilter class</summary>
@@ -23,9 +24,10 @@ namespace GisoFramework.Item
         public LearningFilter(int companyId)
         {
             this.CompanyId = companyId;
-            this.Mode = 2;
-            this.YearFrom = DateTime.Now;
-            this.YearTo = DateTime.Now;
+            this.Pendent = true;
+            this.Started = true;
+            this.Finished = true;
+            this.Evaluated = true;
         }
 
         /// <summary>Gets or sets compnay identifier.</summary>
@@ -38,15 +40,24 @@ namespace GisoFramework.Item
         public DateTime? YearTo { get; set; }
 
         /// <summary>Gets or sets the mode of searched learnings</summary>
-        public int Mode { get; set; }
+        public bool Pendent { get; set; }
+
+        /// <summary>Gets or sets the mode of searched learnings</summary>
+        public bool Started { get; set; }
+
+        /// <summary>Gets or sets the mode of searched learnings</summary>
+        public bool Finished { get; set; }
+
+        /// <summary>Gets or sets the mode of searched learnings</summary>
+        public bool Evaluated { get; set; }
 
         /// <summary>Gets a JSON structure of learning filter</summary>
         public string Json
         {
             get
             {
-                string yearFromText = "null";
-                string yearToText = "null";
+                string yearFromText = Constant.JavaScriptNull;
+                string yearToText = Constant.JavaScriptNull;
 
                 if (this.YearFrom.HasValue)
                 {
@@ -61,8 +72,11 @@ namespace GisoFramework.Item
                 string pattern = @"{{
                         ""YearFrom"":{0},
                         ""YearTo"":{1},
-                        ""Mode"":{2},
-                        ""CompanyId"":{3}
+                        ""Pendent"":{2},
+                        ""Started"":{3},
+                        ""Finished"":{4},
+                        ""Evaluated"":{5},
+                        ""CompanyId"":{6}
                     }}";
 
                 return string.Format(
@@ -70,7 +84,10 @@ namespace GisoFramework.Item
                     pattern,
                     yearFromText,
                     yearToText,
-                    this.Mode,
+                    this.Pendent ? Constant.JavaScriptTrue : Constant.JavaScriptFalse,
+                    this.Started   ? Constant.JavaScriptTrue : Constant.JavaScriptFalse,
+                    this.Finished ? Constant.JavaScriptTrue : Constant.JavaScriptFalse,
+                    this.Evaluated ? Constant.JavaScriptTrue : Constant.JavaScriptFalse,
                     this.CompanyId);
             }
         }
@@ -79,48 +96,34 @@ namespace GisoFramework.Item
         /// <returns>List of learnings</returns>
         public ReadOnlyCollection<Learning> Filter()
         {
-            List<Learning> res = new List<Learning>();
-            using (SqlCommand cmd = new SqlCommand("Learning_Filter"))
+            var res = new List<Learning>();
+            using (var cmd = new SqlCommand("Learning_Filter"))
             {
                 /* CREATE PROCEDURE Learning_Filter
                  * @YearFrom int,
                  * @YearTo int,
-                 * @Mode int,
+                 * @Pendent bit,
+                 * @Started bit,
+                 * @Finisehd bit,
+                 * @Evaluated bit,
                  * @CompanyId int */
                 cmd.Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString);
                 try
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@YearFrom", SqlDbType.DateTime);
-                    cmd.Parameters.Add("@YearTo", SqlDbType.DateTime);
-                    cmd.Parameters.Add("@Mode", SqlDbType.Int);
-                    cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                    cmd.Parameters.Add(DataParameter.Input("@YearFrom", this.YearFrom));
+                    cmd.Parameters.Add(DataParameter.Input("@YearTo", this.YearTo));
+                    cmd.Parameters.Add(DataParameter.Input("@Pendent", this.Pendent));
+                    cmd.Parameters.Add(DataParameter.Input("@Started", this.Started));
+                    cmd.Parameters.Add(DataParameter.Input("@Finished", this.Finished));
+                    cmd.Parameters.Add(DataParameter.Input("@Evaluated", this.Evaluated));
+                    cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
 
-                    if (this.YearFrom.HasValue)
-                    {
-                        cmd.Parameters["@YearFrom"].Value = this.YearFrom.Value;
-                    }
-                    else
-                    {
-                        cmd.Parameters["@YearFrom"].Value = DBNull.Value;
-                    }
-
-                    if (this.YearTo.HasValue)
-                    {
-                        cmd.Parameters["@YearTo"].Value = this.YearTo.Value;
-                    }
-                    else
-                    {
-                        cmd.Parameters["@YearTo"].Value = DBNull.Value;
-                    }
-
-                    cmd.Parameters["@Mode"].Value = this.Mode;
-                    cmd.Parameters["@CompanyId"].Value = this.CompanyId;
                     cmd.Connection.Open();
-                    SqlDataReader rdr = cmd.ExecuteReader();
+                    var rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
-                        Learning data = new Learning()
+                        var data = new Learning
                         {
                             Id = rdr.GetInt32(ColumnsLearningFilter.Id),
                             Description = rdr.GetString(ColumnsLearningFilter.CourseName),

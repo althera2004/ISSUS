@@ -13,13 +13,24 @@ window.onload = function () {
     $("#breadcrumbs").remove();
     $("#main-container").css("padding-top", "10px");
 
-    $("h1").parent().after("<h1>" + this.Dictionary.Item_Auditory + ": <strong>" + AuditoryName + "</strong></h1>");
+    $("h1").parent().after("<div class=\"col-sm-3\"><h1>" + this.Dictionary.Item_Auditory + ": <strong>" + AuditoryName + "</strong></h1></div><div class=\"col-sm-1\"><span class=\"btn btn-xs btn-danger\" style=\"font-size:20px;margin-top:2px;\" onclick=\"window.close();\"><i class=\"icon-off bigger-120\"></i></span></div>");
     $("h1").css("padding-top", "12px");
     RenderFounds();
     RenderImprovements();
+
+    if (Editable === false) {
+        $("#BtnNewFound").remove();
+        $("#BtnNewImprovement").remove();
+        $(".btn-info").remove();
+        $(".btn-danger").remove();
+    }
 };
 
 function Toggle(sender) {
+    if (Editable === false) {
+        return false;
+    }
+
     console.log("Toggle", sender.id + " - " + $("#" + sender.id).data("status"));
 
     var id = sender.id.split('Q')[1] * 1;

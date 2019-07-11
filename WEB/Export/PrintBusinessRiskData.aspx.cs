@@ -97,8 +97,8 @@ public partial class ExportPrintBusinessRiskData : Page
         {
             Colspan = 4,
             Border = Rectangle.NO_BORDER,
-            PaddingTop = 10f,
-            PaddingBottom = 10f,
+            PaddingTop = 20f,
+            PaddingBottom = 20f,
             HorizontalAlignment = Element.ALIGN_CENTER
         });
 
@@ -153,9 +153,7 @@ public partial class ExportPrintBusinessRiskData : Page
         table.AddCell(TitleCell(dictionary["Item_BusinessRisk_LabelField_Notes"]));
         table.AddCell(TextAreaCell(Environment.NewLine + businessRisk.Notes, ToolsPdf.BorderAll, alignLeft, 4));
 
-        table.AddCell(SeparationRow());
-        		
-		table.AddCell(TitleCell(dictionary["Item_BusinessRisk_Tab_Graphics"], 4));
+        table.AddCell(TitleCell(dictionary["Item_BusinessRisk_Tab_Graphics"], 4));
 
         table.AddCell(TitleLabel(dictionary["Item_BusinessRisk_LabelField_IPR"]));
         table.AddCell(TitleData(businessRisk.Rules.Limit.ToString()));
@@ -200,38 +198,18 @@ public partial class ExportPrintBusinessRiskData : Page
 
                 // Descripción
                 //tableAction.AddCell(valueCell(dictionary["Item_Incident_PDF_ActionPageTitle"]+"*", borderNone, alignLeft, 4));
+                var headerFont = new Font(this.arial, 15, Font.NORMAL, BaseColor.BLACK);
+                tableAction.AddCell(new PdfPCell(new Phrase(dictionary["Item_Incident_PDF_ActionPageTitle"], headerFont))
+                {
+                    Colspan = 4,
+                    Border = ToolsPdf.BorderBottom,
+                    HorizontalAlignment = Rectangle.ALIGN_CENTER
+                });
 
-				var headerFont = new Font(this.arial, 15, Font.NORMAL, BaseColor.BLACK);
-				/*
-				tableAction.AddCell(new PdfPCell(new Phrase(dictionary["Item_Incident_PDF_ActionPageTitle"] + ": " + action.Description, descriptionFont))
-				{
-					Colspan = 4,
-					Border = ToolsPdf.BorderNone,
-					HorizontalAlignment = Rectangle.ALIGN_CENTER
-				});
-				*/
-				
-				tableAction.AddCell(new PdfPCell(new Phrase(dictionary["Item_Incident_PDF_ActionPageTitle"], descriptionFont))
-				{
-					Colspan = 4,
-					Border = ToolsPdf.BorderNone,
-					HorizontalAlignment = Rectangle.ALIGN_CENTER
-				});
+                tableAction.AddCell(LabelCell(dictionary["Item_IncidentAction_Label_Description"], Rectangle.NO_BORDER));
+                tableAction.AddCell(ValueCell(action.Description, ToolsPdf.BorderNone, alignLeft, 3));
 
-				tableAction.AddCell(new PdfPCell(new Phrase(action.Description, descriptionFont))
-				{
-					Colspan = 4,
-					Border = ToolsPdf.BorderNone,
-					HorizontalAlignment = Rectangle.ALIGN_CENTER
-				});
-
-				
-	
-				//tableAction.AddCell(LabelCell(dictionary["Item_IncidentAction_Label_Description"], Rectangle.NO_BORDER));
-				//tableAction.AddCell(ValueCell(action.Description, ToolsPdf.BorderNone, alignLeft, 3));
-				
-			
-		        // WhatHappend
+                // WhatHappend
                 tableAction.AddCell(SeparationRow());
                 tableAction.AddCell(TitleCell(dictionary["Item_IncidentAction_Field_WhatHappened"]));
                 tableAction.AddCell(TextAreaCell(Environment.NewLine + action.WhatHappened, borderSides, alignLeft, 4));
@@ -395,14 +373,14 @@ public partial class ExportPrintBusinessRiskData : Page
                     SpacingBefore = 20f
                 };
 
-                tableCost.SetWidths(new float[] { 120f, 30f, 30f, 50f, 60f });
+                tableCost.SetWidths(new float[] { 90f, 40f, 30f, 60f, 20f });
 
                 tableCost.AddCell(new PdfPCell(new Phrase(dictionary["Item_Incident_Tab_Costs"], descriptionFont))
                 {
                     Colspan = 5,
                     Border = Rectangle.NO_BORDER,
-                    PaddingTop = 15f,
-                    PaddingBottom = 15f,
+                    PaddingTop = 20f,
+                    PaddingBottom = 20f,
                     HorizontalAlignment = Element.ALIGN_CENTER
                 });
 

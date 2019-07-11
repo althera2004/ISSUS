@@ -25,7 +25,7 @@ namespace GisoFramework.Item
         public int Hour { get; set; }
         public int Duration { get; set; }
         public Process Process { get; set; }
-        public Employee Auditor { get; set; }
+        public ApplicationUser Auditor { get; set; }
         public Employee Audited { get; set; }
         public bool SendMail { get; set; }
         public string ProviderEmail { get; set; }
@@ -41,7 +41,7 @@ namespace GisoFramework.Item
                     Hour = 0,
                     Duration = 0,
                     Process = Process.Empty,
-                    Auditor = Employee.Empty,
+                    Auditor = ApplicationUser.Empty,
                     Audited = Employee.Empty,
                     SendMail = false,
                     ProviderEmail = string.Empty,
@@ -158,12 +158,10 @@ namespace GisoFramework.Item
                                     Duration = rdr.GetInt32(ColumnsAuditoryPlanningGet.Duration),
                                     AuditoryId = auditoryId,
                                     CompanyId = companyId,
-                                    Auditor = new Employee
+                                    Auditor = new ApplicationUser
                                     {
                                         Id = rdr.GetInt32(ColumnsAuditoryPlanningGet.AuditorId),
-                                        Name = rdr.GetString(ColumnsAuditoryPlanningGet.AuditorName),
-                                        LastName = rdr.GetString(ColumnsAuditoryPlanningGet.AuditorLastName),
-                                        Email = rdr.GetString(ColumnsAuditoryPlanningGet.AuditorEmail)
+                                        UserName = rdr.GetString(ColumnsAuditoryPlanningGet.AuditorName)
                                     },
                                     Audited = new Employee
                                     {
@@ -239,12 +237,10 @@ namespace GisoFramework.Item
                                     Duration = rdr.GetInt32(ColumnsAuditoryPlanningGet.Duration),
                                     AuditoryId = auditoryId,
                                     CompanyId = companyId,
-                                    Auditor = new Employee
+                                    Auditor = new ApplicationUser
                                     {
                                         Id = rdr.GetInt32(ColumnsAuditoryPlanningGet.AuditorId),
-                                        Name = rdr.GetString(ColumnsAuditoryPlanningGet.AuditorName),
-                                        LastName = rdr.GetString(ColumnsAuditoryPlanningGet.AuditorLastName),
-                                        Email = rdr.GetString(ColumnsAuditoryPlanningGet.AuditorEmail)
+                                        UserName = rdr.GetString(ColumnsAuditoryPlanningGet.AuditorName)
                                     },
                                     Audited = new Employee
                                     {

@@ -31,6 +31,7 @@ function CalibrationInternalResetForm() {
     $("#TxtCalibrationInternalPeriodicity").val("");
     $("#TxtCalibrationInternalUncertainty").val("");
     $("#TxtCalibrationInternalRange").val("");
+    $("#TxtICDFirstDate").val("");
     $("#TxtCalibrationInternalPattern").val("");
     $("#TxtCalibrationInternalCost").val("");
     $("#CmbCalibrationInternalResponsible").val("");
@@ -44,6 +45,7 @@ function CalibrationExternalResetForm() {
     $("#TxtCalibrationExternalPeriodicity").val("");
     $("#TxtCalibrationExternalUncertainty").val("");
     $("#TxtCalibrationExternalRange").val("");
+    $("#TxtECDFirstDate").val("");
     $("#TxtCalibrationExternalPattern").val("");
     $("#TxtCalibrationExternalCost").val("");
     $("#CmbCalibrationExternalResponsible").val("");
@@ -65,8 +67,10 @@ function CalibrationInternalSetForm() {
     $("#CmbCalibrationInternalResponsible").val(ApplicationUser.Employee.Id);
     $("#TxtCalibrationInternalNotes").prop("readonly", !active);
     $("#BtnCalibrationInternalSave").prop("disabled", !active);
+    $("#TxtICDFirstDate").prop("disabled", !active);
+    $("#TxtECDFirstDateBtn").prop("disabled", !active);
     CalibrationInternalActive = active;
-    CalibrationInternalExists = Equipment.InternalCalibration != null && Equipment.InternalCalibration.Id > 0;
+    CalibrationInternalExists = Equipment.InternalCalibration !== null && Equipment.InternalCalibration.Id > 0;
     ShowNewCalibrationButton();
 }
 
@@ -85,8 +89,10 @@ function CalibrationExternalSetForm() {
     $("#TxtCalibrationExternalNotes").prop("readonly", !active);
     $("#BtnCalibrationExternalProviderBAR").prop("disabled", !active);
     $("#BtnCalibrationExternalSave").prop("disabled", !active);
+    $("#TxtECDFirstDate").prop("disabled", !active);
+    $("#TxtECDFirstDateBtn").prop("disabled", !active);
     CalibrationExternalActive = active;
-    CalibrationExternalExists = Equipment.ExternalCalibration != null && Equipment.ExternalCalibration.Id > 0;
+    CalibrationExternalExists = Equipment.ExternalCalibration !== null && Equipment.ExternalCalibration.Id > 0;
     ShowNewCalibrationButton();
 }
 
@@ -169,9 +175,14 @@ function ShowNewCalibrationButton() {
 
 function EquipmentCalibrationActRenderTable(targetName) {
     VoidTable(targetName);
-    var target = document.getElementById(targetName);
+    var hasInternal = false;
+    var hasExternal = false;
     var total = 0;
     for (var x = 0; x < EquipmentCalibrationActList.length; x++) {
+
+        if (EquipmentCalibrationActList[x].EquipmentCalibrationType === 0) { hasInternal = true; }
+        if (EquipmentCalibrationActList[x].EquipmentCalibrationType === 1) { hasExternal = true; }
+
         if (x === 8) {
             break;
         }
@@ -179,6 +190,9 @@ function EquipmentCalibrationActRenderTable(targetName) {
             total += EquipmentCalibrationActRenderRow(EquipmentCalibrationActList[x], targetName);
         }
     }
+
+    $("#TxtICDFirstDateRow").css("visibility", hasInternal ? "hidden" : "visible");
+    $("#TxtECDFirstDateRow").css("visibility", hasExternal ? "hidden" : "visible");
 
     $("#TableEquipmentCalibrationActTotalLabel").html(Dictionary.Common_RegisterCount +":&nbsp;<strong>"+ EquipmentCalibrationActList.length + "</strong><span style=\"float:right\">" + Dictionary.Common_Total + ":</span>");
     $("#TableEquipmentCalibrationActTotal").html(ToMoneyFormat(total, 2));
@@ -226,7 +240,7 @@ function EquipmentCalibrationActRenderRow(equipmentCalibrationAct, targetName) {
     if (equipmentCalibrationAct.Cost !== null) {
         tdCost.appendChild(document.createTextNode(ToMoneyFormat(equipmentCalibrationAct.Cost, 2)));
     }
-    tdType.appendChild(document.createTextNode(equipmentCalibrationAct.EquipmentCalibrationType == 0 ? Dictionary.Common_Internal : Dictionary.Common_External));
+    tdType.appendChild(document.createTextNode(equipmentCalibrationAct.EquipmentCalibrationType === 0 ? Dictionary.Common_Internal : Dictionary.Common_External));
     tdFecha.appendChild(document.createTextNode(FormatYYYYMMDD(equipmentCalibrationAct.Date, '/')));
 
     var vto = null;
@@ -256,14 +270,14 @@ function EquipmentCalibrationActRenderRow(equipmentCalibrationAct, targetName) {
 
         iconEdit.className = "btn btn-xs btn-info";
         iconEdit.title = Dictionary.Common_Edit;
-        iconEdit.onclick = function (e) { EquipmentCalibrationActEdit(this) }
+        iconEdit.onclick = function () { EquipmentCalibrationActEdit(this) };
         var innerEdit = document.createElement("I");
         innerEdit.className = "icon-edit bigger-120";
         iconEdit.appendChild(innerEdit);
 
         iconDelete.className = "btn btn-xs btn-danger";
         iconDelete.title = Dictionary.Common_Delete;
-        iconDelete.onclick = function (e) { EquipmentCalibrationActDelete(this) }
+        iconDelete.onclick = function () { EquipmentCalibrationActDelete(this) };
         var innerDelete = document.createElement("I");
         innerDelete.className = "icon-trash bigger-120";
         iconDelete.appendChild(innerDelete);
@@ -417,7 +431,7 @@ function EquipmentCalibrationActValidateForm() {
     }
     else {
         if (validateDate($("#TxtEquipmentCalibrationActDate").val()) === false) {
-            $("#TxtEquipmentCalibrationActDateLabel").css("color", "#f00");
+            $("#TxtEquipmentCalibrationActDateLabel").css("color", Color.Error);
             $("#TxtEquipmentCalibrationActDateMalformed").show();
             ok = false;
         }
@@ -449,7 +463,7 @@ function EquipmentCalibrationActValidateForm() {
         if (EquipmentCalibrationActList[x].EquipmentCalibrationType === calibrationType) {
             if (GetDateYYYYMMDD(EquipmentCalibrationActList[x].Date) > expiration) {
                 ok = false;
-                $("#TxtEquipmentCalibrationActDateLabel").css("color", "#f00");
+                $("#TxtEquipmentCalibrationActDateLabel").css("color", Color.Error);
                 $("#TxtEquipmentCalibrationActDateOverTime").show();
             }
         }
@@ -748,6 +762,7 @@ function EquipmentCalibrationInternalDefinitionSave() {
         "Periodicity": ParseInputValueToNumber($("#TxtCalibrationInternalPeriodicity").val()),
         "Uncertainty": uncertainty,
         "Range": $("#TxtCalibrationInternalRange").val(),
+        "FirstDate": GetDate($("#TxtICDFirstDate").val(), "/", true),
         "Pattern": $("#TxtCalibrationInternalPattern").val(),
         "Cost": cost,
         "Notes": $("#TxtCalibrationInternalNotes").val(),
@@ -800,7 +815,7 @@ function EquipmentCalibrationExternalDefinitionSave() {
     var uncertainty = StringToNumber($("#TxtCalibrationExternalUncertainty").val(), ".", ",");
     var cost = StringToNumber($("#TxtCalibrationExternalCost").val(), ".", ",");
     CalibrationExternalDefinition = {
-        "Id": Equipment.ExternalCalibration == null ? 0 : Equipment.ExternalCalibration.Id,
+        "Id": Equipment.ExternalCalibration === null ? 0 : Equipment.ExternalCalibration.Id,
         "EquipmentId": Equipment.Id,
         "CompanyId": Equipment.CompanyId,
         "CalibrationType": 1,
@@ -808,6 +823,7 @@ function EquipmentCalibrationExternalDefinitionSave() {
         "Periodicity": ParseInputValueToNumber($("#TxtCalibrationExternalPeriodicity").val()),
         "Uncertainty": uncertainty,
         "Range": $("#TxtCalibrationExternalRange").val(),
+        "FirstDate": GetDate($("#TxtECDFirstDate").val(), "/", true),
         "Pattern": $("#TxtCalibrationExternalPattern").val(),
         "Cost": cost,
         "Notes": $("#TxtCalibrationExternalNotes").val(),

@@ -225,7 +225,7 @@ function EquipmentMaintenanceActValidateForm() {
     }
     else {
         if (validateDate($("#TxtEquipmentMaintenanceActDate").val()) === false) {
-            $("#TxtEquipmentMaintenanceActDateLabel").css("color", "#f00");
+            $("#TxtEquipmentMaintenanceActDateLabel").css("color", Color.Error);
             $("#TxtEquipmentMaintenanceActDateMalformed").show();
             ok = false;
         }
@@ -250,7 +250,7 @@ function EquipmentMaintenanceActValidateForm() {
             if (EquipmentMaintenanceActList[x].EquipmentMaintenanceDefinitionId === SelectedEquipmentDefinitionSelectedId * 1) {
                 if (GetDateYYYYMMDD(EquipmentMaintenanceActList[x].Date) > expiration) {
                     ok = false;
-                    $("#TxtEquipmentMaintenanceActDateLabel").css("color", "#f00");
+                    $("#TxtEquipmentMaintenanceActDateLabel").css("color", Color.Error);
                     $("#TxtEquipmentMaintenanceActDateOverTime").show();
                 }
             }

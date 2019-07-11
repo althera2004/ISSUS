@@ -1,4 +1,5 @@
-﻿var currentMousePos = { "x": -1, "y": -1 };
+﻿var selectedTabItem = "";
+var currentMousePos = { "x": -1, "y": -1 };
 var originalLimits = [];
 var RuleLimitFromDBBusinessRisk = null;
 var RuleLimitFromDBoportunity = null;
@@ -172,7 +173,18 @@ function BusinessRiskListGetNone() {
     $("#CmbType").val(0);
 }
 
+function OportunityGetFilterList() {
+    $("#nav-search-input").parent().show();
+    OportunityGetFilter();
+}
+
+function OportunityGetFilterGraph() {
+    $("#nav-search-input").parent().hide();
+    OportunityGetFilter();
+}
+
 function OportunityGetFilter(exportType) {
+    selectedTabItem = 2;
     var ok = true;
     VoidTable("ListDataTableOportunity");
 
@@ -225,7 +237,18 @@ function OportunityGetFilter(exportType) {
     });
 }
 
+function BusinessRiskGetFilterList() {
+    $("#nav-search-input").parent().show();
+    BusinessRiskGetFilter();
+}
+
+function BusinessRiskGetFilterGraph() {
+    $("#nav-search-input").parent().hide();
+    BusinessRiskGetFilter();
+}
+
 function BusinessRiskGetFilter(exportType) {
+    selectedTabItem = 1;
     var ok = true;
     VoidTable("ListDataTable");
 
@@ -353,7 +376,7 @@ function OportunityRenderTable(list) {
 
     for (var x = 0; x < list.length; x++) {
         var item = list[x];
-        var realResult = item.Result
+        var realResult = item.Result;
         RenderOportunityRow(item);
 
         // Se añade el elemento al JSON del gráfico
@@ -365,7 +388,7 @@ function OportunityRenderTable(list) {
                 "Code": item.Code,
                 "Rules": item.Rules,
                 "Result": realResult,
-                "Assumed": item.Assumed, //realAction === 1,
+                "Assumed": false, //realAction === 1,
                 "RuleLimit": item.RuleLimit,
                 "FinalAction": item.FinalAction
             });
@@ -374,25 +397,11 @@ function OportunityRenderTable(list) {
         if ($.inArray(item.Description, items) === -1) {
             items.push(item.Description);
         }
-
-        /*if ($.inArray(objRules.Description, items) === -1) {
-            items.push(objRules.Description);
-        }
-
-        if ($.inArray(objProcess.Description, items) === -1) {
-            items.push(objProcess.Description);
-        }*/
     }
-
-    $("#GraphicTableVoidOportunity").hide("none");
-    $("#svggraficoportunity").show();
-    exampleDataoportunity();
-    RenderchartOportunity();
-    $(".discreteBar").on("click", function (e) { console.log(e) });
 
     if (document.getElementById("CmbRules").value * 1 > 0) {
         DrawRuleLineOportunity();
-        document.getElementById("BtnChangeIprOportunity").style.display = "";
+        $("#BtnChangeIprOportunity").show();
         rule = RuleGetById($("#OportunityCmbRules").val() * 1);
         if (rule !== null) {
             actualRuleLimitOportunity = rule.Limit;
@@ -402,7 +411,7 @@ function OportunityRenderTable(list) {
     else {
         rule = { "Id": 0 };
         resizeGraficoOportunity($("#OportunityCmbRules").val() * 1);
-        document.getElementById("BtnChangeIpr").style.display = "none";
+        $("#BtnChangeIpr").hide();
         $("#RuleDescriptionOportunity").html(Dictionary.Common_All_Female_Plural);
         actualRuleLimitOportunity = -1;
     }
@@ -421,8 +430,8 @@ function OportunityRenderTable(list) {
         var autocomplete = $(".nav-search-input").typeahead();
         autocomplete.data('typeahead').source = items;
 
-        $("#nav-search-input").keyup(FilterList);
-        $("#nav-search-input").change(FilterList);
+        $("#nav-search-input").keyup(FilterListSpecial);
+        $("#nav-search-input").change(FilterListSpecial);
     }
 
     $("#NumberCostsOportunity").html(list.length);
@@ -441,6 +450,17 @@ function OportunityRenderTable(list) {
             $("#" + column).click();
         }
     }
+
+    $("#nav-search-input").trigger("keyup");
+    OportunityRenderGraph();
+}
+
+function OportunityRenderGraph() {
+    $("#GraphicTableVoidOportunity").hide();
+    $("#svggraficoportunity").show();
+    exampleDataoportunity();
+    RenderchartOportunity();
+    $(".discreteBar").on("click", function (e) { console.log(e); });
 }
 
 function BusinessRiskRenderTable(list) {
@@ -452,7 +472,7 @@ function BusinessRiskRenderTable(list) {
     var items = [];
     VoidTable("ListDataTable");
     d3.selectAll("svg > *").remove();
-    $("#TotalBusinessRisks").html("0");
+    $("#TotalList").html("0");
 
     if (list.length === 0) {
         $("#ItemTableVoid").show();
@@ -466,11 +486,14 @@ function BusinessRiskRenderTable(list) {
         else {
             $("#RuleDescriptionBusinessRisk").html(Dictionary.Common_All_Female_Plural);
         }
+
+        $("#NoData").show();
+        $("#ListDataDiv").hide();
         return false;
     }
-    else {
-        $("#ItemTableVoid").hide();
-    }
+
+    $("#NoData").hide();
+    $("#ListDataDiv").show();
 
     // Establecer el valor de la norma actual si la hay
     RuleLimitFromDBBusinessRisk = -1;
@@ -510,28 +533,6 @@ function BusinessRiskRenderTable(list) {
         }
     }
 
-    $("#GraphicTableVoid").hide("none");
-    $("#svggraficBusinessRisk").show();
-    exampleDataBusinessRisk();
-    RenderChartBusinessRisk();
-    $(".discreteBar").on("click", function (e) { console.log(e) });
-
-    if (document.getElementById("CmbRules").value * 1 > 0) {
-        DrawRuleLineBusinessRisk();
-        $("#BtnChangeIpr").show();
-        rule = RuleGetById($("#CmbRules").val() * 1);
-        if (rule !== null) {
-            actualRuleLimitBusinessRisk = rule.Limit;
-            $("#RuleDescriptionBusinessRisk").html("<strong>" + rule.Description + "</strong> " + Dictionary.Item_Rules_FieldLabel_Limit + ": <strong>" + RuleLimitFromDBBusinessRisk + "</strong>");
-        }
-    }
-    else {
-        rule = { "Id": 0 };
-        resizegrafico($("#CmbRules").val() * 1);
-        document.getElementById("BtnChangeIpr").style.display = "none";
-        $("#RuleDescriptionBusinessRisk").html(Dictionary.Common_All_Female_Plural);
-        actualRuleLimitBusinessRisk = -1;
-    }
 
     if (items.length === 0) {
         $("#nav-search").hide();
@@ -551,7 +552,7 @@ function BusinessRiskRenderTable(list) {
         $("#nav-search-input").change(FilterList);
     }
 
-    $("#TotalBusinessRisks").html(list.length);
+    $("#TotalList").html(list.length);
     if (lockOrderList === false) {
         $("#th1").click();
         if (document.getElementById("th1").className.indexOf("DESC") !== -1) {
@@ -566,6 +567,34 @@ function BusinessRiskRenderTable(list) {
         if (document.getElementById(column).className.indexOf(order) === -1) {
             $("#" + column).click();
         }
+    }
+
+    $("#nav-search-input").trigger("keyup");
+    BusinessListRenderGraph();
+}
+
+function BusinessListRenderGraph() {
+    $("#GraphicTableVoid").hide("none");
+    $("#svggraficBusinessRisk").show();
+    exampleDataBusinessRisk();
+    RenderChartBusinessRisk();
+    $(".discreteBar").on("click", function (e) { console.log(e); });
+
+    if (document.getElementById("CmbRules").value * 1 > 0) {
+        DrawRuleLineBusinessRisk();
+        $("#BtnChangeIpr").show();
+        rule = RuleGetById($("#CmbRules").val() * 1);
+        if (rule !== null) {
+            actualRuleLimitBusinessRisk = rule.Limit;
+            $("#RuleDescriptionBusinessRisk").html("<strong>" + rule.Description + "</strong> " + Dictionary.Item_Rules_FieldLabel_Limit + ": <strong>" + RuleLimitFromDBBusinessRisk + "</strong>");
+        }
+    }
+    else {
+        rule = { "Id": 0 };
+        resizegrafico($("#CmbRules").val() * 1);
+        document.getElementById("BtnChangeIpr").style.display = "none";
+        $("#RuleDescriptionBusinessRisk").html(Dictionary.Common_All_Female_Plural);
+        actualRuleLimitBusinessRisk = -1;
     }
 }
 
@@ -616,7 +645,7 @@ function RenderOportunityRow(item) {
     icon = document.createElement("I");
     tdStatus.appendChild(icon);
 
-    var realResult = item.StartResult
+    var realResult = item.StartResult;
 
     if (item.Result === 0) {
         icon.style.color = "#777777";
@@ -624,14 +653,13 @@ function RenderOportunityRow(item) {
         icon.className = "icon-warning-sign bigger-110";
     } else {
         if (item.Result < item.RuleLimit) {
-
-            icon.style.color = "#A5CA9F";
-            icon.title = Dictionary.Item_Oportunity_Status_NotSignificant;
+            icon.style.color = "#DC8475";
+            //icon.title = Dictionary.Item_Oportunity_Status_NotSignificant;
             icon.className = "icon-circle bigger-110";
         }
         else {
-            icon.style.color = "#DC8475";
-            icon.title = Dictionary.Item_Oportunity_Status_Significant;
+            icon.style.color = "#A5CA9F";
+            //icon.title = Dictionary.Item_Oportunity_Status_Significant;
             icon.className = "icon-circle bigger-110";
         }
     }
@@ -981,8 +1009,9 @@ function Resize() {
         finalHeight = 350;
     }
 
-    $("#ListDataDiv").height((finalHeight) + "px");
-    $("#ListDataDivOportunity").height((finalHeight) + "px");
+    $("#ListDataDiv").height(finalHeight);
+    $("#NoData").height(finalHeight);
+    $("#ListDataDivOportunity").height(finalHeight);
 }
 
 window.onload = function () {
@@ -998,7 +1027,7 @@ window.onload = function () {
 
     $("#BtnRecordShowAll").click();
     $("#BtnRecordShowAllOportunity").click();
-    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
+    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"ExportPDF();\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
 
     console.log(FilterBusinessRisk);
     console.log(FilterOportunity);
@@ -1090,10 +1119,10 @@ window.onload = function () {
         BusinessRiskListGetNone();
     });
 
-    $("#tabgraficos").on("click", BusinessRiskGetFilter);
-    $("#tabbasic").on("click", BusinessRiskGetFilter);
-    $("#tabgraficosoportunity").on("click", OportunityGetFilter);
-    $("#taboportunity").on("click", OportunityGetFilter);
+    $("#tabgraficos").on("click", BusinessRiskGetFilterGraph);
+    $("#tabbasic").on("click", BusinessRiskGetFilterList);
+    $("#tabgraficosoportunity").on("click", OportunityGetFilterGraph);
+    $("#taboportunity").on("click", OportunityGetFilterList);
 
     $("#input-span-slider").slider({
         "value": RuleLimitFromDBBusinessRisk,
@@ -1152,7 +1181,8 @@ function ExportPDF() {
                 "rulesId": rulesId,
                 "processId": processId,
                 "typeId": typeId,
-                "listOrder": listOrder
+                "listOrder": listOrder,
+                "filterText": $("#nav-search-input").val()
             };
 
         LoadingShow(Dictionary.Common_Report_Rendering);
@@ -1222,6 +1252,9 @@ function ExportPDF() {
 }
 
 function SetLayout(type) {
+    $("#nav-search-input").val("");
+    $("#nav-search-input").trigger("keyup");
+
     if (type === 1) {
         FilterOportunity = null;
         $("#widthTest").show();
@@ -1274,3 +1307,12 @@ $(document).mousemove(function (event) {
     var position = $("#svggraficBusinessRisk").offset();
     $(".xy-tooltip").css({ top: currentMousePos.y - position.top - 30, left: currentMousePos.x - position.left + 10 });
 });
+
+function FilterListSpecial() {
+    if (selectedTabItem === 1) {
+        FilterList();
+    }
+    else {
+        FilterList("ListDataTableOportunity", "ListDataHeaderOportunity", "NumberCostsOportunity");
+    }
+}

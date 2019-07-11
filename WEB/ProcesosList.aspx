@@ -21,11 +21,22 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
-</asp:Content>
-<asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
+        <script type="text/javascript">
+            var filter = "<%=this.Filter%>";
+        </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
                             <div class="col-xs-12">
+                                <!--<div class="row" style="padding-bottom:8px;" id="SelectRow">
+                                    <div class="col-xs-12">
+                                        <div class="col-xs-2">
+                                            <input type="checkbox" id="Chk1" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Status_ActivePlural"] %>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <input type="checkbox" id="Chk2" onchange="FilterChanged();" />&nbsp;<%=this.Dictionary["Common_Status_InactivePlural"] %>
+                                        </div>
+                                    </div>
+                                </div>-->
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <div class="table-responsive" id="scrollTableDiv">
@@ -40,7 +51,8 @@
                                                 </thead>
                                             </table>
                                             <div id="ListDataDiv" style="overflow:scroll;overflow-x:hidden;padding:0;">
-                                                <table class="table table-bordered table-striped" style="border-top:none;">                                                        
+                                                <div id="NoData" style="display:none;width:100%;height:99%;background-color:#eef;text-align:center;font-size:large;color:#aaf;">&nbsp;<div style="height:40%;"></div><i class="icon-info-sign"></i>&nbsp;<%=this.Dictionary["Common_VoidSearchResult"] %></div>                                            
+                                                <table id="TableData" class="table table-bordered table-striped" style="border-top:none;">                                                        
                                                     <tbody id="ListDataTable">
                                                         <asp:Literal runat="server" ID="ProcesosData"></asp:Literal>
                                                     </tbody>

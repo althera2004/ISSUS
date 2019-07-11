@@ -62,25 +62,36 @@ function IncidentActionCostRenderRow(incidentActionCost, target) {
     tdQuantity.appendChild(document.createTextNode(ToMoneyFormat(incidentActionCost.Quantity, 2)));
     tdTotal.appendChild(document.createTextNode(ToMoneyFormat(incidentActionCost.Amount * incidentActionCost.Quantity, 2)));
     tdResponsible.appendChild(document.createTextNode(incidentActionCost.Responsible.Value));
+
+    var tdActions = document.createElement("TD");
     var iconEdit = document.createElement("SPAN");
     iconEdit.className = "btn btn-xs btn-info";
     var innerEdit = document.createElement("I");
     innerEdit.className = "icon-edit bigger-120";
     iconEdit.appendChild(innerEdit);
     iconEdit.onclick = function () { IncidentActionCostEdit(this.parentNode.parentNode.id); };
-
-    var iconDelete = document.createElement("SPAN");
-    iconDelete.className = "btn btn-xs btn-danger";
-    var innerDelete = document.createElement("I");
-    innerDelete.className = "icon-trash bigger-120";
-    iconDelete.appendChild(innerDelete);
-    iconDelete.onclick = function () { IncidentActionCostDelete(this.parentNode.parentNode.id); };
-
-    var tdActions = document.createElement("TD");
-
     tdActions.appendChild(iconEdit);
-    tdActions.appendChild(document.createTextNode(" "));
-    tdActions.appendChild(iconDelete);
+
+    // Juan Castilla - en businessrisk view la variable se llama "Action"
+    if (typeof Action !== "undefined" && Action !== null) {
+        IncidentAction = Action;
+    }
+
+    if (typeof IncidentAction.ClosedOn !== "undefined" && IncidentAction.ClosedOn !== "null" && IncidentAction.ClosedOn !== "") {
+        // La acción esta cerrada y no se puede eleminar el coste
+    }
+    else {
+        var iconDelete = document.createElement("SPAN");
+        iconDelete.className = "btn btn-xs btn-danger";
+        var innerDelete = document.createElement("I");
+        innerDelete.className = "icon-trash bigger-120";
+        iconDelete.appendChild(innerDelete);
+        iconDelete.onclick = function () { IncidentActionCostDelete(this.parentNode.parentNode.id); };
+        tdActions.appendChild(document.createTextNode(" "));
+        tdActions.appendChild(iconDelete);
+    }
+
+
 
     tdTotal.className = "hidden-480";
     tdResponsible.className = "hidden-480";
@@ -184,7 +195,12 @@ function CmbIncidentActionCostDescriptionChanged() {
 function IncidentActionCostEdit(id) {
     SelectedIncidentActionCostId = id * 1;
     IncidentActionCostSetPopupFormFill();
-    var dialog = $("#dialogNewCost").removeClass("hide").dialog({
+    if (typeof IncidentAction.ClosedOn !== "undefined" && IncidentAction.ClosedOn !== "null" && IncidentAction.ClosedOn !== "") {
+        // La acción esta cerrada y no se puede usar el botón BAR
+        $("#BtnCostBAR").remove();
+    }
+
+    $("#dialogNewCost").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_IncidentActionCost_PopupTitle_Update + "</h4>",
@@ -263,17 +279,17 @@ function IncidentActionCostValidateForm() {
 
     if ($("#TxtIncidentActionCostDate").val() === "") {
         ok = false;
-        $("#TxtIncidentCostDateLabel").css("color", "#f00");
+        $("#TxtIncidentCostDateLabel").css("color", Color.Error);
         $("#TxtIncidentCostDateErrorRequired").show();
-        $("#TxtIncidentActionCostDateLabel").css("color", "#f00");
+        $("#TxtIncidentActionCostDateLabel").css("color", Color.Error);
         $("#TxtIncidentActionCostDateErrorRequired").show();
     }
     else {
         if (validateDate($("#TxtIncidentActionCostDate").val()) === false) {
             ok = false;
-            $("#TxtIncidentCostDateLabel").css("color", "#f00");
+            $("#TxtIncidentCostDateLabel").css("color", Color.Error);
             $("#TxtIncidentCostDateErrorMalformed").show();
-            $("#TxtIncidentActionCostDateLabel").css("color", "#f00");
+            $("#TxtIncidentActionCostDateLabel").css("color", Color.Error);
             $("#TxtIncidentActionCostDateErrorMalformed").show();
         }
         else {
@@ -289,8 +305,8 @@ function IncidentActionCostValidateForm() {
 
             if (ad < d) {
                 ok = false;
-                $("#TxtIncidentCostDateLabel").css("color", "#f00");
-                $("#TxtIncidentActionCostDateLabel").css("color", "#f00");
+                $("#TxtIncidentCostDateLabel").css("color", Color.Error);
+                $("#TxtIncidentActionCostDateLabel").css("color", Color.Error);
                 $("#TxtIncidentCostDateErrorRange").html(Dictionary.Item_Incident_Cost_Error_Range + " " + FormatDate(d, "/"));
                 $("#TxtIncidentActionCostDateErrorRange").html(Dictionary.Item_Incident_Cost_Error_Range + " " + FormatDate(d, "/"));
                 $("#TxtIncidentCostDateErrorRange").show();

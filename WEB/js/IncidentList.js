@@ -408,7 +408,7 @@ function ItemRenderTable(list) {
         row.appendChild(tdOpen);
         row.appendChild(tdDescription);
         row.appendChild(tdOrigin);
-        row.appendChild(tdAction);
+		row.appendChild(tdAction);
         row.appendChild(tdAmount);
 
         var iconEdit = document.createElement("SPAN");
@@ -595,6 +595,9 @@ function Resize() {
 }
 
 window.onload = function () {
+
+    //if (user.Grants.IncidentActions !== true) { $("#th4").remove(); }
+
     $("#nav-search").hide();
     $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"ExportPDF();\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
     Resize();

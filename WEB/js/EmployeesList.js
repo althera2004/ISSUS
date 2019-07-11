@@ -107,7 +107,7 @@ function EmployeeDeleteConfirmed(id)
                 alertUI(response.d.MessageError);
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -158,8 +158,8 @@ jQuery(function ($) {
         }
     }));
                 
-    $("#SelectorTabActive").on("click", function (e) { document.getElementById("BtnNewItem").style.visibility = "visible"; });
-    $("#SelectorTabInactive").on("click", function (e) { document.getElementById("BtnNewItem").style.visibility = "hidden"; });
+    $("#SelectorTabActive").on("click", function () { document.getElementById("BtnNewItem").style.visibility = "visible"; });
+    $("#SelectorTabInactive").on("click", function () { document.getElementById("BtnNewItem").style.visibility = "hidden"; });
 });
 
 function Resize() {
@@ -173,6 +173,14 @@ window.onload = function () {
     if (Filter.indexOf("I") !== -1) { document.getElementById("Chk2").checked = true; }
     RenderEmployeeTable();
     $("#th0").click();
+
+    if (document.getElementById("Chk1").checked === true && document.getElementById("Chk2").checked === false) {
+        $("#Chk1").attr("disabled", "disabled");
+    }
+
+    if (document.getElementById("Chk1").checked === false && document.getElementById("Chk2").checked === true) {
+        $("#Chk2").attr("disabled", "disabled");
+    }
 };
 
 window.onresize = function () { Resize(); };
@@ -215,10 +223,11 @@ function RenderEmployeeTable() {
     }
 
     $("#ListDataTable").html(res);
-    $("#TotalRecords").html(count);
+    $("#TotalList").html(count);
 }
 
 function FilterChanged() {
+    $("#nav-search-input").val("");
     $("#Chk1").removeAttr("disabled");
     $("#Chk2").removeAttr("disabled");
     var count = document.getElementById("Chk1").checked === true ? 1 : 0;

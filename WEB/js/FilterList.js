@@ -1,7 +1,16 @@
-﻿function FilterList(totalIndex) {
-    if (document.getElementById("ListDataTable") != null) {
+﻿function FilterList(listId, listDataHeader, totalDOMElement) {
+    if (typeof listId === "undefined" || listId === null) {
+        listId = "ListDataTable";
+    }
+
+    if (typeof listDataHeader === "undefined" || listDataHeader === null) {
+        listDataHeader = "ListDataHeader";
+    }
+
+
+    if (document.getElementById(listId) !== null) {
         var searcheablesIndex = new Array();
-        var headerList = document.getElementById("ListDataHeader").childNodes;
+        var headerList = document.getElementById(listDataHeader).childNodes;
         var cont = 0;
         var totalizableIndex = -1;
         for (var h = 0; h < headerList.length; h++) {
@@ -20,7 +29,7 @@
 
 
         var pattern = document.getElementById("nav-search-input").value.toUpperCase();
-        var list = document.getElementById("ListDataTable");
+        var list = document.getElementById(listId);
         var cont = 0;
         var total = 0;
         for (var x = 0; x < list.childNodes.length; x++) {
@@ -33,12 +42,13 @@
                         var item = row.childNodes[searcheablesIndex[y]].innerText.toUpperCase();
                         if (item.indexOf(pattern) !== -1) {
                             match = true;
-                            cont++;
+                            break;
                         }
                     }
                 }
 
                 if (match === true) {
+                    cont++;
                     if (totalizableIndex > 0) {
                         var totalText = row.childNodes[totalizableIndex].innerText;
                         total += StringToNumber(totalText, ".", ",");
@@ -49,7 +59,12 @@
             }
         }
 
-        $("#TotalList").html(cont);
+        if (typeof totalDOMElement !== "undefined" && totalDOMElement !== null && totalDOMElement !== $("#" + totalDOMElement).length > 0) {
+            $("#" + totalDOMElement).html(cont);
+        }
+        else {
+            $("#TotalList").html(cont);
+        }
         $("#TotalAmount").html(ToMoneyFormat(total, 2));
     }
 }

@@ -14,7 +14,7 @@ function EquipmentDeleteAction() {
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function (msg) {
+        "success": function () {
             document.location = document.location + "";
         },
         "error": function (msg) {
@@ -27,7 +27,7 @@ function EquipmentDeleteAction() {
 function EquipmentDelete(id, name) {
     $("#EquipmentName").html(name);
     EquipmentSelected = id;
-    var dialog = $("#EquipmentDeleteDialog").removeClass("hide").dialog({
+    $("#EquipmentDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_Equipment_Popup_Delete_Title + "</h4>",
@@ -35,6 +35,7 @@ function EquipmentDelete(id, name) {
         "buttons":
         [
             {
+                "id": "BtnDeleteOk",
                 "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
                 "class": "btn btn-danger btn-xs",
                 "click": function () {
@@ -42,6 +43,7 @@ function EquipmentDelete(id, name) {
                 }
             },
             {
+                "id": "BtnDeleteCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
                 "class": "btn btn-xs",
                 "click": function () {
@@ -55,7 +57,7 @@ function EquipmentDelete(id, name) {
 jQuery(function ($) {
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
-            var $title = this.options.title || "&nbsp;"
+            var $title = this.options.title || "&nbsp;";
             if (("title_html" in this.options) && this.options.title_html === true)
                 title.html($title);
             else title.text($title);
@@ -74,11 +76,33 @@ window.onload = function () {
     document.getElementById("RBOperation1").checked = Filter.indexOf("C") !== -1;
     document.getElementById("RBOperation2").checked = Filter.indexOf("V") !== -1;
     document.getElementById("RBOperation3").checked = Filter.indexOf("M") !== -1;
-    //document.getElementById("RBStatus0").checked = Filter.indexOf("0") !== -1;
     document.getElementById("RBStatus1").checked = Filter.indexOf("1") !== -1;
     document.getElementById("RBStatus2").checked = Filter.indexOf("2") !== -1;
     RenderTable();
-    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;")
+    $("#BtnNewItem").before("<button class=\"btn btn-info\" type=\"button\" id=\"BtnExportList\" onclick=\"Export('PDF');\"><i class=\"icon-print bigger-110\"></i>" + Dictionary.Common_ListPdf + "</button>&nbsp;");
+
+    if (document.getElementById("RBOperation1").checked === true && document.getElementById("RBOperation2").checked === false && document.getElementById("RBOperation3").checked === false) {
+        $("#RBOperation1").attr("disabled", "disabled");
+    }
+
+    if (document.getElementById("RBOperation1").checked === false && document.getElementById("RBOperation2").checked === true && document.getElementById("RBOperation3").checked === false) {
+        $("#RBOperation2").attr("disabled", "disabled");
+    }
+
+    if (document.getElementById("RBOperation1").checked === false && document.getElementById("RBOperation2").checked === false && document.getElementById("RBOperation3").checked === true) {
+        $("#RBOperation3").attr("disabled", "disabled");
+    }
+
+    if (document.getElementById("RBStatus1").checked === true && document.getElementById("RBStatus2").checked === false) {
+        $("#RBStatus1").attr("disabled", "disabled");
+    }
+
+    if (document.getElementById("RBStatus1").checked === false && document.getElementById("RBStatus2").checked === true) {
+        $("#RBStatus2").attr("disabled", "disabled");
+    }
+
+    $("#TabEquipmentList").on("click", function () { $("#BtnNewItem").css("visibility", "visible"); });
+    $("#TabCostList").on("click", function () { $("#BtnNewItem").css("visibility", "hidden"); });
 };
 
 window.onresize = function () { Resize(); };
@@ -118,6 +142,26 @@ function Export(fileType) {
     });
 }
 
+function RBOperationChanged() {
+    $("#RBOperation1").removeAttr("disabled");
+    $("#RBOperation2").removeAttr("disabled");
+    $("#RBOperation3").removeAttr("disabled");
+
+    if (document.getElementById("RBOperation1").checked === true && document.getElementById("RBOperation2").checked === false && document.getElementById("RBOperation3").checked === false) {
+        $("#RBOperation1").attr("disabled", "disabled");
+    }
+
+    if (document.getElementById("RBOperation1").checked === false && document.getElementById("RBOperation2").checked === true && document.getElementById("RBOperation3").checked === false) {
+        $("#RBOperation2").attr("disabled", "disabled");
+    }
+
+    if (document.getElementById("RBOperation1").checked === false && document.getElementById("RBOperation2").checked === false && document.getElementById("RBOperation3").checked === true) {
+        $("#RBOperation3").attr("disabled", "disabled");
+    }
+
+    RenderTable();
+}
+
 function RBStatusChanged() {
     $("#RBStatus1").removeAttr("disabled");
     $("#RBStatus2").removeAttr("disabled");
@@ -134,7 +178,6 @@ function RBStatusChanged() {
 
 function RenderTable() {
     SetFilter();
-    console.log("RenderTable");
     $("#ListDataTable").html("");
     var temp = [];
     for (var x = 0; x < Equipments.length; x++) {
@@ -143,11 +186,15 @@ function RenderTable() {
         if (document.getElementById("RBStatus1").checked === true && equipment.Activo === true) { ok = true; }
         if (document.getElementById("RBStatus2").checked === true && equipment.Activo === false) { ok = true; }
         if (ok === true) {
-            if (document.getElementById("RBOperation1").checked === true && equipment.Calibracion === true) { temp.push(equipment); }
-            else
-                if (document.getElementById("RBOperation2").checked === true && equipment.Verificacion === true) { temp.push(equipment); }
-                else
-                    if (document.getElementById("RBOperation3").checked === true && equipment.Mantenimiento === true) { temp.push(equipment); }
+            if (document.getElementById("RBOperation1").checked === true && equipment.Calibracion === true) {
+                temp.push(equipment);
+            }
+            else if (document.getElementById("RBOperation2").checked === true && equipment.Verificacion === true) {
+                temp.push(equipment);
+            }
+            else if (document.getElementById("RBOperation3").checked === true && equipment.Mantenimiento === true) {
+                temp.push(equipment);
+            }
         }
     }
 
@@ -257,7 +304,6 @@ function RenderRow(equipment) {
     }
 
     if (user.Grants["Equipment"].Write === true) {
-        /*<span title="Editar 6789 123456789 123456789 123456789 123456789 1234567890" class="btn btn-xs btn-info" onclick="document.location='EquipmentView.aspx?id=2';"><i class="icon-edit bigger-120"></i></span> */
         var buttonEdit = document.createElement("span");
         buttonEdit.title = Dictionary.Common_Edit + " " + equipment.Descripcion;
         buttonEdit.className = "btn btn-xs btn-info";
@@ -268,7 +314,6 @@ function RenderRow(equipment) {
         tdAcciones.appendChild(buttonEdit);
 
         if (user.Grants["Equipment"].Delete === true) {
-            /*<span title="Eliminar 180" class="btn btn-xs btn-danger" onclick="EquipmentDelete(2,'123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 123456789 1234567890');"><i class="icon-trash bigger-120"></i></span>*/
             var buttonDelete = document.createElement("span");
             buttonDelete.title = Dictionary.Common_Delete + " " + equipment.Descripcion;
             buttonDelete.className = "btn btn-xs btn-danger";
@@ -317,7 +362,7 @@ function SetFilter() {
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function (msg) {
+        "success": function () {
             console.log("SetFilter", "OK");
         },
         "error": function (msg) {
@@ -337,7 +382,6 @@ function SetFilterCosts() {
     if (document.getElementById("RBMI").checked === true) { Filter += "MI"; }
     if (document.getElementById("RBRI").checked === true) { Filter += "RI"; }
     Filter += "|";
-    if (document.getElementById("RBCostStatus0").checked === true) { Filter += "0"; }
     if (document.getElementById("RBCostStatus1").checked === true) { Filter += "1"; }
     if (document.getElementById("RBCostStatus2").checked === true) { Filter += "2"; }
     Filter += "|" + $("#TxtDateFrom").val();
@@ -351,7 +395,7 @@ function SetFilterCosts() {
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function (msg) {
+        "success": function () {
             console.log("SetFilterCosts", "OK");
         },
         "error": function (msg) {
@@ -501,8 +545,6 @@ function RenderTableCosts() {
     console.log(result); 
 }
 
-
-
 function RenderRowCosts(data) {
     var CI = document.getElementById("RBCI").checked === true;
     var CE = document.getElementById("RBCE").checked === true;
@@ -520,77 +562,74 @@ function RenderRowCosts(data) {
         tr.style.fontStyle = "italic";
     }
 
-
     tdDescripcion.appendChild(document.createTextNode(data.Equipment.Value));
-
     //tdCoste.appendChild(document.createTextNode(ToMoneyFormat(rowCost, 2)));
-
 
     var totalFila = 0;
     tr.appendChild(tdDescripcion);
 
     if (CI === true) {
-        var td = document.createElement("TD");
-        td.style.textAlign = "right";
-        td.appendChild(document.createTextNode(ToMoneyFormat(data.CI, 2)));
+        var tdCI = document.createElement("TD");
+        tdCI.style.textAlign = "right";
+        tdCI.appendChild(document.createTextNode(ToMoneyFormat(data.CI, 2)));
         totalFila += data.CI;
-        tr.appendChild(td);
+        tr.appendChild(tdCI);
     }
 
     if (CE === true) {
-        var td = document.createElement("TD");
-        td.style.textAlign = "right";
-        td.appendChild(document.createTextNode(ToMoneyFormat(data.CE, 2)));
+        var tdCE = document.createElement("TD");
+        tdCE.style.textAlign = "right";
+        tdCE.appendChild(document.createTextNode(ToMoneyFormat(data.CE, 2)));
         totalFila += data.CE;
-        tr.appendChild(td);
+        tr.appendChild(tdCE);
     }
 
     if (VI === true) {
-        var td = document.createElement("TD");
-        td.style.textAlign = "right";
-        td.appendChild(document.createTextNode(ToMoneyFormat(data.VI, 2)));
+        var tdVI = document.createElement("TD");
+        tdVI.style.textAlign = "right";
+        tdVI.appendChild(document.createTextNode(ToMoneyFormat(data.VI, 2)));
         totalFila += data.VI;
-        tr.appendChild(td);
+        tr.appendChild(tdVI);
     }
 
     if (VE === true) {
-        var td = document.createElement("TD");
-        td.style.textAlign = "right";
-        td.appendChild(document.createTextNode(ToMoneyFormat(data.VE, 2)));
+        var tdVE = document.createElement("TD");
+        tdVE.style.textAlign = "right";
+        tdVE.appendChild(document.createTextNode(ToMoneyFormat(data.VE, 2)));
         totalFila += data.VE;
-        tr.appendChild(td);
+        tr.appendChild(tdVE);
     }
 
     if (MI === true) {
-        var td = document.createElement("TD");
-        td.style.textAlign = "right";
-        td.appendChild(document.createTextNode(ToMoneyFormat(data.MI, 2)));
+        var tdMI = document.createElement("TD");
+        tdMI.style.textAlign = "right";
+        ttdMId.appendChild(document.createTextNode(ToMoneyFormat(data.MI, 2)));
         totalFila += data.MI;
-        tr.appendChild(td);
+        tr.appendChild(tdMI);
     }
 
     if (ME === true) {
-        var td = document.createElement("TD");
-        td.style.textAlign = "right";
-        td.appendChild(document.createTextNode(ToMoneyFormat(data.ME, 2)));
+        var tdME = document.createElement("TD");
+        tdME.style.textAlign = "right";
+        tdME.appendChild(document.createTextNode(ToMoneyFormat(data.ME, 2)));
         totalFila += data.ME;
-        tr.appendChild(td);
+        tr.appendChild(tdME);
     }
 
     if (RI === true) {
-        var td = document.createElement("TD");
-        td.style.textAlign = "right";
-        td.appendChild(document.createTextNode(ToMoneyFormat(data.RI, 2)));
+        var tdRI = document.createElement("TD");
+        tdRI.style.textAlign = "right";
+        tdRI.appendChild(document.createTextNode(ToMoneyFormat(data.RI, 2)));
         totalFila += data.RI;
-        tr.appendChild(td);
+        tr.appendChild(tdRI);
     }
 
     if (RE === true) {
-        var td = document.createElement("TD");
-        td.style.textAlign = "right";
-        td.appendChild(document.createTextNode(ToMoneyFormat(data.RE, 2)));
+        var tdRE = document.createElement("TD");
+        tdRE.style.textAlign = "right";
+        tdRE.appendChild(document.createTextNode(ToMoneyFormat(data.RE, 2)));
         totalFila += data.RE;
-        tr.appendChild(td);
+        tr.appendChild(tdRE);
     }
 
     var td = document.createElement("TD");
@@ -600,6 +639,4 @@ function RenderRowCosts(data) {
     tr.appendChild(td);
 
     document.getElementById("ListDataTableCosts").appendChild(tr);
-
-    //return rowCost;
 }

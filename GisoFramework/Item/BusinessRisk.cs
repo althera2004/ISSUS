@@ -952,7 +952,10 @@ namespace GisoFramework.Item
                         if (deleteAction)
                         {
                             var victim = IncidentAction.ByBusinessRiskId(businessRiskId, companyId);
-                            victim.Delete(userId);
+                            if (victim.Id != Constant.DefaultLongId)
+                            {
+                                victim.Delete(userId);
+                            }
                         }
                     }
                     catch (SqlException ex)

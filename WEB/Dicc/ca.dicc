@@ -85,7 +85,7 @@ Common_Day::Dia
 Common_Days::Dies
 Common_Delete::Eliminar
 Common_DeleteMessage::Segur que vol eliminar
-Common_DeleteMessage_NoUndo::ATENCIÓ: Aquesta acció no es podrà desfer!
+Common_DeleteMessage_NoUndo::ATENCIÓ: Aquesta acció no es podrà desfer!						  
 Common_Edit::Editar
 Common_Error::Error
 Common_Error_Application::S'ha produït un error a l'aplicació
@@ -238,6 +238,7 @@ Item_Alert_ListHeader_Reason::Motiu
 Item_Alerts::Avisos
 Item_Attach_DiskFreeLabel1::Disponible el 
 Item_Attach_DiskFreeLabel2::% d'assignació de disc
+Item_Attach_DiskFreeLabel3::Disponibles 
 Item_Attach_DiskQuote::Quota de disc assignada
 Item_Attach_FreeDisk::Espai disponible
 Item_Attach_Popup_Delete_Question::Eliminar l'adjunt
@@ -249,6 +250,7 @@ Item_Attachment_Header_CreateDate::Pujat el
 Item_Attachment_Header_Description::Descripció
 Item_Attachment_Header_FileName::Fitxer
 Item_Attachment_Header_Size::Mida
+Item_Attachment_Popup_Warning::Aquesta acció no es pot desfer
 Item_Attachment_SectionTitle::Documents adjunts
 Item_Attachment_Size::Mida
 Item_Backup::Back-Up
@@ -550,8 +552,8 @@ Item_Document_Popup_AddSource_Title::Afegir una procedència
 Item_Document_PopupAnular_Title::Inactivar document
 Item_Document_PopupCategory_Header::Categoria
 Item_Document_PopupCategory_Title::Categories de document
-Item_Document_PopupDelete_Message::Eliminar el document
-Item_Document_PopupDelete_Title::Eliminar document
+Item_Document_PopupDelete_Message::Eliminar el document?
+Item_Document_PopupDelete_Title::Eliminar el document
 Item_Document_PopupSource_Header::Procedència
 Item_Document_PopupSource_Title::Procedències dels documents
 Item_Document_Status_Active_Single::Actiu
@@ -1423,6 +1425,7 @@ Item_Learning_Objetive::Objectiu / Valoració de l'eficàcia
 Item_Learning_PopupDelete_Message::Vol eliminar la formació
 Item_Learning_SelectAssistants::Afegir
 Item_Learning_Status_Done::Realitzada
+Item_Learning_Status_Started::Iniciada
 Item_Learning_Status_Evaluated::Avaluada
 Item_Learning_Status_Finished::Realitzada
 Item_Learning_Status_InProgress::Pendent
@@ -1869,6 +1872,7 @@ Item_Auditory_BreadCrumb_Edit::Fitxa d'auditoria
 Item_Auditory_Label_Amount::Cost
 Item_Auditory_Label_InternalResponsible::Responsable intern
 Item_Auditory_Label_Description::Descripció
+Item_Auditory_Label_PuntosFuertes::Punts a destacar
 Item_Auditory_Label_Scope::Àmbit
 Item_Auditory_Label_Notes::Notes
 Item_Auditory_Label_Address::Adreça
@@ -1938,6 +1942,7 @@ Item_Auditory_Btn_Validation::Validar auditoria
 Item_Auditory_Btn_Close::Tancar auditoria
 Item_Auditory_Btn_PopupValidation::Validar
 Item_Auditory_Label_Action::Genera acció
+Item_Auditory_ValidateCuestionarioCrossDate::No pot ser anterior a l'inici dels qüestionaris
 Item_Auditory_ValidateCrossDate::No pot ser anterior a la data final
 Item_Auditory_Message_Closed::Auditoria tancada
 Item_Auditory_Message_Validated::Auditoria validada
@@ -1945,10 +1950,11 @@ Item_Auditory_Label_ValidatedBy::Validada per
 Item_Auditory_Label_ValidatedOn::Data validació
 Item_Auditory_Label_ClosedOn::Data tancament
 Item_Auditory_Label_ClosedBy::Tancada per
-Item_Auditory_Btn_AddIncidentAction::Afegir acció
-Item_Auditory_Btn_Close::Tancar auditoria
+Item_Auditory_Btn_AddIncidentAction::Afegir
+Item_Auditory_Btn_Reopen::Reobrir auditoria
 Item_Auditory_Message_Closed::Tancada
 Item_IncidentAction_Label_Auditory::Auditoria
+Item_Auditory_Popup_CloseQuestionary::Tancar qüestionaris
 Item_Auditory_Popup_ReopenQuestionary::Reobrir qüestionaris
 Item_Auditory_Popup_ReopenTitle::Reobrir la auditoria
 Item_Auditory_Popup_ReopenMessage::Vol reobrir la auditoria
@@ -1973,3 +1979,21 @@ Item_Equipment_FilterLabel_Repair_Ext::Rep. Ext
 Common_PDF_Filter_Contains::Conté
 Item_Auditory_FoundNoAction::Cap troballa genera una acció
 Item_Auditory_ImprovementNoAction::Cap millora genera una acció
+Common_Status_ActivePlural::Actius
+Common_Status_InactivePlural::Inactius
+Item_Process_Btn_Restaurar::Activar
+Item_Process_Btn_Anular::Desactivar
+Item_Process_PopupAnular_Title::Desactivar procés
+Item_Auditory_Message_ActionsZombie::Les accions no estaran disponibles al sistema fins que no es validi la auditoria
+Item_Auditory_ErrorMessage_QuestionairesClosed::Per validar la auditoria s'ha d'indicar l'inici i el final
+Item_Adutiry_Message_NoActions::No hi cap acció definida a la auditoria.
+Item_IncidentAction_Message_NoGrants::No té permissos per a treballar amb accions
+Common_FirstDate::Data primer registre
+Item_Equipment_Calibration_Error_None::S'ha de definir com a mínim una calibració.
+Item_Equipment_Verification_Error_None::S'ha de definir com a mínim una verificació.
+Item_Equipment_Error_NoRisponsible::S'ha d'informar el responsable de l'equip.
+Item_Equipment_Error_NoOptions::Escolli com a mínim una opció,
+Item_Equipment_Error_DuplicateData::Les dades de l'equip estan repetits.
+Item_Equipment_Error_RequiredFields::Revisi els camps obligatoris de l'equip.
+Common_Loading::Carregant dades
+Item_Auditory_Message_QuestionaryClosable::Ja es pot accedir a la pestanya Informes per tancar el qüestionaris

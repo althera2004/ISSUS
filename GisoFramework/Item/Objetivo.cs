@@ -985,6 +985,16 @@ namespace GisoFramework.Item
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.SetSuccess(objetivoId);
+
+                        var actions = IncidentAction.ByObjetivoId(objetivoId, companyId);
+                        if(actions != null)
+                        {
+                            foreach(var action in actions)
+                            {
+                                action.CompanyId = companyId;
+                                action.Delete(applicationUserId);
+                            }
+                        }
                     }
                 }
                 catch (SqlException ex)
@@ -1024,11 +1034,7 @@ namespace GisoFramework.Item
 
         private ActionResult Insert(int applicationUserId)
         {
-            string source = string.Format(
-                CultureInfo.InvariantCulture,
-                @"Objetivo::Objetivo_Insert({0}, {1})",
-                this.Id,
-                applicationUserId);
+            string source = string.Format(CultureInfo.InvariantCulture, @"Objetivo::Objetivo_Insert({0}, {1})", this.Id, applicationUserId);
             var res = ActionResult.NoAction;
             /* ALTER PROCEDURE [dbo].[Objetivo_Insert]
              *   @ObjetivoId int output,

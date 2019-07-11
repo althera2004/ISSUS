@@ -1,1 +1,0 @@
-10:36:07::Could not find stored procedure 'Auditory_ReopenCustionarios'.::Auditory::ReopenCustionarios Id:31 User:50 Company:12::

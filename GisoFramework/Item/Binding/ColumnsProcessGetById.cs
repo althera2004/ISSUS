@@ -49,5 +49,14 @@ namespace GisoFramework.Item.Binding
         /// <summary>Index of column ModifiedByUserName</summary>
         public const int Deletable = 12;
 
+        /// <summary>Index of column DisabledBy</summary>
+        public const int DisabledBy = 13;
+
+        /// <summary>Index of column DisabledBy</summary>
+        public const int DisabledByUserName = 14;
+
+        /// <summary>Index of column DisabledOn</summary>
+        public const int DisabledOn = 15;
+
     }
 }

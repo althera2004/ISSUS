@@ -4,14 +4,13 @@
 // </copyright>
 // <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
+using SbrinnaCoreFramework;
+using SbrinnaCoreFramework.UI;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Web.UI;
 using GisoFramework;
 using GisoFramework.Item;
-using SbrinnaCoreFramework;
-using SbrinnaCoreFramework.UI;
 
 public partial class ObjetivoList : Page
 {
@@ -91,7 +90,7 @@ public partial class ObjetivoList : Page
         this.master.AddBreadCrumb("Item_Objetivos");
         this.master.Titulo = "Item_Objetivos";
 
-        if (this.user.HasGrantToWrite(ApplicationGrant.Department))
+        if (this.user.HasGrantToWrite(ApplicationGrant.Objetivo))
         {
             this.master.ButtonNewItem = UIButton.NewItemButton("Item_Objetivo_Button_New", "ObjetivoView.aspx");
         }

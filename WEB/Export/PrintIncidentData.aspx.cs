@@ -73,7 +73,7 @@ public partial class ExportPrintIncidentData : Page
             reporterType = dictionary["Item_Incident_Origin1"];
             reporter = Department.ById(incident.Department.Id, incident.CompanyId).Description;
         }
-        else if(incident.Provider.Id > 0)
+        else if (incident.Provider.Id > 0)
         {
             reporterType = dictionary["Item_Incident_Origin2"];
             reporter = Provider.ById(incident.Provider.Id, incident.CompanyId).Description;
@@ -272,48 +272,50 @@ public partial class ExportPrintIncidentData : Page
             }
         }
 
-            // Costes
-            var costs = IncidentCost.AllCosts(incidentId, companyId);
-            if (costs.Count > 0)
+        // Costes
+        var costs = IncidentCost.AllCosts(incidentId, companyId);
+        if (costs.Count > 0)
+        {
+            var times = new Font(arial, 8, Font.NORMAL, BaseColor.BLACK);
+            var fontSummary = new Font(arial, 9, Font.BOLD, BaseColor.BLACK);
+            var headerFontFinal = new Font(headerFont, 9, Font.NORMAL, BaseColor.BLACK);
+            var tableCosts = new PdfPTable(5)
             {
-                var times = new Font(arial, 8, Font.NORMAL, BaseColor.BLACK);
-                var fontSummary = new Font(arial, 9, Font.BOLD, BaseColor.BLACK);
-                var headerFontFinal = new Font(headerFont, 9, Font.NORMAL, BaseColor.BLACK);
-                var tableCosts = new PdfPTable(5)
-                {
-                    WidthPercentage = 100,
-                    HorizontalAlignment = 1,
-                    SpacingBefore = 20f,
-                    SpacingAfter = 30f
-                };
+                WidthPercentage = 100,
+                HorizontalAlignment = 1,
+                SpacingBefore = 20f,
+                SpacingAfter = 30f
+            };
 
-                tableCosts.SetWidths(new float[] { 35f, 10f, 10f, 10f, 20f });
+            tableCosts.SetWidths(new float[] { 35f, 10f, 10f, 10f, 20f });
 
-                tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Description"]));
-                tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Amount"]));
-                tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Quantity"]));
-                tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Total"]));
-                tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_ReportedBy"]));
+            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Description"]));
+            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Amount"]));
+            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Quantity"]));
+            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_Total"]));
+            tableCosts.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentCost_Header_ReportedBy"]));
 
-                decimal total = 0;
-                decimal totalIncidencia = 0;
-                decimal totalAccion = 0;
-                int cont = 0;
-                int contIncidencia = 0;
-                int contAccion = 0;
-                foreach (var cost in costs.Where(c => c.Source == "I"))
-                {
-                    tableCosts.AddCell(ToolsPdf.DataCell(cost.Description, times));
-                    tableCosts.AddCell(ToolsPdf.DataCellMoney(cost.Amount, times));
-                    tableCosts.AddCell(ToolsPdf.DataCellMoney(cost.Quantity, times));
-                    tableCosts.AddCell(ToolsPdf.DataCellMoney(cost.Quantity * cost.Amount, times));
-                    tableCosts.AddCell(ToolsPdf.DataCellCenter(cost.Responsible.FullName, times));
-                    total += cost.Amount * cost.Quantity;
-                    totalIncidencia += cost.Amount * cost.Quantity;
-                    cont++;
-                    contIncidencia++;
-                }
+            decimal total = 0;
+            decimal totalIncidencia = 0;
+            decimal totalAccion = 0;
+            int cont = 0;
+            int contIncidencia = 0;
+            int contAccion = 0;
+            foreach (var cost in costs.Where(c => c.Source == "I"))
+            {
+                tableCosts.AddCell(ToolsPdf.DataCell(cost.Description, times));
+                tableCosts.AddCell(ToolsPdf.DataCellMoney(cost.Amount, times));
+                tableCosts.AddCell(ToolsPdf.DataCellMoney(cost.Quantity, times));
+                tableCosts.AddCell(ToolsPdf.DataCellMoney(cost.Quantity * cost.Amount, times));
+                tableCosts.AddCell(ToolsPdf.DataCellCenter(cost.Responsible.FullName, times));
+                total += cost.Amount * cost.Quantity;
+                totalIncidencia += cost.Amount * cost.Quantity;
+                cont++;
+                contIncidencia++;
+            }
 
+            if (user.HasGrantToRead(ApplicationGrant.IncidentActions))
+            {
                 tableCosts.AddCell(new PdfPCell(new Phrase(string.Format(
                    CultureInfo.InvariantCulture,
                    @"{0} {2}: {1}",
@@ -356,7 +358,10 @@ public partial class ExportPrintIncidentData : Page
                     PaddingTop = 4f,
                     Colspan = 1
                 });
+            }
 
+            if (user.HasGrantToRead(ApplicationGrant.IncidentActions))
+            {
                 // Acciones
                 foreach (var cost in costs.Where(c => c.Source == "A"))
                 {
@@ -413,54 +418,55 @@ public partial class ExportPrintIncidentData : Page
                     PaddingTop = 4f,
                     Colspan = 1
                 });
-
-                // resumen
-                tableCosts.AddCell(new PdfPCell(new Phrase(string.Format(
-                    CultureInfo.InvariantCulture,
-                    @"{0}: {1}",
-                    dictionary["Common_RegisterCount"],
-                    cont), fontSummary))
-                {
-                    Border = Rectangle.TOP_BORDER,
-                    BackgroundColor = ToolsPdf.SummaryBackgroundColor,
-                    Padding = 6f,
-                    PaddingTop = 4f,
-                    Colspan = 2
-                });
-
-                tableCosts.AddCell(new PdfPCell(new Phrase(dictionary["Common_Total"], fontSummary))
-                {
-                    Border = Rectangle.TOP_BORDER,
-                    BackgroundColor = ToolsPdf.SummaryBackgroundColor,
-                    Padding = 6f,
-                    PaddingTop = 4f,
-                    Colspan = 1,
-                    HorizontalAlignment = Rectangle.ALIGN_RIGHT
-                });
-
-                tableCosts.AddCell(new PdfPCell(new Phrase(Tools.PdfMoneyFormat(total), fontSummary))
-                {
-                    Border = Rectangle.TOP_BORDER,
-                    BackgroundColor = ToolsPdf.SummaryBackgroundColor,
-                    Padding = 6f,
-                    PaddingTop = 4f,
-                    Colspan = 1,
-                    HorizontalAlignment = Rectangle.ALIGN_RIGHT,
-                });
-
-                tableCosts.AddCell(new PdfPCell(new Phrase(string.Format(string.Empty, fontSummary)))
-                {
-                    Border = Rectangle.TOP_BORDER,
-                    BackgroundColor = ToolsPdf.SummaryBackgroundColor,
-                    Padding = 6f,
-                    PaddingTop = 4f,
-                    Colspan = 1
-                });
-
-                document.SetPageSize(PageSize.A4.Rotate());
-                document.NewPage();
-                document.Add(tableCosts);
             }
+
+            // resumen
+            tableCosts.AddCell(new PdfPCell(new Phrase(string.Format(
+                CultureInfo.InvariantCulture,
+                @"{0}: {1}",
+                dictionary["Common_RegisterCount"],
+                cont), fontSummary))
+            {
+                Border = Rectangle.TOP_BORDER,
+                BackgroundColor = ToolsPdf.SummaryBackgroundColor,
+                Padding = 6f,
+                PaddingTop = 4f,
+                Colspan = 2
+            });
+
+            tableCosts.AddCell(new PdfPCell(new Phrase(dictionary["Common_Total"], fontSummary))
+            {
+                Border = Rectangle.TOP_BORDER,
+                BackgroundColor = ToolsPdf.SummaryBackgroundColor,
+                Padding = 6f,
+                PaddingTop = 4f,
+                Colspan = 1,
+                HorizontalAlignment = Rectangle.ALIGN_RIGHT
+            });
+
+            tableCosts.AddCell(new PdfPCell(new Phrase(Tools.PdfMoneyFormat(total), fontSummary))
+            {
+                Border = Rectangle.TOP_BORDER,
+                BackgroundColor = ToolsPdf.SummaryBackgroundColor,
+                Padding = 6f,
+                PaddingTop = 4f,
+                Colspan = 1,
+                HorizontalAlignment = Rectangle.ALIGN_RIGHT,
+            });
+
+            tableCosts.AddCell(new PdfPCell(new Phrase(string.Format(string.Empty, fontSummary)))
+            {
+                Border = Rectangle.TOP_BORDER,
+                BackgroundColor = ToolsPdf.SummaryBackgroundColor,
+                Padding = 6f,
+                PaddingTop = 4f,
+                Colspan = 1
+            });
+
+            document.SetPageSize(PageSize.A4.Rotate());
+            document.NewPage();
+            document.Add(tableCosts);
+        }
 
         document.Close();
         Response.ClearContent();
