@@ -1997,3 +1997,4 @@ Item_Equipment_Error_DuplicateData::Les dades de l'equip estan repetits.
 Item_Equipment_Error_RequiredFields::Revisi els camps obligatoris de l'equip.
 Common_Loading::Carregant dades
 Item_Auditory_Message_QuestionaryClosable::Ja es pot accedir a la pestanya Informes per tancar el qüestionaris
+Item_Questionay_Observations::Observacions

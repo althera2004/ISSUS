@@ -1952,3 +1952,4 @@ Item_Equipment_Error_NoOptions::elija al menos una opción.
 Item_Equipment_Error_DuplicateData::Los datos del equipo están repetidos.
 Item_Equipment_Error_RequiredFields::Revise los campos obligatorios del equipo.
 Common_Loading::Cargando datos
+Item_Questionay_Observations::Observaciones

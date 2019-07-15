@@ -266,6 +266,13 @@ public class AuditoryActions : WebService
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
+    public ActionResult QuestionaryObservationsChange(AuditoryCuestionarioObservations observations, int applicationUserId)
+    {
+        return observations.Save(applicationUserId);
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
     public ActionResult FoundSave(AuditoryCuestionarioFound found, int applicationUserId)
     {
         if(found.Id > 0)

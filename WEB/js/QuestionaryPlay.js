@@ -24,7 +24,52 @@ window.onload = function () {
         $(".btn-info").remove();
         $(".btn-danger").remove();
     }
+
+    $("#TxtObservations").val(Observations.Text.split("\\n").join('\n'));
+    $("#TxtObservations").on("blur", ObservationsChanged);
 };
+
+function ObservationsChanged() {
+    if (Editable === false) {
+        return false;
+    }
+
+    Observations.AuditoryId = AuditoryId;
+    Observations.Text = $("#TxtObservations").val();
+    Observations.CompanyId = Company.Id;
+    Observations.CuestionarioId = QuestionaryId;
+    Observations.CreatedOn = new Date();
+    Observations.ModifiedOn = new Date();
+
+
+    var data = {
+        "observations": Observations,
+        "applicationUserId": ApplicationUser.Id
+    };
+
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/AuditoryActions.asmx/QuestionaryObservationsChange",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
+            LoadingHide();
+            if (response.d.Success === true) {
+                console.log("ObservationsChanged", response.d.MessageError);
+                Observations.Id = response.d.MessageError * 1;
+            }
+            if (response.d.Success !== true) {
+                alertUI(response.d.MessageError);
+            }
+        },
+        "error": function (jqXHR) {
+            LoadingHide();
+            alertUI(jqXHR.responseText);
+        }
+    });
+}
 
 function Toggle(sender) {
     if (Editable === false) {
@@ -62,7 +107,7 @@ function Toggle(sender) {
                 alertUI(response.d.MessageError);
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
