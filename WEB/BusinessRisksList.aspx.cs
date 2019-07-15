@@ -4,6 +4,8 @@
 // </copyright>
 // <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
+using GisoFramework;
+using GisoFramework.Item;
 using SbrinnaCoreFramework;
 using SbrinnaCoreFramework.UI;
 using System;
@@ -11,8 +13,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using System.Web.UI;
-using GisoFramework;
-using GisoFramework.Item;
 
 public partial class BusinessRisksList : Page
 {
@@ -97,7 +97,7 @@ public partial class BusinessRisksList : Page
             return res.ToString();
         }
     }
-    
+
     /// <summary>Json containing the items in the Oportunity</summary>
     public string OportunityList
     {
@@ -148,7 +148,7 @@ public partial class BusinessRisksList : Page
             this.FilterBusinessRisk = Session["BusinessRiskFilter"].ToString();
         }
 
-        if (Session["OportunityFilter"] == null)
+        if (this.Session["OportunityFilter"] == null)
         {
             this.FilterOportunity = Constant.JavaScriptNull;
         }
@@ -170,7 +170,7 @@ public partial class BusinessRisksList : Page
             this.master.ButtonNewItem = UIButton.NewItemButton("Item_BusinessRisk_Button_New", "BusinessRiskView.aspx");
         }
 
-        if (Session["BusinessRiskFilter"] == null)
+        if (this.Session["BusinessRiskFilter"] == null)
         {
             this.DataHeader = new UIDataHeader { Id = "ListDataHeader", ActionsItem = 2 };
             this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th1", HeaderId = "ListDataHeader", DataId = "ListDataTable", Text = this.Dictionary["Item_BusinesRisk_ListHeader_Date"], Sortable = true });
@@ -190,7 +190,7 @@ public partial class BusinessRisksList : Page
             this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th5", HeaderId = "ListDataHeaderOportunity", DataId = "ListDataTable", Text = this.Dictionary["Item_BusinesRisk_ListHeader_StartValue"], HiddenMobile = true });
             this.DataHeader.AddItem(new UIDataHeaderItem { Id = "th6", HeaderId = "ListDataHeaderOportunity", DataId = "ListDataTable", Text = this.Dictionary["Item_BusinesRisk_ListHeader_Result"], HiddenMobile = true });
         }
-       
+
         if (this.Request.QueryString["id"] != null)
         {
             this.businessRiskId = Convert.ToInt64(this.Request.QueryString["id"]);
@@ -221,7 +221,7 @@ public partial class BusinessRisksList : Page
     {
         var processos = Process.ByCompany(this.Company.Id);
         var resp = new StringBuilder(@"<option value=""0"">").Append(this.Dictionary["Common_All_Female_Plural"]).Append("</option>");
-        foreach(var process in processos)
+        foreach (var process in processos)
         {
             resp.AppendFormat(
                 CultureInfo.InvariantCulture,

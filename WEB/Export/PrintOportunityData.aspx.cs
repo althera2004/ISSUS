@@ -80,7 +80,7 @@ public partial class ExportPrintOportunityData : Page
             CreatedBy = string.Format(CultureInfo.InvariantCulture, "{0}", user.UserName),
             CompanyId = oportunity.CompanyId,
             CompanyName = company.Name,
-            Title = dictionary["Item_BusinessRisk"]
+            Title = dictionary["Item_Oportunity"]
         };
 
         writer.PageEvent = pageEventHandler;
@@ -99,8 +99,8 @@ public partial class ExportPrintOportunityData : Page
         {
             Colspan = 4,
             Border = Rectangle.NO_BORDER,
-            PaddingTop = 20f,
-            PaddingBottom = 20f,
+            PaddingTop = 10f,
+            PaddingBottom = 10f,
             HorizontalAlignment = Element.ALIGN_CENTER
         });
 
@@ -148,10 +148,16 @@ public partial class ExportPrintOportunityData : Page
         table.AddCell(TextAreaCell(Environment.NewLine + oportunity.Causes, ToolsPdf.BorderAll, alignLeft, 4));
 
         table.AddCell(SeparationRow());
+        table.AddCell(TitleCell(dictionary["Item_Oportunity_LabelField_Control"]));
+        table.AddCell(TextAreaCell(Environment.NewLine + oportunity.Control, ToolsPdf.BorderAll, alignLeft, 4));
+		
+		table.AddCell(SeparationRow());
         table.AddCell(TitleCell(dictionary["Item_Oportunity_LabelField_Notes"]));
         table.AddCell(TextAreaCell(Environment.NewLine + oportunity.Notes, ToolsPdf.BorderAll, alignLeft, 4));
 
-        table.AddCell(TitleCell(dictionary["Item_Oportunity_Tab_Graphics"], 4));
+        table.AddCell(SeparationRow());
+        		
+		table.AddCell(TitleCell(dictionary["Item_Oportunity_Tab_Graphics"], 4));
 
         table.AddCell(TitleLabel(dictionary["Item_Oportunity_LabelField_IPR"]));
         table.AddCell(TitleData(oportunity.Rule.Limit.ToString()));

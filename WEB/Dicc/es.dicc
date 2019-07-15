@@ -84,7 +84,7 @@ Common_DateRangeTo::Hasta
 Common_Day::Día
 Common_Days::Días
 Common_Delete::Eliminar
-Common_DeleteMessage::¿Seguro que quiere eliminar
+Common_DeleteMessage::¿Seguro que quiere eliminar?
 Common_DeleteMessage_NoUndo::ATENCIÓN: Esta acción no se podrá deshacer!
 Common_Edit::Editar
 Common_Error::Error
@@ -1071,7 +1071,7 @@ Item_Incident_Origin0::Todos
 Item_Incident_Origin1::Interno
 Item_Incident_Origin2::Proveedor
 Item_Incident_Origin3::Cliente
-Item_Incident_PDF_ActionPageTitle::Datos de la acción
+Item_Incident_PDF_ActionPageTitle::Datos de la acción vinculada
 Item_Incident_Plural::Incidencias
 Item_Incident_Popup_Delete_Title::Eliminar la incidencia
 Item_Incident_PopupAnular_Title::Cerrar la incidencia
