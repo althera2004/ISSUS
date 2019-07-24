@@ -219,9 +219,9 @@ public class EquipmentActions : WebService
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public string SetFilterCosts(string filter)
+    public string SetFilterCosts(string from, string to, string filter, int companyId)
     {
         Session["EquipmentFilterCosts"] = filter.ToUpperInvariant();
-        return "OK";
+        return EquipmentCost.JsonList(EquipmentCost.Filter(from, to, filter, companyId));
     }
 }

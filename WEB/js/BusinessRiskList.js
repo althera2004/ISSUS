@@ -374,8 +374,8 @@ function OportunityRenderTable(list) {
     // Se vacía el JSON del gráfico
     OportunityGraph = [];
 
-    for (var x = 0; x < list.length; x++) {
-        var item = list[x];
+    for (var or = 0; or < list.length; or++) {
+        var item = list[or];
         var realResult = item.Result;
         RenderOportunityRow(item);
 
@@ -1258,7 +1258,9 @@ function SetLayout(type) {
     if (type === 1) {
         FilterOportunity = null;
         $("#widthTest").show();
+        $("#widthTestButton").show();
         $("#widthTestOportunity").hide();
+        $("#widthTestOportunityButton").hide();
         $("#tabbasic").show();
         $("#tabgraficos").show();
         $("#taboportunity").hide();
@@ -1272,7 +1274,9 @@ function SetLayout(type) {
     if (type === 2) {
         FilterBusinessRisk = null;
         $("#widthTest").hide();
+        $("#widthTestButton").hide();
         $("#widthTestOportunity").show();
+        $("#widthTestOportunityButton").show();
         $("#tabbasic").hide();
         $("#tabgraficos").hide();
         $("#taboportunity").show();

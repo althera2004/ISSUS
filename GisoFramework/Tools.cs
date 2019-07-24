@@ -44,6 +44,25 @@ namespace GisoFramework
         /// <summary>Gets a date from text</summary>
         /// <param name="text">Text to convert</param>
         /// <returns>Date from text</returns>
+        public static DateTime? TextToDateYYYYMMDD(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return null;
+            }
+
+            var parts = text.Split('/');
+            if (parts.Length == 3)
+            {
+                return DateTime.ParseExact(text, "yyyyMMdd", CultureInfo.InvariantCulture);
+            }
+
+            return null;
+        }
+
+        /// <summary>Gets a date from text</summary>
+        /// <param name="text">Text to convert</param>
+        /// <returns>Date from text</returns>
         public static DateTime? TextToDate(string text)
         {
             if (string.IsNullOrEmpty(text))

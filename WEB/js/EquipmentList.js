@@ -101,8 +101,11 @@ window.onload = function () {
         $("#RBStatus2").attr("disabled", "disabled");
     }
 
-    $("#TabEquipmentList").on("click", function () { $("#BtnNewItem").css("visibility", "visible"); });
-    $("#TabCostList").on("click", function () { $("#BtnNewItem").css("visibility", "hidden"); });
+    $("#BtnExportList").after("<button class=\"btn btn-info\" style=\"display:none;\" type=\"button\" id=\"BtnExportCosts\" onclick=\"ExportCosts('PDF');\"><i class=\"icon-print bigger-110\"></i>Imprimir</button>");
+
+    $("#TabEquipmentList").on("click", function () {
+        $("#BtnNewItem").css("visibility", "visible"); $("#BtnExportList").show(); $("#BtnExportCosts").hide(); });
+    $("#TabCostList").on("click", function () { $("#BtnNewItem").css("visibility", "hidden"); $("#BtnExportList").hide(); $("#BtnExportCosts").show();  });
 };
 
 window.onresize = function () { Resize(); };
@@ -362,8 +365,8 @@ function SetFilter() {
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function () {
-            console.log("SetFilter", "OK");
+        "success": function (msg) {
+            console.log("SetFilter", msg);
         },
         "error": function (msg) {
             console.log("SetFilter", msg.responseText);
@@ -373,21 +376,35 @@ function SetFilter() {
 
 function SetFilterCosts() {
     var Filter = "";
-    if (document.getElementById("RBCE").checked === true) { Filter += "CE"; }
-    if (document.getElementById("RBVE").checked === true) { Filter += "VE"; }
-    if (document.getElementById("RBME").checked === true) { Filter += "ME"; }
-    if (document.getElementById("RBRE").checked === true) { Filter += "RE"; }
-    if (document.getElementById("RBCI").checked === true) { Filter += "VI"; }
-    if (document.getElementById("RBVI").checked === true) { Filter += "VI"; }
-    if (document.getElementById("RBMI").checked === true) { Filter += "MI"; }
-    if (document.getElementById("RBRI").checked === true) { Filter += "RI"; }
+    if (document.getElementById("RBCE").checked === true) { Filter += "|CE"; }
+    if (document.getElementById("RBVE").checked === true) { Filter += "|VE"; }
+    if (document.getElementById("RBME").checked === true) { Filter += "|ME"; }
+    if (document.getElementById("RBRE").checked === true) { Filter += "|RE"; }
+    if (document.getElementById("RBCI").checked === true) { Filter += "|CI"; }
+    if (document.getElementById("RBVI").checked === true) { Filter += "|VI"; }
+    if (document.getElementById("RBMI").checked === true) { Filter += "|MI"; }
+    if (document.getElementById("RBRI").checked === true) { Filter += "|RI"; }
     Filter += "|";
-    if (document.getElementById("RBCostStatus1").checked === true) { Filter += "1"; }
-    if (document.getElementById("RBCostStatus2").checked === true) { Filter += "2"; }
-    Filter += "|" + $("#TxtDateFrom").val();
-    Filter += "|" + $("#TxtDateTo").val();
+    if (document.getElementById("RBCostStatus1").checked === true) { Filter += "|AC"; }
+    if (document.getElementById("RBCostStatus2").checked === true) { Filter += "|IN"; }
 
-    var data = { "filter": Filter };
+    var from = GetDate($("#TxtDateFrom").val(), "/", true);
+    var to = GetDate($("#TxtDateTo").val(), "/", true);
+
+    if (from.getFullYear() === 1970) { from = ""; } else {
+        from = GetDateYYYYMMDDToText(from, false);
+    }
+    if (to.getFullYear() === 1970) { to = ""; } else {
+        to = GetDateYYYYMMDDToText(to, false);
+    }
+
+
+    var data = {
+        "from": from,
+        "to": to,
+        "filter": Filter,
+        "companyId": Company.Id
+    };
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
         "type": "POST",
@@ -395,8 +412,9 @@ function SetFilterCosts() {
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function () {
-            console.log("SetFilterCosts", "OK");
+        "success": function (msg) {
+            console.log("SetFilterCosts", msg);
+            RenderTableCosts(eval(msg.d));
         },
         "error": function (msg) {
             console.log("SetFilter", msg.responseText);
@@ -404,8 +422,7 @@ function SetFilterCosts() {
     });
 }
 
-function RenderTableCosts() {
-    SetFilterCosts();
+function RenderTableCosts(data) {
     console.log("RenderTableCosts");
     $("#ListDataTableCosts").html("");
     var temp = [];
@@ -417,6 +434,15 @@ function RenderTableCosts() {
     var ME = document.getElementById("RBME").checked === true;
     var RI = document.getElementById("RBRI").checked === true;
     var RE = document.getElementById("RBRE").checked === true;
+    /*var from = GetDate($("#TxtDateFrom").val(), "/", true);
+    var to = GetDate($("#TxtDateTo").val(), "/", true);
+
+    if (from.getFullYear() === 1970) { from = null; } else {
+        from = GetDateYYYYMMDDToText(from, false);
+    }
+    if (to.getFullYear() === 1970) { to = null; } else {
+        to = GetDateYYYYMMDDToText(to, false);
+    }*/
 
     // Redraw Header
     if (CI === true) { $("#HCI").show(); $("#TCI").show(); } else { $("#HCI").hide(); $("#TCI").hide(); }
@@ -429,7 +455,10 @@ function RenderTableCosts() {
     if (RE === true) { $("#HRE").show(); $("#TRE").show(); } else { $("#HRE").hide(); $("#TRE").hide(); }
 
 
-    for (var x = 0; x < Costs.length; x++) {
+    /*for (var x = 0; x < Costs.length; x++) {
+        if (from !== null && Costs[x].D < from) { continue; }
+        if (to !== null && Costs[x].D > to) { continue; }
+        if (Costs[x] === 0) { continue; }
         if (CI === true) { if (Costs[x].T === "C" && Costs[x].ST === "I") { temp.push(Costs[x]); continue; } }
         if (CE === true) { if (Costs[x].T === "C" && Costs[x].ST === "E") { temp.push(Costs[x]); continue; } }
         if (VI === true) { if (Costs[x].T === "V" && Costs[x].ST === "I") { temp.push(Costs[x]); continue; } }
@@ -441,7 +470,7 @@ function RenderTableCosts() {
     }
 
     var result = [];
-    for (var y = 0; y < temp.length; y++) {
+    for (var y = 0; y < data.length; y++) {
         var equipmentId = temp[y].E;
         var foundIndex = 0;
         var exists = false;
@@ -487,7 +516,7 @@ function RenderTableCosts() {
         if (temp[y].T === "M" && temp[y].ST === "E") { result[foundIndex]["ME"] += temp[y].A; }
         if (temp[y].T === "R" && temp[y].ST === "I") { result[foundIndex]["RI"] += temp[y].A; }
         if (temp[y].T === "R" && temp[y].ST === "E") { result[foundIndex]["RE"] += temp[y].A; }
-    }
+    }*/
 
     var totalCI = 0;
     var totalCE = 0;
@@ -499,10 +528,10 @@ function RenderTableCosts() {
     var totalRE = 0;
     var totalT = 0;
 
-    $("#TotalListCosts").html(temp.length);
     var total = 0;
-    if (temp.length > 0) {
-        for (var s = 0; s < result.length; s++) {
+    var result = data;
+    //if (temp.length > 0) {
+    for (var s = 0; s < result.length; s++) {
             totalCI += result[s].CI;
             totalCE += result[s].CE;
             totalVI += result[s].VI;
@@ -511,10 +540,12 @@ function RenderTableCosts() {
             totalME += result[s].ME;
             totalRI += result[s].RI;
             totalRE += result[s].RE;
-            totalT += totalCI + totalCE + totalVE + totalVI + totalME + totalMI + totalRE + totalRI;
-            RenderRowCosts(result[s]);
+            totalT += RenderRowCosts(result[s]);
+            total++;
         }
-    }
+    //}
+
+    $("#TotalListCosts").html(total);
 
     $("#TotalAmount").html(ToMoneyFormat(total, 2));
     $("#TCI").html(ToMoneyFormat(totalCI, 2));
@@ -562,7 +593,7 @@ function RenderRowCosts(data) {
         tr.style.fontStyle = "italic";
     }
 
-    tdDescripcion.appendChild(document.createTextNode(data.Equipment.Value));
+    tdDescripcion.appendChild(document.createTextNode(data.D));
     //tdCoste.appendChild(document.createTextNode(ToMoneyFormat(rowCost, 2)));
 
     var totalFila = 0;
@@ -603,7 +634,7 @@ function RenderRowCosts(data) {
     if (MI === true) {
         var tdMI = document.createElement("TD");
         tdMI.style.textAlign = "right";
-        ttdMId.appendChild(document.createTextNode(ToMoneyFormat(data.MI, 2)));
+        tdMI.appendChild(document.createTextNode(ToMoneyFormat(data.MI, 2)));
         totalFila += data.MI;
         tr.appendChild(tdMI);
     }
@@ -639,4 +670,76 @@ function RenderRowCosts(data) {
     tr.appendChild(td);
 
     document.getElementById("ListDataTableCosts").appendChild(tr);
+    return totalFila;
+}
+
+function ExportCosts() {
+    console.log("ExportCosts");
+    var filter = "";
+    var CI = document.getElementById("RBCI").checked === true;
+    var CE = document.getElementById("RBCE").checked === true;
+    var VI = document.getElementById("RBVI").checked === true;
+    var VE = document.getElementById("RBVE").checked === true;
+    var MI = document.getElementById("RBMI").checked === true;
+    var ME = document.getElementById("RBME").checked === true;
+    var RI = document.getElementById("RBRI").checked === true;
+    var RE = document.getElementById("RBRE").checked === true;
+    var AC = document.getElementById("RBCostStatus1").checked === true;
+    var IN = document.getElementById("RBCostStatus2").checked === true;
+
+    // Redraw Header
+    if (CI === true) { filter += "|CI"; }
+    if (CE === true) { filter += "|CE"; }
+    if (VI === true) { filter += "|VI"; }
+    if (VE === true) { filter += "|VE"; }
+    if (MI === true) { filter += "|MI"; }
+    if (ME === true) { filter += "|ME"; }
+    if (RI === true) { filter += "|RI"; }
+    if (RE === true) { filter += "|RE"; }
+    if (AC === true) { filter += "|AC"; }
+    if (IN === true) { filter += "|IN"; }
+
+
+    var from = GetDate($("#TxtDateFrom").val(), "/", true);
+    var to = GetDate($("#TxtDateTo").val(), "/", true);
+
+    if (from.getFullYear() === 1970) { from = ""; } else {
+        from = GetDateYYYYMMDDToText(from, false);
+    }
+    if (to.getFullYear() === 1970) { to = ""; } else {
+        to = GetDateYYYYMMDDToText(to, false);
+    }
+
+    var data = {
+        "from": from,
+        "to": to,
+        "companyId": Company.Id,
+        "filter": filter
+    };
+    LoadingShow(Dictionary.Common_Report_Rendering);
+    $.ajax({
+        "type": "POST",
+        "url": "/Export/EquipmentExportCosts.aspx/Pdf",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            LoadingHide();
+            //successInfoUI(msg.d.MessageError, Go, 200);
+            var link = document.createElement("a");
+            link.id = "download";
+            link.href = msg.d.MessageError;
+            link.download = msg.d.MessageError;
+            link.target = "_blank";
+            document.body.appendChild(link);
+            $("#download").trigger("click");
+            document.body.removeChild(link);
+            window.open(msg.d.MessageError);
+            $("#dialogAddAddress").dialog("close");
+        },
+        "error": function (msg) {
+            LoadingHide();
+            alertUI("error:" + msg.responseText);
+        }
+    });
 }

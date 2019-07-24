@@ -26,15 +26,15 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
-                            <div class="col-xs-12">
-                                <div class="col-sm-12">
-                                    <table cellpadding="2" cellspacing="2" style="width:100%;margin-bottom:16px;">
+
+                                <div class="col-sm-11">
+                                    <table>
                                         <tr>
                                             <td id="TxtDateFromLabel"><strong><%=this.Dictionary["Item_ObjetivoAction_List_Filter_Periode1"] %>:</strong></td>
 										    <td style="width:120px;">
                                                 <div class="col-xs-12 col-sm-12">
 												    <div class="input-group">
-													    <input class="form-control date-picker" style="width:100px;" id="TxtDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													    <input class="form-control date-picker" style="width:85px;" id="TxtDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
 													    <span class="input-group-addon" onclick="document.getElementById('TxtDateFrom').focus();" id="TxtDateFromBtn">
 														    <i class="icon-calendar bigger-110"></i>
 													    </span>
@@ -44,10 +44,11 @@
 											        <span class="ErrorMessage" id="TxtDateFromDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                 </div>
 										    </td>
+                                            <td>&nbsp;-&nbsp;</td>
 										    <td style="width:120px;">
                                                 <div class="col-xs-12 col-sm-12">
 												    <div class="input-group">
-													    <input class="form-control date-picker" style="width:100px;" id="TxtDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													    <input class="form-control date-picker" style="width:85px;" id="TxtDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
 													    <span class="input-group-addon" onclick="document.getElementById('TxtDateTo').focus();" id="TxtDateToBtn">
 														    <i class="icon-calendar bigger-110"></i>
 													    </span>
@@ -61,17 +62,13 @@
                                             <td><strong><%=this.Dictionary["Item_IncidentAction_List_Filter_Status"] %>:</strong></td>
                                             <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="RBStatus" id="RBStatus1" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowActive"] %></td>
                                             <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="RBStatus" id="RBStatus2" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowClosed"] %></td>
-											<!--<td>&nbsp;&nbsp;&nbsp;<input type="radio" name="RBStatus" id="RBStatus0" /><%= this.Dictionary["Common_All"] %></td>-->
-
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td style="text-align:right;width:200px;">
-                                                <button class="btn btn-success btn-filter" type="button" id="BtnRecordShowAll" title="<%= this.Dictionary["Common_All_Male_Plural"] %>"><i class="icon-refresh"></i></button>
-                                            </td>
-                                            
+											<!--<td>&nbsp;&nbsp;&nbsp;<input type="radio" name="RBStatus" id="RBStatus0" /><%= this.Dictionary["Common_All"] %></td>-->                                            
                                         </tr>
                                     </table>
-
                                 </div> 
+                                <div class="col-xs-1">
+                                    <button class="btn btn-success btn-filter" type="button" id="BtnRecordShowAll" title="<%= this.Dictionary["Common_All_Male_Plural"] %>"><i class="icon-refresh"></i></button>
+                                </div>
                                 <div style="height:8px;clear:both;"></div>
                                 <div class="row">
                                     <div class="col-xs-12">
@@ -140,8 +137,7 @@
                                             </table>
                                         </div><!-- /.table-responsive -->
                                     </div><!-- /span -->
-                                </div><!-- /row -->			
-                            </div><!-- /.col -->
+                                </div><!-- /row -->	
                             <div id="ObjetivoDeleteDialog" class="hide" style="width:500px;">
                                 <p>&nbsp;<strong><span id="ObjetivoDeleteName"></span></strong>?</p>
                                 <div class="alert alert-danger"><%=this.Dictionary["Item_Incident_PopupDelete_Message_Actions"] %></div>

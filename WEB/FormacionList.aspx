@@ -31,14 +31,14 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
-                            <div class="col-xs-12">
-                                <table cellpadding="2" cellspacing="2" style="width:100%;">
+                            <div class="col-xs-11">
+                                <table>
                                     <tr>
                                         <td id="TxtDateFromLabel"><strong><%=this.Dictionary["Item_Learning_Filter_Periode1"] %>:</strong></td>
 										<td>
                                             <div class="col-xs-12 col-sm-12">
 												<div class="input-group">
-													<input class="form-control date-picker" style="width:100px;" id="TxtDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													<input class="form-control date-picker" style="width:85px;" id="TxtDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
 													<span class="input-group-addon" onclick="document.getElementById('TxtDateFrom').focus();" id="BtnDateFrom">
 														<i class="icon-calendar bigger-110"></i>
 													</span>
@@ -52,7 +52,7 @@
 										<td>
                                             <div class="col-xs-12 col-sm-12">
 												<div class="input-group">
-													<input class="form-control date-picker" style="width:100px;" id="TxtDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													<input class="form-control date-picker" style="width:85px;" id="TxtDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
 													<span class="input-group-addon" onclick="document.getElementById('TxtDateTo').focus();" id="BtnDateTo">
 														<i class="icon-calendar bigger-110"></i>
 													</span>
@@ -70,12 +70,11 @@
                                         <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="status2" onclick="Go();" /><%=this.Dictionary["Item_Learning_Status_Done"] %></td>
                                         <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="status3" onclick="Go();" /><%=this.Dictionary["Item_Learning_Status_Evaluated"] %></td>
                                         <!--<td>&nbsp;&nbsp;&nbsp;<input runat="server" type="checkbox" id="status4" name="status" value="-1" onclick="Go();" /><%=this.Dictionary["Common_All_Female_Plural"] %></td>-->
-                                        
-                                        <td style="text-align:right;">
-                                            <button class="btn btn-success btn-filter" type="button" id="BtnRestoreFilter" onclick="RestoreFilter();" title="<%= this.Dictionary["Common_All_Male_Plural"] %>"><i class="icon-refresh"></i></button>
-                                        </td>
                                     </tr>
                                 </table>
+                            </div>
+                            <div class="col-xs-1">
+                                <button class="btn btn-success btn-filter" type="button" id="BtnRestoreFilter" onclick="RestoreFilter();" title="<%= this.Dictionary["Common_All_Male_Plural"] %>"><i class="icon-refresh"></i></button>
                             </div>
 
                             <div style="height:12px;clear:both;"></div>

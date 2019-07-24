@@ -32,14 +32,14 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
-                            <div class="col-xs-12">
-                                <table cellpadding="2" cellspacing="2" style="width:100%;margin-bottom:16px;">
+                            <div class="col-xs-11">
+                                <table>
                                     <tr>
                                         <td id="TxtDateFromLabel"><strong><%=this.Dictionary["Item_IncidentAction_List_Filter_Periode1"] %>:</strong></td>
 										<td>
                                             <div class="col-xs-12 col-sm-12" style="margin:0;padding:0;">
 												<div class="input-group">
-													<input class="form-control date-picker" style="width:100px;" id="TxtDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													<input class="form-control date-picker" style="width:85px;" id="TxtDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
 													<span class="input-group-addon" onclick="document.getElementById('TxtDateFrom').focus();" id="TxtDateFromBtn">
 														<i class="icon-calendar bigger-110"></i>
 													</span>
@@ -49,10 +49,11 @@
 											    <span class="ErrorMessage" id="TxtDateFromDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                             </div>
 										</td>
+                                        <td>&nbsp;-&nbsp;</td>
                                         <td>
                                             <div class="col-xs-12 col-sm-12" style="margin:0;padding:0;">
 												<div class="input-group">
-													<input class="form-control date-picker" style="width:100px;" id="TxtDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													<input class="form-control date-picker" style="width:85px;" id="TxtDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
 													<span class="input-group-addon" onclick="document.getElementById('TxtDateTo').focus();" id="TxtDateToBtn">
 														<i class="icon-calendar bigger-110"></i>
 													</span>
@@ -70,7 +71,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-										<td colspan="3"></td>
+										<td colspan="4"></td>
                                         <td><strong><%=this.Dictionary["Item_Auditory_Filter_Status"] %>&nbsp;<i class="icon-question-sign" style="color:#77f;cursor:help;" onclick="ShowStatusHelp();">:</strong></td>
                                         <td>
                                             <input type="checkbox" id="ChkStatus0" onclick="ChkStatusChanged();" /><%=this.Dictionary["Item_Adutory_Status_Label_0"] %>&nbsp;
@@ -80,12 +81,13 @@
                                             <input type="checkbox" id="ChkStatus4" onclick="ChkStatusChanged();" /><%=this.Dictionary["Item_Adutory_Status_Label_4"] %>&nbsp;
                                             <input type="checkbox" id="ChkStatus5" onclick="ChkStatusChanged();" /><%=this.Dictionary["Item_Adutory_Status_Label_5"] %>
                                         </td>
-                                        <td>
-                                            <button class="btn btn-success" style="width:100px;display:none;" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%= this.Dictionary["Common_Filter"] %></button>
-                                            <button class="btn btn-success btn-filter" type="button" id="BtnRecordShowAll" title="<%= this.Dictionary["Common_All_Male_Plural"] %>"><i class="icon-refresh"></i></button>
-                                        </td>
                                     </tr>
                                 </table>
+                            </div>
+                            <div class="col-xs-1">
+                                <button class="btn btn-success" style="width:100px;display:none;" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%= this.Dictionary["Common_Filter"] %></button>
+                                <button class="btn btn-success btn-filter" type="button" id="BtnRecordShowAll" title="<%= this.Dictionary["Common_All_Male_Plural"] %>"><i class="icon-refresh"></i></button>
+                            </div>
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <div class="table-responsive" id="scrollTableDiv">
@@ -121,8 +123,7 @@
                                             </table>
                                         </div><!-- /.table-responsive -->
                                     </div><!-- /span -->
-                                </div><!-- /row -->								
-                            </div><!-- /.col -->                            
+                                </div><!-- /row -->	  
                             <div id="AuditoryDeleteDialog" class="hide" style="width:500px;">
                                 <p><%=this.Dictionary["Item_Auditory_PopupDelete_Message"] %>&nbsp;<strong><span id="AuditoryDeleteName"></span></strong>?</p>
                             </div>                          

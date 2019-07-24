@@ -27,16 +27,15 @@
         var TiposProceso = <%=this.TiposProceso %>;
     </script>
 </asp:Content>
-<asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
-                            <div class="col-xs-12">
-                                <div class="col-sm-12">
-                                    <table cellpadding="2" cellspacing="2">
+<asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">                            
+                                <div class="col-sm-11">
+                                    <table>
                                         <tr>
                                             <td id="TxtDateFromLabel"><strong><%=this.Dictionary["Item_Indicador_Filter_Periode1"] %>:</strong></td>
 										    <td>
                                                 <div class="col-xs-12 col-sm-12">
 												    <div class="input-group">
-													    <input class="form-control date-picker" style="width:100px;" id="TxtDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													    <input class="form-control date-picker" style="width:85px;" id="TxtDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
 													    <span class="input-group-addon" onclick="document.getElementById('TxtDateFrom').focus();" id="TxtDateFromBtn">
 														    <i class="icon-calendar bigger-110"></i>
 													    </span>
@@ -46,11 +45,11 @@
 											        <span class="ErrorMessage" id="TxtDateFromDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                 </div>
 										    </td>
-                                            <td id="TxtDateToLabel"><%=this.Dictionary["Item_Indicador_Filter_Periode2"] %></td>
+                                            <td>&nbsp;-&nbsp;</td>
 										    <td>
                                                 <div class="col-xs-12 col-sm-12">
 												    <div class="input-group">
-													    <input class="form-control date-picker" style="width:100px;" id="TxtDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													    <input class="form-control date-picker" style="width:85px;" id="TxtDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
 													    <span class="input-group-addon" onclick="document.getElementById('TxtDateTo').focus();" id="TxtDateToBtn">
 														    <i class="icon-calendar bigger-110"></i>
 													    </span>
@@ -60,9 +59,6 @@
 											        <span class="ErrorMessage" id="TxtDateToDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                 </div>
 										    </td>
-
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 
                                             <td><strong><%=this.Dictionary["Item_Indicaddor_Filter_TypeLabel"] %>:</strong></td>
                                             <td>
@@ -87,7 +83,6 @@
                                             <td>
                                                 <!--div class="col-xs-12 col-sm-12"-->                                      
                                                 <!--<button style="display:none;" class="btn btn-success" type="button" id="BtnSearch" title="<%= this.Dictionary["Common_Filter"] %><"><i class="icon-filter bigger-110"></i></button>-->
-                                                <button class="btn btn-filter" type="button" id="BtnRecordShowAll" title="<%= this.Dictionary["Common_All_Male_Plural"] %>"><i class="icon-list bigger-110"></i></button>
                                                 <!--<button class="btn btn-success" type="button" id="BtnRecordShowNone" title="<%= this.Dictionary["Common_None_Male"] %>"><i class="icon-remove-circle bigger-110"></i></button>-->
                                                 <!--/div-->
                                             </td>
@@ -178,7 +173,9 @@
 
 
                                 </div>
-                                
+                                <div class="col-xs-1">
+                                    <button class="btn btn-filter" type="button" id="BtnRecordShowAll" title="<%= this.Dictionary["Common_All_Male_Plural"] %>"><i class="icon-list bigger-110"></i></button>
+                                </div>
                                 <div style="height:8px;clear:both;"></div>
                                 <div class="row">
                                     <div class="col-xs-12">
@@ -237,13 +234,11 @@
                                             </table>
                                         </div><!-- /.table-responsive -->
                                     </div><!-- /span -->
-                                </div><!-- /row -->						
-                            </div><!-- /.col -->
+                                </div><!-- /row -->	
                             <br /><br />
                             <div id="IndicadorDeleteDialog" class="hide" style="width:500px;">
                                 <p><%=this.Dictionary["Item_Indicador_PopupDelete_Message"] %>&nbsp;<strong><span id="IndicadorDeleteName"></span></strong>? <br /><br /><strong><%=this.Dictionary["Common_DeleteMessage_NoUndo"] %></strong></p>
                             </div>
-
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">
         <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>

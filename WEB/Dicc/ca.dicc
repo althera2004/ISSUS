@@ -858,6 +858,7 @@ Item_EquipmentCalibrationAct_PopupUpdate_Title::Modificar el calibratge
 Item_EquipmentCalibrationDefinition::Definició de calibratges
 Item_EquipmentErrorInitialDate::La data d´inici no pot ser posterior a
 Item_EquipmentList::Llistat d'equips
+Item_EquipmentListCosts::Llistado de costos d'equips
 Item_EquipmentMaintenance::Manteniment
 Item_EquipmentMaintenance_Button_Register::Registrar
 Item_EquipmentMaintenance_ErrorMessage_AsociateRecords::No es pot eliminar un manteniment amb registres

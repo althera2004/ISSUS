@@ -157,6 +157,7 @@
     <Compile Include="Item\Employee.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Item\EquipmentCost.cs" />
     <Compile Include="Item\IncidentAction.cs" />
     <Compile Include="Item\Binding\ColumnsActionsGetByCompany.cs" />
     <Compile Include="Item\Binding\ColumnsApplicationGetMenu.cs" />
