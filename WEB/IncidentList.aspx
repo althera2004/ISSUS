@@ -35,9 +35,9 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
-                            <!--/div class="col-xs-12">
-                                <!-- PAGE CONTENT BEGINS -->
-                                <table cellpadding="0" cellspacing="0" style="width:100%;margin-bottom:16px;">
+                            <!-- PAGE CONTENT BEGINS -->
+                            <div class="col-xs-11">
+                                <table cellpadding="0" cellspacing="0" style="margin-bottom:16px;">
                                     <tr>
                                         <td id="TxtDateFromLabel"><strong><%=this.Dictionary["Item_Incident_List_Filter_Periode1"] %>:</strong></td>
 										<td>
@@ -53,6 +53,7 @@
 											    <span class="ErrorMessage" id="TxtDateFromDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                             </div>
 										</td>
+                                        <td>&nbsp;-&nbsp;</td>
                                         <td>
                                             <div class="col-xs-12 col-sm-12" style="margin:0;padding:0;">
 												<div class="input-group">
@@ -70,10 +71,10 @@
                                         <td style="white-space:nowrap;"><input type="checkbox" id="RIncidentStatus1" checked="checked" /><%=this.Dictionary["Item_Incident_Status1"] %>&nbsp;&nbsp;&nbsp;</td>
                                         <td style="white-space:nowrap;"><input type="checkbox" id="RIncidentStatus2" checked="checked" /><%=this.Dictionary["Item_Incident_Status2"] %>&nbsp;&nbsp;&nbsp;</td>
                                         <td style="white-space:nowrap;"><input type="checkbox" id="RIncidentStatus3" checked="checked" /><%=this.Dictionary["Item_Incident_Status3"] %>&nbsp;&nbsp;&nbsp;</td>
-                                        <td style="white-space:nowrap;" colspan="3"><input type="checkbox" id="RIncidentStatus4" /><%=this.Dictionary["Item_Incident_Status4"] %></td>
+                                        <td style="white-space:nowrap;" colspan="2"><input type="checkbox" id="RIncidentStatus4" /><%=this.Dictionary["Item_Incident_Status4"] %></td>
                                     </tr>
                                     <tr style="height:30px;">
-                                        <td colspan="3"></td>
+                                        <td colspan="4"></td>
                                         <td style="width:100px;padding-left:20px;">&nbsp;<strong><%=this.Dictionary["Item_IncidentAction_Header_Origin"] %>:</strong></td>
                                         <td style="white-space:nowrap;">&nbsp;<input type="radio" id="ROrigin0" name="ROrigin" onclick="ShowCombos(0);" checked="checked" /><%=this.Dictionary["Item_Incident_Origin0"] %></td>
                                         <td style="white-space:nowrap;"><input type="radio" id="ROrigin1" name="ROrigin" onclick="ShowCombos(1);" /><%=this.Dictionary["Item_Incident_Origin1"] %>&nbsp;&nbsp;&nbsp;</td>
@@ -84,15 +85,14 @@
                                             <select style="width:180px;display:none;" id="CmbOrigin2"></select>
                                             <select style="width:180px;display:none;" id="CmbOrigin3"></select>
                                         </td>
-                                        <td>
-                                            <div style="float:right">
-                                                &nbsp;
-                                                <button class="btn btn-success" style="height:24px;padding-top:0;" type="button" id="BtnRecordShowAll" title="<%=this.Dictionary["Common_All_Female_Plural"] %>"><i class="icon-list" style="margin-top:-2px;"></i></button>
-                                                <button class="btn btn-success" style="height:24px;padding-top:0;display:none;" type="button" id="BtnRecordShowNone" title="<%=this.Dictionary["Common_None_Female"] %>"><i class="icon-remove-circle" style="margin-top:-2px;"></i></button>
-                                            </div>
-                                        </td>
                                     </tr>
                                 </table>
+                            </div>
+                            <div class="col-xs-1">
+                                <button class="btn btn-success" style="height:24px;padding-top:0;" type="button" id="BtnRecordShowAll" title="<%=this.Dictionary["Common_All_Female_Plural"] %>"><i class="icon-list" style="margin-top:-2px;"></i></button>
+                                <button class="btn btn-success" style="height:24px;padding-top:0;display:none;" type="button" id="BtnRecordShowNone" title="<%=this.Dictionary["Common_None_Female"] %>"><i class="icon-remove-circle" style="margin-top:-2px;"></i></button>                                            
+                            </div>
+
                                 <div class="row" style="margin-top:10px;">
                                     <div class="col-xs-12">
                                         <div class="table-responsive" id="scrollTableDiv">
@@ -166,8 +166,7 @@
                                             </table>
                                         </div><!-- /.table-responsive -->
                                     </div><!-- /span -->
-                                </div><!-- /row -->						
-                            </!--div><!-- /.col -->
+                                </div><!-- /row -->	
                             <div id="IncidentDeleteDialog" class="hide" style="width:600px;">
                                 <p><%=this.Dictionary["Item_Incident_PopupDelete_Message"] %>&nbsp;<strong><span id="IncidentDeleteName"></span></strong>?</p>
                                 <div class="alert alert-danger"><%=this.Dictionary["Item_Incident_PopupDelete_Message_Actions"] %></div>

@@ -415,7 +415,7 @@ function AnularPopup() {
     $("#TxtEndDate").val(FormatDate(new Date(), "/"));
     $("#TxtAnularComments").html("");
     $("#CmbEndResponsible").val(user.Employee.Id);
-    var dialog = $("#dialogAnular").removeClass("hide").dialog({
+    $("#dialogAnular").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Item_Equipment_PopupAnular_Title,
@@ -439,9 +439,9 @@ function AnularPopup() {
 
 var anulationData = null;
 function AnularConfirmed() {
-    $("#TxtEndReasonLabel").css("color", "#000");
-    $("#TxtEndDateLabel").css("color", "#000");
-    $("#CmbEndResponsibleLabel").css("color", "#000");
+    $("#TxtEndReasonLabel").css("color", Color.Label);
+    $("#TxtEndDateLabel").css("color", Color.Label);
+    $("#CmbEndResponsibleLabel").css("color", Color.Label);
     $("#TxtEndReasonErrorRequired").hide();
     $("#TxtEndDateErrorRequired").hide();
     $("#TxtEndDateMalformed").hide();
@@ -450,13 +450,13 @@ function AnularConfirmed() {
     var ok = true;
     if ($("#TxtEndReason").val() === "") {
         ok = false;
-        document.getElementById("TxtEndReasonLabel").style.color = "#f00";
+        $("#TxtEndReasonLabel").css("color", Color.Error);
         $("#TxtEndReasonErrorRequired").show();
     }
 
     if ($("#TxtEndDate").val() === "") {
         ok = false;
-        document.getElementById("TxtEndDateLabel").style.color = "#f00";
+        $("#TxtEndDateLabel").css("color", Color.Error);
         $("#TxtEndDateRequired").show();
     }
     else {
@@ -469,7 +469,7 @@ function AnularConfirmed() {
 
     if ($("#CmbEndResponsible").val() * 1 < 1) {
         ok = false;
-        document.getElementById("CmbEndResponsibleLabel").style.color = "#f00";
+        $("#CmbEndResponsibleLabel").css("color", Color.Error);
         $("#CmbEndResponsibleErrorRequired").show();
     }
 
@@ -494,7 +494,7 @@ function AnularConfirmed() {
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function (msg) {
+        "success": function () {
             document.location = referrer;
         },
         "error": function (msg) {
@@ -563,7 +563,7 @@ function Restore() {
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function (msg) {
+        "success": function () {
             document.location = document.location + "";
         },
         "error": function (msg) {

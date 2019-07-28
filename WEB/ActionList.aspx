@@ -30,14 +30,14 @@
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
                             <div class="col-xs-12">
                                 <!-- PAGE CONTENT BEGINS -->
-                                <div class="col-sm-12">
-                                    <table cellpadding="2" cellspacing="2" style="width:100%;">
+                                <div class="col-sm-11">
+                                    <table>
                                         <tr>
                                             <td id="TxtDateFromLabel"><strong><%=this.Dictionary["Item_IncidentAction_List_Filter_Periode1"] %>:</strong></td>
 										    <td>
                                                 <div class="col-xs-12 col-sm-12">
 												    <div class="input-group">
-													    <input class="form-control date-picker" style="width:100px;" id="TxtDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													    <input class="form-control date-picker" style="width:85px;" id="TxtDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
 													    <span class="input-group-addon" onclick="document.getElementById('TxtDateFrom').focus();" id="TxtDateFromBtn">
 														    <i class="icon-calendar bigger-110"></i>
 													    </span>
@@ -47,11 +47,11 @@
 											        <span class="ErrorMessage" id="TxtDateFromDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                 </div>
 										    </td>
-                                            <td id="TxtDateToLabel"><%=this.Dictionary["Item_IncidentAction_List_Filter_Periode2"] %></td>
+                                            <td id="TxtDateToLabel">&nbsp;-&nbsp;</td>
 										    <td>
                                                 <div class="col-xs-12 col-sm-12">
 												    <div class="input-group">
-													    <input class="form-control date-picker" style="width:100px;" id="TxtDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													    <input class="form-control date-picker" style="width:85px;" id="TxtDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
 													    <span class="input-group-addon" onclick="document.getElementById('TxtDateTo').focus();" id="TxtDateToBtn">
 														    <i class="icon-calendar bigger-110"></i>
 													    </span>
@@ -99,7 +99,7 @@
                                                 <input type="checkbox" id="RType3" name="Rtype" checked="checked" /><%=this.Dictionary["Item_IncidentAction_Type3"]%>
                                             </td>
                                             <td><strong><%=this.Dictionary["Item_IncidentAction_List_Filter_Status"] %>:</strong></td>
-                                            <td colspan="2">
+                                            <td colspan="3">
                                                 <input type="checkbox" id="chkStatus1" checked="checked" />&nbsp;<%=this.Dictionary["Item_IndicentAction_Status1"] %>
                                                 &nbsp;&nbsp;&nbsp;
                                                 <input type="checkbox" id="chkStatus2" checked="checked" />&nbsp;<%=this.Dictionary["Item_IndicentAction_Status2"] %>
@@ -108,16 +108,12 @@
                                                 &nbsp;&nbsp;&nbsp;
                                                 <input type="checkbox" id="chkStatus4"/>&nbsp;<%=this.Dictionary["Item_IndicentAction_Status4"] %>
                                             </td>
-                                            <td style="text-align:right;">
-                                                <!--div class="col-xs-12 col-sm-12"-->                                      
-                                                    <!--<button class="btn btn-success" style="width:100px;display:none;" type="button" id="BtnSearch"><i class="icon-filter bigger-110"></i><%= this.Dictionary["Common_Filter"] %></button>-->
-                                                    <button class="btn btn-filter" type="button" id="BtnRecordShowAll" title="<%= this.Dictionary["Common_All_Male_Plural"] %>"><i class="icon-list"></i></button>
-                                                    <!--<button class="btn btn-success" type="button" id="BtnRecordShowNone" title="<%= this.Dictionary["Common_None_Male"] %>"><i class="icon-remove-circle"></i></button>-->
-                                                <!--/div-->
-                                            </td>
                                         </tr>
                                     </table>
                                 </div> 
+                                <div class="col-xs-1">
+                                    <button class="btn btn-filter" type="button" id="BtnRecordShowAll" title="<%= this.Dictionary["Common_All_Male_Plural"] %>"><i class="icon-list"></i></button>
+                                </div>
                                 <div style="height:8px;clear:both;"></div>
                                 <div class="row">
                                     <div class="col-xs-12">

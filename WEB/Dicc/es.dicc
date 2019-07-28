@@ -856,6 +856,7 @@ Item_EquipmentCalibrationAct_PopupUpdate_Title::Modificar una calibración
 Item_EquipmentCalibrationDefinition::Definición de calibraciones
 Item_EquipmentErrorInitialDate::La fecha de inicio no puede ser posterior a 
 Item_EquipmentList::Listado de equipos
+Item_EquipmentListCosts::Listado de costes de equipos
 Item_EquipmentMaintenance::Mantenimiento
 Item_EquipmentMaintenance_Button_Register::Registrar
 Item_EquipmentMaintenance_ErrorMessage_AsociateRecords::No se puede eliminar un mantenimiento con registros
@@ -1952,3 +1953,4 @@ Item_Equipment_Error_NoOptions::elija al menos una opción.
 Item_Equipment_Error_DuplicateData::Los datos del equipo están repetidos.
 Item_Equipment_Error_RequiredFields::Revise los campos obligatorios del equipo.
 Common_Loading::Cargando datos
+Item_Questionay_Observations::Observaciones

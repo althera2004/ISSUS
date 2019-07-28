@@ -127,7 +127,7 @@ window.onload = function () {
         $("#BtnCloseCuestionarios").show();
     }
 
-    if (Auditory.Status > AuditoryStatus.Pendiente) {
+    if (Auditory.Status >= AuditoryStatus.Pendiente) {
         $("#HallazgosDataTable .btn").hide();
         $("#MejorasDataTable .btn").hide();
         FillCmbClosedBy();
@@ -1590,6 +1590,8 @@ function CloseConfirmed() {
         "questionaryEnd": GetDate($("#TxtCloseQuestionsOn").val(), "/", false),
         "closedBy": $("#CmbClosedBy").val() * 1,
         "closedOn": GetDate($("#TxtClosedOn").val(), "/", false),
+        "notes": $("#TxtNotes").val(),
+        "puntosFuertes": $("#TxtPuntosFuertes").val(), 
         "applicationUserId": ApplicationUser.Id,
         "companyId": Company.Id
     };
@@ -1688,7 +1690,9 @@ function ValidationConfirmed() {
         "validatedBy": $("#CmbValidatedBy").val() * 1,
         "validatedOn": GetDate($("#TxtValidatedOn").val(), "/", false),
         "applicationUserId": ApplicationUser.Id,
-        "companyId": Company.Id
+        "companyId": Company.Id,
+        "notes": $("#TxtNotes").val(),
+        "puntosFuertes": $("#TxtPuntosFuertes").val()
     };
 
     console.log(data);
@@ -2156,6 +2160,8 @@ function CloseCuestionariosConfirmed() {
         "questionaryStart": GetDate($("#TxtStartQuestionsOn").val(), "/"),
         "questionaryEnd": GetDate($("#TxtCloseCuestionario").val(), "/"),
         "auditoryId": Auditory.Id,
+        "puntosFuertes": $("#TxtPuntosFuertes").val(),
+        "notes": $("#TxtNotes").val(),
         "applicationUserId": ApplicationUser.Id,
         "companyId": Company.Id
     };
@@ -2210,6 +2216,8 @@ function ReopenCuestionariosPopup() {
 function ReopenCuestionariosConfirmed() {
     var data = {
         "auditoryId": Auditory.Id,
+        "puntosFuertes": $("#TxtPuntosFuertes").val(),
+        "notes": $("#TxtNotes").val(),
         "applicationUserId": ApplicationUser.Id,
         "companyId": Company.Id
     };
@@ -2382,7 +2390,7 @@ function ReviseNoActions() {
 
 function FillCmbClosedBy() {
     $("#CmbClosedBy").html("");
-    var res = "<option value=\"0\">" + Dictionary.SelectOne + "</option>";
+    var res = "<option value=\"0\">" + Dictionary.Common_SelectOne + "</option>";
     for (var x = 0; x < AuditoryPlanning.length; x++) {
         res += "<option value=\"" + AuditoryPlanning[x].Auditor.Id + "\">" + AuditoryPlanning[x].Auditor.Value + "</option>";
     }

@@ -685,6 +685,8 @@ function ValidationConfirmed() {
         "validatedBy": $("#CmbValidatedBy").val() * 1,
         "validatedOn": GetDate($("#TxtValidatedOn").val(), "/", false),
         "applicationUserId": ApplicationUser.Id,
+        "notes": $("#TxtNotes").val(),
+        "puntosFuertes": "",
         "companyId": Company.Id
     };
 

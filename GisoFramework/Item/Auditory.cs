@@ -215,7 +215,8 @@ namespace GisoFramework.Item
                         ""Provider"":{9},
                         ""Customer"":{10},
                         ""Rules"":""{11}"",
-                        ""Active"":{12}
+                        ""PuntosFuertes"":""{12}"",
+                        ""Active"":{13}
                     }}";
                 return string.Format(
                     CultureInfo.InvariantCulture,
@@ -232,6 +233,7 @@ namespace GisoFramework.Item
                     providerJson,
                     customerJson,
                     this.rulesId,
+                    Tools.JsonCompliant(this.PuntosFuertes),
                     this.Active ? "true" : "false");
             }
         }
@@ -627,7 +629,7 @@ namespace GisoFramework.Item
         /// <param name="applicationUserId">Application user identifiers</param>
         /// <param name="companyId">Company's identifier</param>
         /// <returns>Result of action</returns>
-        public static ActionResult Validate(long auditoryId, long validatedBy, DateTime validatedOn, int applicationUserId, int companyId)
+        public static ActionResult Validate(long auditoryId, long validatedBy, DateTime validatedOn, int applicationUserId, int companyId, string notes, string puntosFuertes)
         {
             string source = string.Format(CultureInfo.InvariantCulture, @"Auditory::Validate Id:{0} User:{1} Company:{2}", auditoryId, applicationUserId, companyId);
             /* CREATE PROCEDURE Auditory_Validate
@@ -649,6 +651,8 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                         cmd.Parameters.Add(DataParameter.Input("@ValidatedBy", validatedBy));
                         cmd.Parameters.Add(DataParameter.Input("@ValidatedOn", validatedOn));
+                        cmd.Parameters.Add(DataParameter.Input("@Notes", notes, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@PuntosFuertes", puntosFuertes, 2000));
                         cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
@@ -706,7 +710,7 @@ namespace GisoFramework.Item
         /// <param name="applicationUserId">Application user identifiers</param>
         /// <param name="companyId">Company's identifier</param>
         /// <returns>Result of action</returns>
-        public static ActionResult ValidateExternal(long auditoryId, long validatedBy,DateTime questionaryStart, DateTime questionaryEnd, DateTime validatedOn, int applicationUserId, int companyId)
+        public static ActionResult ValidateExternal(long auditoryId, long validatedBy,DateTime questionaryStart, DateTime questionaryEnd, DateTime validatedOn, int applicationUserId, int companyId, string notes, string puntosFuertes)
         {
             string source = string.Format(CultureInfo.InvariantCulture, @"Auditory::Validate Id:{0} User:{1} Company:{2}", auditoryId, applicationUserId, companyId);
             /* CREATE PROCEDURE Auditory_ValidateExternal
@@ -732,6 +736,8 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@questionaryEnd", questionaryEnd));
                         cmd.Parameters.Add(DataParameter.Input("@ValidatedBy", validatedBy));
                         cmd.Parameters.Add(DataParameter.Input("@ValidatedOn", validatedOn));
+                        cmd.Parameters.Add(DataParameter.Input("@Notes", notes, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@PuntosFuertes", puntosFuertes, 2000));
                         cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
@@ -802,7 +808,7 @@ namespace GisoFramework.Item
         /// <param name="applicationUserId">Application user identifiers</param>
         /// <param name="companyId">Company's identifier</param>
         /// <returns>Result of action</returns>
-        public static ActionResult Close(long auditoryId, DateTime questionaryStart, DateTime questionaryEnd, long closedBy, DateTime closedOn, int applicationUserId, int companyId)
+        public static ActionResult Close(long auditoryId, DateTime questionaryStart, DateTime questionaryEnd, long closedBy, DateTime closedOn, int applicationUserId, int companyId, string notes, string puntosFuertes)
         {
             string source = string.Format(CultureInfo.InvariantCulture, @"Auditory::Close Id:{0} User:{1} Company:{2}", auditoryId, applicationUserId, companyId);
             /* CREATE PROCEDURE Auditory_Close
@@ -828,6 +834,8 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@ClosedOn", closedOn));
                         cmd.Parameters.Add(DataParameter.Input("@QuestionaryStart", questionaryStart));
                         cmd.Parameters.Add(DataParameter.Input("@questionaryEnd", questionaryEnd));
+                        cmd.Parameters.Add(DataParameter.Input("@notes", notes, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@puntosFuertes", puntosFuertes, 2000));
                         cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
@@ -952,7 +960,7 @@ namespace GisoFramework.Item
             return result;
         }
 
-        public static ActionResult CloseCuestionarios(long auditoryId, int applicationUserId, int companyId, DateTime questionaryStart, DateTime questionaryEnd)
+        public static ActionResult CloseCuestionarios(long auditoryId, int applicationUserId, int companyId, DateTime questionaryStart, DateTime questionaryEnd, string puntosFuertes, string notes)
         {
             string source = string.Format(CultureInfo.InvariantCulture, @"Auditory::Close Id:{0} User:{1} Company:{2}", auditoryId, applicationUserId, companyId);
             /* CREATE PROCEDURE Auditory_CuestionariosClose
@@ -975,6 +983,8 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@QuestionaryStart", questionaryStart));
                         cmd.Parameters.Add(DataParameter.Input("@questionaryEnd", questionaryEnd));
                         cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
+                        cmd.Parameters.Add(DataParameter.Input("@PuntosFuertes", puntosFuertes, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Notes", notes, 2000));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         result.SetSuccess();
@@ -1012,7 +1022,7 @@ namespace GisoFramework.Item
             return result;
         }
 
-        public static ActionResult ReopenCuestionarios(long auditoryId, int applicationUserId, int companyId)
+        public static ActionResult ReopenCuestionarios(long auditoryId, int applicationUserId, int companyId, string puntosFuertes, string notes)
         {
             string source = string.Format(CultureInfo.InvariantCulture, @"Auditory::ReopenCustionarios Id:{0} User:{1} Company:{2}", auditoryId, applicationUserId, companyId);
             /* CREATE PROCEDURE Auditory_ReopenCuestionarios
@@ -1030,6 +1040,8 @@ namespace GisoFramework.Item
                     {
                         cmd.Parameters.Add(DataParameter.Input("@AuditoryId", auditoryId));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
+                        cmd.Parameters.Add(DataParameter.Input("@PuntosFuertes", puntosFuertes, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Notes", notes, 2000));
                         cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();

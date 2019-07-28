@@ -71,6 +71,7 @@
         var QuestionaryName = "<%=this.Questionary.Description %>";
         var Founds = <%=this.Founds %>;
         var Improvements = <%=this.Improvements %>;
+        var Observations = <%=this.Observations %>;
         var Editable = <%=this.Editable %>;
     </script>
 </asp:Content>
@@ -157,6 +158,12 @@
                                                         </thead>
                                                     </table>
                                                 </div> <!-- /.table-responsive -->
+                                                <div class="row">
+                                                    <div class="col-xs-12"><h4><%=this.Dictionary["Item_Questionay_Observations"] %></h4></div>
+                                                    <div class="col-sm-12">
+                                                        <textarea id="TxtObservations" rows="5" class="col-xs-12"></textarea>
+                                                    </div>
+                                                </div>
                             </div>
 
                             </div>

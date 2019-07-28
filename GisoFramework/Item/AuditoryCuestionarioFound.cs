@@ -86,7 +86,7 @@ namespace GisoFramework.Item
                     Tools.JsonCompliant(this.Requeriment),
                     Tools.JsonCompliant(this.Unconformity),
                     this.CreatedBy.Json,
-                    this.CreatedBy,
+                    this.CreatedOn,
                     this.ModifiedBy.JsonKeyValue,
                     this.ModifiedOn,
                     this.Action ? Constant.JavaScriptTrue : Constant.JavaScriptFalse,

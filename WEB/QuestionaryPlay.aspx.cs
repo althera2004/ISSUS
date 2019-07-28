@@ -7,15 +7,14 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Web.UI;
 using GisoFramework;
-using GisoFramework.Activity;
 using GisoFramework.Item;
 using SbrinnaCoreFramework;
 using SbrinnaCoreFramework.UI;
 
+/// <summary>Implements the questionnaire filling page</summary>
 public partial class QuestionaryPlay : Page
 {
     /// <summary> Master of page</summary>
@@ -27,11 +26,31 @@ public partial class QuestionaryPlay : Page
     /// <summary>Company of session</summary>
     private Company company;
 
-    private long questionaryId;
+    /// <summary>Footer of page</summary>
+    private FormFooter formFooter;
+
+    /// <summary>Identifier of questionnaire</summary>
+    private long questionnaireId;
+
+    /// <summary>Identifier of auditory</summary>
     private long auditoryId;
 
+    /// <summary>Observations of questionnaire</summary>
+    private AuditoryCuestionarioObservations observations;
+
+    /// <summary>Gets a JSON structure of questionnaire's observations</summary>
+    public string Observations
+    {
+        get
+        {
+            return this.observations.Json;
+        }
+    }
+
+    /// <summary>Gets questionnaire's auditory</summary>
     public Auditory Auditory { get; private set; }
 
+    /// <summary>Gets a value indicating whether if user has online help</summary>
     public bool ShowHelp
     {
         get
@@ -49,8 +68,7 @@ public partial class QuestionaryPlay : Page
         }
     }
 
-    private FormFooter formFooter;
-
+    /// <summary>Gets footer of page</summary>
     public string FormFooter
     {
         get
@@ -59,8 +77,10 @@ public partial class QuestionaryPlay : Page
         }
     }
 
+    /// <summary>Gets questionnaire</summary>
     public Questionary Questionary { get; private set; }
 
+    /// <summary>Gets a value indicating whether is user has grants trace</summary>
     public bool GrantTraces
     {
         get
@@ -69,6 +89,7 @@ public partial class QuestionaryPlay : Page
         }
     }
 
+    /// <summary>Gets a value indicating whether if actual user has write grant</summary>
     public bool GrantToWrite
     {
         get
@@ -77,6 +98,7 @@ public partial class QuestionaryPlay : Page
         }
     }
 
+    /// <summary>Gets a value indicating whether actual user is administrator</summary>
     public bool Admin
     {
         get
@@ -85,11 +107,12 @@ public partial class QuestionaryPlay : Page
         }
     }
 
+    /// <summary>Gets a value indicating whether questionnaire is editable</summary>
     public string Editable
     {
         get
         {
-            if(this.Request.QueryString["e"] == "1")
+            if (this.Request.QueryString["e"] == "1")
             {
                 return "true";
             }
@@ -97,26 +120,27 @@ public partial class QuestionaryPlay : Page
             {
                 return "false";
             }
-
         }
     }
 
     /// <summary>Gets the dictionary for interface texts</summary>
     public Dictionary<string, string> Dictionary { get; private set; }
 
+    /// <summary>Gets questionnaire's founds</summary>
     public string Founds
     {
         get
         {
-            return AuditoryCuestionarioFound.JsonList(AuditoryCuestionarioFound.ByCuestionary(this.questionaryId, this.auditoryId, this.company.Id));
+            return AuditoryCuestionarioFound.JsonList(AuditoryCuestionarioFound.ByCuestionary(this.questionnaireId, this.auditoryId, this.company.Id));
         }
     }
 
+    /// <summary>Gets questionnaire's improvements</summary>
     public string Improvements
     {
         get
         {
-            return AuditoryCuestionarioImprovement.JsonList(AuditoryCuestionarioImprovement.ByCuestionary(this.questionaryId, this.auditoryId, this.company.Id));
+            return AuditoryCuestionarioImprovement.JsonList(AuditoryCuestionarioImprovement.ByCuestionary(this.questionnaireId, this.auditoryId, this.company.Id));
         }
     }
 
@@ -163,7 +187,7 @@ public partial class QuestionaryPlay : Page
         // Parameters control
         if (this.Request.QueryString["c"] != null)
         {
-            this.questionaryId = Convert.ToInt32(this.Request.QueryString["c"]);
+            this.questionnaireId = Convert.ToInt32(this.Request.QueryString["c"]);
         }
 
         this.Auditory = Auditory.Empty;
@@ -179,9 +203,9 @@ public partial class QuestionaryPlay : Page
 
         this.formFooter = new FormFooter();
 
-        if (this.questionaryId > 0)
+        if (this.questionnaireId > 0)
         {
-            this.Questionary = Questionary.ById(this.questionaryId, this.company.Id);
+            this.Questionary = Questionary.ById(this.questionnaireId, this.company.Id);
             if (this.Questionary.CompanyId != this.company.Id)
             {
                 this.Response.Redirect("NoAccesible.aspx", Constant.EndResponse);
@@ -191,13 +215,15 @@ public partial class QuestionaryPlay : Page
             this.formFooter.ModifiedBy = this.Questionary.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.Questionary.ModifiedOn;
             this.master.TitleInvariant = true;
+
+            this.observations = AuditoryCuestionarioObservations.ById(this.questionnaireId, this.auditoryId, this.company.Id);
         }
         else
         {
             this.Questionary = Questionary.Empty;
         }
 
-        string label = this.questionaryId == -1 ? "Item_Questionary_BreadCrumb_Edit" : string.Format("{0}: <strong>{1}</strong>", this.Dictionary["Item_Questionary"], this.Questionary.Description);
+        string label = this.questionnaireId == -1 ? "Item_Questionary_BreadCrumb_Edit" : string.Format("{0}: <strong>{1}</strong>", this.Dictionary["Item_Questionary"], this.Questionary.Description);
         this.master.AddBreadCrumb("Item_Questionaries", "QuestionaryList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb("Item_Questionary_BreadCrumb_Edit");
         this.master.Titulo = label;
@@ -205,20 +231,22 @@ public partial class QuestionaryPlay : Page
         this.FillLists();
     }
 
+    /// <summary>Populates questions list</summary>
     private void FillLists()
     {
         var res = new StringBuilder();
-        foreach (var q in AuditoryQuestionaryQuestion.ByAuditoryId(this.auditoryId, this.questionaryId, this.company.Id))
-        {
-            res.AppendFormat(
-             CultureInfo.InvariantCulture,
-             @"
+        var rowPattern = @"
                 <tr id=""RQ{0}"">
                     <td style=""vertical-align:top;"">{1}</td>
                     <td style=""vertical-align:top;width:157px;text-align:center;"">
                         <span id=""Q{0}"" style=""color:#{2};cursor:pointer;"" onclick=""Toggle(this);"" data-status=""{4}"">{3}</span>
                     </td>
-                </tr>",
+                </tr>";
+        foreach (var q in AuditoryQuestionaryQuestion.ByAuditoryId(this.auditoryId, this.questionnaireId, this.company.Id))
+        {
+            res.AppendFormat(
+             CultureInfo.InvariantCulture,
+             rowPattern,
              q.Id,
              q.Description,
              q.Compliant.HasValue ? (q.Compliant.Value == true ? "070" : "700") : "333",

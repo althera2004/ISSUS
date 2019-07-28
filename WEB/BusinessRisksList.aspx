@@ -97,16 +97,14 @@
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
                             <div class="col-xs-12">
                                 <!-- PAGE CONTENT BEGINS -->
-                                <div class="col-sm-12" id="widthTest">
-                                    
-                                    
-                                    <table cellpadding="2" cellspacing="2" style="width:100%;margin-bottom:16px;">
+                                <div class="col-sm-11" id="widthTest">
+                                    <table>
                                         <tr>
                                             <td id="TxtDateFromLabel"><strong><%=this.Dictionary["Item_BusinessRisksAndOportunities_Filter_Periode1"] %>:</strong></td>
 										    <td>
                                                 <div class="col-xs-12 col-sm-12">
 												    <div class="input-group">
-													    <input class="form-control date-picker" style="width:100px;" id="TxtDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													    <input class="form-control date-picker" style="width:85px;" id="TxtDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
 													    <span class="input-group-addon" onclick="document.getElementById('TxtDateFrom').focus();" id="TxtDateFromBtn">
 														    <i class="icon-calendar bigger-110"></i>
 													    </span>
@@ -116,10 +114,11 @@
 											        <span class="ErrorMessage" id="TxtDateFromDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                 </div>
 										    </td>
+                                            <td>&nbsp;-&nbsp;</td>
                                             <td>
                                                 <div class="col-xs-12 col-sm-12">
 												    <div class="input-group">
-													    <input class="form-control date-picker" style="width:100px;" id="TxtDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													    <input class="form-control date-picker" style="width:85px;" id="TxtDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
 													    <span class="input-group-addon" onclick="document.getElementById('TxtDateTo').focus();" id="TxtDateToBtn">
 														    <i class="icon-calendar bigger-110"></i>
 													    </span>
@@ -146,7 +145,8 @@
                                                 </select>
                                             </td>
                                         </tr>
-                                            <td colspan="3"></td>
+                                        <tr>
+                                            <td colspan="4"></td>
                                             <td><strong><%=this.Dictionary["Item_BusinessRisk_List_Filter_Process"] %>:</strong></td>
                                             <td>
                                                 <select id="CmbProcess" class="col-sm-12">
@@ -154,19 +154,22 @@
                                                 </select>
                                             </td>
                                             <td colspan="2" style="text-align:right">
-                                                <button class="btn btn-success btn-filter" type="button" id="BtnBRecordShowAll" title="<%= this.Dictionary["Common_All_Male_Plural"] %>"><i class="icon-refresh"></i></button>
+                                                
                                             </td>
                                         </tr>
                                     </table>
                                 </div>
-                                <div class="col-sm-12" id="widthTestOportunity" style="display:none;">
-                                    <table cellpadding="2" cellspacing="2" style="width:100%;margin-bottom:16px;">
+                                <div class="col-xs-1" id="widthTestButton">
+                                    <button class="btn btn-success btn-filter" type="button" id="BtnBRecordShowAll" title="<%= this.Dictionary["Common_All_Male_Plural"] %>"><i class="icon-refresh"></i></button>
+                                </div>
+                                <div class="col-sm-11" id="widthTestOportunity" style="display:none;">
+                                    <table>
                                         <tr>
                                             <td id="TxtDateFromLabel"><strong><%=this.Dictionary["Item_BusinessRisksAndOportunities_Filter_Periode1"] %>:</strong></td>
 										    <td>
                                                 <div class="col-xs-12 col-sm-12">
 												    <div class="input-group">
-													    <input class="form-control date-picker" style="width:100px;" id="TxtOportunityDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													    <input class="form-control date-picker" style="width:85px;" id="TxtOportunityDateFrom" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
 													    <span class="input-group-addon" onclick="document.getElementById('TxtOportunityDateFrom').focus();" id="TxtOportunityDateFromBtn">
 														    <i class="icon-calendar bigger-110"></i>
 													    </span>
@@ -176,10 +179,11 @@
 											        <span class="ErrorMessage" id="TxtDateFromDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                 </div>
 										    </td>
+                                            <td>&nbsp;-&nbsp;</td>
                                             <td>
                                                 <div class="col-xs-12 col-sm-12">
 												    <div class="input-group">
-													    <input class="form-control date-picker" style="width:100px;" id="TxtOportunityDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+													    <input class="form-control date-picker" style="width:85px;" id="TxtOportunityDateTo" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
 													    <span class="input-group-addon" onclick="document.getElementById('TxtOportunityDateTo').focus();" id="TxtOportunityDateToBtn">
 														    <i class="icon-calendar bigger-110"></i>
 													    </span>
@@ -207,19 +211,19 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="3"></td>
+                                            <td colspan="4"></td>
                                             <td><strong><%=this.Dictionary["Item_BusinessRisk_List_Filter_Process"] %>:</strong></td>
                                             <td>
                                                 <select id="OportunityCmbProcess" class="col-sm-12">
                                                     <asp:Literal runat="server" ID="LtCmbProcessOportunityOptions"></asp:Literal>
                                                 </select>
                                             </td>
-                                            <td colspan="3" style="text-align:right">
-                                                <button class="btn btn-success btn-filter" type="button" id="BtnORecordShowAll" title="<%= this.Dictionary["Common_All_Male_Plural"] %>"><i class="icon-refresh"></i></button>
-                                            </td>
                                         </tr>
                                     </table>
-                                </div> 
+                                </div>
+                                <div class="col-xs-1" id="widthTestOportunityButton" style="display:none;">
+                                    <button class="btn btn-success btn-filter" type="button" id="BtnORecordShowAll" title="<%= this.Dictionary["Common_All_Male_Plural"] %>"><i class="icon-refresh"></i></button>
+                                </div>
 
                                 <div style="height:8px;clear:both;"></div>
                                 <div class="tabbable">
