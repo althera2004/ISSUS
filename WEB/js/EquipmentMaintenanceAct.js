@@ -50,11 +50,11 @@ function EquipmentMaintenanceActRenderRow(equipmentMaintenanceAct, targetName) {
     tdResponsible.appendChild(document.createTextNode(equipmentMaintenanceAct.Responsible.Value));
     tdObservaciones.appendChild(document.createTextNode(equipmentMaintenanceAct.Observations));
 
-    if (typeof (equipmentMaintenance.Observations) === "undefined") {
+    if (typeof (equipmentMaintenanceAct.Observations) === "undefined") {
         tdObservaciones.appendChild(document.createTextNode(""));
     }
     else {
-        tdObservaciones.appendChild(document.createTextNode(equipmentMaintenance.Observations));
+        tdObservaciones.appendChild(document.createTextNode(equipmentMaintenanceAct.Observations));
     }
 
     if (equipmentMaintenanceAct.Cost !== null) {

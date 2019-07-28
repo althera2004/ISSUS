@@ -96,7 +96,7 @@ function AuditoryGetFilter(exportType) {
         "success": function (msg) {
             eval("AuditoryList=" + msg.d + ";");
             ItemRenderTable(AuditoryList);
-            if (typeof exportType !== "undefined" && exportType !== "null" && exportType === "PDF") {
+            if (typeof exportType !== "undefined" && exportType !== null && exportType === "PDF") {
                 ExportPDF();
             }
         },
