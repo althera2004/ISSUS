@@ -233,7 +233,7 @@ function SaveIncident() {
 
     if (!document.getElementById("RReporterType1").checked && !document.getElementById("RReporterType2").checked && !document.getElementById("RReporterType3").checked) {
         ok = false;
-        document.getElementById("RReporterTypeLabel").style.color = "#f00";
+        $("#RReporterTypeLabel").css("color", Color.Error);
         ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_ReporterTypeRequired);
     } else {
         var origin = true;
@@ -253,10 +253,10 @@ function SaveIncident() {
         }
 
         if (origin === true) {
-            document.getElementById("RReporterTypeLabel").style.color = "#000";
+            $("#RReporterTypeLabel").css("color", Color.Label);
         } else {
             ok = false;
-            document.getElementById("RReporterTypeLabel").style.color = "#f00";
+            $("#RReporterTypeLabel").css("color", Color.Error);
         }
     }
 
@@ -695,7 +695,6 @@ function SaveIncident() {
 
     console.log(incident);
 
-    var webMethod;
     var data;
     if (IncidentId < 1) {
         data = {
@@ -750,7 +749,7 @@ function SaveIncident() {
                         "contentType": "application/json; charset=utf-8",
                         "dataType": "json",
                         "data": JSON.stringify(data, null, 2),
-                        "success": function (msg) {
+                        "success": function () {
                             document.location = referrer;
                         },
                         "error": function (msg) {
@@ -779,7 +778,7 @@ function SaveIncident() {
             "contentType": "application/json; charset=utf-8",
             "dataType": "json",
             "data": JSON.stringify(dataIncident, null, 2),
-            "success": function (msg) {
+            "success": function () {
                 if (incident.ApplyAction) {
                     var action =
                         {
@@ -847,7 +846,7 @@ function RActionChanged() {
 
     if(document.getElementById("RActionYes").checked === true)
     {
-        if (user.Grants.IncidentActions !== true) {
+        if (user.Grants.IncidentActions.Write !== true) {
             alertUI(Dictionary.Item_IncidentAction_Message_NoGrants, null, 500);
             $("#RActionYes").removeAttr("checked");
             return false;
@@ -1133,7 +1132,7 @@ if (ApplicationUser.Grants.Incident.Write === false) {
 }
 else {
     // ISSUS-190
-    document.getElementById('TxtDescription').focus();
+    document.getElementById("TxtDescription").focus();
 }
 
 if (typeof ApplicationUser.Grants.IncidentActions.Write === "undefined" || ApplicationUser.Grants.IncidentActions.Write === false) {
@@ -1254,7 +1253,7 @@ function AnularPopup() {
     $("#CmbClosedResponsibleLabel").removeClass("no-padding-right");
     $("#TxtClosedDate").val(FormatDate(new Date(), "/"));
     $("#CmbClosedResponsible").val(user.Employee.Id);
-    var dialog = $("#dialogAnular").removeClass("hide").dialog({
+    $("#dialogAnular").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Item_Incident_PopupAnular_Title,
@@ -1262,13 +1261,13 @@ function AnularPopup() {
         "buttons":
         [
             {
-                "id": "BtnAnularSave",
+                "id": "BtnAnularOk",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Item_IncidentAction_Btn_Anular,
                 "class": "btn btn-success btn-xs",
                 "click": function () { AnularConfirmed(); }
             },
             {
-                "id": "BtnAnularSaveCancel",
+                "id": "BtnAnularCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
@@ -1279,15 +1278,15 @@ function AnularPopup() {
 
 var anulationData = null;
 function AnularConfirmed() {
-    document.getElementById("TxtClosedDateLabel").style.color = "#000";
-    document.getElementById("CmbClosedResponsibleLabel").style.color = "#000";
+    $("#TxtClosedDateLabel").css("color", Color.Label);
+    $("#CmbClosedResponsibleLabel").css("color", Color.Label);
     $("#TxtClosedDateDateRequired").hide();
     $("#TxtClosedDateDateMalformed").hide();
     $("#CmbClosedResponsibleErrorRequired").hide();
     var ok = true;
     if ($("#TxtClosedDate").val() === "") {
         ok = false;
-        document.getElementById("TxtClosedDateLabel").style.color = "#f00";
+        $("#TxtClosedDateLabel").css("color", Color.Error);
         $("#TxtClosedDateDateRequired").show();
     }
     else {
@@ -1312,7 +1311,7 @@ function AnularConfirmed() {
 
     if ($("#CmbClosedResponsible").val() * 1 < 1) {
         ok = false;
-        document.getElementById("CmbClosedResponsibleLabel").style.color = "#f00";
+        $("#CmbClosedResponsibleLabel").css("color", Color.Error);
         $("#CmbClosedResponsibleErrorRequired").show();
     }
 
@@ -1335,7 +1334,7 @@ function AnularConfirmed() {
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function (msg) {
+        "success": function () {
             SaveIncident();
         },
         "error": function (msg) {
@@ -1607,7 +1606,7 @@ function SaveIncidentAction() {
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function (msg) {
+        "success": function () {
             IncidentAction.ClosedOn = actionClosedOn;
             IncidentAction.ClosedBy = actionClosedBy;
             AnulateLayoutAccion();

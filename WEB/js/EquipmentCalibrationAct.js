@@ -10,10 +10,10 @@ var CalibrationInternalExists = false;
 var CalibrationExternalExists = false;
 
 function SetCalibrationForm() {
-    document.getElementById("CalibrationInternalActive").checked = this.Equipment.InternalCalibration != null;
+    document.getElementById("CalibrationInternalActive").checked = this.Equipment.InternalCalibration !== null;
     LockInternalCalibrationForm(document.getElementById("CalibrationInternalActive").checked);
 
-    document.getElementById("CalibrationExternalActive").checked = this.Equipment.ExternalCalibration != null;
+    document.getElementById("CalibrationExternalActive").checked = this.Equipment.ExternalCalibration !== null;
     LockExternalCalibrationForm(document.getElementById("CalibrationExternalActive").checked);
 
     if (!document.getElementById("CalibrationInternalActive").checked && !document.getElementById("CalibrationExternalActive").checked) {
@@ -244,8 +244,8 @@ function EquipmentCalibrationActRenderRow(equipmentCalibrationAct, targetName) {
     tdFecha.appendChild(document.createTextNode(FormatYYYYMMDD(equipmentCalibrationAct.Date, '/')));
 
     var vto = null;
-    if (typeof equipmentCalibrationAct.Expiration != "undefined") { vto = FormatYYYYMMDD(equipmentCalibrationAct.Expiration, '/'); }
-    if (typeof equipmentCalibrationAct.Vto != "undefined") { vto = FormatYYYYMMDD(equipmentCalibrationAct.Vto, '/'); }
+    if (typeof equipmentCalibrationAct.Expiration !== "undefined") { vto = FormatYYYYMMDD(equipmentCalibrationAct.Expiration, '/'); }
+    if (typeof equipmentCalibrationAct.Vto !== "undefined") { vto = FormatYYYYMMDD(equipmentCalibrationAct.Vto, '/'); }
     if (success === false) {
         tdVto.appendChild(document.createTextNode(""));
     }
@@ -327,8 +327,7 @@ function EquipmentCalibrationActListUpdate(equipmentCalibrationAct) {
     }
 }
 
-function EquipmentCalibrationActNewFormReset(EquipmentCalibrationDefinition) {
-
+function EquipmentCalibrationActNewFormReset() {
     $("#REquipmentCalibrationActTypeErrorRequired").hide();
     var internal = document.getElementById("CalibrationInternalActive").checked;
     var external = document.getElementById("CalibrationExternalActive").checked;
@@ -547,7 +546,7 @@ function ShowDialogNewCalibrationPopup(actionSelected) {
         return false;
     }
 
-    var dialog = $("#dialogEquipmentCalibrationForm").removeClass("hide").dialog({
+    $("#dialogEquipmentCalibrationForm").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentCalibrationAct_PopupNew_Title + "</h4>",
@@ -800,7 +799,7 @@ function EquipmentCalibrationInternalDefinitionSave() {
             "contentType": "application/json; charset=utf-8",
             "dataType": "json",
             "data": JSON.stringify(data, null, 2),
-            "success": function (msg) {
+            "success": function () {
                 Equipment.InternalCalibration = CalibrationInternalDefinition;
                 successInfoUI(Dictionary.Common_Action_Success);
             },
@@ -885,7 +884,7 @@ function CalibrationInternalDelete() {
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
         "success": function (msg) {
-            if (msg.d.MessageError == "") {
+            if (msg.d.MessageError === "") {
                 CalibrationInternalExists = false;
                 Equipment.InternalCalibration = null;
                 CalibrationInternalResetForm();
@@ -910,7 +909,7 @@ function CalibrationExternalDelete() {
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
         "success": function (msg) {
-            if (msg.d.MessageError == "") {
+            if (msg.d.MessageError === "") {
                 CalibrationExternalExists = false;
                 Equipment.ExternalCalibration = null;
                 CalibrationExternalResetForm();
