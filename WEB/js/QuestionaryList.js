@@ -77,7 +77,7 @@ function QuestionaryGetFilter(exportType) {
         "success": function (msg) {
             eval("QuestionaryList=" + msg.d + ";");
             ItemRenderTable(QuestionaryList);
-            if (typeof exportType !== "undefined" && exportType !== "null" && exportType === "PDF") {
+            if (typeof exportType !== "undefined" && exportType !== null && exportType === "PDF") {
                 ExportPDF();
             }
         },

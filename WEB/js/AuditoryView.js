@@ -1590,6 +1590,8 @@ function CloseConfirmed() {
         "questionaryEnd": GetDate($("#TxtCloseQuestionsOn").val(), "/", false),
         "closedBy": $("#CmbClosedBy").val() * 1,
         "closedOn": GetDate($("#TxtClosedOn").val(), "/", false),
+        "notes": $("#TxtNotes").val(),
+        "puntosFuertes": $("#TxtPuntosFuertes").val(), 
         "applicationUserId": ApplicationUser.Id,
         "companyId": Company.Id
     };
@@ -1688,7 +1690,9 @@ function ValidationConfirmed() {
         "validatedBy": $("#CmbValidatedBy").val() * 1,
         "validatedOn": GetDate($("#TxtValidatedOn").val(), "/", false),
         "applicationUserId": ApplicationUser.Id,
-        "companyId": Company.Id
+        "companyId": Company.Id,
+        "notes": $("#TxtNotes").val(),
+        "puntosFuertes": $("#TxtPuntosFuertes").val()
     };
 
     console.log(data);
@@ -2157,6 +2161,7 @@ function CloseCuestionariosConfirmed() {
         "questionaryEnd": GetDate($("#TxtCloseCuestionario").val(), "/"),
         "auditoryId": Auditory.Id,
         "puntosFuertes": $("#TxtPuntosFuertes").val(),
+        "notes": $("#TxtNotes").val(),
         "applicationUserId": ApplicationUser.Id,
         "companyId": Company.Id
     };
@@ -2212,6 +2217,7 @@ function ReopenCuestionariosConfirmed() {
     var data = {
         "auditoryId": Auditory.Id,
         "puntosFuertes": $("#TxtPuntosFuertes").val(),
+        "notes": $("#TxtNotes").val(),
         "applicationUserId": ApplicationUser.Id,
         "companyId": Company.Id
     };

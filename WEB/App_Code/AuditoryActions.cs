@@ -124,9 +124,9 @@ public class AuditoryActions : WebService
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public ActionResult Close(long auditoryId, long closedBy,DateTime questionaryStart, DateTime questionaryEnd, DateTime closedOn, int applicationUserId, int companyId)
+    public ActionResult Close(long auditoryId, long closedBy,DateTime questionaryStart, DateTime questionaryEnd, DateTime closedOn, int applicationUserId, int companyId, string notes, string puntosFuertes)
     {
-        return Auditory.Close(auditoryId, questionaryStart, questionaryEnd, closedBy, closedOn, applicationUserId, companyId);
+        return Auditory.Close(auditoryId, questionaryStart, questionaryEnd, closedBy, closedOn, applicationUserId, companyId, notes, puntosFuertes);
     }
 
     [WebMethod(EnableSession = true)]
@@ -138,30 +138,30 @@ public class AuditoryActions : WebService
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public ActionResult CloseCuestionarios(long auditoryId, int applicationUserId, DateTime questionaryStart, DateTime questionaryEnd, string puntosFuertes, int companyId)
+    public ActionResult CloseCuestionarios(long auditoryId, int applicationUserId, DateTime questionaryStart, DateTime questionaryEnd, string puntosFuertes, string notes, int companyId)
     {
-        return Auditory.CloseCuestionarios(auditoryId, applicationUserId, companyId, questionaryStart, questionaryEnd, puntosFuertes);
+        return Auditory.CloseCuestionarios(auditoryId, applicationUserId, companyId, questionaryStart, questionaryEnd, puntosFuertes, notes);
     }
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public ActionResult ReopenCuestionarios(long auditoryId, int applicationUserId, int companyId, string puntosFuertes)
+    public ActionResult ReopenCuestionarios(long auditoryId, int applicationUserId, int companyId, string puntosFuertes, string notes)
     {
-        return Auditory.ReopenCuestionarios(auditoryId, applicationUserId, companyId, puntosFuertes);
+        return Auditory.ReopenCuestionarios(auditoryId, applicationUserId, companyId, puntosFuertes, notes);
     }
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public ActionResult Validate(long auditoryId, long validatedBy, DateTime validatedOn, int applicationUserId, int companyId)
+    public ActionResult Validate(long auditoryId, long validatedBy, DateTime validatedOn, int applicationUserId, int companyId, string notes, string puntosFuertes)
     {
-        return Auditory.Validate(auditoryId, validatedBy, validatedOn, applicationUserId, companyId);
+        return Auditory.Validate(auditoryId, validatedBy, validatedOn, applicationUserId, companyId, notes, puntosFuertes);
     }
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public ActionResult ValidateExternal(long auditoryId, DateTime questionaryStart, DateTime questionaryEnd, long validatedBy, DateTime validatedOn, int applicationUserId, int companyId)
+    public ActionResult ValidateExternal(long auditoryId, DateTime questionaryStart, DateTime questionaryEnd, long validatedBy, DateTime validatedOn, int applicationUserId, int companyId, string notes, string puntosFuertes)
     {
-        return Auditory.ValidateExternal(auditoryId,validatedBy,questionaryStart, questionaryEnd, validatedOn, applicationUserId, companyId);
+        return Auditory.ValidateExternal(auditoryId,validatedBy,questionaryStart, questionaryEnd, validatedOn, applicationUserId, companyId, notes, puntosFuertes);
     }
 
     [WebMethod(EnableSession = true)]

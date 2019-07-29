@@ -263,7 +263,7 @@ function IncidentGetFilter(exportType) {
         "success": function (msg) {
             eval("IncidentList=" + msg.d + ";");
             ItemRenderTable(IncidentList);
-            if (typeof exportType !== "undefined" && exportType !== "null" && exportType === "PDF") {
+            if (typeof exportType !== "undefined" && exportType !== null && exportType === "PDF") {
                 ExportPDF();
             }
         },

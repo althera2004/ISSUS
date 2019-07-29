@@ -188,8 +188,12 @@ function EquipmentMaintenanceEditFormFill(equipmentMaintenanceDefinition) {
 }
 
 function EquipmentMaintenanceDefinitionValidateForm() {
+
+    $("#TxtNewMaintainmentFirstDateErrorRequired").hide();
     $("#TxtNewMaintainmentFirstDateOverTimeEquipment").hide();
+
     var ok = true;
+
     if (!document.getElementById("RMaintainmentTypeInternal").checked && !document.getElementById("RMaintainmentTypeExternal").checked) {
         ok = false;
         $("#RMaintainmentTypeErrorRequired").show();
@@ -200,9 +204,11 @@ function EquipmentMaintenanceDefinitionValidateForm() {
 
     if (!RequiredFieldText("TxtNewMaintainmentOperation")) {
         ok = false;
+        $("#RMaintainmentTypeErrorRequired").show();
     }
     if (!RequiredFieldText("TxtNewMaintainmentPeriodicity")) {
         ok = false;
+        $("#RMaintainmentTypeErrorRequired").show();
     }
 
     if (!RequiredFieldCombo("CmbNewMaintainmentProvider") && document.getElementById("RMaintainmentTypeExternal").checked) {
@@ -211,14 +217,21 @@ function EquipmentMaintenanceDefinitionValidateForm() {
 
     if (!RequiredFieldCombo("CmbNewMaintainmentResponsible")) {
         ok = false;
+        $("#RMaintainmentTypeErrorRequired").show();
     }
-
-    if ($("#NewMaintainmentFirstDate").val() !== "" && $("#TxtStartDate").val() !== "") {
+  
+    if ($("#NewMaintainmentFirstDate").val() !== "") { //&& $("#TxtStartDate").val() !== "") {
         var date = GetDate($("#NewMaintainmentFirstDate").val(), "/", false);
         var eqdate = GetDate($("#TxtStartDate").val(), "/", false);
         if (date < eqdate) {
             ok = false;
             $("#TxtNewMaintainmentFirstDateOverTimeEquipment").show();
+        }
+    }
+    else {
+        if (!RequiredFieldText("NewMaintainmentFirstDate")) {
+            ok = false;
+            $("#TxtNewMaintainmentFirstDateErrorRequired").show();
         }
     }
 
@@ -363,13 +376,14 @@ function EquipmentMaintananceDefinitionDelete(sender) {
     var EquipmentMaintenanceDefinition = EquipmentMaintenanceDefinitiongetById(SelectedEquipmentDefinitionSelectedId);
     if (EquipmentMaintenanceDefinition === null) { return false; }
 
+    /*
     for (var x = 0; x < EquipmentMaintenanceActList.length; x++) {
         if (EquipmentMaintenanceActList[x].EquipmentMaintenanceDefinitionId === EquipmentMaintenanceDefinition.Id) {
             warningInfoUI(Dictionary.Item_EquipmentMaintenance_ErrorMessage_AsociateRecords, null, 300);
             return false;
         }
     }
-
+    */
     $("#dialogEquipmentMaintananceDefinitionDeleteName").html(EquipmentMaintenanceDefinition.Description);
     var dialog = $("#dialogEquipmentMaintananceDefinitionDelete").removeClass("hide").dialog({
         "resizable": false,

@@ -62,25 +62,29 @@ function IncidentActionCostRenderRow(incidentActionCost, target) {
     tdQuantity.appendChild(document.createTextNode(ToMoneyFormat(incidentActionCost.Quantity, 2)));
     tdTotal.appendChild(document.createTextNode(ToMoneyFormat(incidentActionCost.Amount * incidentActionCost.Quantity, 2)));
     tdResponsible.appendChild(document.createTextNode(incidentActionCost.Responsible.Value));
-
+ 
     var tdActions = document.createElement("TD");
-    var iconEdit = document.createElement("SPAN");
-    iconEdit.className = "btn btn-xs btn-info";
-    var innerEdit = document.createElement("I");
-    innerEdit.className = "icon-edit bigger-120";
-    iconEdit.appendChild(innerEdit);
-    iconEdit.onclick = function () { IncidentActionCostEdit(this.parentNode.parentNode.id); };
-    tdActions.appendChild(iconEdit);
-
+ 
     // Juan Castilla - en businessrisk view la variable se llama "Action"
     if (typeof Action !== "undefined" && Action !== null) {
         IncidentAction = Action;
     }
 
-    if (typeof IncidentAction.ClosedOn !== "undefined" && IncidentAction.ClosedOn !== "null" && IncidentAction.ClosedOn !== "") {
-        // La acción esta cerrada y no se puede eleminar el coste
+    if (typeof IncidentAction.ClosedOn !== "undefined" && IncidentAction.ClosedOn !== null && IncidentAction.ClosedOn !== "") {
+        // La acción esta cerrada y no se puede editar ni eliminar el coste
     }
     else {
+
+        //Botón Editar Coste
+        var iconEdit = document.createElement("SPAN");
+        iconEdit.className = "btn btn-xs btn-info";
+        var innerEdit = document.createElement("I");
+        innerEdit.className = "icon-edit bigger-120";
+        iconEdit.appendChild(innerEdit);
+        iconEdit.onclick = function () { IncidentActionCostEdit(this.parentNode.parentNode.id); };
+        tdActions.appendChild(iconEdit);
+
+        //Botón Eliminar Coste
         var iconDelete = document.createElement("SPAN");
         iconDelete.className = "btn btn-xs btn-danger";
         var innerDelete = document.createElement("I");
@@ -89,9 +93,7 @@ function IncidentActionCostRenderRow(incidentActionCost, target) {
         iconDelete.onclick = function () { IncidentActionCostDelete(this.parentNode.parentNode.id); };
         tdActions.appendChild(document.createTextNode(" "));
         tdActions.appendChild(iconDelete);
-    }
-
-
+     }
 
     tdTotal.className = "hidden-480";
     tdResponsible.className = "hidden-480";
@@ -195,7 +197,7 @@ function CmbIncidentActionCostDescriptionChanged() {
 function IncidentActionCostEdit(id) {
     SelectedIncidentActionCostId = id * 1;
     IncidentActionCostSetPopupFormFill();
-    if (typeof IncidentAction.ClosedOn !== "undefined" && IncidentAction.ClosedOn !== "null" && IncidentAction.ClosedOn !== "") {
+    if (typeof IncidentAction.ClosedOn !== "undefined" && IncidentAction.ClosedOn !== null && IncidentAction.ClosedOn !== "") {
         // La acción esta cerrada y no se puede usar el botón BAR
         $("#BtnCostBAR").remove();
     }

@@ -839,7 +839,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label id="TxtNewMaintainmentFirstDateLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_EquipmentMaintenance_Popup_Register_FieldLabel_FirstDate"] %></label>
+                                        <label id="TxtNewMaintainmentFirstDateLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_EquipmentMaintenance_Popup_Register_FieldLabel_FirstDate"] %><span class="required">*</span></label>
                                         <div class="col-sm-9">
                                             <div class="row">
                                                 <div class="col-xs-12 col-sm-12 tooltip-info" id="TxtNewMaintainmentFirstDateDiv">
@@ -854,7 +854,6 @@
                                             <span class="ErrorMessage" id="TxtNewMaintainmentFirstDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"]%></span>
                                             <span class="ErrorMessage" id="TxtNewMaintainmentFirstDateOverTime">No pot ser anterior al darrer manteniment</span>
                                             <span class="ErrorMessage" id="TxtNewMaintainmentFirstDateOverTimeEquipment">No pot ser anterior a l'alta del equip</span>
-                                        
                                             </div>
                                         </div>
                                     </div>
