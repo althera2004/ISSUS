@@ -50,6 +50,7 @@ function IncidentCostRenderTable(tableName) {
 }
 
 function IncidentCostRenderRow(incidentCost, target) {
+    console.log(incidentCost);
     var row = document.createElement("TR");
     var tdDescription = document.createElement("TD");
     var tdDate = document.createElement("TD");
@@ -96,23 +97,33 @@ function IncidentCostRenderRow(incidentCost, target) {
         // La acción esta cerrada y no se puede editar ni eliminar el coste
     }
     else {
-        //Botón Editar Coste
-        var iconEdit = document.createElement("SPAN");
-        iconEdit.className = "btn btn-xs btn-info";
-        var innerEdit = document.createElement("I");
-        innerEdit.className = "icon-edit bigger-120";
-        iconEdit.appendChild(innerEdit);
-        iconEdit.onclick = function () { IncidentCostEdit(this.parentNode.parentNode.id); };
-        tdActions.appendChild(iconEdit);
-        //Botón Eliminar Coste
-        var iconDelete = document.createElement("SPAN");
-        iconDelete.className = "btn btn-xs btn-danger";
-        var innerDelete = document.createElement("I");
-        innerDelete.className = "icon-trash bigger-120";
-        iconDelete.appendChild(innerDelete);
-        iconDelete.onclick = function () { IncidentCostDelete(this.parentNode.parentNode.id); };
-        tdActions.appendChild(document.createTextNode(" "));
-        tdActions.appendChild(iconDelete);
+        // Hay que tener en cuenta que si el coste es de una acción y está cerrada no se puede editar
+        var showButtons = true;
+        if (incidentCost.Source === "A") {
+            if (IncidentAction.ClosedOn !== null) {
+                showButtons = false;
+            }
+        }
+
+        if (showButtons === true) {
+            //Botón Editar Coste
+            var iconEdit = document.createElement("SPAN");
+            iconEdit.className = "btn btn-xs btn-info";
+            var innerEdit = document.createElement("I");
+            innerEdit.className = "icon-edit bigger-120";
+            iconEdit.appendChild(innerEdit);
+            iconEdit.onclick = function () { IncidentCostEdit(this.parentNode.parentNode.id); };
+            tdActions.appendChild(iconEdit);
+            //Botón Eliminar Coste
+            var iconDelete = document.createElement("SPAN");
+            iconDelete.className = "btn btn-xs btn-danger";
+            var innerDelete = document.createElement("I");
+            innerDelete.className = "icon-trash bigger-120";
+            iconDelete.appendChild(innerDelete);
+            iconDelete.onclick = function () { IncidentCostDelete(this.parentNode.parentNode.id); };
+            tdActions.appendChild(document.createTextNode(" "));
+            tdActions.appendChild(iconDelete);
+        }
     }
 
     tdTotal.className = "hidden-480";

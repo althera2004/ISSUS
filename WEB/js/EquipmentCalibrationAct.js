@@ -126,7 +126,7 @@ function LockInternalCalibrationForm(active) {
         catch (ex) { }
     }*/
 
-    if (active === false && this.Equipment.InternalCalibration != null && this.Equipment.InternalCalibration.Id > 0) {
+    if (active === false && this.Equipment.InternalCalibration !== null && this.Equipment.InternalCalibration.Id > 0) {
         promptInfoUI("seguro", 300, CalibrationInternalDelete, CalibrationInternalCheckActive);
     }
     else {
