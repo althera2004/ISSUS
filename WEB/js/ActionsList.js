@@ -172,10 +172,10 @@ function ItemRenderTable(list) {
             origin = document.createElement("A");
             origin.href = "IncidentView.aspx?id=" + item.Associated.Id;
             origin.appendChild(document.createTextNode(Dictionary.Item_IncidentAction_Origin3));
-            var spantext = document.createElement("span");
-            spantext.style.display = "none";
-            spantext.appendChild(document.createTextNode(item.Associated.Description));
-            origin.appendChild(spantext);
+            var spantext3 = document.createElement("span");
+            spantext3.style.display = "none";
+            spantext3.appendChild(document.createTextNode(item.Associated.Description));
+            origin.appendChild(spantext3);
 			origin.title = item.Associated.Description;
         }
 
@@ -363,7 +363,7 @@ function IncidentActionDelete(sender) {
     console.log("IncidentActionDelete", IncidentActionSelectedId);
     if (IncidentActionSelected === null) { return false; }
     $("#IncidentActionDeleteName").html(IncidentActionSelected.Description);
-    var dialog = $("#IncidentActionDeleteDialog").removeClass("hide").dialog({
+    $("#IncidentActionDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Common_Delete + "</h4>",

@@ -4,7 +4,7 @@
 });
 
 function RenderTable() {
-    var target = document.getElementById('TableBody');
+    var target = document.getElementById("TableBody");
     if (target === null) {
         return;
     }
@@ -74,7 +74,7 @@ function DepartmentDesassociationConfirmed(id) {
             ok = false;
         }
         else {
-            $("#TxtNameLabel").css("color",  "#000");
+            $("#TxtNameLabel").css("color", Color.Label);
             $("#TxtNameErrorDuplicated").hide();
         }
     }
@@ -117,7 +117,7 @@ function DepartmentDesassociationConfirmed(id) {
                     document.location = referrer;
                 }
             },
-            "error": function (jqXHR, textStatus, errorThrown) {
+            "error": function (jqXHR) {
                 LoadingHide();
                 alertUI(jqXHR.responseText);
             }
@@ -128,7 +128,7 @@ function DepartmentDesassociationConfirmed(id) {
 function EmployeeDelete(id, name) {
     $("#DepartmentDesassociationText").html(name);
     DepartmentSelected = id;
-    var dialog = $("#DepartmentDesassociationDialog").removeClass("hide").dialog({
+    $("#DepartmentDesassociationDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Item_Employee_Popup_UnlinkJobPosition_Message,
@@ -137,7 +137,7 @@ function EmployeeDelete(id, name) {
             {
                 "html": "<i class='icon-trash bigger-110'></i>&nbsp;" + Dictionary.Common_Delete,
                 "class": "btn btn-danger btn-xs",
-                click: function () {
+                "click": function () {
                     DepartmentDesassociationConfirmed(id);
                 }
             },

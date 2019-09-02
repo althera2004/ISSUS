@@ -178,7 +178,7 @@ function SaveEquipment() {
             "contentType": "application/json; charset=utf-8",
             "dataType": "json",
             "data": JSON.stringify(dataUpdate, null, 2),
-            "success": function (msg) {
+            "success": function () {
                 document.location = referrer;
             },
             "error": function (msg) {

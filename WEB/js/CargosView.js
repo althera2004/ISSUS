@@ -36,7 +36,12 @@ function DepartmentDelete(sender) {
 }
 
 function DepartmentDeleteAction(id) {
-    var data = { departmentId: DepartmentSelected, companyId: Company.Id, userId: user.Id };
+    var data = {
+        "departmentId": DepartmentSelected,
+        "companyId": Company.Id,
+        "userId": user.Id
+    };
+
     $("#DepartmentDeleteDialog").dialog("close");
     $.ajax({
         "type": "POST",
@@ -206,7 +211,7 @@ function SortByName() {
 
 function ShowDepartmentPopup() {
     RenderDepartmentsPopup();
-    var dialog = $("#dialogDepartment").removeClass("hide").dialog({
+    $("#dialogDepartment").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_Departments + "</h4>",
@@ -331,14 +336,13 @@ jQuery(function ($) {
                 "data": JSON.stringify(data, null, 2),
                 "success": function (response) {
                     if (response.d.Success === true) {
-                        //document.location = document.referrer;
                         document.location = referrer;
                     }
                     if (response.d.Success !== true) {
                         alertUI(response.d.MessageError);
                     }
                 },
-                "error": function (jqXHR, textStatus, errorThrown) {
+                "error": function (jqXHR) {
                     alert(jqXHR.responseText);
                 }
             });
@@ -390,7 +394,7 @@ jQuery(function ($) {
                         alertUI(response.d.MessageError);
                     }
                 },
-                "error": function (jqXHR, textStatus, errorThrown) {
+                "error": function (jqXHR) {
                     alert(jqXHR.responseText);
                 }
             });
@@ -664,6 +668,5 @@ if (ApplicationUser.Grants.JobPosition.Write === false) {
     $("#BtnSave").hide();
 }
 else {
-    // ISSUS-190
     document.getElementById("TxtName").focus();
 }

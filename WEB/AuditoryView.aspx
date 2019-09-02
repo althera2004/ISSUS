@@ -136,6 +136,8 @@
         var Cuestionarios = [<%=this.CuestionariosJson %>];
         var RealActions = <%= this.RealActions %>;
         var UserEmployess = <%=this.UserEmployees %>;
+        var Providers = <%=this.ProvidersJson %>;
+        var Customers = <%=this.CustomersJson %>;
 
         // For Upload files
         // --------------------------------------
@@ -209,8 +211,9 @@
                                                             <input style="display:none;" type="text" readonly="readonly" id="CmbProviderValue" class="col-xs-12 col-sm-12" />
                                                             <span class="ErrorMessage" id="CmbProviderErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                         </div>
+                                                        <div class="col-sm-1" id="CmbProviderBar"><button type="button" class="btn btn-light" style="height:30px;" title="<%=this.Dictionary["Item_Providers"] %>" id="BtnProviderBAR">...</button></div>
                                                         <label class="col-sm-1 control-label no-padding-right" id="TxtNameLabel"><%=this.Dictionary["Item_Auditory_Label_Name"] %><span style="color:#f00">*</span></label>
-                                                        <div class="col-sm-4">
+                                                        <div class="col-sm-3">
                                                             <input type="text" id="TxtName" placeholder="<%=this.Dictionary["Item_Auditory_Label_Name"] %>" class="col-xs-12 col-sm-12" value="<%=this.Auditory.Description %>" />
                                                             <span class="ErrorMessage" id="TxtNameErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                         </div>
@@ -915,6 +918,9 @@
                                     </div>
                                 </div><!-- /.table-responsive -->
                             </div><!-- #dialog-message -->
+
+                            <!-- Popups BAR -->                                
+                            <%=this.ProviderBarPopups.Render %>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">
         <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>

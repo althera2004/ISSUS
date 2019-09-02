@@ -66,7 +66,7 @@ function DocumentDeleteConfirmed(id) {
                 alertUI(response.d.MessageError);
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             LoadingHide();
             alert(jqXHR.responseText);
         }

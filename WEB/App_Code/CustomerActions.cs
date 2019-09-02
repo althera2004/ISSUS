@@ -36,6 +36,20 @@ public class CustomerActions : WebService
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
+    public ActionResult UpdateSimple(int customerId, string description, int companyId, int userId)
+    {
+        var res = new Customer { Id = customerId, Description = description, CompanyId = companyId }.Update(userId);
+        if (res.Success)
+        {
+            var companySession = new Company(companyId);
+            HttpContext.Current.Session["Company"] = companySession;
+        }
+
+        return res;
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
     public ActionResult Update(Customer oldCustomer, Customer newCustomer, int userId)
     {
         var res = newCustomer.Update(userId);

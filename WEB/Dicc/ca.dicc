@@ -14,7 +14,7 @@ Alert_Large_ExpiredTasks::La data prevista per a la tasca ha vençut
 Alert_Large_IncidentEvaluatedWithoutAction::Falta omplir el camp 'Actuacions' de la incidència
 Alert_Large_IncidentIdentifiedNotEvaluated::Falta omplir el camp 'Perqué ha passat' de la incidència
 Alert_Large_IncidentLastWeek::La data prevista per al tancament de la incidència ha vençut
-Alert_Large_LearningFinishedWithoutEvaluation::Curs fnalitzat pendent d'avaluació
+Alert_Large_LearningFinishedWithoutEvaluation::Curs finalitzat pendent d'avaluació
 Alert_Large_LearningStartedWithoutAssistants::Curs iniciat sense alumnes inscrits
 Alert_Large_LearningExpired::La data prevista per a l'inici del curs ha vençut
 Alert_Short_ActionEvaluatedWithoutAction::Acció sense actuacions
@@ -130,7 +130,7 @@ Common_Label_Weeks::setmanes
 Common_Label_Years::anys
 Common_LastWeek::Darrera setmana
 Common_ListPdf::Imprimir
-Common_MaximumUploadSize::El màxim permés són 4MB
+Common_MaximumUploadSize::El màxim permès són 4MB
 Common_Message_Deleting::Eliminant...
 Common_Message_FormErrors::Revisar les dades del formulari
 Common_Message_Saving::Guardant...
@@ -178,6 +178,7 @@ Common_SearchCriteria::Criteris de cerca
 Common_SelectAll::Seleccionar tots
 Common_Selected::Seleccionat
 Common_SelectOne::Seleccionar
+Common_ShowAll::Veure tot
 Common_Status::Estat
 Common_Target::Objectiu
 Common_Task::Tasca
@@ -507,7 +508,7 @@ Item_Document_FieldLabel_Name::Document
 Item_Document_FieldLabel_Origin::Origen
 Item_Document_FieldLabel_Reason::Motiu del canvi
 Item_Document_FieldLabel_RevisionAttachment::Adjunt
-Item_Document_FieldLabel_RevisionDate::D.revisió
+Item_Document_FieldLabel_RevisionDate::D. Revisió
 Item_Document_FieldLabel_Source::Procedència
 Item_Document_FieldLabel_Status::Estat
 Item_Document_FieldLabel_Version::Versió
@@ -566,7 +567,7 @@ Item_Document_Tab_Traces::Traces
 Item_Document_Tab_Versions::Versions
 Item_Document_VersionAttachmentTitle::Versions i documents
 Item_DocumentAttachment::Fitxer adjunt
-Item_DocumentAttachment_AddFile::Pujar un fitxer
+Item_DocumentAttachment_AddFile::Pujar un fitxer (màxim 4MB, tipus permesos jpg, png, doc, docx, pdf, txt)
 Item_DocumentAttachment_Button_New::Afegir
 Item_DocumentAttachment_Description::Fitxer adjunt
 Item_DocumentAttachment_Plural::Fitxers adjunts
@@ -1074,7 +1075,7 @@ Item_Incident_Origin0::Tots
 Item_Incident_Origin1::Intern
 Item_Incident_Origin2::Proveïdor
 Item_Incident_Origin3::Client
-Item_Incident_PDF_ActionPageTitle::Dades de l'acció
+Item_Incident_PDF_ActionPageTitle::Dades de l'acció vinculada
 Item_Incident_Plural::Incidències
 Item_Incident_Popup_Delete_Title::Eliminar la incidència
 Item_Incident_PopupAnular_Title::Tancar la incidència
@@ -1377,8 +1378,8 @@ Item_Learning_Error_DeleteReasonRequired::Especificar el motiu de l'eliminació
 Item_Learning_Error_MimumOneAssistant::Seleccionar assistents
 Item_Learning_Error_NoCompleted::La participació ha d'estar completada
 Item_Learning_Error_NoEmeployeesAvailables::No hi ha empleats disponibles
-Item_Learning_ErrorMessage_NoDeleteEvaluated:: No es pot eliminar una formació avaluada
-Item_Learning_ErrorMessage_NoDeleteFinished:: No es pot eliminar una formació realitzada
+Item_Learning_ErrorMessage_NoDeleteEvaluated::No es pot eliminar una formació avaluada
+Item_Learning_ErrorMessage_NoDeleteFinished::No es pot eliminar una formació realitzada
 Item_Learning_ErrorMessage_UntemporalyDates::Dates creuades
 Item_Learning_FieldLabel_Academic_Desired::Formació acadèmica desitjada
 Item_Learning_FieldLabel_Amount::Cost
@@ -1526,7 +1527,7 @@ Item_ObjetivoAction_List_Filter_ShowActive::Actius
 Item_ObjetivoAction_List_Filter_ShowClosed::Tancats
 Item_ObjetivoAction_List_Filter_Status::Estat
 Item_ObjetivoAction_List_Filter_To::Fins
-Item_ObjetivoHistorico_StatusAnulate::Anular
+Item_ObjetivoHistorico_StatusAnulate::Anul·lar
 Item_ObjetivoHistorico_StatusRestore::Restaurar
 Item_ObjetivoList::Objectius
 Item_ObjetivoRecord_FieldLabel_Reason::Motiu
@@ -1566,7 +1567,7 @@ Item_Oportunity_LabelField_Result::Resultat
 Item_Oportunity_LabelField_Rules::Norma
 Item_Oportunity_LabelField_Status::Estat
 Item_Oportunity_Message_InsertSucess::Ja es poden fer servir les altres pestanyes
-Item_Oportunity_Message_Reevaluate::Avaluar oportunitat després d'aplicar l'acció
+Item_Oportunity_Message_Reevaluate::Avaluar l'oportunitat després d'aplicar l'acció
 Item_Oportunity_MessageClosingNotAvailable::No es pot donar per resolta una oportunitat mentre l'acció està oberta
 Item_Oportunity_New::Nova oportunitat
 Item_Oportunity_PopupDelete_Message::Eliminar la oportunitat?
@@ -1598,7 +1599,7 @@ Item_Oportunity_Tooltip_Impact_4::Alt (Impacte en la millora molt significatiu)
 Item_Oportunity_Tooltip_Impact_5::Prioritari (Molt clar impacte directe si implantem l'acció)
 Item_Oportunity_Type_Assumed::Assumida
 Item_Oportunity_Warning_ActionTabAvailable::Ja es poden omplir les dades de l'acció
-Item_Proccess:: Procés
+Item_Proccess::Procés
 Item_Process::Procés
 Item_Process_Button_Edit::Fitxa de procés
 Item_Process_Button_New::Afegir
@@ -1792,6 +1793,8 @@ Servicio::Servei
 SkillsFor::Formació per l'empleat/da
 Tipo::Tipus
 User_Admin::Administrador/a
+Item_Incident_Error_BeforeActions::No pot ser anterior a la data d'actuacions
+Item_IncidentAction_Error_BeforeActions::No pot ser anterior a la data d'actuacions													   
 User_PrimaryUser::Propietari/a
 Verification-Ext::Verificació externa
 Verification-Int::Verificació interna
@@ -1999,3 +2002,4 @@ Item_Equipment_Error_RequiredFields::Revisi els camps obligatoris de l'equip.
 Common_Loading::Carregant dades
 Item_Auditory_Message_QuestionaryClosable::Ja es pot accedir a la pestanya Informes per tancar el qüestionaris
 Item_Questionay_Observations::Observacions
+Item_Indicador_Message_BlockedByObjetivo::No es pot mopdificar perque hi ha objectius associats

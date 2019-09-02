@@ -54,7 +54,7 @@ function EmployeeDelete(id, description, hasAction) {
     }
 
     document.getElementById("EmployeeName").innerHTML = description;
-    var dialog = $("#EmployeeDeleteDialog").removeClass("hide").dialog({
+    $("#EmployeeDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
 		"width": 400,

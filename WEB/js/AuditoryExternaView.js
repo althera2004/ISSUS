@@ -64,11 +64,13 @@ window.onload = function () {
         if (Auditory.Type === 1) {
             if (Auditory.Customer.Id > 0) {
                 $("#CustomerDiv").show();
+                $("#CmbCustomerBar").show();
                 $("#RBCustomer").attr("checked", "checked");
             }
 
             if (Auditory.Provider.Id > 0) {
                 $("#ProviderDiv").show();
+                $("#CmbProviderBar").show();
                 $("#RBProvider").attr("checked", "checked");
             }
         }
@@ -155,6 +157,11 @@ window.onload = function () {
     }
 
     $("#TxtCloseQuestionsOn").on("change", TxtCloseQuestionsOnChanged);
+
+
+    // BAR Popups
+    $("#BtnProviderBAR").on("click", ShowProviderBarPopup);
+    $("#BtnCustomerBAR").on("click", ShowCustomerBarPopup);
 };
 
 function TxtCloseQuestionsOnChanged() {
@@ -170,12 +177,14 @@ function TxtCloseQuestionsOnChanged() {
 function RBExternalTypeChanged() {
     $("#ProviderDiv").hide();
     $("#CustomerDiv").hide();
+    $("#CmbProviderBar").hide();
+    $("#CmbCustomerBar").hide();
     $("#ErrorProviderCustomerDiv").hide();
     $("#ProviderCustomerErrorRequired").hide();
     $("#RBProvider").parent().css("color", "#333");
     $("#RBCustomer").parent().css("color", "#333");
-    if (document.getElementById("RBProvider").checked === true) { $("#ProviderDiv").show(); }
-    if (document.getElementById("RBCustomer").checked === true) { $("#CustomerDiv").show(); }
+    if (document.getElementById("RBProvider").checked === true) { $("#ProviderDiv").show(); $("#CmbProviderBar").show(); }
+    if (document.getElementById("RBCustomer").checked === true) { $("#CustomerDiv").show(); $("#CmbCustomerBar").show(); }
 }
 
 function AuditoryValidate() {
@@ -478,8 +487,6 @@ function CloseConfirmed() {
         "companyId": Company.Id
     };
 
-    console.log(data);
-
     $.ajax({
         "type": "POST",
         "url": "/Async/AuditoryActions.asmx/Close",
@@ -535,8 +542,6 @@ function ReopenConfirmed() {
         "applicationUserId": ApplicationUser.Id,
         "companyId": Company.Id
     };
-
-    console.log(data);
 
     $.ajax({
         "type": "POST",
@@ -954,3 +959,874 @@ function CalculateRules() {
 function RenderRealActions() {
 
 }
+
+// --------------- Provider/Customer BAR
+// ---------------------------------------------------------------
+
+// -- PROVIDERS 
+
+var BARProviderSelected = null;
+function ShowProviderBarPopup() {
+    BARProviderSelected = $("#CmbProvider").val() * 1;
+    ProviderRenderPopup();
+    $("#dialogProvider").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Providers + "</h4>",
+        "title_html": true,
+        "width": 600,
+        "buttons":
+            [
+                {
+                    "id": "BtnProviderSave",
+                    "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
+                    "class": "btn btn-success btn-xs",
+                    "click": function () { ProviderInsert(); }
+                },
+                {
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () { $(this).dialog("close"); }
+                }
+            ]
+    });
+}
+
+function ProviderRenderPopup() {
+    VoidTable("SelectableProvider");
+    var target = document.getElementById("SelectableProvider");
+    Providers.sort(CompareProviders);
+    for (var x = 0; x < Providers.length; x++) {
+        ProviderPopupRow(Providers[x], target);
+    }
+}
+
+function CompareProviders(a, b) {
+    if (a.Description.toUpperCase() < b.Description.toUpperCase()) return -1;
+    if (a.Description.toUpperCase() > b.Description.toUpperCase()) return 1;
+    return 0;
+}
+
+function ProviderPopupRow(item, target) {
+    if (item.Active === false) return;
+    var tr = document.createElement("tr");
+    tr.id = item.Id;
+    var td1 = document.createElement("td");
+    var td2 = document.createElement("td");
+    if (BARProviderSelected === item.Id) { td1.style.fontWeight = "bold"; }
+    td1.appendChild(document.createTextNode(item.Description));
+
+    var div = document.createElement("div");
+    var span1 = document.createElement("span");
+    span1.className = "btn btn-xs btn-success";
+    span1.title = Dictionary.Common_SelectAll;
+    var i1 = document.createElement("i");
+    i1.className = "icon-star bigger-120";
+    span1.appendChild(i1);
+
+    if (BARProviderSelected === item.Id) { span1.onclick = function () { alertUI(Dictionary.Common_Selected); }; }
+    else { span1.onclick = function () { ProviderChanged(this); }; }
+
+    div.appendChild(span1);
+
+    var span2 = document.createElement("span");
+    span2.className = "btn btn-xs btn-info";
+    span2.title = Dictionary.Common_Edit;
+    var i2 = document.createElement("i");
+    i2.className = "icon-edit bigger-120";
+    span2.appendChild(i2);
+    div.appendChild(document.createTextNode(" "));
+    div.appendChild(span2);
+
+    if (item.Id < 0) { span2.onclick = function () { alertUI(Dictionary.Common_Error_Kernel_Delete); }; }
+    else { span2.onclick = function () { ProviderUpdate(this); }; }
+
+    var span3 = document.createElement("span");
+    span3.className = "btn btn-xs btn-danger";
+    span3.title = Dictionary.Common_Delete;
+    var i3 = document.createElement("i");
+    i3.className = "icon-trash bigger-120";
+    span3.appendChild(i3);
+
+    if (BARProviderSelected === item.Id) {
+        span3.onclick = function () { alertUI(Dictionary.Common_Selected); };
+    }
+    else if (item.Id < 0) {
+        span3.onclick = function () { alertUI(Dictionary.Common_Error_Kernel_Delete); };
+    }
+    else if (item.Deletable === false) {
+        span3.onclick = function () { alertUI(Dictionary.Common_Error_NoDeletable); };
+    }
+    else {
+        span3.onclick = function () { ProviderDelete(this); };
+    }
+    div.appendChild(document.createTextNode(" "));
+    div.appendChild(span3);
+    td2.appendChild(div);
+
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    target.appendChild(tr);
+}
+
+function ProviderChanged(sender) {
+    var id = sender.parentNode.parentNode.parentNode.id * 1;
+    $("#CmbProvider").val(id);
+    $("#dialogProvider").dialog("close");
+}
+
+function ProviderInsert(sender) {
+    $("#TxtProviderNewNameErrorRequired").hide();
+    $("#TxtProviderNewNameErrorDuplicated").hide();
+    $("#TxtProviderNewName").val("");
+    BARProviderSelected = null;
+    $("#ProviderInsertDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "width": 600,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Equipment_Popup_AddProvider_Title + "</h4>",
+        "title_html": true,
+        "buttons":
+            [
+                {
+                    "id": "ProviderInsertOk",
+                    "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                    "class": "btn btn-success btn-xs",
+                    "click": function () {
+                        var ok = true;
+                        if ($("#TxtProviderNewName").val() === "") {
+                            $("#TxtProviderNewNameErrorRequired").show();
+                            ok = false;
+                        }
+                        else {
+                            $("#TxtProviderNewNameErrorRequired").hide();
+                        }
+
+                        var duplicated = false;
+                        for (var x = 0; x < Providers.length; x++) {
+                            if ($("#TxtProviderNewName").val().toLowerCase() === Providers[x].Description.toLowerCase()) {
+                                duplicated = true;
+                                break;
+                            }
+                        }
+
+                        if (duplicated === true) {
+                            $("#TxtProviderNewNameErrorDuplicated").show();
+                            ok = false;
+                        }
+
+                        if (ok === false) { window.scrollTo(0, 0); return false; }
+
+                        $("#TxtProviderNewNameErrorRequired").hide();
+                        $("#TxtProviderNewNameErrorDuplicated").hide();
+                        $(this).dialog("close");
+                        ProviderInsertConfirmed($("#TxtProviderNewName").val());
+                    }
+                },
+                {
+                    "id": "ProviderInsertCancel",
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () { $(this).dialog("close"); }
+                }
+            ]
+    });
+}
+
+function ProviderInsertConfirmed(newDescription) {
+    // 1.- Modificar en la BBDD
+    var description = "";
+    var data = {
+        "description": newDescription,
+        "companyId": Company.Id,
+        "userId": user.Id
+    };
+
+    var newId = 0;
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/ProviderActions.asmx/Insert",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
+            if (response.d.Success === true) {
+                newId = response.d.MessageError * 1;
+
+                // 2.- Añadir en HTML
+                Providers.push({ "Id": newId, "Description": newDescription, "Active": true, "Deletable": true });
+
+                // 3.- Modificar la fila de la tabla del popup
+                ProviderRenderPopup();
+                FillCmbProvider();
+            }
+            if (response.d.Success !== true) {
+                alertUI(response.d.MessageError);
+            }
+        },
+        "error": function (jqXHR) {
+            alertUI(jqXHR.responseText);
+        }
+    });
+}
+
+function ProviderUpdate(sender) {
+    $("#TxtProviderNameErrorRequired").hide();
+    $("#TxtProviderNameErrorDuplicated").hide();
+    $("#TxtProviderName").val(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
+    BARProviderSelected = sender.parentNode.parentNode.parentNode.id * 1;
+    $("#ProviderUpdateDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "width": 600,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Common_Edit + "</h4>",
+        "title_html": true,
+        "buttons": [
+            {
+                "Id": "ProviderUpdateOk",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                "class": "btn btn-success btn-xs",
+                "click": function () {
+                    var ok = true;
+                    if ($("#TxtProviderName").val() === "") {
+                        $("#TxtProviderNameErrorRequired").show();
+                        ok = false;
+                    }
+                    else {
+                        $("#TxtProviderNameErrorRequired").hide();
+                    }
+
+                    var duplicated = false;
+                    for (var x = 0; x < Providers.length; x++) {
+                        if ($("#TxtProviderName").val().toLowerCase() === Providers[x].Description.toLowerCase() && Selected !== Providers[x].Id && Providers[x].Active === true) {
+                            duplicated = true;
+                            break;
+                        }
+                    }
+
+                    if (duplicated === true) {
+                        $("#TxtProviderNameErrorDuplicated").show();
+                        ok = false;
+                    }
+                    else {
+                        $("#TxtProviderNameErrorDuplicated").hide();
+                    }
+
+                    if (ok === false) { window.scrollTo(0, 0); return false; }
+
+                    $("#TxtProviderNameErrorRequired").hide();
+                    $("#TxtProviderNameErrorDuplicated").hide();
+                    $(this).dialog("close");
+                    ProviderUpdateConfirmed(BARProviderSelected, document.getElementById("TxtProviderName").value);
+                }
+            },
+            {
+                "Id": "ProviderUpdateCancel",
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "class": "btn btn-xs",
+                "click": function () { $(this).dialog("close"); }
+            }
+        ]
+    });
+}
+
+function ProviderUpdateConfirmed(id, newDescription) {
+    // 1.- Modificar en la BBDD
+    for (var x = 0; x < Providers.length; x++) {
+        if (Providers[x].Id === id) {
+            description = Providers[x].Description;
+            break;
+        }
+    }
+    var data = {
+        "providerId": id,
+        "description": newDescription,
+        "companyId": Company.Id,
+        "userId": user.Id
+    };
+
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/ProviderActions.asmx/Update",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
+            if (response.d.Success !== true) {
+                alertUI(response.d.MessageError);
+            }
+        },
+        "error": function (jqXHR) {
+            alertUI(jqXHR.responseText);
+        }
+    });
+
+    // 2.- Modificar en HTML
+    var temp = new Array();
+    for (var y = 0; y < Providers.length; y++) {
+        if (Providers[y].Id !== id) {
+            temp.push(Providers[y]);
+        }
+        else {
+            var item = Providers[y];
+            temp.push({
+                "Id": item.Id,
+                "Description": newDescription,
+                "Active": item.Active,
+                "Deletable": item.Delete
+            });
+        }
+    }
+
+    Providers = [];
+    for (var w = 0; w < temp.length; w++) {
+        Providers.push(temp[w]);
+    }
+
+    // 3.- Modificar la fila de la tabla del popup
+    var target = document.getElementById("SelectableProvider");
+    for (var z = 0; z < target.childNodes.length; z++) {
+        if (target.childNodes[z].id * 1 === id) {
+            target.childNodes[z].childNodes[0].innerHTML = newDescription;
+            break;
+        }
+    }
+
+    // 4.- Modificar el texto si es el seleccionado
+    if (BARProviderSelected === id) {
+        $("#CmbProvider").val(newDescription);
+    }
+
+    FillCmbProvider();
+}
+
+function ProviderDelete(sender) {
+    $("#ProviderName").html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
+    BARProviderSelected = sender.parentNode.parentNode.parentNode.id * 1;
+    $("#ProviderDeleteDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Common_Delete + "</h4>",
+        "title_html": true,
+        "buttons":
+            [
+                {
+                    "id": "BARProviderDeleteBtnOK",
+                    "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
+                    "class": "btn btn-danger btn-xs",
+                    "click": function () {
+                        $(this).dialog("close");
+                        ProviderDeleteConfirmed(BARProviderSelected);
+                    }
+                },
+                {
+                    "id": "BARProviderDeleteBtnCancel",
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () { $(this).dialog("close"); }
+                }
+            ]
+    });
+}
+
+function ProviderDeleteConfirmed(id) {
+    // 1.- Desactivar en la BBDD
+    var description = "";
+    for (var x = 0; x < Providers.length; x++) {
+        if (Providers[x].Id === id) {
+            description = Providers[x].Description;
+            break;
+        }
+    }
+
+    var data = {
+        "providerId": id,
+        "description": description,
+        "companyId": Company.Id,
+        "userId": user.Id
+    };
+
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/ProviderActions.asmx/Delete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
+            if (response.d.Success !== true) { alertUI(response.d.MessageError); }
+        },
+        "error": function (jqXHR) {
+            alertUI(jqXHR.responseText);
+        }
+    });
+
+    // 2.- Desactivar en HTML
+    var temp = new Array();
+    for (var w = 0; w < Providers.length; w++) {
+        if (Providers[w].Id !== id) { temp.push(Providers[w]); }
+    }
+
+    Providers = new Array();
+    for (var y = 0; y < temp.length; y++) {
+        Providers.push(temp[y]);
+    }
+
+    // 3.- Eliminar la fila de la tabla del popup
+    var target = document.getElementById("SelectableProvider");
+    for (var z = 0; z < target.childNodes.length; z++) {
+        if (target.childNodes[z].id * 1 === id * 1) {
+            target.childNodes[z].style.display = "none";
+            break;
+        }
+    }
+
+    FillCmbProvider();
+}
+
+function FillCmbProvider() {
+    var res = "<option value=\"0\">" + Dictionary.Common_SelectAll + "</option>";
+    for (var x = 0; x < Providers.length; x++) {
+        res += "<option value=\"" + Providers[x].Id + "\"";
+        if (BARProviderSelected === Providers[x].Id) {
+            res += " selected=\"selected\"";
+        }
+
+        res += ">" + Providers[x].Description + "</option>";
+    }
+
+    $("#CmbProvider").html(res);
+}
+
+// --- CUSTOMERS
+var BARCustomerSelected = null;
+function ShowCustomerBarPopup() {
+    BARCustomerSelected = $("#CmbCustomer").val() * 1;
+    CustomerRenderPopup();
+    $("#dialogCustomer").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Customers + "</h4>",
+        "title_html": true,
+        "width": 600,
+        "buttons":
+            [
+                {
+                    "id": "BtnCustomerSave",
+                    "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
+                    "class": "btn btn-success btn-xs",
+                    "click": function () { CustomerInsert(); }
+                },
+                {
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () { $(this).dialog("close"); }
+                }
+            ]
+    });
+}
+
+function CustomerRenderPopup() {
+    VoidTable("SelectableCustomer");
+    var target = document.getElementById("SelectableCustomer");
+    Customers.sort(CompareCustomers);
+    for (var x = 0; x < Customers.length; x++) {
+        CustomerPopupRow(Customers[x], target);
+    }
+}
+
+function CompareCustomers(a, b) {
+    if (a.Description.toUpperCase() < b.Description.toUpperCase()) return -1;
+    if (a.Description.toUpperCase() > b.Description.toUpperCase()) return 1;
+    return 0;
+}
+
+function CustomerPopupRow(item, target) {
+    if (item.Active === false) return;
+    var tr = document.createElement("tr");
+    tr.id = item.Id;
+    var td1 = document.createElement("td");
+    var td2 = document.createElement("td");
+    if (BARCustomerSelected === item.Id) { td1.style.fontWeight = "bold"; }
+    td1.appendChild(document.createTextNode(item.Description));
+
+    var div = document.createElement("div");
+    var span1 = document.createElement("span");
+    span1.className = "btn btn-xs btn-success";
+    span1.title = Dictionary.Common_SelectAll;
+    var i1 = document.createElement("i");
+    i1.className = "icon-star bigger-120";
+    span1.appendChild(i1);
+
+    if (BARCustomerSelected === item.Id) { span1.onclick = function () { alertUI(Dictionary.Common_Selected); }; }
+    else { span1.onclick = function () { CustomerChanged(this); }; }
+
+    div.appendChild(span1);
+
+    var span2 = document.createElement("span");
+    span2.className = "btn btn-xs btn-info";
+    span2.title = Dictionary.Common_Edit;
+    var i2 = document.createElement("i");
+    i2.className = "icon-edit bigger-120";
+    span2.appendChild(i2);
+    div.appendChild(document.createTextNode(" "));
+    div.appendChild(span2);
+
+    if (item.Id < 0) { span2.onclick = function () { alertUI(Dictionary.Common_Error_Kernel_Delete); }; }
+    else { span2.onclick = function () { CustomerUpdate(this); }; }
+
+    var span3 = document.createElement("span");
+    span3.className = "btn btn-xs btn-danger";
+    span3.title = Dictionary.Common_Delete;
+    var i3 = document.createElement("i");
+    i3.className = "icon-trash bigger-120";
+    span3.appendChild(i3);
+
+    if (BARCustomerSelected === item.Id) {
+        span3.onclick = function () { alertUI(Dictionary.Common_Selected); };
+    }
+    else if (item.Id < 0) {
+        span3.onclick = function () { alertUI(Dictionary.Common_Error_Kernel_Delete); };
+    }
+    else if (item.Deletable === false) {
+        span3.onclick = function () { alertUI(Dictionary.Common_Error_NoDeletable); };
+    }
+    else {
+        span3.onclick = function () { CustomerDelete(this); };
+    }
+    div.appendChild(document.createTextNode(" "));
+    div.appendChild(span3);
+    td2.appendChild(div);
+
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    target.appendChild(tr);
+}
+
+function CustomerChanged(sender) {
+    var id = sender.parentNode.parentNode.parentNode.id * 1;
+    $("#CmbCustomer").val(id);
+    $("#dialogCustomer").dialog("close");
+}
+
+function CustomerInsert(sender) {
+    $("#TxtCustomerNewNameErrorRequired").hide();
+    $("#TxtCustomerNewNameErrorDuplicated").hide();
+    $("#TxtCustomerNewName").val("");
+    BARCustomerSelected = null;
+    $("#CustomerInsertDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "width": 600,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_Equipment_Popup_AddCustomer_Title + "</h4>",
+        "title_html": true,
+        "buttons":
+            [
+                {
+                    "id": "CustomerInsertOk",
+                    "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                    "class": "btn btn-success btn-xs",
+                    "click": function () {
+                        var ok = true;
+                        if ($("#TxtCustomerNewName").val() === "") {
+                            $("#TxtCustomerNewNameErrorRequired").show();
+                            ok = false;
+                        }
+                        else {
+                            $("#TxtCustomerNewNameErrorRequired").hide();
+                        }
+
+                        var duplicated = false;
+                        for (var x = 0; x < Customers.length; x++) {
+                            if ($("#TxtCustomerNewName").val().toLowerCase() === Customers[x].Description.toLowerCase()) {
+                                duplicated = true;
+                                break;
+                            }
+                        }
+
+                        if (duplicated === true) {
+                            $("#TxtCustomerNewNameErrorDuplicated").show();
+                            ok = false;
+                        }
+
+                        if (ok === false) { window.scrollTo(0, 0); return false; }
+
+                        $("#TxtCustomerNewNameErrorRequired").hide();
+                        $("#TxtCustomerNewNameErrorDuplicated").hide();
+                        $(this).dialog("close");
+                        CustomerInsertConfirmed($("#TxtCustomerNewName").val());
+                    }
+                },
+                {
+                    "id": "CustomerInsertCancel",
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () { $(this).dialog("close"); }
+                }
+            ]
+    });
+}
+
+function CustomerInsertConfirmed(newDescription) {
+    // 1.- Modificar en la BBDD
+    var description = "";
+    var data = {
+        "description": newDescription,
+        "companyId": Company.Id,
+        "userId": user.Id
+    };
+
+    var newId = 0;
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/CustomerActions.asmx/Insert",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
+            if (response.d.Success === true) {
+                newId = response.d.MessageError * 1;
+
+                // 2.- Añadir en HTML
+                Customers.push({ "Id": newId, "Description": newDescription, "Active": true, "Deletable": true });
+
+                // 3.- Modificar la fila de la tabla del popup
+                CustomerRenderPopup();
+                FillCmbCustomer();
+            }
+            if (response.d.Success !== true) {
+                alertUI(response.d.MessageError);
+            }
+        },
+        "error": function (jqXHR) {
+            alertUI(jqXHR.responseText);
+        }
+    });
+}
+
+function CustomerUpdate(sender) {
+    $("#TxtCustomerNameErrorRequired").hide();
+    $("#TxtCustomerNameErrorDuplicated").hide();
+    $("#TxtCustomerName").val(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
+    BARCustomerSelected = sender.parentNode.parentNode.parentNode.id * 1;
+    $("#CustomerUpdateDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "width": 600,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Common_Edit + "</h4>",
+        "title_html": true,
+        "buttons": [
+            {
+                "Id": "CustomerUpdateOk",
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                "class": "btn btn-success btn-xs",
+                "click": function () {
+                    var ok = true;
+                    if ($("#TxtCustomerName").val() === "") {
+                        $("#TxtCustomerNameErrorRequired").show();
+                        ok = false;
+                    }
+                    else {
+                        $("#TxtCustomerNameErrorRequired").hide();
+                    }
+
+                    var duplicated = false;
+                    for (var x = 0; x < Customers.length; x++) {
+                        if ($("#TxtCustomerName").val().toLowerCase() === Customers[x].Description.toLowerCase() && Selected !== Customers[x].Id && Customers[x].Active === true) {
+                            duplicated = true;
+                            break;
+                        }
+                    }
+
+                    if (duplicated === true) {
+                        $("#TxtCustomerNameErrorDuplicated").show();
+                        ok = false;
+                    }
+                    else {
+                        $("#TxtCustomerNameErrorDuplicated").hide();
+                    }
+
+                    if (ok === false) { window.scrollTo(0, 0); return false; }
+
+                    $("#TxtCustomerNameErrorRequired").hide();
+                    $("#TxtCustomerNameErrorDuplicated").hide();
+                    $(this).dialog("close");
+                    CustomerUpdateConfirmed(BARCustomerSelected, document.getElementById("TxtCustomerName").value);
+                }
+            },
+            {
+                "Id": "CustomerUpdateCancel",
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "class": "btn btn-xs",
+                "click": function () { $(this).dialog("close"); }
+            }
+        ]
+    });
+}
+
+function CustomerUpdateConfirmed(id, newDescription) {
+    // 1.- Modificar en la BBDD
+    var data = {
+        "customerId": id,
+        "description": newDescription,
+        "companyId": Company.Id,
+        "userId": user.Id
+    };
+
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/CustomerActions.asmx/UpdateSimple",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
+            if (response.d.Success !== true) {
+                alertUI(response.d.MessageError);
+            }
+        },
+        "error": function (jqXHR) {
+            alertUI(jqXHR.responseText);
+        }
+    });
+
+    // 2.- Modificar en HTML
+    var temp = new Array();
+    for (var y = 0; y < Customers.length; y++) {
+        if (Customers[y].Id !== id) {
+            temp.push(Customers[y]);
+        }
+        else {
+            var item = Customers[y];
+            temp.push({
+                "Id": item.Id,
+                "Description": newDescription,
+                "Active": item.Active,
+                "Deletable": item.Delete
+            });
+        }
+    }
+
+    Customers = [];
+    for (var w = 0; w < temp.length; w++) {
+        Customers.push(temp[w]);
+    }
+
+    // 3.- Modificar la fila de la tabla del popup
+    var target = document.getElementById("SelectableCustomer");
+    for (var z = 0; z < target.childNodes.length; z++) {
+        if (target.childNodes[z].id * 1 === id) {
+            target.childNodes[z].childNodes[0].innerHTML = newDescription;
+            break;
+        }
+    }
+
+    // 4.- Modificar el texto si es el seleccionado
+    if (BARCustomerSelected === id) {
+        $("#CmbCustomer").val(newDescription);
+    }
+
+    FillCmbCustomer();
+}
+
+function CustomerDelete(sender) {
+    $("#CustomerName").html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
+    BARCustomerSelected = sender.parentNode.parentNode.parentNode.id * 1;
+    $("#CustomerDeleteDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Common_Delete + "</h4>",
+        "title_html": true,
+        "buttons":
+            [
+                {
+                    "id": "BARCustomerDeleteBtnOK",
+                    "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
+                    "class": "btn btn-danger btn-xs",
+                    "click": function () {
+                        $(this).dialog("close");
+                        CustomerDeleteConfirmed(BARCustomerSelected);
+                    }
+                },
+                {
+                    "id": "BARCustomerDeleteBtnCancel",
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                    "class": "btn btn-xs",
+                    "click": function () { $(this).dialog("close"); }
+                }
+            ]
+    });
+}
+
+function CustomerDeleteConfirmed(id) {
+    // 1.- Desactivar en la BBDD
+    var description = "";
+    for (var x = 0; x < Customers.length; x++) {
+        if (Customers[x].Id === id) {
+            description = Customers[x].Description;
+            break;
+        }
+    }
+
+    var data = {
+        "customerId": id,
+        "description": description,
+        "companyId": Company.Id,
+        "userId": user.Id
+    };
+
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/CustomerActions.asmx/Delete",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (response) {
+            if (response.d.Success !== true) { alertUI(response.d.MessageError); }
+        },
+        "error": function (jqXHR) {
+            alertUI(jqXHR.responseText);
+        }
+    });
+
+    // 2.- Desactivar en HTML
+    var temp = new Array();
+    for (var w = 0; w < Customers.length; w++) {
+        if (Customers[w].Id !== id) { temp.push(Customers[w]); }
+    }
+
+    Customers = new Array();
+    for (var y = 0; y < temp.length; y++) {
+        Customers.push(temp[y]);
+    }
+
+    // 3.- Eliminar la fila de la tabla del popup
+    var target = document.getElementById("SelectableCustomer");
+    for (var z = 0; z < target.childNodes.length; z++) {
+        if (target.childNodes[z].id * 1 === id * 1) {
+            target.childNodes[z].style.display = "none";
+            break;
+        }
+    }
+
+    FillCmbCustomer();
+}
+
+function FillCmbCustomer() {
+    var res = "<option value=\"0\">" + Dictionary.Common_SelectAll + "</option>";
+    for (var x = 0; x < Customers.length; x++) {
+        res += "<option value=\"" + Customers[x].Id + "\"";
+        if (BARCustomerSelected === Customers[x].Id) {
+            res += " selected=\"selected\"";
+        }
+
+        res += ">" + Customers[x].Description + "</option>";
+    }
+
+    $("#CmbCustomer").html(res);
+}
+// ---------------------------------------------------------------

@@ -7,6 +7,27 @@ var IncidentActionsRequired = false;
 var IncidentClosedRequired = false;
 var anulationData = null;
 
+var Origins = {
+    "Auditory": 1,
+    "Propuesta": 2,
+    "Incident": 3,
+    "BusinessRisk": 4,
+    "Objetivo": 5,
+    "Oportunity": 6
+};
+
+var ReporterType = {
+    "Interna": 1,
+    "Proveedor": 2,
+    "Customer": 3
+};
+
+var ActionType = {
+    "Mejora": 1,
+    "Correctiva": 2,
+    "Preventiva": 3
+};
+
 jQuery(function ($) {
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
@@ -24,9 +45,9 @@ jQuery(function ($) {
     $(".date-picker").datepicker(options);
 
     $("#BtnSave").on("click", function (e) { e.preventDefault(); SaveAction(); });
-    $("#BtnCancel").on("click", function (e) { document.location = referrer; });
+    $("#BtnCancel").on("click", function (e) { e.preventDefault(); document.location = referrer; });
     $("#BtnSaveAction").on("click", function (e) { e.preventDefault(); SaveIncident(); });
-    $("#BtnCancelAction").on("click", function (e) { document.location = referrer; });
+    $("#BtnCancelAction").on("click", function (e) { e.preventDefault(); document.location = referrer; });
     $("#BtnPrint").on("click", PrintData);
 
     $("#BtnNewCost").on("click", function (e) {
@@ -91,7 +112,7 @@ function SaveAction() {
             ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_TypeRequired);
             $("#RTypeLabel").css("color", Color.Error);
         } else {
-            $("#RTypeLabel").css("color", "#000");
+            $("#RTypeLabel").css("color", Color.Label);
         }
 
         if (!document.getElementById("RReporterType1").checked && !document.getElementById("RReporterType2").checked && !document.getElementById("RReporterType3").checked) {
@@ -104,7 +125,7 @@ function SaveAction() {
             if (document.getElementById("RReporterType2").checked && $("#CmbReporterType2").val() * 1 === 0) { origin = false; }
             if (document.getElementById("RReporterType3").checked && $("#CmbReporterType3").val() * 1 === 0) { origin = false; }
             if (origin === true) {
-                $("#RReporterTypeLabel").css("color", "#000");
+                $("#RReporterTypeLabel").css("color", Color.Label);
             } else {
                 ok = false;
                 ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_ReportedByRequired);
@@ -282,22 +303,22 @@ function SaveAction() {
     }
 
     var Rtype = 0;
-    if (document.getElementById("RType1").checked) { Rtype = 1; }
-    if (document.getElementById("RType2").checked) { Rtype = 2; }
-    if (document.getElementById("RType3").checked) { Rtype = 3; }
+    if (document.getElementById("RType1").checked) { Rtype = ActionType.Mejora; }
+    if (document.getElementById("RType2").checked) { Rtype = ActionType.Correctiva; }
+    if (document.getElementById("RType3").checked) { Rtype = ActionType.Preventiva; }
 
     var RReporter = 0;
-    if (document.getElementById("RReporterType1").checked) { RReporter = 1; }
-    if (document.getElementById("RReporterType2").checked) { RReporter = 2; }
-    if (document.getElementById("RReporterType3").checked) { RReporter = 3; }
+    if (document.getElementById("RReporterType1").checked) { RReporter = ReporterType.Interna; }
+    if (document.getElementById("RReporterType2").checked) { RReporter = ReporterType.Proveedor; }
+    if (document.getElementById("RReporterType3").checked) { RReporter = ReporterType.Customer; }
 
-    var Department = { "Id": RReporter === 1 ? $("#CmbReporterType1").val() * 1 : 0 };
-    var Provider = { "Id": RReporter === 2 ? $("#CmbReporterType2").val() * 1 : 0 };
-    var Customer = { "Id": RReporter === 3 ? $("#CmbReporterType3").val() * 1 : 0 };
+    var Department = { "Id": RReporter === ReporterType.Interna ? $("#CmbReporterType1").val() * 1 : 0 };
+    var Provider = { "Id": RReporter === ReporterType.Proveedor ? $("#CmbReporterType2").val() * 1 : 0 };
+    var Customer = { "Id": RReporter === ReporterType.Customer ? $("#CmbReporterType3").val() * 1 : 0 };
 
     var ROrigin = 0;
     if (IncidentAction.Id === -1) {
-        ROrigin = 2;
+        ROrigin = Origins.Incident;
     }
     else if (IncidentAction.AuditoryId > 0) {
         RReporter = IncidentAction.ReporterType;
@@ -325,10 +346,10 @@ function SaveAction() {
         Customer = IncidentAction.Customer;
 
         // Analisis de riesgo
-        ROrigin = 4;
+        ROrigin = Origins.BusinessRisk;
 
         // Preventiva
-        Rtype = 3;
+        Rtype = ActionType.Preventiva;
     }
     else if (IncidentAction.ObjetivoId > 0) {
         RReporter = IncidentAction.ReporterType;
@@ -337,10 +358,10 @@ function SaveAction() {
         Customer = IncidentAction.Customer;
 
         // Objetivo
-        ROrigin = 5;
+        ROrigin = Origins.Objetivo;
 
         // Preventiva
-        Rtype = 3;
+        Rtype = ActionType.Preventiva;
     }
     else if (typeof IncidentAction.Oportunity !== "undefined" && IncidentAction.Oportunity !== null) {
         if (IncidentAction.Oportunity.Id > 0) {
@@ -350,10 +371,10 @@ function SaveAction() {
             Customer = IncidentAction.Customer;
 
             // Analisis de riesgo
-            ROrigin = 6;
+            ROrigin = Origins.Oportunity;
 
             // Preventiva
-            Rtype = 3;
+            Rtype = ActionType.Preventiva;
         }
     }
 
@@ -412,7 +433,6 @@ function SaveAction() {
             alertUI(msg.responseText);
         }
     });
-
 }
 
 function CmbReporterDepartmentsFill() {
@@ -701,7 +721,7 @@ function AnularPopup() {
     $("#CmbClosedResponsibleLabel").removeClass("no-padding-right");
     $("#TxtClosedDate").val(FormatDate(new Date(), "/"));
     $("#CmbClosedResponsible").val(user.Employee.Id);
-    var dialog = $("#dialogAnular").removeClass("hide").dialog({
+    $("#dialogAnular").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Item_IncidentAction_PopupAnular_Title,
@@ -725,8 +745,8 @@ function AnularPopup() {
 }
 
 function AnularConfirmed() {
-    $("#TxtClosedDateLabel").css("color", "#000");
-    $("#CmbClosedResponsibleLabel").css("color", "#000");
+    $("#TxtClosedDateLabel").css("color", Color.Label);
+    $("#CmbClosedResponsibleLabel").css("color", Color.Label);
     $("#TxtClosedDateDateRequired").hide();
     $("#TxtClosedDateDateMalformed").hide();
     $("#CmbClosedResponsibleErrorRequired").hide();
@@ -785,7 +805,7 @@ function AnularConfirmed() {
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function (msg) {
+        "success": function () {
             SaveAction();
         },
         "error": function (msg) {
@@ -844,7 +864,7 @@ function Restore() {
 
 function SetLayout() {
     switch (IncidentAction.Origin) {
-        case 1:
+        case Origins.Auditory:
             $("#AuditoryDiv").show();
             $("#RReporterType1").parent().hide();
             $("#RType3").parent().hide();
@@ -880,7 +900,7 @@ function SetLayout() {
 
             RReporterTypeChanged();
             break;
-        case 2:
+        case Origins.Propuesta:
             switch (IncidentAction.ReporterType) {
                 case 1:
                     document.getElementById("RReporterType1").checked = true;
@@ -905,7 +925,7 @@ function SetLayout() {
 
             RReporterTypeChanged();
             break;
-        case 3:
+        case Origins.Incident:
             $("#ROriginDiv").hide();
             $("#RTypeDiv").hide();
             $("#RReporterDiv").hide();
@@ -918,7 +938,7 @@ function SetLayout() {
             }
 
             break;
-        case 4:
+        case Origins.BusinessRisk:
             $("#ROriginDiv").hide();
             $("#RTypeDiv").hide();
             $("#RReporterDiv").hide();
@@ -931,7 +951,7 @@ function SetLayout() {
             }
 
             break;
-        case 5:
+        case Origins.Objetivo:
             $("#ROriginDiv").hide();
             $("#RTypeDiv").hide();
             $("#RReporterDiv").hide();
@@ -946,7 +966,7 @@ function SetLayout() {
             }
 
             break;
-        case 6:
+        case Origins.Oportunity:
             $("#ROriginDiv").hide();
             $("#RTypeDiv").hide();
             $("#RReporterDiv").hide();

@@ -1,12 +1,12 @@
 ﻿function RestoreUpload() {
-    document.getElementById('fileName').files = null;
+    document.getElementById("fileName").files = null;
     $("#UploadMessage").show();
     $("#UploadMessageSelected").hide();
     $("#UploadMessageSelectedFileName").html("");
 }
 
 function ShowSelected() {
-    var file = document.getElementById('fileName').files[0];
+    var file = document.getElementById("fileName").files[0];
     $("#UploadMessage").hide();
     $("#UploadMessageSelected").show();
     $("#UploadMessageSelectedFileName").html(file.name);
@@ -203,7 +203,6 @@ function UploadFileGo(documentId) {
             return false
         }*/
 
-
         LoadingShow(Dictionary.Save);
         var fd = new FormData();
         var file = document.getElementById("imageInput");
@@ -278,7 +277,6 @@ function SetAttachLayout() {
         $("#ActualDocumentLabel").hide();
         $("#ActualDocumentLink").hide();
         $("#tdIconsDiv").html("");
-
         $("#BtnAttachText").html(Dictionary.Item_DocumentAttachment_Button_New);
     }
 }

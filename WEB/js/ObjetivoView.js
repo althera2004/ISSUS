@@ -1575,7 +1575,7 @@ function ActionNew(sender) {
 }
 
 function DataChangedPopup(id) {
-    var dialog = $("#dialogDataChanged").removeClass("hide").dialog({
+    $("#dialogDataChanged").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Common_NoSaveData,

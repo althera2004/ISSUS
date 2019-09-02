@@ -2,21 +2,21 @@
 
 //Connect Options
 var options = {
-    timeout: 3,
+    "timeout": 3,
     //Gets Called if the connection has sucessfully been established
-    onSuccess: function () {
+    "onSuccess": function () {
         MQTTAfterConnect();
     },
     //Gets Called if the connection could not be established
-    onFailure: function (message) {
+    "onFailure": function (message) {
         console.log("Connection failed: " + message.errorMessage);
     }
 };
 
 function MQTTAfterConnect(message) {
     try {
-        var topic = 'issus/' + companyId + '/Versioned/#';
-        client.subscribe(topic, { qos: 1 });
+        var topic = "issus/" + companyId + "/Versioned/#";
+        client.subscribe(topic, { "qos": 1 });
         console.log("subscription", topic);
     }
     catch (e) {
@@ -108,7 +108,7 @@ function MQTTversioned(message) {
 function Versioned() {
     $("#TxtNewReason").val("");
     $("#TxtNewReasonErrorRequired").hide();
-    var dialog = $("#ReasonDialog").removeClass("hide").dialog({
+    $("#ReasonDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Item_Document_Button_NewVersion,
@@ -172,7 +172,6 @@ function Versioned() {
 }
 
 function VersionedConfirmed() {
-    var webMethod = "/Async/DocumentActions.asmx/Versioned";
     var data = {
         "date": $("#TxtNewRevision").val(),
         "documentId": documentId,
@@ -184,12 +183,12 @@ function VersionedConfirmed() {
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/DocumentActions.asmx/Versioned",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             document.getElementById("TxtRevision").value = msg.d.MessageError;
             document.getElementById("TxtRevisionDate").value = FormatDate(new Date(), "/");
             document.getElementById("TxtMotivo").value = document.getElementById("TxtNewReason").value;
@@ -197,10 +196,9 @@ function VersionedConfirmed() {
             $("#ReasonDialog").dialog("close");
             attachActual = null;
             SetAttachLayout();
-
             publish(documentId + "|" + $("#TxtRevision").val(), "issus/" + companyId + "/Versioned", 2);
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI("error:" + msg.d.MessageError);
             $("#ReasonDialog").dialog("close");
@@ -209,24 +207,24 @@ function VersionedConfirmed() {
 }
 
 function InsertVersionRow() {
-    var target=document.getElementById('TableDocumentVersion');
-    var tr = document.createElement('TR');
-    var td1 = document.createElement('TD');
-    td1.appendChild(document.createTextNode(document.getElementById('TxtRevision').value));
-    var td2 = document.createElement('TD');
-    td2.appendChild(document.createTextNode(FormatDate(new Date(), '/')));
-    var td3 = document.createElement('TD');
-    td3.appendChild(document.createTextNode(document.getElementById('TxtMotivo').value));
-    var td4 = document.createElement('TD');
+    var target=document.getElementById("TableDocumentVersion");
+    var tr = document.createElement("TR");
+    var td1 = document.createElement("TD");
+    td1.appendChild(document.createTextNode(document.getElementById("TxtRevision").value));
+    var td2 = document.createElement("TD");
+    td2.appendChild(document.createTextNode(FormatDate(new Date(), "/")));
+    var td3 = document.createElement("TD");
+    td3.appendChild(document.createTextNode(document.getElementById("TxtMotivo").value));
+    var td4 = document.createElement("TD");
     td4.appendChild(document.createTextNode(ApplicationUser.Employee.Name));
 
-    var td5 = document.createElement('TD');
-    td5.id = 'Icons' + document.getElementById('TxtRevision').value;
-    td5.appendChild(document.createTextNode(' '));
+    var td5 = document.createElement("TD");
+    td5.id = "Icons" + document.getElementById("TxtRevision").value;
+    td5.appendChild(document.createTextNode(" "));
 
-    var tdVoid = document.createElement('TD');
-    tdVoid.id = 'DOC' + document.getElementById('TxtRevision').value;
-    tdVoid.appendChild(document.createTextNode(' '));
+    var tdVoid = document.createElement("TD");
+    tdVoid.id = "DOC" + document.getElementById("TxtRevision").value;
+    tdVoid.appendChild(document.createTextNode(" "));
 
     tr.appendChild(td1);
     tr.appendChild(td2);
@@ -248,7 +246,6 @@ function Save() {
 }
 
 function Insert() {
-    var webMethod = "/Async/DocumentActions.asmx/Insert";
     var data = {
         "newDocument":
             {
@@ -274,16 +271,16 @@ function Insert() {
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/DocumentActions.asmx/Insert",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             LoadingHide();
             document.location = referrer;
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.d.MessageError);
         }
@@ -322,17 +319,16 @@ function Update() {
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": webMethod,
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
             LoadingHide();
-            //document.location = document.referrer;
             document.location = referrer;
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg);
         }
@@ -345,12 +341,12 @@ document.getElementById("TxtCodigo").focus();
 function AnularPopup() {
     $("#TxtEndDate").val(FormatDate(new Date(), "/"));
     $("#TxtAnularComments").val("");
-    var dialog = $("#dialogAnular").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Item_Document_PopupAnular_Title,
-        width: 600,
-        buttons:
+    $("#dialogAnular").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_Document_PopupAnular_Title,
+        "width": 600,
+        "buttons":
         [
             {
                 "id": "BtnAnularDocument",
@@ -370,8 +366,8 @@ function AnularPopup() {
 var anulationData = null;
 function AnularConfirmed() {
     console.log("AnularConfirmed");
-    document.getElementById("TxtAnularCommentsLabel").style.color = "#000";
-    document.getElementById("TxtEndDateLabel").style.color = "#000";
+    document.getElementById("TxtAnularCommentsLabel").style.color = Color.Label;
+    document.getElementById("TxtEndDateLabel").style.color = Color.Label;
     $("#TxtAnularCommentsErrorRequired").hide();
     $("#TxtEndDateErrorRequired").hide();
     $("#TxtEndDateMalformed").hide();
@@ -383,7 +379,7 @@ function AnularConfirmed() {
     var ok = true;
     if ($("#TxtEndDate").val() === "") {
         ok = false;
-        document.getElementById("TxtEndDateLabel").style.color = "#f00";
+        document.getElementById("TxtEndDateLabel").style.color = Color.Error;
         $("#TxtEndDateErrorRequired").show();
     }
     else {
@@ -419,15 +415,15 @@ function AnularConfirmed() {
     $("#dialogAnular").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": webMethod,
+        "contentType: "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function () {
             document.location = referrer;
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
@@ -461,7 +457,6 @@ function AnulateLayout() {
 }
 
 function Restore() {
-    var webMethod = "/Async/DocumentActions.asmx/Restore";
     var data = {
         "documentId": documentId,
         "companyId": companyId,
@@ -469,15 +464,15 @@ function Restore() {
     };
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/DocumentActions.asmx/Restore",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function () {
             document.location = referrer;
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }

@@ -5,7 +5,7 @@ var newAmount;
 // Bar popup for bar item Provider
 function ShowCostBarPopup(cmb) {
     CostRenderPopup();
-    var dialog = $("#dialogCost").removeClass("hide").dialog({
+    $("#dialogCost").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Item_CostDefinitions,
@@ -14,12 +14,13 @@ function ShowCostBarPopup(cmb) {
         "buttons":
         [
             {
-                "id": "BtnCostSave",
+                "id": "BtnCostSaveOK",
                 "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                 "class": "btn btn-success btn-xs",
                 "click": function () { CostInsert(); }
             },
             {
+                "id": "BtnCostSaveCancel",
                 "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () { $(this).dialog("close"); }
@@ -112,6 +113,7 @@ function CostPopupRow(item, target) {
     else {
         span3.onclick = function () { CostDelete(this); };
     }
+
     div.appendChild(document.createTextNode(' '));
     div.appendChild(span3);
     tdActions.appendChild(div);
@@ -261,58 +263,57 @@ function CostUpdate(sender) {
         "title": Dictionary.Common_Edit,
         "title_html": true,
         "buttons": [
-                {
-                    "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
-                    "class": "btn btn-success btn-xs",
-                    "click": function () {
-                        var ok = true;
-                        var duplicated = false;
-                        ResetCostUpdateForm();
-                        if ($("#TxtCostName").val() === "") {
+            {
+                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Accept,
+                "class": "btn btn-success btn-xs",
+                "click": function () {
+                    var ok = true;
+                    var duplicated = false;
+                    ResetCostUpdateForm();
+                    if ($("#TxtCostName").val() === "") {
+                        ok = false;
+                        $("#TxtCostNameErrorRequired").show();
+                        $("#TxtCostNameLabel").css("color", Color.Error);
+                    }
+                    else {
+                        for (var x = 0; x < Costs.length; x++) {
+                            if ($("#TxtCostName").val().toLowerCase() === Costs[x].Description.toLowerCase() && CostSelected !== Costs[x].Id*1) {
+                                duplicated = true;
+                                break;
+                            }
+                        }
+
+                        if (duplicated === true) {
+                            $("#TxtCostNameErrorDuplicated").show();
                             ok = false;
-                            $("#TxtCostNameErrorRequired").show();
-                            $("#TxtCostNameLabel").css("color", Color.Error);
                         }
                         else {
-                            for (var x = 0; x < Costs.length; x++) {
-                                if ($("#TxtCostName").val().toLowerCase() === Costs[x].Description.toLowerCase() && CostSelected !== Costs[x].Id*1) {
-                                    duplicated = true;
-                                    break;
-                                }
-                            }
-
-                            if (duplicated === true) {
-                                $("#TxtCostNameErrorDuplicated").show();
-                                ok = false;
-                            }
-                            else {
-                                $("#TxtCostNameErrorDuplicated").hide();
-                            }
+                            $("#TxtCostNameErrorDuplicated").hide();
                         }
-
-                        if ($("#TxtCostAmount").val() === "") {
-                            ok = false;
-                            $("#TxtCostAmountErrorRequired").show();
-                            $("#TxtCostAmountLabel").css("color", Color.Error);
-                        }
-
-                        if (ok === false) { window.scrollTo(0, 0); return false; }
-
-                        $("#TxtCostNameErrorRequired").hide();
-                        $("#TxtCostNameErrorDuplicated").hide();
-                        $(this).dialog("close");
-                        CostUpdateConfirmed();
                     }
-                },
-                {
-                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
-                    "class": "btn btn-xs",
-                    "click": function () {
-                        $(this).dialog("close");
+
+                    if ($("#TxtCostAmount").val() === "") {
+                        ok = false;
+                        $("#TxtCostAmountErrorRequired").show();
+                        $("#TxtCostAmountLabel").css("color", Color.Error);
                     }
+
+                    if (ok === false) { window.scrollTo(0, 0); return false; }
+
+                    $("#TxtCostNameErrorRequired").hide();
+                    $("#TxtCostNameErrorDuplicated").hide();
+                    $(this).dialog("close");
+                    CostUpdateConfirmed();
                 }
+            },
+            {
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                "class": "btn btn-xs",
+                "click": function () {
+                    $(this).dialog("close");
+                }
+            }
         ]
-
     });
 }
 
@@ -344,7 +345,7 @@ function CostUpdateConfirmed(id, newDescription) {
                 alertUI(response.d.MessageError);
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }
@@ -358,7 +359,13 @@ function CostUpdateConfirmed(id, newDescription) {
         }
         else {
             var item = Costs[x];
-            temp.push({ "Id": item.Id, "Description": newDescription, "Amount": newAmount, "Active": item.Active, "Deletable": item.Delete });
+            temp.push({
+                "Id": item.Id,
+                "Description": newDescription,
+                "Amount": newAmount,
+                "Active": item.Active,
+                "Deletable": item.Delete
+            });
         }
     }
 
@@ -375,7 +382,7 @@ function CostUpdateConfirmed(id, newDescription) {
 function CostDelete(sender) {
     $("#CostName").html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
-    var dialog = $("#CostDeleteDialog").removeClass("hide").dialog({
+    $("#CostDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Common_Delete,
@@ -426,7 +433,7 @@ function CostDeleteConfirmed(id) {
             LoadingHide();
             if (response.d.Success !== true) { alertUI(response.d.MessageError); }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }

@@ -72,6 +72,8 @@ function Resize() {
 }
 
 window.onload = function () {
+    var options = $.extend({}, $.datepicker.regional[ApplicationUser.Language], { autoclose: true, todayHighlight: true });
+    $(".date-picker").datepicker(options);
     Resize();
     document.getElementById("RBOperation1").checked = Filter.indexOf("C") !== -1;
     document.getElementById("RBOperation2").checked = Filter.indexOf("V") !== -1;

@@ -167,7 +167,6 @@ function SaveEmployee() {
 			"userId": user.Id
 		};
 	}
-    console.log(data)
 
     $.ajax({
         "type": "POST",
@@ -184,7 +183,7 @@ function SaveEmployee() {
                 alertUI(response.d.MessageError);
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }

@@ -42,6 +42,8 @@ function Login() {
             "ip": ip
         };
 
+        $("#BtnLogin").html(Dictionary[language].Loging);
+
         $.ajax({
             "type": "POST",
             "url": "/Async/LoginActions.asmx/GetLogin",
@@ -80,6 +82,7 @@ function Login() {
 
                 if (result.Id === -1) {
                     document.getElementById("ErrorSpan").style.display = "block";
+                    $("#BtnLogin").html(Dictionary[language].Btn);
                 }
                 else if (result.CompanyId === 1) {
                     document.location = "admin";
@@ -97,12 +100,14 @@ function Login() {
             },
             "error": function () {
                 document.getElementById("ErrorSpan").style.display = "block";
+                $("#BtnLogin").html(Dictionary[language].Btn);
             }
         });
     }
     else {
         $("#ErrorMessage").html(errorMessage);
         $("#ErrorMessage").show();
+        $("#BtnLogin").html(Dictionary[language].Btn);
     }
 }
 

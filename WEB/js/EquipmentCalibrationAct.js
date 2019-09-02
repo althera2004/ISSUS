@@ -231,7 +231,7 @@ function EquipmentCalibrationActRenderRow(equipmentCalibrationAct, targetName) {
 
     var success = true;
     if (equipmentCalibrationAct.Result > equipmentCalibrationAct.MaxResult) {
-        tdResult.style.color = "#f00";
+        tdResult.style.color = Color.Error;
         success = false;
     }
 

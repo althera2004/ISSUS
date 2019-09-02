@@ -24,6 +24,7 @@ Alert_Short_BusinessRiskActionNeeded::Riesgo sin acción
 Alert_Short_BusinessRiskNotEvaluated::Riesgo no valorado
 Alert_Short_EmployeeDelete::Responsable no activo
 Alert_Short_EquipmentIncomplete::Equipo incompleto
+Item_Indicador_Message_BlockedByObjetivo::No se puede modificar porque hay objetivos asociados
 Alert_Short_EquipmentMaintenance::Mantenimento sin registro
 Alert_Short_ExpiredTasks::Tarea vencida
 Alert_Short_IncidentEvaluatedWithoutAction::Incidencia sin actuaciones
@@ -178,6 +179,7 @@ Common_SearchCriteria::Criterios de búsqueda
 Common_SelectAll::Seleccionar todos
 Common_Selected::Seleccionado
 Common_SelectOne::Seleccionar
+Common_ShowAll::Ver todo
 Common_Status::Estado
 Common_Target::Objetivo
 Common_Task::Tarea
@@ -272,7 +274,7 @@ Item_BusinessRisk_Button_New::Añadir
 Item_BusinessRisk_Button_RestoreAction::Restaurar la acción
 Item_BusinessRisk_ErrorMesagge_OutOfDate::La fecha debe ser posterior a
 Item_BusinessRisk_ErrorMessage_ActionVerDate::La acción no puede empezar antes que el Riesgo
-Item_BusinessRisk_ErrorMessage_CloseBeforeAction::No se puede cerrar anteriormente a la acción
+Item_BusinessRisk_ErrorMessage_CloseBeforeAction::No se puede cerrar con anterioridad a la acción
 Item_BusinessRisk_ErrorMessage_ClosedRequiredData::Si se cierra, indicar si aplica acción o si se asume el riesgo
 Item_BusinessRisk_ErrorMessage_ClosedRequiredDataOutTime::No se puede cerrar la acción antes que las actuaciones
 Item_BusinessRisk_ErrorMessage_CloseEarlierThanStart::La fecha de cierre no puede ser anterior a la fecha de alta
@@ -493,7 +495,7 @@ Item_Document_Category::Categoría del documento
 Item_Document_Error_DeleteReasonRequired::Especificar el motivo de la eliminación
 Item_Document_ErrorMessage_AlreadyExists::Ya existe
 Item_Document_ErrorMessage_CrossDate::CLG
-Item_Document_ErrorMessage_RevisionOverDate::La fecha no puede ser antrior a
+Item_Document_ErrorMessage_RevisionOverDate::La fecha no puede ser anterior a
 Item_Document_ErrorMessage_StartDatePreviousRevision::La fecha de inicio no puede ser posterior a la primera revisión
 Item_Document_FieldLabel_Category::Categoría
 Item_Document_FieldLabel_Code::Código
@@ -565,7 +567,7 @@ Item_Document_Tab_Traces::Trazas
 Item_Document_Tab_Versions::Versiones
 Item_Document_VersionAttachmentTitle::Versiones y documentos
 Item_DocumentAttachment::Fichero adjunto
-Item_DocumentAttachment_AddFile::Subir un fichero
+Item_DocumentAttachment_AddFile::Subir un fichero (máximo 4MB, tipos permitidos jpg, png, doc, docx, pdf, txt)
 Item_DocumentAttachment_Button_New::Añadir
 Item_DocumentAttachment_Description::Fichero adjunto
 Item_DocumentAttachment_Plural::Ficheros adjuntos
@@ -686,7 +688,7 @@ Item_Employee_ListJobPosition_Responsible::Responsable
 Item_Employee_ListJobPosition_StartDate::Fecha de alta
 Item_Employee_ListLearningHeader_Date::Fecha de realización
 Item_Employee_Message_Delete::Empleado/a activo/a en la aplicación. ¿Quiere eliminarlo/a?
-Item_Employee_Message_Inactivate::Empleado/a activo/a activo/a en la aplicación. ¿Quiere inactivarlo/a?
+Item_Employee_Message_Inactivate::Empleado/a activo/a en la aplicación. ¿Quiere inactivarlo/a?
 Item_Employee_Message_InactivateWarning::El empleado/a tiene tareas asignadas y se debe asignar un sustituto/a. ¿Quiere continuar con la eliminación?
 Item_Employee_Message_InsertSucess::Empleado/a guardado/a correctamente. Ya se pueden usar las pestañas del formulario
 Item_Employee_Message_NoDeletableByJobPositionLink::No se puede eliminar porque tiene registros vinculados
@@ -1081,7 +1083,7 @@ Item_Incident_PopupDelete_Message_Actions::Se eliminarán también las acciones 
 Item_Incident_Status1::Identificada
 Item_Incident_Status2::Analizada
 Item_Incident_Status3::En progreso
-Item_Incident_Status4::Cerrada por
+Item_Incident_Status4::Cerrada
 Item_Incident_Tab_Action::Acción
 Item_Incident_Tab_Basic::Datos básicos
 Item_Incident_Tab_Costs::Costes
@@ -1157,7 +1159,7 @@ Item_IncidentAction_Header_Type::Tipo
 Item_IncidentAction_Label_ApplyAction::¿Aplicar acción correctiva?
 Item_IncidentAction_Label_BusinessRisk::Análisis de riesgo
 Item_IncidentAction_Label_Description::Descripción
-Item_IncidentAction_Label_EndDate::Data
+Item_IncidentAction_Label_EndDate::Fecha
 Item_IncidentAction_Label_EndResponsible::Responsable
 Item_IncidentAction_Label_Incident::Incidencia
 Item_IncidentAction_Label_Objetivo::Objetivo
@@ -1287,14 +1289,14 @@ Item_Indicador_Message_IndicadorClosedUpdate::No se puede modificar porqué el i
 Item_Indicador_Message_ProcessBlocked::El indicador está vinculado a Objetivos
 Item_Indicador_New_Button::Añadir
 Item_Indicador_New_Label::Nuevo indicador
-Item_Indicador_Popup_DeleteRecord_Message::¿Quiere eliminar el registro
+Item_Indicador_Popup_DeleteRecord_Message::¿Quiere eliminar el registro?
 Item_Indicador_PopupAnular_Title::Cerrar el indicador
-Item_Indicador_PopupDelete_Message::Quiere eliminar el indicador
+Item_Indicador_PopupDelete_Message::¿Quiere eliminar el indicador?
 Item_Indicador_PopupDelete_Message2::Esta acción no se puede deshacer
 Item_Indicador_RecordsReportTitle::Registros de indicador
 Item_Indicador_StatusLabelMeta::Meta conseguida
 Item_Indicador_StatusLabelNoMeta::Meta no conseguida
-Item_Indicador_StatusLabelWarning::Alarma!
+Item_Indicador_StatusLabelWarning::!Alarma!
 Item_Indicador_StatusLabelWithoutMeta::Meta no definida
 Item_Indicador_Tab_Basic::Datos básicos
 Item_Indicador_Tab_Graphics::Gráficos
@@ -1375,8 +1377,8 @@ Item_Learning_Error_DeleteReasonRequired::Especificar el motivo de la eliminaci�
 Item_Learning_Error_MimumOneAssistant::Seleccionar asistentes
 Item_Learning_Error_NoCompleted::La participación debe estar completada
 Item_Learning_Error_NoEmeployeesAvailables::No existen empleados/as disponibles
-Item_Learning_ErrorMessage_NoDeleteEvaluated:: No se puede eliminar una formación evaluada
-Item_Learning_ErrorMessage_NoDeleteFinished:: No se puede eliminar una formación realizada
+Item_Learning_ErrorMessage_NoDeleteEvaluated::No se puede eliminar una formación evaluada
+Item_Learning_ErrorMessage_NoDeleteFinished::No se puede eliminar una formación realizada
 Item_Learning_ErrorMessage_UntemporalyDates::Fechas cruzadas
 Item_Learning_FieldLabel_Academic_Desired::Formación académica deseada
 Item_Learning_FieldLabel_Amount::Coste
@@ -1418,7 +1420,7 @@ Item_Learning_ListHeader_EstimatedDate::Prevista
 Item_Learning_ListHeader_Status::Estado
 Item_Learning_Message_Evaluation::Guardando una formación con todos los participantes evaluados, queda cerrada y ya no se puede modificar
 Item_Learning_Message_NoAssistants::No existen asistentes al curso
-Item_Learning_Message_SelectOneAssistant::Obligatoro algún assistente
+Item_Learning_Message_SelectOneAssistant::Obligatorio algún asistente
 Item_Learning_NewLabel::Ficha de la formación
 Item_Learning_Objetive::Objetivo 
 Item_Learning_PopupDelete_Message::¿Eliminar la formación?
@@ -1452,7 +1454,7 @@ Item_Objetivo_Btn_Anular::Cerrar
 Item_Objetivo_Btn_Restaurar::Reabrir
 Item_Objetivo_Button_Indicators::Indicadores
 Item_Objetivo_Button_New::Añadir
-Item_Objetivo_DataChangedWarning::Han habido cambios en el objetivo. Quiere guardar los cambios para continuar?
+Item_Objetivo_DataChangedWarning::Ha habido cambios en el objetivo. ¿Quiere guardar los cambios para continuar?
 Item_Objetivo_DataChangedWarning_continue::Continuar sin guardar
 Item_Objetivo_DataChangedWarning_save::Guardar i continuar
 Item_Objetivo_Detail::Ficha del Objetivo
@@ -1499,10 +1501,10 @@ Item_Objetivo_PopupAnular_Title::Cerrar el objetivo
 Item_Objetivo_RecordsReportTitle::Registros del Objetivo
 Item_Objetivo_StatusLabelMeta::Meta conseguida
 Item_Objetivo_StatusLabelNoMeta::Meta no conseguida
-Item_Objetivo_StatusLabelWarning::Alarma!
+Item_Objetivo_StatusLabelWarning::¡Alarma!
 Item_Objetivo_StatusLabelWithoutMeta::Meta no definida
 Item_Objetivo_Tab_Records::Registros
-Item_Objetivo_Tab_RecordsFromIndicator::Registros del indicador vinculado
+Item_Objetivo_Tab_RecordsFromIndicator::Registros del objetivo provenientes del indicador
 Item_Objetivo_Tab_RecordsFromIndicatorMessage::Los registros pertenecen al indicador ##
 Item_Objetivo_TabActions::Acciones
 Item_Objetivo_TabBasic::Datos básicos
@@ -1536,7 +1538,7 @@ Item_Oportunity_Button_CategoryBAR::Gestión de normas
 Item_Oportunity_Button_New::Añadir
 Item_Oportunity_Detail::Ficha de la Oportunidad
 Item_Oportunity_ErrorMesagge_OutOfDate::Fecha no válida
-Item_Oportunity_ErrorMessage_ActionVerDate::La acción no puede empezar antes que la Oportunidad
+Item_Oportunity_ErrorMessage_ActionVerDate::La acción no puede empezar antes que la oportunidad
 Item_Oportunity_ErrorMessage_DateStartRequired::Fecha de inicio no válida
 Item_Oportunity_ErrorMessage_DateUpToLimit::La fecha no puedes ser posterior a hoy
 Item_Oportunity_ErrorMessage_NameRequired::Nombre obligatorio
@@ -1563,10 +1565,10 @@ Item_Oportunity_LabelField_Result::Resultado
 Item_Oportunity_LabelField_Rules::Norma
 Item_Oportunity_LabelField_Status::Estado
 Item_Oportunity_Message_InsertSucess::Ya se pueden usar las otras pestañas
-Item_Oportunity_Message_Reevaluate::Avaluar oportunitat després d'aplicar l'acció
-Item_Oportunity_MessageClosingNotAvailable::No es pot donar per resolta una oportunitat mentre l'acció està oberta
+Item_Oportunity_Message_Reevaluate::Evaluar la oportunidad después de aplicar la acción
+Item_Oportunity_MessageClosingNotAvailable::No se puede dar por resuelta una oportunidad mientras la acción esté abierta
 Item_Oportunity_New::Nueva oportunidad
-Item_Oportunity_PopupDelete_Message::Eliminar la oportunidad?
+Item_Oportunity_PopupDelete_Message::¿Eliminar la oportunidad?
 Item_Oportunity_Status_Assumed::Asumida
 Item_Oportunity_Status_NotSignificant::No significativa
 Item_Oportunity_Status_Significant::Significativa
@@ -1575,14 +1577,14 @@ Item_Oportunity_Tab_Action::Acción
 Item_Oportunity_Tab_Basic::Datos básicos
 Item_Oportunity_Tab_Costs::Costes
 Item_Oportunity_Tab_Graphics::Situació final
-Item_Oportunity_Tab_HistoryActions::Hitòric d'accions
+Item_Oportunity_Tab_HistoryActions::Histórico de acciones
 Item_Oportunity_Tab_UploadFiles::Adjuntos
-Item_Oportunity_Title_FinalResult::Resultat de l'oportunitat
+Item_Oportunity_Title_FinalResult::Resultado de la Oportunidad
 Item_Oportunity_Title_Graph::Gráfico
 Item_Oportunity_Title_OportunityDetails::Ficha de la oportunidad
 Item_Oportunity_Title_OportunityDetailsNou::Nueva oportunidad
 Item_Oportunity_Title_Result::Resultado
-Item_Oportunity_Title_StartResult::Acciones después de evaluar la oportunitad
+Item_Oportunity_Title_StartResult::Acciones después de evaluar la oportunidad
 Item_Oportunity_Tooltip_Cost_1::Desorbitado (Costes elevadísimos. Imposibles de amortizar)
 Item_Oportunity_Tooltip_Cost_2::Elevado (Coste elevado. Para su implantación será imprescindible un gran impacto positivo en el proceso)
 Item_Oportunity_Tooltip_Cost_3::Moderado (Buena tasa de amortización a medio plazo)
@@ -1593,7 +1595,7 @@ Item_Oportunity_Tooltip_Impact_2::Menor (Poco aporte a la mejora aunque puede se
 Item_Oportunity_Tooltip_Impact_3::Interesante (Aporte significativo)
 Item_Oportunity_Tooltip_Impact_4::Alto (Impacto en la mejora muy significativo)
 Item_Oportunity_Tooltip_Impact_5::Prioritario (Muy claro impacto directo si se implanta la acción)
-Item_Oportunity_Type_Assumed::Assumida
+Item_Oportunity_Type_Assumed::Asumida
 Item_Oportunity_Warning_ActionTabAvailable::Ya se pueden entrar los datos de la acción
 Item_Proccess::Proceso
 Item_Process::Proceso
@@ -1678,7 +1680,7 @@ Item_Reports::Informes
 Item_Review::Revisión por la dirección
 Item_Rule::Norma
 Item_Rule_ChangeIPRLabel::Especifique el motivo del cambio
-Item_Rule_ChangeIPRMessage::Quiere continuar con el cambio?
+Item_Rule_ChangeIPRMessage::¿Quiere continuar con el cambio?
 Item_Rule_ChangeIPRTitle::Riesgos afectados con el cambio
 Item_Rule_HistoryHeader_ApprovedBy::Aprobado por
 Item_Rule_HistoryHeader_Date::Fecha
@@ -1789,6 +1791,8 @@ Servicio::Servicio
 SkillsFor::Formación para el/la empleado/a
 Tipo::Tipo
 User_Admin::Administrador/a
+Item_Incident_Error_BeforeActions::No puede ser anterior a la fecha de actuaciones
+Item_IncidentAction_Error_BeforeActions::No puede ser anterior a la fecha de actuaciones
 User_PrimaryUser::Propietario/a
 Verification-Ext::Verificación externa
 Verification-Int::Verificación interna

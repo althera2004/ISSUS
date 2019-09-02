@@ -1,7 +1,7 @@
 ﻿function SaveSkill()
 {
     var data = { 
-        skills: {
+        "skills": {
             "Id": 0,
             "Employee": employee,
             "Academic": $("#TxtAcademic").val().trim(),
@@ -13,7 +13,7 @@
             "WorkExperienceValid": document.getElementById('WorkExperienceValidYes').checked ? true : (document.getElementById('WorkExperienceValidNo').checked ? false : null),
             "AbilityValid": document.getElementById('HabilityValidYes').checked ? true : (document.getElementById('HabilityValidNo').checked ? false : null)
         },
-        userId: user.Id
+        "userId": user.Id
     };
 
     LoadingShow(Dictionary.Common_Message_Saving);
@@ -36,8 +36,8 @@
 function UpdateSkill()
 {
     var data = { 
-        oldSkills: employeeSkills,
-        newSkills: {
+        "oldSkills": employeeSkills,
+        "newSkills": {
             "Id": 0,
             "Employee": employee,
             "Academic": document.getElementById('TxtAcademic').value.trim(),
@@ -49,7 +49,7 @@ function UpdateSkill()
             "WorkExperienceValid": document.getElementById('WorkExperienceValidYes').checked ? true : (document.getElementById('WorkExperienceValidNo').checked ? false : null),
             "AbilityValid": document.getElementById('HabilityValidYes').checked ? true : (document.getElementById('HabilityValidNo').checked ? false : null)
         },
-        userId: user.Id
+        "userId": user.Id
     };
 
     $.ajax({
@@ -58,7 +58,7 @@ function UpdateSkill()
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function (msg) {
+        "success": function () {
             document.location = referrer;
         },
         "error": function (msg) {
@@ -103,7 +103,7 @@ function ValidateForm()
             else {
                 $("#TxtNifErrorDuplicated").hide();
                 if (errorNif === false) {
-                    $("#TxtNifLabel").css("color", "#000");
+                    $("#TxtNifLabel").css("color", Color.Label);
                 }
             }
         }
@@ -113,7 +113,7 @@ function ValidateForm()
         $("#TxtNifErrorDuplicated").hide();
         if(errorNif === false)
         {
-            $("#TxtNifLabel").css("color", "#000");
+            $("#TxtNifLabel").css("color", Color.Label);
         }
     }
 
@@ -288,20 +288,20 @@ jQuery(function ($) {
                 {
                     "Id": employee.Id,
                     "Name": $("#TxtNombre").val(),
-                    "LastName": $('#TxtApellido1').val(),
-                    "Nif": $('#TxtNif').val(),
-                    "Email": $('#TxtEmail').val(),
-                    "Phone": $('#TxtTelefono').val(),
+                    "LastName": $("#TxtApellido1").val(),
+                    "Nif": $("#TxtNif").val(),
+                    "Email": $("#TxtEmail").val(),
+                    "Phone": $("#TxtTelefono").val(),
                     "Address":
                     {
-                        "Address": $('#TxtDireccion').val(),
-                        "PostalCode": $('#TxtCp').val(),
-                        "City": $('#TxtPoblacion').val(),
-                        "Province": $('#TxtProvincia').val(),
+                        "Address": $("#TxtDireccion").val(),
+                        "PostalCode": $("#TxtCp").val(),
+                        "City": $("#TxtPoblacion").val(),
+                        "Province": $("#TxtProvincia").val(),
                         "Country": country
                     },
                     "CompanyId": Company.Id,
-                    "Notes": $('#TxtNotas').val()
+                    "Notes": $("#TxtNotas").val()
                 },
                 "userId": user.Id
             };
@@ -324,7 +324,7 @@ jQuery(function ($) {
                         alertUI(response.d.MessageError);
                     }
                 },
-                "error": function (jqXHR, textStatus, errorThrown) {
+                "error": function (jqXHR) {
                     LoadingHide();
                     alertUI(jqXHR.responseText);
                 }
@@ -352,41 +352,41 @@ jQuery(function ($) {
 
     function SaveEmployeeConfirmed(){
         var webMethod = "/Async/EmployeeActions.asmx/Update";
-        var ddData = $('#CmbPais').data('ddslick');
+        var ddData = $("#CmbPais").data("ddslick");
         var country = ddData.selectedData.value * 1;
         var data = {
             "oldEmployee": employee,
             "newEmployee":
             {
                 "Id": employee.Id,
-                "Name": $('#TxtNombre').val(),
-                "LastName": $('#TxtApellido1').val(),
-                "Nif": $('#TxtNif').val(),
-                "Email": $('#TxtEmail').val(),
-                "Phone": $('#TxtTelefono').val(),
+                "Name": $("#TxtNombre").val(),
+                "LastName": $("#TxtApellido1").val(),
+                "Nif": $("#TxtNif").val(),
+                "Email": $("#TxtEmail").val(),
+                "Phone": $("#TxtTelefono").val(),
                 "Address":
                 {
-                    "Address": $('#TxtDireccion').val(),
-                    "PostalCode": $('#TxtCp').val(),
-                    "City": $('#TxtPoblacion').val(),
-                    "Province": $('#TxtProvincia').val(),
+                    "Address": $("#TxtDireccion").val(),
+                    "PostalCode": $("#TxtCp").val(),
+                    "City": $("#TxtPoblacion").val(),
+                    "Province": $("#TxtProvincia").val(),
                     "Country": country
                 },
                 "CompanyId": Company.Id,
-                "Notes": $('#TxtNotas').val(),
-                "DisabledDate": GetDate($('#TxtEndDate').val(),'-', false)
+                "Notes": $("#TxtNotas").val(),
+                "DisabledDate": GetDate($("#TxtEndDate").val(), "-", false)
             },
             "userId": user.Id
         };
 
         LoadingShow(Dictionary.Common_Message_Saving);
         $.ajax({
-            type: "POST",
-            url: webMethod,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify(data, null, 2),
-            success: function (response) {
+            "type": "POST",
+            "url": webMethod,
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": JSON.stringify(data, null, 2),
+            "success": function (response) {
                 if (response.d.Success === true) {
                     LoadingHide();
                     if (employeeSkills.Id === 0) {
@@ -400,7 +400,7 @@ jQuery(function ($) {
                     alertUI(response.d.MessageError);
                 }
             },
-            error: function (jqXHR, textStatus, errorThrown) {
+            "error": function (jqXHR) {
                 LoadingHide();
                 alert(jqXHR.responseText);
             }
@@ -426,12 +426,12 @@ jQuery(function ($) {
         console.log("pais", ddData[x]);
     }
 
-    $('#CmbPais').ddslick({data: ddData});
-    $('#CmbPais').ddslick('select', {index: i });
+    $("#CmbPais").ddslick({ "data": ddData });
+    $("#CmbPais").ddslick("select", { "index": i });
 
     if(ApplicationUser.ShowHelp===true){
-        $('#DivCmbPais .dd-options').on('mouseover', function(e) { $( "#DivCmbPais" ).tooltip( "destroy" ); }); 
-        $('#DivCmbPais .dd-options').on('mouseout', function(e) { SetToolTip('DivCmbPais',Dictionary.Item_Employee_Help_Pais); }); 
+        $("#DivCmbPais .dd-options").on("mouseover", function (e) { $("#DivCmbPais").tooltip("destroy"); });
+        $("#DivCmbPais .dd-options").on("mouseout", function (e) { SetToolTip("DivCmbPais", Dictionary.Item_Employee_Help_Pais); });
     }
 
     /*$('.date-picker').datepicker({
@@ -450,19 +450,19 @@ function RenderDepartments() {
     var target = document.getElementById("DeparmentsEmployee");
     target.innerHTML = "";
     for (var x = 0; x < departmentsEmployee.length; x++) {
-        EmployeeDepartmentRow(departmentsEmployee[x], target)
+        EmployeeDepartmentRow(departmentsEmployee[x], target);
     }
 }
 
 function SortByName() {
     return function (a, b) {
-        if (a['Name'] > b['Name']) {
+        if (a["Name"] > b["Name"]) {
             return 1;
-        } else if (a['Name'] < b['Name']) {
+        } else if (a["Name"] < b["Name"]) {
             return -1;
         }
         return 0;
-    }
+    };
 }
 
 function CompanyDepartmentsAdd(id, name) {
@@ -530,7 +530,7 @@ document.getElementById("TxtNombre").focus();
 function DeleteJobPosition(id, name) {
     $("#JobPositionName").html(name);
     JobPositionSelected = id;
-    var dialog = $("#JobPositionDeleteDialog").removeClass("hide").dialog({
+    $("#JobPositionDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">&nbsp;" + Dictionary.Common_Warning + "</h4>",
@@ -682,12 +682,12 @@ function AnularPopup() {
     }
 
     if (HasActions) {
-        EmployeeDeleteAlert(employee.Id, $('#TxtNombre').val() + ' ' + $('#TxtApellido1').val());
+        EmployeeDeleteAlert(employee.Id, $("#TxtNombre").val() + " " + $("#TxtApellido1").val());
         return false;
     }
 
     $("#TxtEndDate").val(FormatDate(new Date(), "/"));
-    var dialog = $("#dialogAnular").removeClass("hide").dialog({
+    $("#dialogAnular").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Item_Employee_PopupAnular_Title,
@@ -713,7 +713,7 @@ var anulationData = null;
 function AnularConfirmed() {
     console.log("AnularConfirmed");
     var ok = true;
-    $("#TxtEndDateLabel").css("color", "#000");
+    $("#TxtEndDateLabel").css("color", Color.Label);
     $("#TxtEndDateErrorRequired").hide();
     $("#TxtEndDateMalformed").hide();
     
@@ -734,8 +734,6 @@ function AnularConfirmed() {
         return false;
     }
 
-    //Anulate(int indicadorId, int companyId, int applicationUserId, string reason, DateTime date, int responsible)
-    var webMethod = "/Async/EmployeeActions.asmx/Disable";
     var data = {
         "employeeId": employeeId,
         "companyId": Company.Id,
@@ -746,16 +744,15 @@ function AnularConfirmed() {
     $("#dialogAnular").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        type: "POST",
-        url: webMethod,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(data, null, 2),
-        success: function (msg) {
+        "type": "POST",
+        "url": "/Async/EmployeeActions.asmx/Disable",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function () {
             document.location = referrer;
-            //AnulateLayout();
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }

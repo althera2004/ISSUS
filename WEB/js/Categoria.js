@@ -76,6 +76,7 @@ function RenderCategoryTable()
         else {
             span2.onclick = function () { CategoryUpdate(this); };
         }
+
         div.appendChild(document.createTextNode(" "));
         div.appendChild(span2);
 
@@ -153,11 +154,11 @@ function CategoryDelete(sender) {
     $("#CategoryName").html(sender.parentNode.parentNode.parentNode.childNodes[0].innerHTML);
     Selected = sender.parentNode.parentNode.parentNode.id * 1;
     $("#CategoryDeleteDialog").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: "<h4 class=\"smaller\">" + Dictionary.Item_DocumentCategory_Popup_Delete_Title + "</h4>",
-        title_html: true,
-        buttons: 
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Item_DocumentCategory_Popup_Delete_Title + "</h4>",
+        "title_html": true,
+        "buttons": 
         [
             {
                 "id": "BtnDeleteCategoryOk",
@@ -177,7 +178,7 @@ function CategoryDelete(sender) {
                 }
             }
         ],
-        close: function () {document.getElementById("dialogCategory").parentNode.style.cssText += "z-Index:1050 !important"; }
+        "close": function () {document.getElementById("dialogCategory").parentNode.style.cssText += "z-Index:1050 !important"; }
     });
 }
 
@@ -190,6 +191,7 @@ function CategoryDeleteConfirmed(id) {
             break;
         }
     }
+
     var data = {
         "categoryId": id,
         "description": description,
@@ -302,7 +304,7 @@ function CategoryUpdate(sender) {
                     }
                 }
             ],
-        close: function () { document.getElementById("dialogCategory").parentNode.style.cssText += "z-Index:1050 !important"; }
+        "close": function () { document.getElementById("dialogCategory").parentNode.style.cssText += "z-Index:1050 !important"; }
     });
 }
 
@@ -372,7 +374,7 @@ function CategoryInsert() {
     document.getElementById("dialogCategory").parentNode.style.cssText += "z-Index:1039 !important";
     $("#TxtCategoryNewName").va("");
     Selected = 0;
-    var dialog = $("#CategoryInsertDialog").removeClass("hide").dialog({
+    $("#CategoryInsertDialog").removeClass("hide").dialog({
         "resizable": false,
         "width": 500,
         "modal": true,
@@ -430,7 +432,7 @@ function CategoryInsert() {
                 }
             }
         ],
-        close: function () { document.getElementById("dialogCategory").parentNode.style.cssText += "z-Index:1050 !important"; }
+        "close": function () { document.getElementById("dialogCategory").parentNode.style.cssText += "z-Index:1050 !important"; }
     });
 }
 
@@ -446,7 +448,7 @@ function CategoryInsertConfirmed(id, newDescription) {
     var newId = 0;
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
-        "type: "POST",
+        "type": "POST",
         "url": "/Async/DocumentActions.asmx/CategoryInsert",
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
@@ -469,7 +471,7 @@ function CategoryInsertConfirmed(id, newDescription) {
                 alertUI(response.d.MessageError);
             }
         },
-        error: function (jqXHR) {
+        "error": function (jqXHR) {
             LoadingHide();
             alertUI(jqXHR.responseText);
         }

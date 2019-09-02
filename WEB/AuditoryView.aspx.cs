@@ -253,6 +253,24 @@ public partial class AuditoryView : Page
     /// <summary>Gets the dictionary for interface texts</summary>
     public Dictionary<string, string> Dictionary { get; private set; }
 
+    public BarPopup ProviderBarPopups { get; set; }
+
+    public string ProvidersJson
+    {
+        get
+        {
+            return Provider.ByCompanyJson(this.company.Id);
+        }
+    }
+
+    public string CustomersJson
+    {
+        get
+        {
+            return Customer.ByCompanyJson(this.company.Id);
+        }
+    }
+
     /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
@@ -365,6 +383,26 @@ public partial class AuditoryView : Page
         }
 
         this.CuestionariosPreguntas();
+        this.RenderBarPopups();
+    }
+
+    private void RenderBarPopups()
+    {
+        this.ProviderBarPopups = new BarPopup
+        {
+            Id = "Provider",
+            DeleteMessage = this.Dictionary["Common_DeleteMessage"],
+            BarWidth = 600,
+            UpdateWidth = 600,
+            DeleteWidth = 600,
+            Required = true,
+            RequiredMessage = this.Dictionary["Common_Required"],
+            Duplicated = true,
+            DuplicatedMessage = this.Dictionary["Common_Error_NameAlreadyExists"],
+            Description = this.Dictionary["Item_Provider"],
+            FieldName = this.Dictionary["Common_Name"],
+            BarTitle = this.Dictionary["Item_Providers"]
+        };
     }
 
     private void FillLists()

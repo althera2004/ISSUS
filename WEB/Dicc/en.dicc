@@ -24,6 +24,7 @@ Alert_Short_BusinessRiskNotEvaluated::Riesgo no valorado
 Alert_Short_EmployeeDelete::Responsable no activo
 Alert_Short_EquipmentIncomplete::Equipo incompleto
 Alert_Short_EquipmentMaintenance::Mantenimento sin registro
+Item_Indicador_Message_BlockedByObjetivo::No se puede modificar porque hay objetivos asociados
 Alert_Short_ExpiredTasks::Tarea vencida
 Alert_Short_IncidentEvaluatedWithoutAction::Incidencia sin actuaciones
 Alert_Short_IncidentIdentifiedNotEvaluated::Incidencia no analizada

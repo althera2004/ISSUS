@@ -5,6 +5,7 @@ function CostDefinitionDeleteAction() {
         "companyId": Company.Id,
         "userId": user.Id
     };
+
     $("#CostDefinitionDeleteDialog").dialog("close");
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
@@ -26,7 +27,7 @@ function CostDefinitionDeleteAction() {
 function CostDefinitionDelete(name, id) {
     $("#CostDefinitionName").html(name);
     CostDefinitionSelected = id;
-    var dialog = $("#CostDefinitionDeleteDialog").removeClass("hide").dialog({
+    $("#CostDefinitionDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_CostDefinition_Popup_Delete_Title + "</h4>",
@@ -78,8 +79,8 @@ jQuery(function ($) {
 
 function Resize() {
     var containerHeight = $(window).height();
-    $("#ListDataDiv").height((containerHeight - 310) + 'px');
+    $("#ListDataDiv").height((containerHeight - 310) + "px");
 }
 
-window.onload = function () { Resize(); }
-window.onresize = function () { Resize(); }
+window.onload = function () { Resize(); };
+window.onresize = function () { Resize(); };

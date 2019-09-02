@@ -76,22 +76,26 @@
                 "es": {
                     "Title": "Acceso a la aplicación",
                     "Btn": "Acceder",
-                    "PasswordInvalid": "El mail y/o la contraseña no son válidos"
+                    "PasswordInvalid": "El mail y/o la contraseña no son válidos",
+                    "Loging": "Accediendo..."
                 },
                 "es-ES": {
                     "Title": "Acceso a la aplicación",
                     "Btn": "Acceder",
-                    "PasswordInvalid": "El mail y/o la contraseña no son válidos"
+                    "PasswordInvalid": "El mail y/o la contraseña no son válidos",
+                    "Loging": "Accediendo..."
                 },
                 "ca": {
                     "Title": "Accès a l'aplicació",
                     "Btn": "Accedir",
-                    "PasswordInvalid": "El mail i/o la paraula de pas no són vàlids"
+                    "PasswordInvalid": "El mail i/o la paraula de pas no són vàlids",
+                    "Loging": "Accedint..."
                 },
                 "ca-ES": {
                     "Title": "Accès a l'aplicació",
                     "Btn": "Accedir",
-                    "PasswordInvalid": "El mail i/o la paraula de pas no són vàlids"
+                    "PasswordInvalid": "El mail i/o la paraula de pas no són vàlids",
+                    "Loging": "Accedint..."
                 }
         };
 

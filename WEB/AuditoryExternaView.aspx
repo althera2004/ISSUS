@@ -128,6 +128,8 @@
     <script type="text/javascript">
         var Auditory = <%=this.Auditory.Json %>;
         var Zombies = <%=this.Zombie %>;
+        var Providers = <%=this.ProvidersJson %>;
+        var Customers = <%=this.CustomersJson %>;
 
         // For Upload files
         // --------------------------------------
@@ -190,18 +192,20 @@
                                                         </div>
                                                     </div> 
                                                     <div class="form-group">
-                                                        <div class="col-sm-2"><input type="radio" id="RBProvider" name="RBExternalType" onclick="RBExternalTypeChanged();" /> Proveedor  </div>
-                                                        <div class="col-sm-2"><input type="radio" id="RBCustomer" name="RBExternalType" onclick="RBExternalTypeChanged();" /> Cliente  </div>
+                                                        <div class="col-sm-2"><input type="radio" id="RBProvider" name="RBExternalType" onclick="RBExternalTypeChanged();" />&nbsp;<%=this.Dictionary["Item_Provider"] %></div>
+                                                        <div class="col-sm-2"><input type="radio" id="RBCustomer" name="RBExternalType" onclick="RBExternalTypeChanged();" />&nbsp;<%=this.Dictionary["Item_Customer"] %></div>
                                                         <div class="col-sm-3" id="ProviderDiv" style="display:none;">
                                                             <select id="CmbProvider" class="form-control col-xs-12 col-sm-12"><asp:Literal runat="server" ID="LtCmbProvider"></asp:Literal></select>
                                                             <input style="display:none;" type="text" readonly="readonly" id="CmbProviderValue" class="col-xs-12 col-sm-12" />
                                                             <span class="ErrorMessage" id="CmbProviderErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                         </div>
+                                                        <div class="col-sm-1" id="CmbProviderBar" style="display:none;"><button type="button" class="btn btn-light" style="height:30px;" title="<%=this.Dictionary["Item_Providers"] %>" id="BtnProviderBAR">...</button></div>                                                        
                                                         <div class="col-sm-3" id="CustomerDiv" style="display:none;">
                                                             <select id="CmbCustomer" class="form-control col-xs-12 col-sm-12"><asp:Literal runat="server" ID="LtCmbCustomer"></asp:Literal></select>
                                                             <input style="display:none;" type="text" readonly="readonly" id="CmbCustomerValue" class="col-xs-12 col-sm-12" />
                                                             <span class="ErrorMessage" id="CmbCustomerErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                         </div>
+                                                        <div class="col-sm-1" id="CmbCustomerBar" style="display:none;"><button type="button" class="btn btn-light" style="height:30px;" title="<%=this.Dictionary["Item_Customers"] %>" id="BtnCustomerBAR">...</button></div>                                                        
                                                         <div class="col-sm-3" id="ErrorProviderCustomerDiv" style="display:none;">
                                                             <span class="ErrorMessage" id="ProviderCustomerErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                         </div>
@@ -589,6 +593,10 @@
                                     </div>
                                 </div><!-- /.table-responsive -->
                             </div><!-- #dialog-message -->
+
+                            <!-- Popups BAR -->                                
+                            <%=this.ProviderBarPopups.Render %>                
+                            <%=this.CustomerBarPopups.Render %>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">
         <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>

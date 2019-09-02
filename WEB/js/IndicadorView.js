@@ -170,7 +170,8 @@ function ProcessLayout() {
     }
     else {
         $("#LabelProcessType").html("");
-        $("#CmbProcess").attr("disabled","disabled");
+        $("#CmbProcess").attr("disabled", "disabled");
+        $("#CmbProcess").parent().attr("title", Dictionary.Item_Indicador_Message_BlockedByObjetivo);
     }
 }
 

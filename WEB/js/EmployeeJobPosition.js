@@ -71,20 +71,20 @@ function UnassociatedJobPositionConfirmed(id) {
     $("#TxtFinishDateErrorMaximumToday").hide();
     $("#TxtFinishDateErrorBeforeStart").hide();
 
-    if ($('#TxtFinishDate').val() === '')
+    if ($("#TxtFinishDate").val() === "")
     {
         $("#TxtFinishDateErrorRequired").show();
         return false;
     }
 
-    var finishDate = GetDate($('#TxtFinishDate').val(), '/', false);
+    var finishDate = GetDate($("#TxtFinishDate").val(), "/", false);
     if(finishDate > new Date())
     {
         $("#TxtFinishDateErrorMaximumToday").show();
         return false;
     }
 
-    var startDate = GetDate($('#BtnStartCopyDate').val(), '/', false);
+    var startDate = GetDate($("#BtnStartCopyDate").val(), "/", false);
     if (startDate > finishDate)
     {
         $("#TxtFinishDateErrorBeforeStart").show();
@@ -122,7 +122,7 @@ function UnassociatedJobPositionConfirmed(id) {
             DeletableJobPostionRow.parentNode.removeChild(DeletableJobPostionRow);
             UpdateSkillProfile();
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
@@ -208,23 +208,23 @@ function JobPositionAssociationAction(sender) {
     $("#JobPositionAssociationDialog").dialog("close");
     $("#TxtStartDate").val("");
     $("#JobPositionAssociationDateDialog").removeClass("hide").dialog({
-        resizable: false,
-        modal: true,
-        title: Dictionary.Item_Employee_Button_LinkJobPosition,
-        title_html: true,
-        buttons: [
+        "resizable": false,
+        "modal": true,
+        "title": Dictionary.Item_Employee_Button_LinkJobPosition,
+        "title_html": true,
+        "buttons": [
             {
-                "html": "<i class='icon-trash bigger-110'></i>&nbsp; " + Dictionary.Common_Accept,
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp; " + Dictionary.Common_Accept,
                 "class": "btn btn-success btn-xs",
                 "click": function () {
                     JobPositionAssociationActionConfirmed(id);
                 }
             },
             {
-                "html": "<i class='icon-remove bigger-110'></i>&nbsp; " + Dictionary.Common_Cancel,
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp; " + Dictionary.Common_Cancel,
                 "class": "btn btn-xs",
                 "click": function () {
-                    $('#JobPositionAssociationDialog').dialog('open');
+                    $("#JobPositionAssociationDialog").dialog("open");
                     $(this).dialog("close");
                 }
             }
@@ -312,7 +312,6 @@ function JobPositionAssociationActionConfirmed(id)
             td6.align = "center";
             td6.innerHTML = "<span title=\"" + Dictionary.Common_Delete +"\" class=\"btn btn-xs btn-danger\" onclick=\"DeleteJobPosition(" + jobposition.Id + ",'" + jobposition.Description + "');\"><i class=\"icon-trash bigger-120\"></i></span>";
 
-
             tr.appendChild(td1);
             tr.appendChild(td2);
             tr.appendChild(td3);
@@ -323,7 +322,7 @@ function JobPositionAssociationActionConfirmed(id)
 
             UpdateSkillProfile();
         },
-        error: function (msg) {
+        "error": function (msg) {
             LoadingHide();
             alertUI(msg.responseText);
         }
