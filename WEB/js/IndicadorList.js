@@ -330,9 +330,9 @@ function ItemRenderTable(list) {
     $("#TotalList").html(list.length);
 
     if (lockOrderList === false) {
-        $("#th1").click();
-        if (document.getElementById("th1").className.indexOf("DESC") !== -1) {
-            $("#th1").click();
+        $("#th0").click();
+        if (document.getElementById("th0").className.indexOf("DESC") !== -1) {
+            $("#th0").click();
         }
     }
     else {

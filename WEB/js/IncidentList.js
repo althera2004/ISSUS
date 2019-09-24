@@ -394,10 +394,10 @@ function ItemRenderTable(list) {
 
         tdAmount.appendChild(document.createTextNode(ToMoneyFormat(item.Amount, 2)));
 
-        tdOpen.style.width = "100px";
-        tdOpen.align = "center";
         tdStatus.style.width = "65px";
         tdStatus.align = "center";
+        tdOpen.style.width = "100px";
+        tdOpen.align = "center";
         tdOrigin.style.width = "250px";
         tdAction.style.width = "90px";
         tdAction.align = "center";

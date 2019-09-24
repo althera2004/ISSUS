@@ -344,7 +344,9 @@ function ItemRenderTable(list) {
 
     if (lockOrderList === false) {
         $("#th1").click();
-        if (document.getElementById("th1").className.indexOf("DESC") !== -1) { $("#th1").click(); }
+        if (document.getElementById("th1").className.indexOf("DESC") !== -1) {
+            $("#th1").click();
+        }
     }
     else {
         var column = listOrder.split('|')[0];
