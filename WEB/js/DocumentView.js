@@ -417,7 +417,7 @@ function AnularConfirmed() {
     $.ajax({
         "type": "POST",
         "url": webMethod,
-        "contentType: "application/json; charset=utf-8",
+        "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
         "success": function () {
