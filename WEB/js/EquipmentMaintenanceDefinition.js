@@ -182,6 +182,11 @@ function EquipmentMaintenanceEditFormFill(equipmentMaintenanceDefinition) {
         else {
             fecha = FormatDate(equipmentMaintenanceDefinition.FirstDate, "/");
         }
+
+        // alex: cuando la fecha es 1970 es el valor por defecto de una fecha nul traspasada de SQL a JSON
+        if (fecha.indexOf("/1970") !== -1) {
+            fecha = "";
+        }
     }
     $("#NewMaintainmentFirstDate").val(fecha);
 
@@ -225,7 +230,7 @@ function EquipmentMaintenanceDefinitionValidateForm() {
         $("#RMaintainmentTypeErrorRequired").show();
     }
   
-    if ($("#NewMaintainmentFirstDate").val() !== "") { //&& $("#TxtStartDate").val() !== "") {
+    if ($("#NewMaintainmentFirstDate").val() !== "") {
         var date = GetDate($("#NewMaintainmentFirstDate").val(), "/", false);
         var eqdate = GetDate($("#TxtStartDate").val(), "/", false);
         if (date < eqdate) {
@@ -288,7 +293,7 @@ function EquipmentMaintenanceDefinitionEdit(sender) {
     }
 
     EquipmentMaintenanceEditFormFill(SelectedEquipmentMaintenanceDefinition);
-    var dialog = $("#dialogNewMaintaiment").removeClass("hide").dialog({
+    $("#dialogNewMaintaiment").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentMaintenance_PopupConfigurationUpdate_Title + "</h4></div>",
