@@ -518,7 +518,7 @@
                                                         <thead class="thin-border-bottom">
                                                             <tr>
                                                                 <th onclick="Sort(this,'TableEquipmentMaintenanceAct','date');" id="th0" class="sort" style="width:90px;"><%=this.Dictionary["Item_EquipmentMaintenanceAct_Header_Date"] %></th>
-                                                                <th onclick="Sort(this,'TableEquipmentMaintenanceAct','text');" id="th1" class="sort" style="width:220px;"><%=this.Dictionary["Item_EquipmentMaintenanceAct_Header_Operation"] %></th>
+                                                                <th onclick="Sort(this,'TableEquipmentMaintenanceAct','text');" id="th1" class="sort" style="width:400px;"><%=this.Dictionary["Item_EquipmentMaintenanceAct_Header_Operation"] %></th>
                                                                 <th id="th14" class=""><%=this.Dictionary["Item_EquipmentMaintenanceAct_Header_Observations"] %></th>	
                                                                 <th id="th15" class="" style="width:200px;"><%=this.Dictionary["Item_EquipmentMaintenanceAct_Header_Responsible"] %></th>	
                                                                 <th onclick="Sort(this,'TableEquipmentMaintenanceAct','money');" id="th4" class="sort" style="width:70px;"><%=this.Dictionary["Item_EquipmentMaintenanceAct_Header_Cost"] %></th>	

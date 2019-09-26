@@ -8,31 +8,34 @@ Alert_Large_ActionLastWeek::La fecha prevista para el cierre de la acción ha ve
 Alert_Large_BusinessRiskActionNeeded::Riesgo sin acción
 Alert_Large_BusinessRiskNotEvaluated::Falta hacer la valoración inicial del riesgo
 Alert_Large_EmployeeDelete::Responsable no activo
+Alert_Large_EquipmentCalibration::Falta realizar al menos una calibración
 Alert_Large_EquipmentIncomplete::Equipo incompleto
-Alert_Large_EquipmentMaintenance::Falta configurar el registro inicial del mantenimiento
+Alert_Large_EquipmentMaintenance::Falta realizar al menos un mantenimiento
+Alert_Large_EquipmentVerification::Falta realizar al menos una verificación
 Alert_Large_ExpiredTasks::La fecha propuesta para la tarea ha vencido
 Alert_Large_IncidentEvaluatedWithoutAction::Falta rellenar el campo 'Actuaciones' de la incidencia
 Alert_Large_IncidentIdentifiedNotEvaluated::Falta rellenar el campo 'Por qué ha pasado' de la incidencia
 Alert_Large_IncidentLastWeek::La fecha prevista para el cierre de la incidencia ha vencido
+Alert_Large_LearningExpired::La fecha de inicio prevista del cusro ya ha pasado
 Alert_Large_LearningFinishedWithoutEvaluation::Curso finalizado pendiente de evaluación
 Alert_Large_LearningStartedWithoutAssistants::Curso iniciado sin alumnos inscritos
-Alert_Large_LearningExpired::La fecha de inicio prevista del cusro ya ha pasado
 Alert_Short_ActionEvaluatedWithoutAction::Acción sin actuaciones
 Alert_Short_ActionIdentifiedNotEvaluated::Acción no analizada
 Alert_Short_ActionLastWeek::Acción vencida
 Alert_Short_BusinessRiskActionNeeded::Riesgo sin acción
 Alert_Short_BusinessRiskNotEvaluated::Riesgo no valorado
 Alert_Short_EmployeeDelete::Responsable no activo
+Alert_Short_EquipmentCalibration::Falta realizar calibración
 Alert_Short_EquipmentIncomplete::Equipo incompleto
-Item_Indicador_Message_BlockedByObjetivo::No se puede modificar porque hay objetivos asociados
-Alert_Short_EquipmentMaintenance::Mantenimento sin registro
+Alert_Short_EquipmentMaintenance::Falta realizar mantenimiento
+Alert_Short_EquipmentVerification::Falta realizar verificación
 Alert_Short_ExpiredTasks::Tarea vencida
 Alert_Short_IncidentEvaluatedWithoutAction::Incidencia sin actuaciones
 Alert_Short_IncidentIdentifiedNotEvaluated::Incidencia no analizada
 Alert_Short_IncidentLastWeek::Incidencia vencida
+Alert_Short_LearningExpired::Curso no iniciado
 Alert_Short_LearningFinishedWithoutEvaluation::Curso sin evaluar
 Alert_Short_LearningStartedWithoutAssistants::Curso sin alumnos
-Alert_Short_LearningExpired::Curso no iniciado
 Añadir::Añadir
 Auditorías::Auditorías
 Avatar::Avatar
@@ -117,6 +120,7 @@ Common_Exit::Salir
 Common_External::Externo
 Common_Filter::Filtrar
 Common_FinishDate::Finalización
+Common_FirstDate::Fecha primer registro
 Common_Form_CheckError::Revisar los datos obligatorios
 Common_Form_Errors::Revisar los datos del formulario
 Common_From::Desde
@@ -131,10 +135,13 @@ Common_Label_Weeks::semanas
 Common_Label_Years::años
 Common_LastWeek::Última semana
 Common_ListPdf::Imprimir
+Common_Loading::Cargando datos
 Common_MaximumUploadSize::El máximo permitido son 4MB
 Common_Message_Deleting::Eliminando...
 Common_Message_FormErrors::Revisar los datos del formulario
+Common_Message_ItemNoAccess::No tiene acceso a este elemento, contacte con el administrador
 Common_Message_Saving::Guardando...
+Common_MessageMailMalformed::El correo no es válido
 Common_ModifiedBy::Modificado por
 Common_Modify::Modificar
 Common_Month::Mes
@@ -151,7 +158,7 @@ Common_MonthName_November::Noviembre
 Common_MonthName_October::Octubre
 Common_MonthName_September::Septiembre
 Common_Months::Meses
-Common_Name::Usuario/a
+Common_Name::Nombre
 Common_New::Nuevo
 Common_Next::Siguiente
 Common_No::No
@@ -164,6 +171,7 @@ Common_None_Male::Ninguno
 Common_NoSaveData::Datos sin guardar
 Common_NotSet_Female::No especificada
 Common_NotSet_Male::No especificado
+Common_PDF_Filter_Contains::Contiene
 Common_Period::Periodo
 Common_PeriodAll::Todo el periodo
 Common_Previous::Anterior
@@ -181,6 +189,8 @@ Common_Selected::Seleccionado
 Common_SelectOne::Seleccionar
 Common_ShowAll::Ver todo
 Common_Status::Estado
+Common_Status_ActivePlural::Activos
+Common_Status_InactivePlural::Inactivos
 Common_Target::Objetivo
 Common_Task::Tarea
 Common_ThisMonth::Este mes
@@ -235,11 +245,28 @@ DiskQuote_Other::Otros
 Email::Correo
 Fin::Fin
 Item_Action_Popup_Details_Title::Detalles de la acción
+Item_Adutiry_Message_NoActions::No hay ninguna acción definida en la auditoria.
+Item_Adutory_Status_Explanation_0::Datos básicos sin acabar de planificar
+Item_Adutory_Status_Explanation_1::Planificada con responsable y fecha
+Item_Adutory_Status_Explanation_2::Alguna pregunta del/los cuestionarios marcada
+Item_Adutory_Status_Explanation_3::Todas la preguntas de los cuestionarios marcadas
+Item_Adutory_Status_Explanation_4::Con responsable y fecha de cierre
+Item_Adutory_Status_Explanation_5::Con responsable y fecha de validación
+Item_Adutory_Status_Label_0::Planificando
+Item_Adutory_Status_Label_1::Planificada
+Item_Adutory_Status_Label_2::En curso
+Item_Adutory_Status_Label_3::Pendiente
+Item_Adutory_Status_Label_4::Cerrada
+Item_Adutory_Status_Label_5::Validada
+Item_Adutory_Type_Label_0::Interna
+Item_Adutory_Type_Label_1::Externa
+Item_Adutory_Type_Label_2::Proveedor
 Item_Alert_ListHeader_Description::Descripción
 Item_Alert_ListHeader_Reason::Motivo
 Item_Alerts::Avisos
 Item_Attach_DiskFreeLabel1::Disponible el 
 Item_Attach_DiskFreeLabel2::% de asignación de disco
+Item_Attach_DiskFreeLabel3::Disponibles 
 Item_Attach_DiskQuote::Cuota de disco asignada
 Item_Attach_FreeDisk::Espacio disponible
 Item_Attach_Popup_Delete_Question::Eliminar el adjunto
@@ -254,6 +281,125 @@ Item_Attachment_Header_Size::Tamaño
 Item_Attachment_Popup_Warning::Esta acción no se puede deshacer
 Item_Attachment_SectionTitle::Documentos adjuntos
 Item_Attachment_Size::Tamaño
+Item_Auditories::Auditorías
+Item_Auditory::Auditoría
+Item_Auditory_BreadCrumb_Edit::Ficha de auditoria
+Item_Auditory_Btn_AddIncidentAction::Añadir
+Item_Auditory_Btn_Close::Cerrar auditoria
+Item_Auditory_Btn_PopupValidation::Validar
+Item_Auditory_Btn_Reopen::Reabrir auditorÍa
+Item_Auditory_Btn_Validation::Validar auditoria
+Item_Auditory_Button_AddFound::Añadir hallazgo
+Item_Auditory_Button_AddImprovement::Añadir mejora
+Item_Auditory_Button_AddPlanning::Añadir planificación
+Item_Auditory_Button_New::Añadir
+Item_Auditory_ErrorMessage_QuestionairesClosed::Para validar la auditoria se ha de indicar el inicio i el final
+Item_Auditory_Filter_From::Desde
+Item_Auditory_Filter_Status::Estado
+Item_Auditory_Filter_To::Hasta
+Item_Auditory_Filter_Type::Tipo
+Item_Auditory_FoundNoAction::Ningún hallazgo genera acción
+Item_Auditory_Header_Action::Acción en proceso
+Item_Auditory_Header_Found::Hallazgo
+Item_Auditory_Header_Improvement::Propuestas de mejora
+Item_Auditory_Header_Requirement::Requisito
+Item_Auditory_Header_Result::No conformidad
+Item_Auditory_Help_Status_Title::Estados de una auditoría
+Item_Auditory_ImprovementNoAction::Ninguna mejora genera una acción
+Item_Auditory_Label_Action::Genera acción
+Item_Auditory_Label_Address::Dirección
+Item_Auditory_Label_Amount::Cost
+Item_Auditory_Label_AuditorTeam::Equipo auditor
+Item_Auditory_Label_ClosedBy::Cerrada por
+Item_Auditory_Label_ClosedOn::Fecha cierre
+Item_Auditory_Label_Customer::Cliente
+Item_Auditory_Label_Description::Descripción
+Item_Auditory_Label_EndQuestionarios::Cierre cuestionarios
+Item_Auditory_Label_Found::Hallazgo
+Item_Auditory_Label_Improvement::Mejora
+Item_Auditory_Label_InternalResponsible::Responsable interno
+Item_Auditory_Label_Name::Nombre
+Item_Auditory_Label_Notes::Notas
+Item_Auditory_Label_PannedDate::Fecha prevista
+Item_Auditory_Label_PlanningDate::Fecha
+Item_Auditory_Label_PlanningResponsible::Planificada por
+Item_Auditory_Label_Provider::Proveedor
+Item_Auditory_Label_PuntosFuertes::Puntos fuertes
+Item_Auditory_Label_Requeriment::Requisito
+Item_Auditory_Label_Rules::Normas
+Item_Auditory_Label_Scope::Ámbito
+Item_Auditory_Label_Type::Tipo
+Item_Auditory_Label_Unconformity::No conformidad
+Item_Auditory_Label_ValidatedBy::Validada por
+Item_Auditory_Label_ValidatedByResponsible::Validada por
+Item_Auditory_Label_ValidatedOn::Fecha
+Item_Auditory_ListHeader_Ammount::Coste
+Item_Auditory_ListHeader_Closed::Realizada
+Item_Auditory_ListHeader_Name::Auditoría
+Item_Auditory_ListHeader_Planned::Prevista
+Item_Auditory_ListHeader_Status::Estado
+Item_Auditory_Message_ActionsZombie::Las acciones no estarán disponibles en el sistema hasta que no se valide la auditoria
+Item_Auditory_Message_Closed::Cerrada
+Item_Auditory_Message_NewAuditory::Para poder añadir planificaciones, primero se debe guardar la auditoría
+Item_Auditory_Message_NoCompliantNoFound::El cuestionario tiene no conformidades sin hallazgos
+Item_Auditory_Message_NoPlanning::Para poder dar por planificada la auditoría, debe haber al menos una planificación
+Item_Auditory_Message_NoQuestions::Con las normas y procesos seleccionadas no hay preguntas para los cuestionarios
+Item_Auditory_Message_QuestionaryClosable::Ya se puede acceder a la pestaña Informes para cerrar el cuestionarios
+Item_Auditory_Message_ReopenCuestionario::Desea reabrir los cuestionarios?
+Item_Auditory_Message_Validated::Auditoria validada
+Item_Auditory_Planning_Message::No puede ser el mismo que el auditor
+Item_Auditory_PlanningTable_Title::Planificación
+Item_Auditory_Popup_CloseQuestionary::Cerrar cuestionarios
+Item_Auditory_Popup_Delete_Title::Eliminar auditoria
+Item_Auditory_Popup_ReopenMessage::Desea reabrir la auditoría?
+Item_Auditory_Popup_ReopenQuestionary::Reabrir cuestionarios
+Item_Auditory_Popup_ReopenTitle::Reabrir la auditoria
+Item_Auditory_PopupDelete_Message::Quiere eliminar la auditoria
+Item_Auditory_PopupDelete_MessageFound::Eliminar hallazgo
+Item_Auditory_PopupDelete_MessageImprovement::Eliminar propuesta de mejora
+Item_Auditory_Report_EndLabel::Final
+Item_Auditory_Report_StartLabel::Inicio
+Item_Auditory_SelectType_Error::Se debe elegir una opción
+Item_Auditory_SelectType_Title::Elija el tipo de auditoría
+Item_Auditory_Tab_Principal::Datos básicos
+Item_Auditory_Tab_Questionaries::Cuestionarios
+Item_Auditory_Tab_Report::Informe
+Item_Auditory_Tab_Traces::Trazas
+Item_Auditory_Text_NotEnded::No finalizado
+Item_Auditory_Text_NotStarted::No iniciado
+Item_Auditory_Title_Found::Hallazgos
+Item_Auditory_Title_Improvements::Mejoras
+Item_Auditory_Title_PopupAddFound::Nuevo hallazgo
+Item_Auditory_Title_PopupAddImprovement::Nueva mejora
+Item_Auditory_Title_PopupDeleteFound::Eliminar hallazgo
+Item_Auditory_Title_PopupDeleteImprovement::Eliminar mejora
+Item_Auditory_Title_PopupUpdateFound::Modificar hallazgo
+Item_Auditory_Title_PopupUpdateImprovement::Modificar mejora
+Item_Auditory_Title_QuestionariesAvailables::Cuestionarios de la auditoría
+Item_Auditory_ValidateCrossDate::No puede ser anterior a la fecha final
+Item_Auditory_ValidateCuestionarioCrossDate::No puede ser anterio al inicio de los cuestionarios
+Item_AuditoryPlanning_Field_Duration::Duración
+Item_AuditoryPlanning_Field_Hour::Hora inicio
+Item_AuditoryPlanning_Header_Audited::Auditado/a
+Item_AuditoryPlanning_Header_Auditor::Auditor/a
+Item_AuditoryPlanning_Header_Date::Fecha
+Item_AuditoryPlanning_Header_Duration::Horas
+Item_AuditoryPlanning_Header_Hour::Hora
+Item_AuditoryPlanning_Header_Process::Proceso
+Item_AuditoryPlanning_Label_Audited::Auditado/a
+Item_AuditoryPlanning_Label_Auditor::Auditor
+Item_AuditoryPlanning_Label_Date::Fecha
+Item_AuditoryPlanning_Label_EmailProvider::Dirección de email
+Item_AuditoryPlanning_Label_Process::Proceso
+Item_AuditoryPlanning_Label_SendMail::Enviar correo al/a auditado/a
+Item_AuditoryPlanning_PopupDelete_Message::Desea eliminar la planificación?
+Item_AuditoryPlanning_Title::Eliminar planificación
+Item_AuditoryPlanning_Title_PopupAdd::Añadir planificación
+Item_AuditoryPlanning_Title_PopupUpdate::Modificar planifiación
+Item_AuditoryQuestionary_Header_Name::Cuestionario
+Item_AuditoryQuestionary_Header_Status::Estado
+Item_AuditoryQuestionary_Tooltip_Continue::Continuar cuestionario
+Item_AuditoryQuestionary_Tooltip_Start::Iniciar cuestionario
 Item_Backup::Back-Up
 Item_Backup_Btn_Go::Iniciar back-up
 Item_Backup_Explain::Al hacer clic, se genera un fichero XLS, con todos los datos de la aplicación. Es una copia de seguridad
@@ -422,9 +568,10 @@ Item_CompanyData_FieldLabel_Phone::Teléfono
 Item_CompanyData_FieldLabel_PostalAddress::Código Postal
 Item_CompanyData_FieldLabel_Province::Provincia
 Item_CompanyData_Popup_ImageDelete_Title::Eliminar la imagen
+Item_CompanyProfile_FieldLabel_Headquarters::Razón social
 Item_CompanyProfile_FieldLabel_Name::Nombre
-Item_CompanyProfile_FieldLabel_Headquarters::Sede social
 Item_CompanyProfile_FieldLabel_Nif::NIF
+Item_CompanyProfile_Tooltip_Headquarters::Para modificar este dato contacta con Scrambòtika
 Item_Cost::Coste habitual
 Item_CostDefinition::Costes habituales
 Item_CostDefinition_Button_New::Añadir
@@ -724,6 +871,11 @@ Item_Equipment_AnulateMessageTile::Equipo de baja
 Item_Equipment_Btn_Anular::Baja
 Item_Equipment_Btn_Restaurar::Reactivar
 Item_Equipment_Button_New::Añadir
+Item_Equipment_Calibration_Error_None::Se ha de definir al menos una calibració.
+Item_Equipment_Error_DuplicateData::Los datos del equipo están repetidos.
+Item_Equipment_Error_NoOptions::elija al menos una opción.
+Item_Equipment_Error_NoRisponsible::Se ha de informar el responsable del equipo.
+Item_Equipment_Error_RequiredFields::Revise los campos obligatorios del equipo.
 Item_Equipment_Field_Calibration_Cost::Coste
 Item_Equipment_Field_Calibration_Expiration::Vencimiento
 Item_Equipment_Field_Calibration_Notes::Notas
@@ -771,10 +923,19 @@ Item_Equipment_Field_Verification_Provider::Proveedor
 Item_Equipment_FieldLabel_EndDate::Fecha
 Item_Equipment_FieldLabel_EndReason::Motivo
 Item_Equipment_FieldLabel_EndResponsible::Responsable
+Item_Equipment_FilterLabel_Calibration_Ext::Cal. Ext
+Item_Equipment_FilterLabel_Calibration_Int::Cal. Int
+Item_Equipment_FilterLabel_CostType::Tipo
+Item_Equipment_FilterLabel_Maintenance_Ext::Mtm. Ext
+Item_Equipment_FilterLabel_Maintenance_Int::Mtm. Int
 Item_Equipment_FilterLabel_MaintenanceExternal::Mantenimiento externo
 Item_Equipment_FilterLabel_MaintenanceInternal::Mantenimiento interno
+Item_Equipment_FilterLabel_Repair_Ext::Rep. Ext
+Item_Equipment_FilterLabel_Repair_Int::Rep. Int
 Item_Equipment_FilterLabel_RepairExternal::Reparación externa
 Item_Equipment_FilterLabel_RepairInternal::Reparación interna
+Item_Equipment_FilterLabel_Verification_Ext::Ver. Ext
+Item_Equipment_FilterLabel_Verification_Int::Ver. Int
 Item_Equipment_Header_Code::Código
 Item_Equipment_Header_Cost::Coste
 Item_Equipment_Header_Description::Descripción
@@ -808,10 +969,11 @@ Item_Equipment_Maintenance_Button_AddAct::Añadir
 Item_Equipment_Maintenance_Button_AddConfiguration::Añadir
 Item_Equipment_Message_Attachs::Ver adjuntos
 Item_Equipment_Message_CalibrationChanged::Guardar las calibraciones para añadir un registro
-Item_Equipment_Message_DeleteQuestion::¿Eliminar el equipo?
+Item_Equipment_Message_DeleteQuestion::¿Eliminar el equipo  
 Item_Equipment_Message_InsertSucess::Equipo guardado correctamente. Ya se pueden usar las pestañas del formulario
 Item_Equipment_Message_VerificationChanged::Guardar las verificaciones para añadir un registro
 Item_Equipment_PDFTitle::Registro de actuaciones en el equipo
+Item_Equipment_Plural::Equipos
 Item_Equipment_Popup_AddCustomer_Title::Añadir un cliente
 Item_Equipment_Popup_AddProvider_Title::Añadir un proveedor
 Item_Equipment_Popup_AddScaleDivision_Title::Añadir una división de escala
@@ -821,6 +983,7 @@ Item_Equipment_PopupAnular_Title::Baja del equipo
 Item_Equipment_PopupTitle_DeleteScaleDivision::Eliminar una división de escala
 Item_Equipment_Tab_Basic::Datos básicos
 Item_Equipment_Tab_Calibration::Calibraciones
+Item_Equipment_Tab_Costs::Costes
 Item_Equipment_Tab_Details::Ficha del equipo
 Item_Equipment_Tab_Maintenance::Mantenimientos
 Item_Equipment_Tab_Records::Registros
@@ -828,6 +991,7 @@ Item_Equipment_Tab_Repair::Reparaciones
 Item_Equipment_Tab_Traces::Trazas
 Item_Equipment_Tab_UploadFiles::Adjuntos
 Item_Equipment_Tab_Verification::Verificaciones
+Item_Equipment_Verification_Error_None::Se ha de definir al menos una verificación
 Item_Equipment_VerificationType_External::Configuración externa
 Item_Equipment_VerificationType_Internal::Configuración interna
 Item_EquipmentCalibration::Calibración
@@ -1001,6 +1165,7 @@ Item_Incident_Detail_Origin::Seleccionar el origen de la incidencia
 Item_Incident_Detail_Title::Revisar los datos de la ficha
 Item_Incident_Detail_WhatHappened::Informar sobre qué ha pasado
 Item_Incident_Detail_WhatHappenedResponsible::Seleccionar quien identifica qué ha pasado
+Item_Incident_Error_BeforeActions::No puede ser anterior a la fecha de actuaciones
 Item_Incident_Error_DateMalformed_Actions::La fecha de la acción no es correcta
 Item_Incident_Error_DateMalformed_Causes::La fecha de las causas no es correcta
 Item_Incident_Error_DateMalformed_Close::La fecha de cierre no es correcta
@@ -1097,6 +1262,7 @@ Item_IncidentAction_Btn_Anular::Cerrar
 Item_IncidentAction_Btn_Restaurar::Reabrir
 Item_IncidentAction_Button_New::Añadir
 Item_IncidentAction_Cost_Error_Range::No puede ser anterior a
+Item_IncidentAction_Error_BeforeActions::No puede ser anterior a la fecha de actuaciones
 Item_IncidentAction_Error_DateMalformed_Actions::La fecha de acciones no es correcta
 Item_IncidentAction_Error_DateMalformed_Causes::La fecha de las causas no es correcta
 Item_IncidentAction_Error_DateMalformed_Close::La fecha de cierre no es correcta
@@ -1157,6 +1323,7 @@ Item_IncidentAction_Header_Origin::Origen
 Item_IncidentAction_Header_Status::Estado
 Item_IncidentAction_Header_Type::Tipo
 Item_IncidentAction_Label_ApplyAction::¿Aplicar acción correctiva?
+Item_IncidentAction_Label_Auditory::Auditoría
 Item_IncidentAction_Label_BusinessRisk::Análisis de riesgo
 Item_IncidentAction_Label_Description::Descripción
 Item_IncidentAction_Label_EndDate::Fecha
@@ -1178,6 +1345,7 @@ Item_IncidentAction_List_Filter_Source::Origen
 Item_IncidentAction_List_Filter_Status::Estado
 Item_IncidentAction_List_Filter_To::Hasta
 Item_IncidentAction_List_Filter_Type::Tipo
+Item_IncidentAction_Message_NoGrants::No tiene permisos para trabajar con acciones
 Item_IncidentAction_Origin1::Auditoría
 Item_IncidentAction_Origin2::Propuesto por dirección
 Item_IncidentAction_Origin3::Incidencia
@@ -1283,6 +1451,7 @@ Item_Indicador_Label_Type::Tipo
 Item_Indicador_Label_TypeObjetivo::Objetivo
 Item_Indicador_Label_TypeProceso::Proceso
 Item_Indicador_List::Indicadores
+Item_Indicador_Message_BlockedByObjetivo::No se puede modificar porque hay objetivos asociados
 Item_Indicador_Message_IndicadorClosed::No se puede añadir un registro porqué el indicador está cerrado
 Item_Indicador_Message_IndicadorClosedDelete::No se puede eliminar porqué el indicador está cerrado
 Item_Indicador_Message_IndicadorClosedUpdate::No se puede modificar porqué el indicador está cerrado
@@ -1325,6 +1494,9 @@ Item_IndicentAction_Status2::Analizada
 Item_IndicentAction_Status3::En progreso
 Item_IndicentAction_Status4::Cerrada
 Item_Indicents::Incidencias
+Item_ItemQuestion_Popup_Delete_Title::Eliminar pregunta
+Item_ItemQuestion_Popup_Edit_Title::Modificar pregunta
+Item_ItemQuestion_Popup_Insert_Title::Añadir pregunta
 Item_JobPosition::Cargo
 Item_JobPosition_BreadCrumb_Edit::Ficha del cargo
 Item_JobPosition_Button_DepartmentsBAR::Gestionar los departamentos
@@ -1419,7 +1591,7 @@ Item_Learning_ListHeader_DateComplete::Realizada
 Item_Learning_ListHeader_EstimatedDate::Prevista
 Item_Learning_ListHeader_Status::Estado
 Item_Learning_Message_Evaluation::Guardando una formación con todos los participantes evaluados, queda cerrada y ya no se puede modificar
-Item_Learning_Message_NoAssistants::No existen asistentes al curso
+Item_Learning_Message_NoAssistants::No se puede finalizar la formación sin asistentes
 Item_Learning_Message_SelectOneAssistant::Obligatorio algún asistente
 Item_Learning_NewLabel::Ficha de la formación
 Item_Learning_Objetive::Objetivo 
@@ -1429,6 +1601,7 @@ Item_Learning_Status_Done::Realizada
 Item_Learning_Status_Evaluated::Evaluada
 Item_Learning_Status_Finished::Realizada
 Item_Learning_Status_InProgress::Pendiente
+Item_Learning_Status_Started::Iniciada
 Item_Learning_Tab_Principal::Datos básicos
 Item_Learning_Tab_UploadFiles::Adjuntos
 Item_Learning_ToolTip_New::Nueva formación
@@ -1599,6 +1772,8 @@ Item_Oportunity_Type_Assumed::Asumida
 Item_Oportunity_Warning_ActionTabAvailable::Ya se pueden entrar los datos de la acción
 Item_Proccess::Proceso
 Item_Process::Proceso
+Item_Process_Btn_Anular::Desactivar
+Item_Process_Btn_Restaurar::Activar
 Item_Process_Button_Edit::Ficha de proceso
 Item_Process_Button_New::Añadir
 Item_Process_Button_NewLabel::Ficha del Proceso
@@ -1629,6 +1804,7 @@ Item_Process_Popup_AddProcessType_Title::Añadir un tipo de proceso
 Item_Process_Popup_Delete_Title::Eliminar el proceso
 Item_Process_Popup_DeleteProcessType_Title::Eliminar el tipo de proceso
 Item_Process_Popup_UpdateProcessType_Title::Modificar el tipo de proceso
+Item_Process_PopupAnular_Title::Desactivar proceso
 Item_Process_PopupDelete_Message::¿Eliminar el proceso?
 Item_Process_PopupType_Header::Tipo
 Item_Process_SelectJobPosition::Seleccionar un cargo
@@ -1676,6 +1852,35 @@ Item_Provider_PopupTitle_Delete::¿Eliminar el proveedor?
 Item_Provider_Tab_Principal::Datos básicos
 Item_Provider_Tab_Traces::Trazas
 Item_Providers::Proveedores
+Item_Questionaries::Cuestionarios
+Item_Questionary::Cuestionario
+Item_Questionary_BreadCrumb_Edit::Ficha del cuestionario
+Item_Questionary_Button_New::Añadir
+Item_Questionary_FieldLabel_ApartadoNorma::Apartado
+Item_Questionary_FieldLabel_Notes::Notas
+Item_Questionary_FieldLabel_Process::Proceso
+Item_Questionary_FieldLabel_QuestionaryQuestionName::Pregunta
+Item_Questionary_FieldLabel_Rule::Norma
+Item_Questionary_List_Filter_ApartadoNorma::Apartado norma
+Item_Questionary_List_Filter_Process::Proceso
+Item_Questionary_List_Filter_Rule::Norma
+Item_Questionary_ListHeader_Name::Cuestionario
+Item_Questionary_ListHeader_Process::Proceso
+Item_Questionary_ListHeader_Rule::Norma
+Item_Questionary_NewQuestionaryWarning::Para añadir preguntas, primero se ha de guardar el cuestionario
+Item_Questionary_Popup_Delete_Title::Eliminar cuestionario
+Item_Questionary_Popup_Duplicate_Title::Crear copia
+Item_Questionary_PopupDelete_Message::¿Desea eliminar el cuestionario 
+Item_Questionary_PopupDuplicate_Message:: ¿Desde copiar el cuestionario y su preguntas
+Item_Questionary_Tab_Founds::Hallazgos y mejoras
+Item_Questionary_Tab_Questions::Cuestionario
+Item_Questionary_Warning_NoQuestions::El cuestionario no tiene preguntas
+Item_QuestionaryQuestion_ListHeader_Name::Pregunta
+Item_QuestionaryQuestion_PopupDelete_Message::¿Desea borrar la pregunta
+Item_QuestionaryQuestion_Title::Preguntas
+Item_QuestionaryQuestion_Tooltip_DeleteButton::Eliminar pregunta
+Item_QuestionaryQuestion_Tooltip_EditButton::Editar pregunta
+Item_Questionay_Observations::Observaciones
 Item_Reports::Informes
 Item_Review::Revisión por la dirección
 Item_Rule::Norma
@@ -1791,170 +1996,7 @@ Servicio::Servicio
 SkillsFor::Formación para el/la empleado/a
 Tipo::Tipo
 User_Admin::Administrador/a
-Item_Incident_Error_BeforeActions::No puede ser anterior a la fecha de actuaciones
-Item_IncidentAction_Error_BeforeActions::No puede ser anterior a la fecha de actuaciones
 User_PrimaryUser::Propietario/a
 Verification-Ext::Verificación externa
 Verification-Int::Verificación interna
 ZZZZZ::Las nuevas claves a partir de aquí hacia abajo
-Common_Message_ItemNoAccess::No tiene acceso a este elemento, contecte con el administrador
-Item_IncidentAction_Error_BeforeActions::No puede ser anterior a la fecha de actuaciones
-Item_Incident_Error_BeforeActions::No puede ser anterior a la fecha de actuaciones
-Item_Questionaries::Cuestionarios
-Item_Questionary::Cuestionario
-Item_Questionary_Button_New::Añadir cuestionario
-Item_Questionary_ListHeader_Name::Cuestionario
-Item_Questionary_ListHeader_Rule::Norma
-Item_Questionary_ListHeader_Process::Proceso
-Item_Questionary_Popup_Delete_Title::Eliminar cuestionario
-Item_Questionary_PopupDelete_Message::¿Desea eliminar el cuestionario 
-Item_Questionary_List_Filter_Process::Proceso
-Item_Questionary_List_Filter_Rule::Norma
-Item_Questionary_List_Filter_ApartadoNorma::Apartado norma
-Item_Questionary_Popup_Duplicate_Title::Crear copia
-Item_Questionary_PopupDuplicate_Message:: ¿Desde copiar el cuestionario y su preguntas
-Item_Questionary_BreadCrumb_Edit::Ficha del cuestionario
-Item_Questionary_FieldLabel_Process::Proceso
-Item_Questionary_FieldLabel_Rule::Norma
-Item_Questionary_FieldLabel_ApartadoNorma::Apartado
-Item_Questionary_FieldLabel_Notes::Notas
-Item_Questionary_NewQuestionaryWarning::Para añadir preguntas, primero se ha de guardar el cuestionario
-Item_QuestionaryQuestion_Title::Preguntas
-Item_QuestionaryQuestion_ListHeader_Name::Pregunta
-Item_QuestionaryQuestion_PopupDelete_Message::¿Desea borrar la pregunta
-Item_Questionary_FieldLabel_QuestionaryQuestionName::Pregunta
-Item_QuestionaryQuestion_Tooltip_EditButton::Editar pregunta
-Item_QuestionaryQuestion_Tooltip_DeleteButton::Eliminar pregunta
-Item_ItemQuestion_Popup_Delete_Title::Eliminar pregunta
-Item_ItemQuestion_Popup_Edit_Title::Modificar pregunta
-Item_ItemQuestion_Popup_Insert_Title::Añadir pregunta
-Item_Questionary_Warning_NoQuestions::El cuestionario no tiene preguntas
-Item_Adutory_Status_Label_0::Planificando
-Item_Adutory_Status_Label_1::Planificada
-Item_Adutory_Status_Label_2::En curso
-Item_Adutory_Status_Label_3::Pendiente
-Item_Adutory_Status_Label_4::Cerrada
-Item_Adutory_Status_Label_5::Validada
-Item_Adutory_Status_Explanation_0::Datos básicos sin acabar de planificar
-Item_Adutory_Status_Explanation_1::Planificada con responsable y fecha
-Item_Adutory_Status_Explanation_2::Alguna pregunta del/los cuestionarios marcada
-Item_Adutory_Status_Explanation_3::Todas la preguntas de los cuestionarios marcadas
-Item_Adutory_Status_Explanation_4::Con responsable y fecha de cierre
-Item_Adutory_Status_Explanation_5::Con responsable y fecha de validación
-Item_Auditory::Auditoría
-Item_Auditories::Auditorías
-Item_Auditory_Filter_From::Desde
-Item_Auditory_Filter_To::Hasta
-Item_Auditory_Button_New::Añadir auditoría
-Item_Auditory_ListHeader_Status::Estado
-Item_Auditory_ListHeader_Name::Auditoría
-Item_Auditory_ListHeader_Planned::Prevista
-Item_Auditory_ListHeader_Closed::Realizada
-Item_Auditory_ListHeader_Ammount::Coste
-Item_Auditory_Filter_Status::Estado
-Item_Auditory_Filter_Type::Tipo
-Item_Adutory_Type_Label_0::Interna
-Item_Adutory_Type_Label_1::Externa
-Item_Adutory_Type_Label_2::Proveedor
-Item_Auditory_Label_Name::Nombre
-Item_Auditory_Help_Status_Title::Estados de una auditoría
-Item_Auditory_Tab_Principal::Datos básicos
-Item_Auditory_Tab_Questionaries::Cuestionarios
-Item_Auditory_Tab_Report::Informe
-Item_Auditory_Tab_Traces::Trazas
-Item_Auditory_PlanningTable_Title::Planificación
-Item_Auditory_SelectType_Title::Elija el tipo de auditoría
-Item_Auditory_SelectType_Error::Se debe elegir una opción
-Item_Auditory_Button_AddPlanning::Añadir planificación
-Item_AuditoryPlanning_PopupDelete_Message::¿Desea eliminar la planificación
-Item_Auditory_Label_Type::Tipo
-Item_Auditory_Label_Name::Nombre
-Item_Auditory_Label_Rules::Normas
-Item_Auditory_BreadCrumb_Edit::Ficha de auditoria
-Item_Auditory_Label_Amount::Cost
-Item_Auditory_Label_InternalResponsible::Responsable interno
-Item_Auditory_Label_Description::Descripción
-Item_Auditory_Label_PuntosFuertes::Puntos fuertes
-Item_Auditory_Label_Scope::Ámbito
-Item_Auditory_Label_Notes::Notas
-Item_Auditory_Label_Address::Dirección
-Item_Auditory_Label_Rules::Normas
-Item_AuditoryPlanning_Header_Date::Fecha
-Item_AuditoryPlanning_Header_Hour::Hora
-Item_AuditoryPlanning_Header_Duration::Horas
-Item_AuditoryPlanning_Header_Process::Proceso
-Item_AuditoryPlanning_Header_Auditor::Auditor/a
-Item_AuditoryPlanning_Header_Audited::Auditado/a
-Item_Auditory_Label_PannedDate::Fecha prevista
-Item_Auditory_Label_AuditorTeam::Equipo auditor
-Item_Auditory_Label_Provider::Proveedor
-Item_Auditory_Label_Customer::Cliente
-Common_MessageMailMalformed::El correo no es válido
-Item_AuditoryPlanning_Label_Process::Proceso
-Item_AuditoryPlanning_Label_Auditor::Auditor
-Item_AuditoryPlanning_Label_Audited::Auditado/a
-Item_AuditoryPlanning_Label_SendMail::Enviar correo al/a auditado/a
-Item_AuditoryPlanning_Label_Date::Fecha
-Item_AuditoryPlanning_Field_Duration::Duración
-Item_AuditoryPlanning_Field_Hour::Hora inicio
-Item_AuditoryPlanning_Title_PopupAdd::Añadir planificación
-Item_AuditoryPlanning_Title_PopupUpdate::Modificar planifiación
-Item_AuditoryPlanning_Label_EmailProvider::Dirección de email
-Item_AuditoryPlanning_Title::Eliminar planificación
-Item_Auditory_Label_PlanningResponsible::Planificada por
-Item_Auditory_Label_PlanningDate::Fecha
-Item_Auditory_Label_ValidatedByResponsible::Validada por
-Item_Auditory_Label_ValidatedOn::Fecha
-Item_Auditory_Title_QuestionariesAvailables::Cuestionarios de la auditoría
-Item_AuditoryQuestionary_Header_Status::Estado
-Item_AuditoryQuestionary_Header_Name::Cuestionario
-Item_AuditoryQuestionary_Tooltip_Start::Iniciar cuestionario
-Item_AuditoryQuestionary_Tooltip_Continue::Continuar cuestionario
-Item_Auditory_Text_NotStarted::No iniciado
-Item_Auditory_Text_NotEnded::No finalizado
-Item_Auditory_Title_Found::Hallazgos
-Item_Auditory_Title_Improvements::Mejoras
-Item_Questionary_Tab_Founds::Hallazgos y mejoras
-Item_Questionary_Tab_Questions::Cuestionario
-Item_Auditory_Header_Improvement::Propuestas de mejora
-Item_Auditory_Label_Unconformity::No conformidad
-Item_Auditory_Label_Improvement::Mejora
-Item_Auditory_Label_Requeriment::Requisito
-Item_Auditory_Label_Found::Hallazgo
-Item_Auditory_Button_AddFound::Añadir hallazgo
-Item_Auditory_Button_AddImprovement::Añadir mejora
-Item_Auditory_Title_PopupAddFound::Nuevo hallazgo
-Item_Auditory_Title_PopupUpdateFound::Modificar hallazgo
-Item_Auditory_Title_PopupAddImprovement::Nueva mejora
-Item_Auditory_Title_PopupUpdateImprovement::Modificar mejora
-Item_Auditory_PopupDelete_Message::Quiere eliminar la auditoria
-Item_Auditory_Popup_Delete_Title::Eliminar auditoria
-Item_Auditory_Label_EndQuestionarios::Cierre cuestionarios
-Item_Auditory_Btn_Validation::Validar auditoria
-Item_Auditory_Btn_PopupValidation::Validar
-Item_Auditory_Btn_Close::Cerrar auditoria
-Item_Auditory_Label_Action::Genera acción
-Item_Auditory_ValidateCuestionarioCrossDate::No puede ser anterio al inicio de los cuestionarios
-Item_Auditory_ValidateCrossDate::No puede ser anterior a la fecha final
-Item_Learning_Message_NoAssistants::No se puede finalizar la formación sin asistentes
-Common_PDF_Filter_Contains::Contiene
-Item_Auditory_FoundNoAction::Cap troballa genera una acció
-Item_Auditory_ImprovementNoAction::Cap millora genera una acció
-Common_Status_ActivePlural::Activos
-Common_Status_InactivePlural::Inactivos
-Item_Process_Btn_Restaurar::Activar
-Item_Process_Btn_Anular::Desactivar
-Item_Process_PopupAnular_Title::Desactivar proceso
-Item_Auditory_Message_ActionsZombie::Las acciones no estarán disponibles en el sistema hasta que no se valide la auditoria
-Item_Auditory_ErrorMessage_QuestionairesClosed::Para validar la auditoria se ha de indicar el inicio i el final
-Item_Adutiry_Message_NoActions::No hay ninguna acción definida a la auditoria.
-Item_IncidentAction_Message_NoGrants::No tiene permisos para trabajar con acciones
-Common_FirstDate::Fecha primer registro
-Item_Equipment_Calibration_Error_None::Se ha de definir al menos una calibració.
-Item_Equipment_Verification_Error_None::Se ha de definir al menos una verificació.
-Item_Equipment_Error_NoRisponsible::Se ha de informar el responsable del equipo.
-Item_Equipment_Error_NoOptions::elija al menos una opción.
-Item_Equipment_Error_DuplicateData::Los datos del equipo están repetidos.
-Item_Equipment_Error_RequiredFields::Revise los campos obligatorios del equipo.
-Common_Loading::Cargando datos
-Item_Questionay_Observations::Observaciones

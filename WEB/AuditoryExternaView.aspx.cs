@@ -401,7 +401,7 @@ public partial class AuditoryExternaView : Page
         validatedList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
         foreach (var employee in Employee.ByCompany(this.company.Id))
         {
-            if (employee.Active || this.Auditory.InternalResponsible.Id == employee.Id)
+            if (employee.DisabledDate == null || this.Auditory.InternalResponsible.Id == employee.Id)
             {
                 employesList.AppendFormat(
                     CultureInfo.InvariantCulture,
@@ -411,7 +411,7 @@ public partial class AuditoryExternaView : Page
                     this.Auditory.InternalResponsible.Id == employee.Id ? " selected=\"selected\"" : string.Empty);
             }
 
-            if (employee.Active || this.Auditory.PlannedBy.Id == employee.Id)
+            if (employee.DisabledDate == null || this.Auditory.PlannedBy.Id == employee.Id)
             {
                 planningList.AppendFormat(
                     CultureInfo.InvariantCulture,
@@ -421,7 +421,7 @@ public partial class AuditoryExternaView : Page
                     this.Auditory.PlannedBy.Id == employee.Id ? " selected=\"selected\"" : string.Empty);
             }
 
-            if (employee.Active || this.Auditory.ValidatedBy.Id == employee.Id)
+            if (employee.DisabledDate == null || this.Auditory.ValidatedBy.Id == employee.Id)
             {
                 validatedList.AppendFormat(
                     CultureInfo.InvariantCulture,
@@ -431,7 +431,7 @@ public partial class AuditoryExternaView : Page
                     this.Auditory.ValidatedBy.Id == employee.Id ? " selected=\"selected\"" : string.Empty);
             }
 
-            if (employee.Active)
+            if (employee.DisabledDate == null)
             {
                 auditedList.AppendFormat(
                     CultureInfo.InvariantCulture,

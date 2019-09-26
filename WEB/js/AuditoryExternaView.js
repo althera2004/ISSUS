@@ -45,6 +45,8 @@ window.onload = function () {
         $("select").attr("disabled", "disabled");
         $("select").css("backgroundColor", "#eee");
         $("#BtnNewItem").remove();
+        $("#BtnProviderBAR").remove();
+        //$("td .btn-info").remove();
         $("td .btn-danger").remove();
         $("#TxtNotes").removeAttr("disabled");
         $("#TxtNotes").css("backgroundColor", "transparent");

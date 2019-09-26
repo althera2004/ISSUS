@@ -150,21 +150,15 @@ function UploadFileGo() {
         var ftype = $("#fileName")[0].files[0].type; // get file type
 
         console.log(ftype);
-        //allow only valid image file types 
+        //allow only valid file types 
         switch (ftype) {
+
             case "text/plain":
             case "image/png":
             case "image/jpeg":
-            case "image/pjpeg":
+            case "application/msword":
             case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
             case "application/pdf":
-            case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-            case "application/vnd.ms-excel":
-            case "application/vnd.openxmlformats-officedocument.wordprocessingml.template":
-            case "application/vnd.oasis.opendocument.text":
-            case "application/vnd.oasis.opendocument.spreadsheet":
-            case "application/vnd.oasis.opendocument.graphics":
-            case "application/msword":
                 break;
             default:
                 alertUI("<i>" + ftype + "</i><br />&nbsp;" + Dictionary.Common_Warning_MimeType);

@@ -46,8 +46,8 @@ window.onload = function () {
     $("#TxtRecordsToDate").on("change", IndicadorRegistroFilter);
 
     IndicadorRegistroFilter();
-    $("#th1").click();
-    $("#th1").click();
+    $("#th2").click();
+    $("#th2").click();
 
     $("#Tabgraphics").on("click", DrawGraphics);
 

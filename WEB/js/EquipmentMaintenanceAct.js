@@ -48,7 +48,7 @@ function EquipmentMaintenanceActRenderRow(equipmentMaintenanceAct, targetName) {
     tdFecha.appendChild(document.createTextNode(FormatYYYYMMDD(equipmentMaintenanceAct.Date, "/")));
     tdVto.appendChild(document.createTextNode(FormatYYYYMMDD(equipmentMaintenanceAct.Expiration, "/")));
     tdResponsible.appendChild(document.createTextNode(equipmentMaintenanceAct.Responsible.Value));
-    tdObservaciones.appendChild(document.createTextNode(equipmentMaintenanceAct.Observations));
+    //tdObservaciones.appendChild(document.createTextNode(equipmentMaintenanceAct.Observations));
 
     if (typeof (equipmentMaintenanceAct.Observations) === "undefined") {
         tdObservaciones.appendChild(document.createTextNode(""));
@@ -64,7 +64,7 @@ function EquipmentMaintenanceActRenderRow(equipmentMaintenanceAct, targetName) {
     row.id = "EquipmentMaintenanceAct" + equipmentMaintenanceAct.Id;
 
     tdFecha.style.width = "90px";
-    tdOperation.style.width = "220px";
+    tdOperation.style.width = "400px";
     tdResponsible.style.width = "200px";
     tdCost.style.width = "70px";
     tdVto.style.width = "120px";

@@ -2,35 +2,40 @@ Acción::Action
 afectados::affected
 Agreement_Button_Download::Download conditions
 Agreement_Document_Title::Terms of use
-Alert_Large_ActionEvaluatedWithoutAction::Falta rellenar el campo 'Actuaciones' de la acción
-Alert_Large_ActionIdentifiedNotEvaluated::Falta rellenar el campo 'Por qué ha pasado' de la acción
-Alert_Large_ActionLastWeek::La fecha prevista para el cierre de la acción ha vencido
-Alert_Large_BusinessRiskActionNeeded::Riesgo sin acción
-Alert_Large_BusinessRiskNotEvaluated::Falta hacer la valoración inicial del riesgo
-Alert_Large_EmployeeDelete::Responsable no activo
-Alert_Large_EquipmentIncomplete::Equipo incompleto
-Alert_Large_EquipmentMaintenance::Falta configurar el registro inicial del mantenimiento
-Alert_Large_ExpiredTasks::La fecha propuesta para la tarea ha vencido
-Alert_Large_IncidentEvaluatedWithoutAction::Falta rellenar el campo 'Actuaciones' de la incidencia
-Alert_Large_IncidentIdentifiedNotEvaluated::Falta rellenar el campo 'Por qué ha pasado' de la incidencia
-Alert_Large_IncidentLastWeek::La fecha prevista para el cierre de la incidencia ha vencido
-Alert_Large_LearningFinishedWithoutEvaluation::Curso finalizado pendiente de evaluación
-Alert_Large_LearningStartedWithoutAssistants::Curso iniciado sin alumnos inscritos
-Alert_Short_ActionEvaluatedWithoutAction::Acción sin actuaciones
-Alert_Short_ActionIdentifiedNotEvaluated::Acción no analizada
-Alert_Short_ActionLastWeek::Acción vencida
-Alert_Short_BusinessRiskActionNeeded::Riesgo sin acción
-Alert_Short_BusinessRiskNotEvaluated::Riesgo no valorado
-Alert_Short_EmployeeDelete::Responsable no activo
-Alert_Short_EquipmentIncomplete::Equipo incompleto
-Alert_Short_EquipmentMaintenance::Mantenimento sin registro
-Item_Indicador_Message_BlockedByObjetivo::No se puede modificar porque hay objetivos asociados
-Alert_Short_ExpiredTasks::Tarea vencida
-Alert_Short_IncidentEvaluatedWithoutAction::Incidencia sin actuaciones
-Alert_Short_IncidentIdentifiedNotEvaluated::Incidencia no analizada
-Alert_Short_LearningFinishedWithoutEvaluation::Curso sin evaluar
-Alert_Short_IncidentLastWeek::Incidencia vencida
-Alert_Short_LearningStartedWithoutAssistants::Curso sin alumnos
+Alert_Large_ActionEvaluatedWithoutAction::Missing fill in the action field 'of the action
+Alert_Large_ActionIdentifiedNotEvaluated::Missing fill the field 'Because it has happened' of the action
+Alert_Large_ActionLastWeek::The expected date for the closing of the action has expired
+Alert_Large_BusinessRiskActionNeeded::Risk without action
+Alert_Large_BusinessRiskNotEvaluated::The initial risk assessment still needs to be done
+Alert_Large_EmployeeDelete::Responsible not active
+Alert_Large_EquipmentCalibration::Missing to do at least one calibration
+Alert_Large_EquipmentIncomplete::Incomplete equipment
+Alert_Large_EquipmentMaintenance::Missing to do at least one maintenance
+Alert_Large_EquipmentVerification::Missing to do at least one verification
+Alert_Large_ExpiredTasks::The scheduled date for the task has expired
+Alert_Large_IncidentEvaluatedWithoutAction::Missing fill the field 'Actions' of the incident
+Alert_Large_IncidentIdentifiedNotEvaluated::Missing fill the field 'Why it has happened' of the incident
+Alert_Large_IncidentLastWeek::The scheduled date for the closing of the incident has expired
+Alert_Large_LearningExpired::The scheduled date for the start of the course has expired
+Alert_Large_LearningFinishedWithoutEvaluation::Course completed pending evaluation
+Alert_Large_LearningStartedWithoutAssistants::Course started without enrolled students
+Alert_Short_ActionEvaluatedWithoutAction::Action without actions
+Alert_Short_ActionIdentifiedNotEvaluated::Action not analyzed
+Alert_Short_ActionLastWeek::Expired action
+Alert_Short_BusinessRiskActionNeeded::Risk without action
+Alert_Short_BusinessRiskNotEvaluated::Risk not assessed
+Alert_Short_EmployeeDelete::Responsible not active
+Alert_Short_EquipmentCalibration::Missing to do calibration
+Alert_Short_EquipmentIncomplete::Incomplete team
+Alert_Short_EquipmentMaintenance::Missing to do maintenance
+Alert_Short_EquipmentVerification::Missing to do verification
+Alert_Short_ExpiredTasks::Expired task
+Alert_Short_IncidentEvaluatedWithoutAction::Incidence without actions
+Alert_Short_IncidentIdentifiedNotEvaluated::Incidence not analyzed
+Alert_Short_IncidentLastWeek::Expired incidence
+Alert_Short_LearningExpired::Course not started
+Alert_Short_LearningFinishedWithoutEvaluation::Course without evaluation
+Alert_Short_LearningStartedWithoutAssistants::Course without students
 Añadir::Add
 Auditorías::Audits
 Avatar::Avatar
@@ -45,7 +50,7 @@ Common_Active_Plural::Actives
 Common_ActualMonth::Current month
 Common_Add::Add
 Common_Alerts::Notices
-Common_All::Everybody
+Common_All::All
 Common_All_Female::All
 Common_All_Female_Plural::All
 Common_All_Male::All
@@ -53,7 +58,7 @@ Common_All_Male_Plural::All
 Common_AlreadyExists::It exists
 Common_Back::Go back
 Common_Cancel::Cancel
-Common_CanNotDelete::It can not be deleted
+Common_CanNotDelete::cannot be deleted
 Common_Change::Change
 Common_Chronometer_Hours::hours
 Common_Chronometer_Minutes::minutes
@@ -65,7 +70,7 @@ Common_Color_Yellow::Yellow
 Common_Comparer_eq::equal to
 Common_Comparer_eqgt::greater than or equal
 Common_Comparer_eqlt::less than or equal
-Common_Comparer_gt::gertet than
+Common_Comparer_gt::greather than
 Common_Comparer_lt::smaller than
 Common_ComparerSign_eq::=
 Common_ComparerSign_eqgt::>=
@@ -78,48 +83,49 @@ Common_CreatedBy::Generated by
 Common_Date::Date
 Common_DateClose::Closing date
 Common_DateExecution::D. Planned
-Common_DateRangeFrom::Des de
-Common_DateRangeTo::Fins
+Common_DateRangeFrom::Since
+Common_DateRangeTo::Until
 Common_Day::Day
 Common_Days::Days
-Common_Delete::Remove
-Common_DeleteMessage::Are you sure you want to delete?
-Common_DeleteMessage_NoUndo::CAUTION: This action cannot be undo!
+Common_Delete::Delete
+Common_DeleteMessage::Are you sure that you want delete?
+Common_DeleteMessage_NoUndo::CAUTION: This action cannot be undone!
 Common_Edit::Edit
 Common_Error::Error
 Common_Error_Application::There was an error in the application
-Common_Error_BeforeStart::The date can not be before the start date
+Common_Error_BeforeStart::The date cannot be before than the start date
 Common_Error_DateMalformed::The date is not correct
-Common_Error_IncorrectMail::The email is incorrect
-Common_Error_IncorrectNIF::El NIF és incorrecte
+Common_Error_IncorrectMail::The mail is incorrect
+Common_Error_IncorrectNIF::NIF incorrect
 Common_Error_IncorrectPassword::Invalid password
-Common_Error_Kernel_Delete::It can not be eliminated because it is a basic part of the application
-Common_Error_Kernel_Edit::It can not be modified because it is a basic part of the application
-Common_Error_LastActive::It can not be deleted because it is the only one defined
-Common_Error_MaximumToday::The date can not be later than today
+Common_Error_Kernel_Delete::Cannot be eliminated because it's a basic part of the application
+Common_Error_Kernel_Edit::Cannot be modified because it's a basic part of the application
+Common_Error_LastActive::Cannot be deleted because it's the only one defined
+Common_Error_MaximumToday::The date cannot be later than today
 Common_Error_MinimumOneAction::Choose an option
-Common_Error_MoneyMalformed::It is not a correct value
-Common_Error_NameAlreadyExists::It already exists
+Common_Error_MoneyMalformed::Is not a correct value
+Common_Error_NameAlreadyExists::Already exists
 Common_Error_NoAccess::The selected item is not available
 Common_Error_NoCalibrationsDefined::There are no defined calibrations
-Common_Error_NoDeletable::It can not be deleted
-Common_Error_NoEditable::It can not be modified
+Common_Error_NoDeletable::Cannot be deleted
+Common_Error_NoEditable::Cannot be modified
 Common_Error_NoFileSelected::Select a file
-Common_Error_NoVerificationsDefined::There are no defined checks
+Common_Error_NoVerificationsDefined::There are no defined verifications
 Common_Error_UnsupportedFile::Document type not supported
 Common_Error_UserCanNotAccess::The user does not have permission to access the application
-Common_ErrorMessage_CanNotDelete::It can not be deleted
-Common_ErrorMessage_InUse::It can not be deleted because it is in use
+Common_ErrorMessage_CanNotDelete::Cannot be deleted
+Common_ErrorMessage_InUse::Cannot be deleted because it is in use
 Common_ErrorMessage_IsSelected::Already selected
-Common_Exit::Sign out
+Common_Exit::Exit
 Common_External::External
 Common_Filter::Filter
 Common_FinishDate::Ending
+Common_FirstDate::First register date
 Common_Form_CheckError::Review the required data
 Common_Form_Errors::Review the form data
 Common_From::Since
 Common_Here::here
-Common_Home::Start
+Common_Home::Home
 Common_Inactive::Inactive
 Common_Inactive_Plural::Inactive
 Common_Internal::Internal
@@ -128,11 +134,14 @@ Common_Label_Months::months
 Common_Label_Weeks::weeks
 Common_Label_Years::years
 Common_LastWeek::Last week
-Common_ListPdf::To print
-Common_MaximumUploadSize::El màxim permés són 4MB
+Common_ListPdf::Print
+Common_Loading::Loading
+Common_MaximumUploadSize::The maximum allowed are 4MB
 Common_Message_Deleting::Removing...
 Common_Message_FormErrors::Review the form data
+Common_Message_ItemNoAccess::You do not have access to this item, contact the administrator
 Common_Message_Saving::Saving ...
+Common_MessageMailMalformed::The email is not valid
 Common_ModifiedBy::Modified by
 Common_Modify::Modify
 Common_Month::Month
@@ -149,10 +158,10 @@ Common_MonthName_November::November
 Common_MonthName_October::October
 Common_MonthName_September::September
 Common_Months::Months
-Common_Name::User
+Common_Name::Name
 Common_New::New
 Common_Next::Following
-Common_No::Do not
+Common_No::No
 Common_NoAlerts::<strong> Congratulations! </ strong> <br /> There is no pending alert
 Common_NoGrants::User without permissions
 Common_NoGrants_Explanation::Contact the application administrator at the address
@@ -162,24 +171,28 @@ Common_None_Male::Any
 Common_NoSaveData::Unsaved data
 Common_NotSet_Female::Not specified
 Common_NotSet_Male::Not specified
+Common_PDF_Filter_Contains::Contains
 Common_Period::Period
 Common_PeriodAll::All the period
 Common_Previous::Previous
 Common_PrintExcel::Print in Excel
 Common_PrintPdf::PDF
-Common_RegisterCount::No. of records
+Common_RegisterCount::Nº. of registers
 Common_Report_Rendering::Generating report ...
-Common_Required::required
-Common_Responsible::Responsable
-Common_Save::Save
+Common_Required::Required
+Common_Responsible::Responsible
+Common_Save::Accept
 Common_Search::Search
 Common_SearchCriteria::Search criteria
 Common_SelectAll::Select all
 Common_Selected::Selected
 Common_SelectOne::Select
+Common_ShowAll::See all
 Common_Status::State
-Common_Target::objective
-Common_Task::Homework
+Common_Status_ActivePlural::Active
+Common_Status_InactivePlural::Inactive
+Common_Target::Objective
+Common_Task::Work
 Common_ThisMonth::This month
 Common_ThisWeek::This week
 Common_TiemoutSessionTitle::The session is over
@@ -200,7 +213,7 @@ Common_Warning_BrowserOld::Update the browser
 Common_Warning_ImageRequired::Select an image
 Common_Warning_ImageTooBig::Very large image <br /> Reduce the size
 Common_Warning_MimeType::Type of file not supported
-Common_Warning_Undelete::It can not be deleted because it has linked records
+Common_Warning_Undelete::Cannot be deleted because it has linked registers
 Common_Week::Week
 Common_WeekDayName_Friday::Friday
 Common_WeekDayName_Monday::Monday
@@ -209,13 +222,13 @@ Common_WeekDayName_Sunday::Sunday
 Common_WeekDayName_Thursday::Thursday
 Common_WeekDayName_Tuesday::Tuesday
 Common_WeekDayName_Wednesday::Wednesday
-Common_WeekDayShortName_Friday::saw
-Common_WeekDayShortName_Monday::lu
-Common_WeekDayShortName_Saturday::sa
-Common_WeekDayShortName_Sunday::dm
-Common_WeekDayShortName_Thursday::ju
-Common_WeekDayShortName_Tuesday::ma
-Common_WeekDayShortName_Wednesday::my
+Common_WeekDayShortName_Friday::fr 
+Common_WeekDayShortName_Monday::mo 
+Common_WeekDayShortName_Saturday::sa 
+Common_WeekDayShortName_Sunday::su 
+Common_WeekDayShortName_Thursday::th
+Common_WeekDayShortName_Tuesday::tu 
+Common_WeekDayShortName_Wednesday::we 
 Common_Welcome::Hello
 Common_Working::Action in process
 Common_Year::Year
@@ -232,15 +245,32 @@ DiskQuote_Other::Others
 Email::Mail
 Fin::End
 Item_Action_Popup_Details_Title::Details of the action
+Item_Adutiry_Message_NoActions::There is no defined action in the audit
+Item_Adutory_Status_Explanation_0::Basic data without planning
+Item_Adutory_Status_Explanation_1::Planned with responsible and date
+Item_Adutory_Status_Explanation_2::Any question of the questionnaires marked
+Item_Adutory_Status_Explanation_3::All questions of the marked questionnaires
+Item_Adutory_Status_Explanation_4::With responsible and closing date
+Item_Adutory_Status_Explanation_5::With responsible and validation date
+Item_Adutory_Status_Label_0::Planning
+Item_Adutory_Status_Label_1::Planned
+Item_Adutory_Status_Label_2::In progress
+Item_Adutory_Status_Label_3::Pending
+Item_Adutory_Status_Label_4::Closed
+Item_Adutory_Status_Label_5::Validated
+Item_Adutory_Type_Label_0::Internal
+Item_Adutory_Type_Label_1::External
+Item_Adutory_Type_Label_2::Provider
 Item_Alert_ListHeader_Description::Description
 Item_Alert_ListHeader_Reason::Reason
 Item_Alerts::Notices
 Item_Attach_DiskFreeLabel1::Available on
 Item_Attach_DiskFreeLabel2::% disk allocation
+Item_Attach_DiskFreeLabel3::Available
 Item_Attach_DiskQuote::Assigned disk quota
 Item_Attach_FreeDisk::Available space
-Item_Attach_Popup_Delete_Question::Remove the attachment
-Item_Attach_Popup_Delete_Title::Remove attachment
+Item_Attach_Popup_Delete_Question::Delete the attachment
+Item_Attach_Popup_Delete_Title::Delete attachment
 Item_Attachment_Btn_New::Add
 Item_Attachment_CreateDate::Uploaded the
 Item_Attachment_Description::Description
@@ -248,37 +278,157 @@ Item_Attachment_Header_CreateDate::Uploaded the
 Item_Attachment_Header_Description::Description
 Item_Attachment_Header_FileName::File
 Item_Attachment_Header_Size::Size
+Item_Attachment_Popup_Warning::This action cannot be undone
 Item_Attachment_SectionTitle::Attachments
 Item_Attachment_Size::Size
+Item_Auditories::Audits
+Item_Auditory::Audit
+Item_Auditory_BreadCrumb_Edit::Audit sheet
+Item_Auditory_Btn_AddIncidentAction::Add
+Item_Auditory_Btn_Close::Close audit
+Item_Auditory_Btn_PopupValidation::Validate
+Item_Auditory_Btn_Reopen::Reopen audit
+Item_Auditory_Btn_Validation::Validate audit
+Item_Auditory_Button_AddFound::Add find
+Item_Auditory_Button_AddImprovement::Add improvement
+Item_Auditory_Button_AddPlanning::Add schedule
+Item_Auditory_Button_New::Add
+Item_Auditory_ErrorMessage_QuestionairesClosed::To validate the audit, the beginning and the end must be indicated
+Item_Auditory_Filter_From::Since
+Item_Auditory_Filter_Status::State
+Item_Auditory_Filter_To::Until
+Item_Auditory_Filter_Type::Kind
+Item_Auditory_FoundNoAction::No finding generates action
+Item_Auditory_Header_Action::Action in progress
+Item_Auditory_Header_Found::Find
+Item_Auditory_Header_Improvement::Improvement proposals
+Item_Auditory_Header_Requirement::Requirement
+Item_Auditory_Header_Result::Nonconformity
+Item_Auditory_Help_Status_Title::Possible audit statuses
+Item_Auditory_ImprovementNoAction::No improvement generates an action
+Item_Auditory_Label_Action::Generate action
+Item_Auditory_Label_Address::Direction
+Item_Auditory_Label_Amount::Cost
+Item_Auditory_Label_AuditorTeam::Auditor team
+Item_Auditory_Label_ClosedBy::Closed by
+Item_Auditory_Label_ClosedOn::Closing date
+Item_Auditory_Label_Customer::Client
+Item_Auditory_Label_Description::Description
+Item_Auditory_Label_EndQuestionarios::Close questionnaires
+Item_Auditory_Label_Found::Find
+Item_Auditory_Label_Improvement::Improvement
+Item_Auditory_Label_InternalResponsible::Internal responsible
+Item_Auditory_Label_Name::First name
+Item_Auditory_Label_Notes::Notes
+Item_Auditory_Label_PannedDate::Expected date
+Item_Auditory_Label_PlanningDate::Date
+Item_Auditory_Label_PlanningResponsible::Planned by
+Item_Auditory_Label_Provider::Provider
+Item_Auditory_Label_PuntosFuertes::Strengths
+Item_Auditory_Label_Requeriment::Requirement
+Item_Auditory_Label_Rules::Norms
+Item_Auditory_Label_Scope::Ambit
+Item_Auditory_Label_Type::Kind
+Item_Auditory_Label_Unconformity::Nonconformity
+Item_Auditory_Label_ValidatedBy::Validated by
+Item_Auditory_Label_ValidatedByResponsible::Validated by
+Item_Auditory_Label_ValidatedOn::Date
+Item_Auditory_ListHeader_Ammount::Cost
+Item_Auditory_ListHeader_Closed::Done
+Item_Auditory_ListHeader_Name::Audit
+Item_Auditory_ListHeader_Planned::Forecasted
+Item_Auditory_ListHeader_Status::State
+Item_Auditory_Message_ActionsZombie::Actions will not be available in the system until the audit is validated.
+Item_Auditory_Message_Closed::Closed
+Item_Auditory_Message_NewAuditory::In order to add schedules, the audit must first be saved
+Item_Auditory_Message_NoCompliantNoFound::The questionnaire has nonconformities without findings
+Item_Auditory_Message_NoPlanning::In order to consider the audit planned, there must be at least one planning
+Item_Auditory_Message_NoQuestions::With the norms and processes selected there are no questions for the questionnaires
+Item_Auditory_Message_QuestionaryClosable::You can now access the Reports tab to close the questionnaires
+Item_Auditory_Message_ReopenCuestionario::Do you want to reopen the questionnaires?
+Item_Auditory_Message_Validated::Validated audit
+Item_Auditory_Planning_Message::It cannot be the same as the auditor
+Item_Auditory_PlanningTable_Title::Planning
+Item_Auditory_Popup_CloseQuestionary::Close questionnaires
+Item_Auditory_Popup_Delete_Title::Delete audit
+Item_Auditory_Popup_ReopenMessage::Do you want to reopen the audit?
+Item_Auditory_Popup_ReopenQuestionary::Reopen questionnaires
+Item_Auditory_Popup_ReopenTitle::Reopen the audit
+Item_Auditory_PopupDelete_Message::You want to delete the audit
+Item_Auditory_PopupDelete_MessageFound::Delete Find
+Item_Auditory_PopupDelete_MessageImprovement::Delete improvement proposal
+Item_Auditory_Report_EndLabel::Final
+Item_Auditory_Report_StartLabel::Start
+Item_Auditory_SelectType_Error::You must choose an option
+Item_Auditory_SelectType_Title::Choose the type of audit
+Item_Auditory_Tab_Principal::Basic data
+Item_Auditory_Tab_Questionaries::Questionnaires
+Item_Auditory_Tab_Report::Report
+Item_Auditory_Tab_Traces::Traces
+Item_Auditory_Text_NotEnded::Not completed
+Item_Auditory_Text_NotStarted::Not started
+Item_Auditory_Title_Found::Findings
+Item_Auditory_Title_Improvements::Improvements
+Item_Auditory_Title_PopupAddFound::New find
+Item_Auditory_Title_PopupAddImprovement::New improvement
+Item_Auditory_Title_PopupDeleteFound::Delete Find
+Item_Auditory_Title_PopupDeleteImprovement::Delete improvement
+Item_Auditory_Title_PopupUpdateFound::Modify Find
+Item_Auditory_Title_PopupUpdateImprovement::Modify Improvement
+Item_Auditory_Title_QuestionariesAvailables::Audit questionnaires
+Item_Auditory_ValidateCrossDate::It cannot be before the end date
+Item_Auditory_ValidateCuestionarioCrossDate::It cannot be before the start of the questionnaires
+Item_AuditoryPlanning_Field_Duration::Duration
+Item_AuditoryPlanning_Field_Hour::Start Time
+Item_AuditoryPlanning_Header_Audited::Audited
+Item_AuditoryPlanning_Header_Auditor::Auditor
+Item_AuditoryPlanning_Header_Date::Date
+Item_AuditoryPlanning_Header_Duration::Hours
+Item_AuditoryPlanning_Header_Hour::Hour
+Item_AuditoryPlanning_Header_Process::Process
+Item_AuditoryPlanning_Label_Audited::Audited
+Item_AuditoryPlanning_Label_Auditor::Auditor
+Item_AuditoryPlanning_Label_Date::Date
+Item_AuditoryPlanning_Label_EmailProvider::Email address
+Item_AuditoryPlanning_Label_Process::Process
+Item_AuditoryPlanning_Label_SendMail::Send mail to the auditee
+Item_AuditoryPlanning_PopupDelete_Message::Do you want to delete the planning?
+Item_AuditoryPlanning_Title::Delete schedule
+Item_AuditoryPlanning_Title_PopupAdd::Add schedule
+Item_AuditoryPlanning_Title_PopupUpdate::Modify planning
+Item_AuditoryQuestionary_Header_Name::Questionnaire
+Item_AuditoryQuestionary_Header_Status::State
+Item_AuditoryQuestionary_Tooltip_Continue::Continue questionnaire
+Item_AuditoryQuestionary_Tooltip_Start::Start questionnaire
 Item_Backup::Back-Up
 Item_Backup_Btn_Go::Start back-up
-Item_Backup_Explain::When clicked, an XLS file is generated, with all the data of the application. It is a backup
+Item_Backup_Explain::When clicked, XLS file is generated, with all the data of the application. It is a backup
 Item_BusinesRisk_ListHeader_Date::Date
 Item_BusinesRisk_ListHeader_Description::Risk
 Item_BusinesRisk_ListHeader_IPR::IPR
 Item_BusinesRisk_ListHeader_Process::Process
 Item_BusinesRisk_ListHeader_Result::Final
-Item_BusinesRisk_ListHeader_Rule::Rule
+Item_BusinesRisk_ListHeader_Rule::Norm
 Item_BusinesRisk_ListHeader_StartValue::Current
 Item_BusinesRisk_ListHeader_Status::Status
-Item_BusinesRisk_ListHeader_Type::Kind
+Item_BusinesRisk_ListHeader_Type::Type
 Item_BusinessRisk::Risk
 Item_BusinessRisk_Btn_NewIPR::Set new IPR
-Item_BusinessRisk_Button_CategoryBAR::Management of standards
+Item_BusinessRisk_Button_CategoryBAR::Norm management
 Item_BusinessRisk_Button_CloseAction::Close the action
 Item_BusinessRisk_Button_New::Add
 Item_BusinessRisk_Button_RestoreAction::Restore the action
 Item_BusinessRisk_ErrorMesagge_OutOfDate::The date must be after
-Item_BusinessRisk_ErrorMessage_ActionVerDate::La acció no pot començar abans que el risk
-Item_BusinessRisk_ErrorMessage_CloseBeforeAction::No es pot tacar anteriorment a l'acció
+Item_BusinessRisk_ErrorMessage_ActionVerDate::The action cannot start before the Risk
+Item_BusinessRisk_ErrorMessage_CloseBeforeAction::Cannot be closed before the action
 Item_BusinessRisk_ErrorMessage_ClosedRequiredData::If it closes, indicate if action is taken or if the risk is assumed
-Item_BusinessRisk_ErrorMessage_ClosedRequiredDataOutTime::The action can not be closed before the proceedings
-Item_BusinessRisk_ErrorMessage_CloseEarlierThanStart::The closing date can not be before the registration date
+Item_BusinessRisk_ErrorMessage_ClosedRequiredDataOutTime::The action cannot be closed before the proceedings
+Item_BusinessRisk_ErrorMessage_CloseEarlierThanStart::The closing date cannot be before the registration date
 Item_BusinessRisk_ErrorMessage_DateCloseRequired::Specify a closing date
 Item_BusinessRisk_ErrorMessage_DateStartRequired::Specify a registration date
-Item_BusinessRisk_ErrorMessage_DateUpToLimit::The date can not be later than the current one
+Item_BusinessRisk_ErrorMessage_DateUpToLimit::The date cannot be later than the current one
 Item_BusinessRisk_ErrorMessage_FinalProbabilityRequired::Indicate the probability level
-Item_BusinessRisk_ErrorMessage_FinalSeverityRequired::Indicate the level of severity
+Item_BusinessRisk_ErrorMessage_FinalSeverityRequired::Indicate the severity level
 Item_BusinessRisk_ErrorMessage_InitialValueBadRange::The initial value must be between 1 and 25
 Item_BusinessRisk_ErrorMessage_InitialValueRequired::Specify an initial value
 Item_BusinessRisk_ErrorMessage_NameRequired::Specify a name
@@ -286,19 +436,19 @@ Item_BusinessRisk_ErrorMessage_NewProbabiliySeverity_Required::Indicate the new 
 Item_BusinessRisk_ErrorMessage_ProbabilityRequired::Specify a probability
 Item_BusinessRisk_ErrorMessage_ProcessRequired::Specify a process
 Item_BusinessRisk_ErrorMessage_ResultRequired::Specify a result (probability x severity)
-Item_BusinessRisk_ErrorMessage_RulesRequired::Specify a standard
+Item_BusinessRisk_ErrorMessage_RulesRequired::Specify a norm
 Item_BusinessRisk_ErrorMessage_SeverityRequired::Specify a severity
-Item_BusinessRisk_ErrorMessage_StartDateOverdate::No pot ser posterior a 'Què ha passat' de l'acció
-Item_BusinessRisk_ErrorMessage_StartNotApply::Once the risk has been assessed, establish if an action is taken, or if it is assumed
-Item_BusinessRisk_ErrorMessage_WhatHappendOverdate::La data no pot ser anterior al inici del risc
+Item_BusinessRisk_ErrorMessage_StartDateOverdate::It cannot be after 'What has happened' of the action
+Item_BusinessRisk_ErrorMessage_StartNotApply::Once the risk has been evaluated, establish if an action is taken, or if it is assumed
+Item_BusinessRisk_ErrorMessage_WhatHappendOverdate::The date cannot be before the beginning of the risk
 Item_BusinessRisk_Filter_NoData::This risk has no costs
 Item_BusinessRisk_Help_CostBlocked::To add costs, close the action
 Item_BusinessRisk_LabelField_ActualResult::Current result
 Item_BusinessRisk_LabelField_ApplyAction::Apply an action
 Item_BusinessRisk_LabelField_ApplyActionNo::Do not apply an action
-Item_BusinessRisk_LabelField_Assumed::Take the risk
+Item_BusinessRisk_LabelField_Assumed::Assume the risk
 Item_BusinessRisk_LabelField_Causes::Causes
-Item_BusinessRisk_LabelField_CloseDate::Deadline
+Item_BusinessRisk_LabelField_CloseDate::Closing date
 Item_BusinessRisk_LabelField_Code::Code
 Item_BusinessRisk_LabelField_DateStart::Initial date
 Item_BusinessRisk_LabelField_Description::Description
@@ -310,53 +460,53 @@ Item_BusinessRisk_LabelField_Probability::Probability
 Item_BusinessRisk_LabelField_Process::Processes
 Item_BusinessRisk_LabelField_Remainder::Table
 Item_BusinessRisk_LabelField_Result::Result
-Item_BusinessRisk_LabelField_Rules::Rules
+Item_BusinessRisk_LabelField_Rules::Norms
 Item_BusinessRisk_LabelField_Severity::Severity
 Item_BusinessRisk_LabelField_StartControl::Initial control
 Item_BusinessRisk_LabelField_Status::Status
 Item_BusinessRisk_List_Filter_From::Since
 Item_BusinessRisk_List_Filter_Process::Processes
-Item_BusinessRisk_List_Filter_Rules::Rules
+Item_BusinessRisk_List_Filter_Rules::Norms
 Item_BusinessRisk_List_Filter_To::Until
 Item_BusinessRisk_List_Filter_Type::Status
-Item_BusinessRisk_List_Filter_Type_Assumed::Taken
+Item_BusinessRisk_List_Filter_Type_Assumed::Assumed
 Item_BusinessRisk_List_Filter_Type_NotSignificant::Not significant
 Item_BusinessRisk_List_Filter_Type_Significant::Significant
 Item_BusinessRisk_Message_InsertSucess::Risk saved. The form tabs can now be used
-Item_BusinessRisk_Message_IPR::There are # risks that will go from non-significant to significant. do you wish to continue?
-Item_BusinessRisk_Message_IPR_2::There are # risks that will go from significant to non-significant. do you wish to continue?
+Item_BusinessRisk_Message_IPR::There are # risks that will go from non-significant to significant. Do you wish to continue?
+Item_BusinessRisk_Message_IPR_2::There are # risks that will go from significant to non-significant. Do you wish to continue?
 Item_BusinessRisk_Message_ReevaluteRisk::Evaluate the risk after applying the action
-Item_BusinessRisk_MessageClosingNotAvailable::A risk can not be considered resolved as long as the action remains open
-Item_BusinessRisk_MessageHistoric::This risk has a new status as of #. To access click
-Item_BusinessRisk_Popup_Delete_Title::Eliminate irrigation analysis
-Item_BusinessRisk_PopupDelete_Message::Eliminate watering
+Item_BusinessRisk_MessageClosingNotAvailable::A risk cannot be considered resolved as long as the action remains open
+Item_BusinessRisk_MessageHistoric::This risk has a new status to date of #. To access click
+Item_BusinessRisk_Popup_Delete_Title::Eliminate risk analysis
+Item_BusinessRisk_PopupDelete_Message::Eliminate risk
 Item_BusinessRisk_SelectProbabilitySeverity::Select a probability and severity
-Item_BusinessRisk_SelectRuleType::Select a standard
-Item_BusinessRisk_Status_Assumed::Taken
+Item_BusinessRisk_SelectRuleType::Select a norm
+Item_BusinessRisk_Status_Assumed::Assumed
 Item_BusinessRisk_Status_NotSignificant::Not significant
 Item_BusinessRisk_Status_Significant::Significant
-Item_BusinessRisk_Status_Unevaluated::Not rated
+Item_BusinessRisk_Status_Unevaluated::Not evaluated
 Item_BusinessRisk_Tab_Action::Action
 Item_BusinessRisk_Tab_Basic::Initial situation
 Item_BusinessRisk_Tab_Costs::Costs
-Item_BusinessRisk_Tab_Graphics::Final status
-Item_BusinessRisk_Tab_HistoryActions::History of actions
+Item_BusinessRisk_Tab_Graphics::Final situations
+Item_BusinessRisk_Tab_HistoryActions::History of action
 Item_BusinessRisk_Title_BusinessRiskDetails::Risk sheet
 Item_BusinessRisk_Title_FinalResult::Result of risk analysis
 Item_BusinessRisk_Title_Graph::Graphic
 Item_BusinessRisk_Title_InitialValoration::Initial Valoration
 Item_BusinessRisk_Title_List::Risks
-Item_BusinessRisk_Title_StartResult::Actions after assessing the risk
-Item_BusinessRisk_Tooltip_Probability_1::Remote or nonexistent (Low or zero)
-Item_BusinessRisk_Tooltip_Probability_2::Ocasional (Posible pero aislada)
+Item_BusinessRisk_Title_StartResult::Actions after evaluating the risk
+Item_BusinessRisk_Tooltip_Probability_1::Remote or non-existent (Low or zero)
+Item_BusinessRisk_Tooltip_Probability_2::Occasional (Possible but isolated)
 Item_BusinessRisk_Tooltip_Probability_3::Moderate (Uncommon but can pass reasonably)
 Item_BusinessRisk_Tooltip_Probability_4::High (Frequent)
 Item_BusinessRisk_Tooltip_Probability_5::Very high (Almost inevitable)
 Item_BusinessRisk_Tooltip_Severity_1::Negligible (No damage or appreciable economic costs)
-Item_BusinessRisk_Tooltip_Severity_2::Minor (Mild damage, low economic costs involved)
+Item_BusinessRisk_Tooltip_Severity_2::Minor (Mild damage. Low economic costs involved)
 Item_BusinessRisk_Tooltip_Severity_3::Major (High Costs or damages involved)
-Item_BusinessRisk_Tooltip_Severity_4::Criticism (Persistent or permanent damage, significant economic costs)
-Item_BusinessRisk_Tooltip_Severity_5::Catastrophic (serious or very serious damage, very significant costs that jeopardize viability)
+Item_BusinessRisk_Tooltip_Severity_4::Critical (Persistent or permanent damage, significant economic costs)
+Item_BusinessRisk_Tooltip_Severity_5::Catastrophic (Serious or very serious damage. Very significant costs that jeopardize viability)
 Item_BusinessRisk_Warning_ActionTabAvailable::In the action tab, indicate the action data
 Item_BusinessRisks::Risks
 Item_BusinessRisksAndOportunities::Risks and Opportunities
@@ -364,13 +514,13 @@ Item_BusinessRisksAndOportunities_Filter_Periode1::Period
 Item_BusinessRisksAndOportunities_Filter_Periode2::-
 Item_BusinessRisksAndOportunities_Short::Risks & Opport.
 Item_CalibrationAct_Button_New::Add
-Item_CalibrationAct_Warning_DefinitionRequired::To add new calibrations, record an initial configuration
+Item_CalibrationAct_Warning_DefinitionRequired::To add new calibrations, register an initial configuration
 Item_CalibrationType_External::External configuration
 Item_CalibrationType_Internal::Internal configuration
 Item_Company_Button_CompanyAddressBAR::Address management
-Item_Company_Help_Address::Indicate the address, include the type of road
+Item_Company_Help_Address::Indicate the address, include the type of lane
 Item_Company_Help_BAR_Addresses::Address management
-Item_Company_Help_City::Indicate the population
+Item_Company_Help_City::Indicate the town
 Item_Company_Help_Common_SelectAddress::Select an address
 Item_Company_Help_Email::Indicate the email address
 Item_Company_Help_Fax::Indicate the fax number
@@ -379,20 +529,20 @@ Item_Company_Help_Name::Company name
 Item_Company_Help_Nif::Indicate the NIF
 Item_Company_Help_Pais::Select the country
 Item_Company_Help_Phone::Indicate the telephone number
-Item_Company_Help_Provincia::Indicate the province
+Item_Company_Help_Provincia::Indicate the province/state
 Item_Company_Help_ZipCode::Enter the postal code
 Item_Company_Logo::Logo
-Item_Company_Tab_Agreement::Agreement
+Item_Company_Tab_Agreement::Contract
 Item_Company_Tab_Countries::Countries
 Item_Company_Tab_DiskQuote::Disk use
 Item_Company_Tab_Principal::Main data
 Item_Company_Tab_Traces::Traces
 Item_CompanyAddress_FieldLabel_Address::Address
 Item_CompanyAddress_FieldLabel_Cellular::Mobile
-Item_CompanyAddress_FieldLabel_City::Population
-Item_CompanyAddress_FieldLabel_Country::country
-Item_CompanyAddress_FieldLabel_PostalCode::C.P.
-Item_CompanyAddress_FieldLabel_Province::Province
+Item_CompanyAddress_FieldLabel_City::Town
+Item_CompanyAddress_FieldLabel_Country::Country
+Item_CompanyAddress_FieldLabel_PostalCode::P.C.
+Item_CompanyAddress_FieldLabel_Province::Province/state
 Item_CompanyAddress_FielLabel_Phone::Phone
 Item_CompanyAddress_Header_Address::Address
 Item_CompanyAddress_PopupDelete_Message::Delete the address?
@@ -411,15 +561,17 @@ Item_CompanyData_Error_Message_PhoneOrCellular::Indicate the mobile
 Item_CompanyData_FieldLabel_Address::Address
 Item_CompanyData_FieldLabel_Cellular::Mobile
 Item_CompanyData_FieldLabel_City::Location
-Item_CompanyData_FieldLabel_Country::country
+Item_CompanyData_FieldLabel_Country::Country
 Item_CompanyData_FieldLabel_Email::Mail
 Item_CompanyData_FieldLabel_Fax::Fax
 Item_CompanyData_FieldLabel_Phone::Phone
 Item_CompanyData_FieldLabel_PostalAddress::Postal Code
-Item_CompanyData_FieldLabel_Province::Province
+Item_CompanyData_FieldLabel_Province::Province/state
 Item_CompanyData_Popup_ImageDelete_Title::Delete the image
+Item_CompanyProfile_FieldLabel_Headquarters::Headquarters
 Item_CompanyProfile_FieldLabel_Name::First name
 Item_CompanyProfile_FieldLabel_Nif::NIF
+Item_CompanyProfile_Tooltip_Headquarters::To modify, please contact to Scrambòtika
 Item_Cost::Habitual cost
 Item_CostDefinition::Usual costs
 Item_CostDefinition_Button_New::Add
@@ -427,38 +579,38 @@ Item_CostDefinition_Field_Amount::Amount
 Item_CostDefinition_Field_Description::Cost
 Item_CostDefinition_ListHeader_Amount::Amount
 Item_CostDefinition_ListHeader_Name::Habitual cost
-Item_CostDefinition_Popup_AddCost_Title::Add a usual cost
+Item_CostDefinition_Popup_AddCost_Title::Add an usual cost
 Item_CostDefinition_Popup_Delete_Title::Delete the cost
 Item_CostDefinition_PopupDelete_Message::Eliminate the cost?
 Item_CostDefinition_Tab_Principal::Basic data
 Item_CostDefinitions::Usual costs
 Item_CostDefinitions_Title::Tab of usual cost
-Item_Country_Message_NoDelete::It can not be deleted because it is part of an address
+Item_Country_Message_NoDelete::Cannot be deleted because its part of an address
 Item_Country_Message_SaveWarning::The selected countries will be available until the company's data is saved
 Item_Country_WarningMessage::Changes in countries will be effective when saving company data
-Item_Customer::Client
+Item_Customer::Customer
 Item_Customer_Btn_New::Add
 Item_Customer_Detail::Customer file
 Item_Customer_FieldLabel_Name::First name
 Item_Customer_Header_Associated::Related to
 Item_Customer_Header_Description::Description
 Item_Customer_Header_Status::State
-Item_Customer_Header_Type::Kind
+Item_Customer_Header_Type::Type
 Item_Customer_Help_Name::Customer name
 Item_Customer_Label_Costs::Calibrations / Maintenance / Repairs
-Item_Customer_ListHeader_Name::Client
-Item_Customer_Popup_Delete_Question::Remove the customer?
-Item_Customer_Popup_Delete_Title::Delete the client
+Item_Customer_ListHeader_Name::Customer
+Item_Customer_Popup_Delete_Question::Delete the customer?
+Item_Customer_Popup_Delete_Title::Delete the customer
 Item_Customer_Section_Incidents::Incidents and actions
-Item_Customers::customers
+Item_Customers::Customers
 Item_Customers_Tab_Principal::Basic data
 Item_Customers_Tab_Traces::Traces
 Item_DashBoard::Start
 Item_DashBoard_Title_NewDocuments::New documents
-Item_Departmennt_ErrorMessage_HasEmployees::It can not be eliminated if you have employees or an assigned position
+Item_Departmennt_ErrorMessage_HasEmployees::Cannot be eliminated if you have employees or an assigned position
 Item_Department::Department
 Item_Department_Button_New::Add
-Item_Department_Help_Field_Name::Indicate the name of the department
+Item_Department_Help_Field_Name::Indicate the department name
 Item_Department_ListEmployees::Employees
 Item_Department_ListEmployees_Header_Email::Mail
 Item_Department_ListEmployees_Header_Name::Employee
@@ -468,12 +620,12 @@ Item_Department_ListHeader_Name::Department
 Item_Department_ListHeaderEmployees::Employees
 Item_Department_ListHeaderJobPositions::Charges
 Item_Department_ListJobPositions::Charges
-Item_Department_ListJobPositions_Header_Name::Position
+Item_Department_ListJobPositions_Header_Name::Charge
 Item_Department_Message_WithoutEmployees::Without employees
-Item_Department_Popup_Delete_Title::Remove the department
+Item_Department_Popup_Delete_Title::Delete the department
 Item_Department_PopupAdd_Title::Add a department
 Item_Department_PopupDelete_Message::Delete the department?
-Item_Department_Status_Deleted::Department removed
+Item_Department_Status_Deleted::Department deleted
 Item_Department_Tab_Principal::Basic data
 Item_Department_Tab_Traces::Traces
 Item_Department_Title_DepartmentDetails::Department file
@@ -490,25 +642,25 @@ Item_Document_Category::Category of the document
 Item_Document_Error_DeleteReasonRequired::Specify the reason for the deletion
 Item_Document_ErrorMessage_AlreadyExists::It already exists
 Item_Document_ErrorMessage_CrossDate::CLG
-Item_Document_ErrorMessage_RevisionOverDate::La data no pot ser anterior a
-Item_Document_ErrorMessage_StartDatePreviousRevision::The start date can not be after the first review
+Item_Document_ErrorMessage_RevisionOverDate::The date cannot be before at
+Item_Document_ErrorMessage_StartDatePreviousRevision::The start date cannot be after the first review
 Item_Document_FieldLabel_Category::Category
 Item_Document_FieldLabel_Code::Code
 Item_Document_FieldLabel_Conservation::Conservation
 Item_Document_FieldLabel_CreationDate::Initial date
-Item_Document_FieldLabel_EndReason::Reason
-Item_Document_FieldLabel_InactiveDate::Low date
+Item_Document_FieldLabel_EndReason::Motive
+Item_Document_FieldLabel_InactiveDate::Final date
 Item_Document_FieldLabel_Location::Location
 Item_Document_FieldLabel_Name::Document
 Item_Document_FieldLabel_Origin::Origin
 Item_Document_FieldLabel_Reason::Reason for change
-Item_Document_FieldLabel_RevisionAttachment::attached
-Item_Document_FieldLabel_RevisionDate::F.Revision
-Item_Document_FieldLabel_Source::Origin
+Item_Document_FieldLabel_RevisionAttachment::Attached
+Item_Document_FieldLabel_RevisionDate::D. Revision
+Item_Document_FieldLabel_Source::Source
 Item_Document_FieldLabel_Status::Status
 Item_Document_FieldLabel_Version::Version
 Item_Document_Help_BARCategoria::Manage categories
-Item_Document_Help_BARProcedencia::Manage provenance
+Item_Document_Help_BARProcedencia::Manage sources
 Item_Document_Help_Categoria::Select a category
 Item_Document_Help_Codigo::Internal code of the document
 Item_Document_Help_ConservacionCantidad::Conservation period
@@ -516,7 +668,7 @@ Item_Document_Help_ConservacionTiempo::Indicate the magnitude of conservation ti
 Item_Document_Help_EndDate::Date of withdrawal of the document
 Item_Document_Help_Name::Name of the document
 Item_Document_Help_NewRevision::Increase the version of the document. Specify the reason
-Item_Document_Help_Origin::Indicate whether the document is internal or external
+Item_Document_Help_Origin::Indicate if the document is internal or external
 Item_Document_Help_Reason::Reason for change
 Item_Document_Help_Revision::Document version
 Item_Document_Help_Source::Select the origin of the document
@@ -527,7 +679,7 @@ Item_Document_List_Header_Date::Date
 Item_Document_List_Header_Document::Document
 Item_Document_List_Header_Employee::Employee
 Item_Document_List_Header_Name::Document
-Item_Document_List_Header_Responsible::Responsable
+Item_Document_List_Header_Responsible::Responsible
 Item_Document_List_Header_Revision::Review
 Item_Document_List_Header_Version::Version
 Item_Document_ListHeader_Category::Category
@@ -544,16 +696,16 @@ Item_Document_Message_NewVersion::Indicate the reasons for the change of version
 Item_Document_Modified::Last modified documents
 Item_Document_NewAttachTitle::Attach new document
 Item_Document_Popup_AddCotegory_Title::Add a category
-Item_Document_Popup_AddSource_Title::Add an origin
+Item_Document_Popup_AddSource_Title::Add a source
 Item_Document_PopupAnular_Title::Inactivate a document
 Item_Document_PopupCategory_Header::Category
 Item_Document_PopupCategory_Title::Document categories
-Item_Document_PopupDelete_Message::Delete document
-Item_Document_PopupDelete_Title::Delete document
+Item_Document_PopupDelete_Message::Delete the document?
+Item_Document_PopupDelete_Title::Delete the document
 Item_Document_PopupSource_Header::Origin
 Item_Document_PopupSource_Title::Document origins
 Item_Document_Status_Active_Single::Active
-Item_Document_Status_ActivePlural::Assets
+Item_Document_Status_ActivePlural::Actives
 Item_Document_Status_Inactive::Inactive documents
 Item_Document_Status_InactivePlural::Inactive
 Item_Document_Tab_Details::Document file
@@ -562,7 +714,7 @@ Item_Document_Tab_Traces::Traces
 Item_Document_Tab_Versions::Versions
 Item_Document_VersionAttachmentTitle::Versions and documents
 Item_DocumentAttachment::Attached document
-Item_DocumentAttachment_AddFile::Upload a file
+Item_DocumentAttachment_AddFile::Upload file (maximum 4MB, allowed types jpg, png, doc, docx, pdf, txt)
 Item_DocumentAttachment_Button_New::Add
 Item_DocumentAttachment_Description::Attached document
 Item_DocumentAttachment_Plural::Attached files
@@ -576,9 +728,9 @@ Item_DocumentCategory_Popup_Update_Title::Modify a category
 Item_DocumentCategory_PopupDelete_Message::Delete the category?
 Item_DocumentList::Documents
 Item_Documents::Documents
-Item_DocumentSource_Popup_Delete_Title::Remove an origin
-Item_DocumentSource_Popup_Update_Title::Modify an origin
-Item_DocumentSource_PopupDelete_Message::Eliminate the origin?
+Item_DocumentSource_Popup_Delete_Title::Delete a source
+Item_DocumentSource_Popup_Update_Title::Modify a source
+Item_DocumentSource_PopupDelete_Message::Eliminate the source?
 Item_Employee::Employee
 Item_Employee_Btn_Inactive::Inactivate
 Item_Employee_Btn_Restore::Reincorporate
@@ -594,7 +746,7 @@ Item_Employee_Delete_Item_MaintenanceExternal::External maintenance
 Item_Employee_Delete_Item_MaintenanceInternal::Internal maintenance
 Item_Employee_Delete_Item_VerificationExternal::External verification
 Item_Employee_Delete_Item_VerificationInternal::Internal verification
-Item_Employee_Error_AutoDelete::The current employee can not be deleted
+Item_Employee_Error_AutoDelete::The current employee cannot be deleted
 Item_Employee_ErrorMessage_AmployeeAlreadyExists::Existing employee
 Item_Employee_ErrorMessage_MailMalformed::The mail is not correct
 Item_Employee_ErrorMessage_NifAlreadyExists::Repeated NIF
@@ -602,7 +754,7 @@ Item_Employee_FieldLabel_Academic_Desired::Desired academic training
 Item_Employee_FieldLabel_Academic_Real::Real academic training
 Item_Employee_FieldLabel_Address::Address
 Item_Employee_FieldLabel_City::Location
-Item_Employee_FieldLabel_Country::country
+Item_Employee_FieldLabel_Country::Country
 Item_Employee_FieldLabel_Email::Mail
 Item_Employee_FieldLabel_Especific_Desired::Specific training desired
 Item_Employee_FieldLabel_Especific_Real::Real specific training
@@ -613,7 +765,7 @@ Item_Employee_FieldLabel_NIF::NIF
 Item_Employee_FieldLabel_Notes::Notes
 Item_Employee_FieldLabel_Phone::Phone
 Item_Employee_FieldLabel_PostalCode::Postal Code
-Item_Employee_FieldLabel_Province::Province
+Item_Employee_FieldLabel_Province::Province/state
 Item_Employee_Filter_Status::Status
 Item_Employee_Help_Abilities::Indicate the skills
 Item_Employee_Help_AbilitiesValidNo::Indicate if they are not valid
@@ -622,11 +774,11 @@ Item_Employee_Help_Academic::Academic training
 Item_Employee_Help_AcademicValidNo::Indicate if it is valid
 Item_Employee_Help_AcademicValidYes::Indicate if it is not valid
 Item_Employee_Help_Btn_Link::Links employee to a position
-Item_Employee_Help_BtnUserName::Name of the user
+Item_Employee_Help_BtnUserName::User´s name
 Item_Employee_Help_ConfirmarNuevoPassword::Confirm the password
-Item_Employee_Help_Direccion::Address of the employee
+Item_Employee_Help_Direccion::Employee's address
 Item_Employee_Help_DisactivateDate::Discharge date. If this field is filled in, the employee will be inactive
-Item_Employee_Help_DisactivateDateSelfLocked::An employee can not unsubscribe himself / herself
+Item_Employee_Help_DisactivateDateSelfLocked::An employee cannot unsubscribe himself/herself
 Item_Employee_Help_Email::Mail address
 Item_Employee_Help_Especific::Specific training
 Item_Employee_Help_EspecificValidNo::Indicate if it is not valid
@@ -634,7 +786,7 @@ Item_Employee_Help_EspecificValidYes::Indicate if it is valid
 Item_Employee_Help_Experience::Indicate work experience
 Item_Employee_Help_ExperienceValidNo::Indicate if it is not valid
 Item_Employee_Help_ExperienceValidYes::Indicate if it is valid
-Item_Employee_Help_IconCommon_Color_Blue::blue
+Item_Employee_Help_IconCommon_Color_Blue::Blue
 Item_Employee_Help_IconCommon_Color_Green::Green
 Item_Employee_Help_IconCommon_Color_Red::Red
 Item_Employee_Help_IconCommon_Color_Yellow::Yellow
@@ -651,9 +803,9 @@ Item_Employee_Help_PermisoAdministracion::Administration permit
 Item_Employee_Help_PermisoDocumentos::Permission for documents
 Item_Employee_Help_PermisoFormacion::Permission for training
 Item_Employee_Help_PermisoProceso::Process permission
-Item_Employee_Help_Poblacion::Indicate the population
-Item_Employee_Help_PostalCode::Enter the zip code
-Item_Employee_Help_Provincia::Indicate the province
+Item_Employee_Help_Poblacion::Indicate the town
+Item_Employee_Help_PostalCode::Enter the postal code
+Item_Employee_Help_Provincia::Indicate the province/state
 Item_Employee_Help_ResetPassword::Reset your password
 Item_Employee_Help_Shortcuts::Shortcuts
 Item_Employee_Help_Telefono::Indicate the phone
@@ -668,8 +820,8 @@ Item_Employee_List_Delete_ErrorNoSubstitute::Define a substitute
 Item_Employee_List_Delete_FieldLabel_All::Fill all the entries with the employee
 Item_Employee_List_Delete_Header_Description::Description
 Item_Employee_List_Delete_Header_Substitution::Replaced by...
-Item_Employee_List_Delete_Header_Type::Kind
-Item_Employee_List_Header_Date::Low
+Item_Employee_List_Delete_Header_Type::Type
+Item_Employee_List_Header_Date::Unsubscribe
 Item_Employee_List_Header_Email::Mail
 Item_Employee_List_Header_Name::First name
 Item_Employee_List_Header_Nif::NIF
@@ -679,23 +831,23 @@ Item_Employee_ListJobPosition_EndDate::Discharge date
 Item_Employee_ListJobPosition_Header_Department::Department
 Item_Employee_ListJobPosition_Header_JobPosition::Position
 Item_Employee_ListJobPosition_JobPosition::Position
-Item_Employee_ListJobPosition_Responsible::Responsable
-Item_Employee_ListJobPosition_StartDate::Discharge date
+Item_Employee_ListJobPosition_Responsible::Responsible
+Item_Employee_ListJobPosition_StartDate::Initial date
 Item_Employee_ListLearningHeader_Date::Date of realization
 Item_Employee_Message_Delete::Active employee in the application. Do you want to eliminate it?
-Item_Employee_Message_Inactivate::Active active employee in the application. Do you want to inactivate it?
+Item_Employee_Message_Inactivate::Active employee in the application. Do you want to inactivate it?
 Item_Employee_Message_InactivateWarning::The employee has assigned tasks and a substitute must be assigned. Do you want to continue with the elimination?
 Item_Employee_Message_InsertSucess::Employee saved correctly. The form tabs can now be used
-Item_Employee_Message_NoDeletableByJobPositionLink::It can not be deleted because it has linked records
+Item_Employee_Message_NoDeletableByJobPositionLink::Cannot be deleted because it has linked registers
 Item_Employee_Popup_Delete_Title::Eliminate the employee
 Item_Employee_Popup_LinkJobPosition_Message::Assign a charge
-Item_Employee_Popup_UnlinkDepartment_Message::Unlink an apartment
+Item_Employee_Popup_UnlinkDepartment_Message::Unlink a department
 Item_Employee_Popup_UnlinkJobPosition_Message::Unlink
 Item_Employee_Popup_UnlinkJobPosition_Message cargo::Unlink the charge
 Item_Employee_Popup_UnlinkJobPosition_Message empleado::Unlink employee
 Item_Employee_Popup_UnlinkJobPosition_Message2::Indicate the end date
 Item_Employee_PopupAnular_Title::Inactivate employee
-Item_Employee_PopupDelete_Message::Remove employee
+Item_Employee_PopupDelete_Message::Delete employee
 Item_Employee_SectionTitle_InternalLearning::Training carried out in the company
 Item_Employee_SectionTitle_ProffesionalInfo::Professional information
 Item_Employee_SectionTitle_Skills::Training of the employee
@@ -715,10 +867,15 @@ Item_Employees::Employees
 Item_EmployeeSkills::Skills of employees
 Item_Equipment::Equipment
 Item_Equipment_Actions::Actions
-Item_Equipment_AnulateMessageTile::Low equipment
-Item_Equipment_Btn_Anular::Low
+Item_Equipment_AnulateMessageTile::Unsubscribe equipment
+Item_Equipment_Btn_Anular::Unsubscribe
 Item_Equipment_Btn_Restaurar::Reactivate
 Item_Equipment_Button_New::Add
+Item_Equipment_Calibration_Error_None::At least one calibration must be defined
+Item_Equipment_Error_DuplicateData::The device data is repeated
+Item_Equipment_Error_NoOptions::Choose at least one option
+Item_Equipment_Error_NoRisponsible::The team manager must be informed
+Item_Equipment_Error_RequiredFields::Check the mandatory fields of the equipment
 Item_Equipment_Field_Calibration_Cost::Cost
 Item_Equipment_Field_Calibration_Expiration::Expiration
 Item_Equipment_Field_Calibration_Notes::Notes
@@ -727,9 +884,9 @@ Item_Equipment_Field_Calibration_Pattern::Pattern
 Item_Equipment_Field_Calibration_Periodicity::Periodicity
 Item_Equipment_Field_Calibration_Provider::Provider
 Item_Equipment_Field_Calibration_Range::Rank
-Item_Equipment_Field_Calibration_Responsible::Responsable
+Item_Equipment_Field_Calibration_Responsible::Responsible
 Item_Equipment_Field_Calibration_Result::Result
-Item_Equipment_Field_Calibration_Type::Kind
+Item_Equipment_Field_Calibration_Type::Type
 Item_Equipment_Field_Calibration_Uncertainty::Uncertainty
 Item_Equipment_Field_Code_Label::Code
 Item_Equipment_Field_Code_Placeholder::Code
@@ -737,7 +894,7 @@ Item_Equipment_Field_Description_Label::Description
 Item_Equipment_Field_Description_Placeholder::Description
 Item_Equipment_Field_EndDate::Cancellation date
 Item_Equipment_Field_EndReason::Reason
-Item_Equipment_Field_EndResponsible::Responsable
+Item_Equipment_Field_EndResponsible::Responsible
 Item_Equipment_Field_Image::Change the image
 Item_Equipment_Field_Image_Actual_Label::Current image
 Item_Equipment_Field_Image_Label::Change
@@ -753,28 +910,37 @@ Item_Equipment_Field_Model_Label::Model
 Item_Equipment_Field_Model_PlaceHolder::Model
 Item_Equipment_Field_Notes_Label::Notes
 Item_Equipment_Field_Observations_Label::Notes
-Item_Equipment_Field_Responsible_Label::Responsable
-Item_Equipment_Field_Responsible_PlaceHolder::Responsable
-Item_Equipment_Field_ScaleDivision_Label::Div.Escala
+Item_Equipment_Field_Responsible_Label::Responsible
+Item_Equipment_Field_Responsible_PlaceHolder::Responsible
+Item_Equipment_Field_ScaleDivision_Label::Div. Scale
 Item_Equipment_Field_ScaleDivision_PlaceHolder::Division of scale
-Item_Equipment_Field_SerialNumber_Label::N.Serie
+Item_Equipment_Field_SerialNumber_Label::S. Number
 Item_Equipment_Field_SerialNumber_PlaceHolder::Serial number
-Item_Equipment_Field_StartDate::
+Item_Equipment_Field_StartDate::Initial date
 Item_Equipment_Field_TradeMark_Label::Brand
 Item_Equipment_Field_TradeMark_PlaceHolder::Brand
 Item_Equipment_Field_Verification_Provider::Provider
 Item_Equipment_FieldLabel_EndDate::Date
 Item_Equipment_FieldLabel_EndReason::Reason
-Item_Equipment_FieldLabel_EndResponsible::Responsable
+Item_Equipment_FieldLabel_EndResponsible::Responsible
+Item_Equipment_FilterLabel_Calibration_Ext::Ext. Cal
+Item_Equipment_FilterLabel_Calibration_Int::Int. Cal
+Item_Equipment_FilterLabel_CostType::Type
+Item_Equipment_FilterLabel_Maintenance_Ext::Ext. Mnt
+Item_Equipment_FilterLabel_Maintenance_Int::Int. Mnt
 Item_Equipment_FilterLabel_MaintenanceExternal::External maintenance
 Item_Equipment_FilterLabel_MaintenanceInternal::Internal maintenance
+Item_Equipment_FilterLabel_Repair_Ext::Ext. Rep
+Item_Equipment_FilterLabel_Repair_Int::Int. Rep
 Item_Equipment_FilterLabel_RepairExternal::External repair
 Item_Equipment_FilterLabel_RepairInternal::Internal repair
+Item_Equipment_FilterLabel_Verification_Ext::Ext. Ver
+Item_Equipment_FilterLabel_Verification_Int::Int. Ver
 Item_Equipment_Header_Code::Code
 Item_Equipment_Header_Cost::Cost
 Item_Equipment_Header_Description::Description
 Item_Equipment_Header_Location::Location
-Item_Equipment_Header_Responsible::Responsable
+Item_Equipment_Header_Responsible::Responsible
 Item_Equipment_Help_CalibrationCheck::Check if the equipment has calibrations
 Item_Equipment_Help_Code::Indicate the equipment code
 Item_Equipment_Help_Description::Indicate the equipment description
@@ -789,40 +955,43 @@ Item_Equipment_Help_Responsible::Select responsible
 Item_Equipment_Help_ScaleDivision::Select a scale division
 Item_Equipment_Help_SerialNumber::Indicate the serial number
 Item_Equipment_Help_TradeMark::Indicate the brand
-Item_Equipment_Help_VerificationCheck::Check if the team has checks
-Item_Equipment_List_Filter_ShowActive::Assets
-Item_Equipment_List_Filter_ShowByOperation::Records
+Item_Equipment_Help_VerificationCheck::Check if the equipment has verifications
+Item_Equipment_List_Filter_ShowActive::Actives
+Item_Equipment_List_Filter_ShowByOperation::Registers  
 Item_Equipment_List_Filter_ShowByStatus::State
 Item_Equipment_List_Filter_ShowCalibration::Calibrations
-Item_Equipment_List_Filter_ShowClosed::Low
+Item_Equipment_List_Filter_ShowClosed::Unsubscribed
 Item_Equipment_List_Filter_ShowMaintenance::Maintenance
 Item_Equipment_List_Filter_ShowVerification::Verifications
 Item_Equipment_Maintenance_Btn_NewConfiguration::Configure a new maintenance
-Item_Equipment_Maintenance_Btn_NewRecord::Record a maintenance performed
+Item_Equipment_Maintenance_Btn_NewRecord::Register a maintenance performed
 Item_Equipment_Maintenance_Button_AddAct::Add
 Item_Equipment_Maintenance_Button_AddConfiguration::Add
 Item_Equipment_Message_Attachs::View attachments
-Item_Equipment_Message_CalibrationChanged::Save the calibrations to add a record
-Item_Equipment_Message_DeleteQuestion::Remove the equipment?
+Item_Equipment_Message_CalibrationChanged::Save the calibrations to add a register
+Item_Equipment_Message_DeleteQuestion::Delete equipment 
 Item_Equipment_Message_InsertSucess::Equipment saved correctly. The form tabs can now be used
-Item_Equipment_Message_VerificationChanged::Save the checks to add a record
-Item_Equipment_PDFTitle::Record of performances in the team
-Item_Equipment_Popup_AddCustomer_Title::Add a client
+Item_Equipment_Message_VerificationChanged::Save the checks to add a register
+Item_Equipment_PDFTitle::Register of performances in the equipment
+Item_Equipment_Plural::Equipments
+Item_Equipment_Popup_AddCustomer_Title::Add a customer
 Item_Equipment_Popup_AddProvider_Title::Add a provider
 Item_Equipment_Popup_AddScaleDivision_Title::Add a scale division
-Item_Equipment_Popup_Delete_Title::Delete a team
+Item_Equipment_Popup_Delete_Title::Delete a equipment
 Item_Equipment_Popup_ImageDelete_Title::Delete an image
 Item_Equipment_PopupAnular_Title::Download of equipment
-Item_Equipment_PopupTitle_DeleteScaleDivision::Remove a scale division
+Item_Equipment_PopupTitle_DeleteScaleDivision::Delete a scale division
 Item_Equipment_Tab_Basic::Basic data
 Item_Equipment_Tab_Calibration::Calibrations
-Item_Equipment_Tab_Details::Team card
+Item_Equipment_Tab_Costs::Costs
+Item_Equipment_Tab_Details::Equipment
 Item_Equipment_Tab_Maintenance::Maintenance
-Item_Equipment_Tab_Records::Records
+Item_Equipment_Tab_Records::Registers  
 Item_Equipment_Tab_Repair::Repairs
 Item_Equipment_Tab_Traces::Traces
 Item_Equipment_Tab_UploadFiles::Attachments
 Item_Equipment_Tab_Verification::Verifications
+Item_Equipment_Verification_Error_None::At least one verification must be defined
 Item_Equipment_VerificationType_External::External configuration
 Item_Equipment_VerificationType_Internal::Internal configuration
 Item_EquipmentCalibration::Calibration
@@ -851,22 +1020,23 @@ Item_EquipmentCalibrationAct_PopupDelete_Title::Delete the calibration
 Item_EquipmentCalibrationAct_PopupNew_Title::New calibration
 Item_EquipmentCalibrationAct_PopupUpdate_Title::Modify a calibration
 Item_EquipmentCalibrationDefinition::Definition of calibrations
-Item_EquipmentErrorInitialDate::The start date can not be later than
+Item_EquipmentErrorInitialDate::The start date cannot be later than
 Item_EquipmentList::List of equipment
+Item_EquipmentListCosts::List of equipment costs
 Item_EquipmentMaintenance::Maintenance
-Item_EquipmentMaintenance_Button_Register::to register
-Item_EquipmentMaintenance_ErrorMessage_AsociateRecords::Can not delete maintenance with records
+Item_EquipmentMaintenance_Button_Register::Register
+Item_EquipmentMaintenance_ErrorMessage_AsociateRecords::Cannot delete maintenance with registers
 Item_EquipmentMaintenance_Label_External::External maintenance
 Item_EquipmentMaintenance_Label_Internal::Internal maintenance
 Item_EquipmentMaintenance_Plural::Maintenance
-Item_EquipmentMaintenance_Popup_DeleteAct_Title::Delete a maintenance record
-Item_EquipmentMaintenance_Popup_FieldLabel_Accesories::accessories
+Item_EquipmentMaintenance_Popup_DeleteAct_Title::Delete a maintenance register
+Item_EquipmentMaintenance_Popup_FieldLabel_Accesories::Accessories
 Item_EquipmentMaintenance_Popup_FieldLabel_Amount::Cost
 Item_EquipmentMaintenance_Popup_FieldLabel_Operation::Operation
 Item_EquipmentMaintenance_Popup_FieldLabel_Periodicity::Periodicity
 Item_EquipmentMaintenance_Popup_FieldLabel_Provider::Provider
-Item_EquipmentMaintenance_Popup_FieldLabel_Responsible::Responsable
-Item_EquipmentMaintenance_Popup_NewAct_Title::Add a maintenance record
+Item_EquipmentMaintenance_Popup_FieldLabel_Responsible::Responsible
+Item_EquipmentMaintenance_Popup_NewAct_Title::Add a maintenance register
 Item_EquipmentMaintenance_Popup_Register_Error_NoDefinitions::Define a maintenance for the equipment
 Item_EquipmentMaintenance_Popup_Register_Error_NoDefinitionSelected::Select type of maintenance
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Amount::Cost
@@ -874,13 +1044,13 @@ Item_EquipmentMaintenance_Popup_Register_FieldLabel_Date::Date
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_FirstDate::First expiration
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Observations::Observations
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Provider::Provider
-Item_EquipmentMaintenance_Popup_Register_FieldLabel_Responsible::Responsable
+Item_EquipmentMaintenance_Popup_Register_FieldLabel_Responsible::Responsible
 Item_EquipmentMaintenance_Popup_Register_FieldLabel_Type::Maintenance
 Item_EquipmentMaintenance_PopupConfiguration_Title::Configure a maintenance operation
-Item_EquipmentMaintenance_PopupConfigurationDelete_Question::Eliminate maintenance?
+Item_EquipmentMaintenance_PopupConfigurationDelete_Question::Delete maintenance?
 Item_EquipmentMaintenance_PopupConfigurationDelete_Title::Delete a maintenance operation
 Item_EquipmentMaintenance_PopupConfigurationUpdate_Title::Modify a maintenance operation
-Item_EquipmentMaintenance_PopupIntervention::Maintenance record made
+Item_EquipmentMaintenance_PopupIntervention::Maintenance register made
 Item_EquipmentMaintenance_PopupInterventionUpdate::Modify a maintenance performed
 Item_EquipmentMaintenance_Required::There are no defined maintenance
 Item_EquipmentMaintenanceAct::Maintenance carried out
@@ -889,25 +1059,25 @@ Item_EquipmentMaintenanceAct_Header_Date::Date
 Item_EquipmentMaintenanceAct_Header_Expiration::Expiration
 Item_EquipmentMaintenanceAct_Header_Observations::Observations
 Item_EquipmentMaintenanceAct_Header_Operation::Operation
-Item_EquipmentMaintenanceAct_Header_Responsible::Responsable
+Item_EquipmentMaintenanceAct_Header_Responsible::Responsible
 Item_EquipmentMaintenanceAct_Plural::Maintenance carried out
 Item_EquipmentMaintenanceAct_Singular::Maintenance carried out
 Item_EquipmentMaintenanceDefinicion_Singular::Maintenance configuration
 Item_EquipmentMaintenanceDefinition::Definitions of maintenance
-Item_EquipmentMaintenanceDefinition_Header_Accesories::accessories
+Item_EquipmentMaintenanceDefinition_Header_Accesories::Accessories
 Item_EquipmentMaintenanceDefinition_Header_Cost::Cost
 Item_EquipmentMaintenanceDefinition_Header_Operation::Operation
 Item_EquipmentMaintenanceDefinition_Header_Periodicity::Periodicity (days)
 Item_EquipmentMaintenanceDefinition_Header_Periodicity_PDF::Periodicity
-Item_EquipmentMaintenanceDefinition_Header_Type::Kind
+Item_EquipmentMaintenanceDefinition_Header_Type::Type
 Item_EquipmentMaintenanceDefinition_Plurar::Maintenance configurations
 Item_EquipmentRecord_Error_FilterDateFromMalformed::The start date is not correct
 Item_EquipmentRecord_Error_FilterDateToMalformed::The final date is not correct
 Item_EquipmentRecord_Filter_Button::Filter
 Item_EquipmentRecord_Filter_CalibrationExternal::EXT calibration
 Item_EquipmentRecord_Filter_CalibrationInternal::INT Calibration
-Item_EquipmentRecord_Filter_MaintenanceExternal::Mnto. EXT
-Item_EquipmentRecord_Filter_MaintenanceInternal::Mnto. INT
+Item_EquipmentRecord_Filter_MaintenanceExternal::Maint. EXT
+Item_EquipmentRecord_Filter_MaintenanceInternal::Maint. INT
 Item_EquipmentRecord_Filter_Periode1::Period
 Item_EquipmentRecord_Filter_Periode2::-
 Item_EquipmentRecord_Filter_RepairExternal::EXT Repair
@@ -915,8 +1085,8 @@ Item_EquipmentRecord_Filter_RepairInternal::INT Repair
 Item_EquipmentRecord_Filter_Type::Type
 Item_EquipmentRecord_Filter_VerificationExternal::EXT Verification
 Item_EquipmentRecord_Filter_VerificationInternal::INT Verification
-Item_EquipmentRecords_FilterError_Dates::The end date can not be less than the initial
-Item_EquipmentRecords_FilterError_Item::Select a type of record
+Item_EquipmentRecords_FilterError_Dates::The end date cannot be previous than the initial
+Item_EquipmentRecords_FilterError_Item::Select a type of register
 Item_EquipmentRecords_FilterError_Title::Review the query data
 Item_EquipmentRepair::Repair
 Item_EquipmentRepair_ButtonNew::Add
@@ -925,21 +1095,21 @@ Item_EquipmentRepair_Header_Date::Date
 Item_EquipmentRepair_Header_Expiration::Expiration
 Item_EquipmentRepair_Header_Observations::Observations
 Item_EquipmentRepair_Header_Operation::Operation
-Item_EquipmentRepair_Header_Responsible::Responsable
+Item_EquipmentRepair_Header_Responsible::Responsible
 Item_EquipmentRepair_HeaderList_Cost::Cost
 Item_EquipmentRepair_HeaderList_Date::Date
 Item_EquipmentRepair_HeaderList_Operation::Operation
-Item_EquipmentRepair_HeaderList_Responsible::Responsable
+Item_EquipmentRepair_HeaderList_Responsible::Responsible
 Item_EquipmentRepair_HeaderList_Total::Total
-Item_EquipmentRepair_HeaderList_Type::Kind
+Item_EquipmentRepair_HeaderList_Type::Type
 Item_EquipmentRepair_Plural::Repairs
 Item_EquipmentRepair_PopupDelete_Title::Delete a repair
 Item_EquipmentRepair_PopupNew_Title::New repair
 Item_EquipmentRepair_PopupUpdate_Title::Modify a repair
 Item_EquipmentRepair_Title::Repairs
-Item_Equipments::Equipment
+Item_Equipments::Equipments
 Item_EquipmentScaleDivision::Division of scale
-Item_EquipmentVerification::check
+Item_EquipmentVerification::Verification 
 Item_EquipmentVerification_ErrorMessage_ExternalCost_Required::Indicate the cost of external verification
 Item_EquipmentVerification_ErrorMessage_ExternalOperation_Required::Indicate the operation of external verification
 Item_EquipmentVerification_ErrorMessage_ExternalPattern_Required::Indicate the pattern of external verification
@@ -962,7 +1132,7 @@ Item_EquipmentVerification_Field_Pattern::Pattern
 Item_EquipmentVerification_Field_Periodicity::Periodicity
 Item_EquipmentVerification_Field_Provider::Provider
 Item_EquipmentVerification_Field_Range::Rank
-Item_EquipmentVerification_Field_Responsible::Responsable
+Item_EquipmentVerification_Field_Responsible::Responsible
 Item_EquipmentVerification_Field_Result::Result
 Item_EquipmentVerification_Field_Uncertainty::Error
 Item_EquipmentVerification_Label_External::External verification
@@ -975,8 +1145,8 @@ Item_EquipmentVerification_PopupDelete_Title::Delete a verification
 Item_EquipmentVerification_PopupNew_Title::Register a verification
 Item_EquipmentVerification_PopupUpdate_Title::Modify a verification
 Item_EquipmentVerification_Reg::Registration of Verifications
-Item_EquipmentVerificationAct::Checks made
-Item_EquipmentVerificationDefinition::Definition of checks
+Item_EquipmentVerificationAct::Verifications made
+Item_EquipmentVerificationDefinition::Definition of verifications
 Item_Incident::Incidence
 Item_Incident_AnulateMessageTile::Closed incidence
 Item_Incident_Btn_Anular::Close
@@ -984,8 +1154,8 @@ Item_Incident_Btn_AnularAction::Close action
 Item_Incident_Btn_Restaurar::Reopen
 Item_Incident_Btn_RestaurarAction::Reopen action
 Item_Incident_Button_New::Add
-Item_Incident_Button_Print::To print
-Item_Incident_Cost_Error_Range::No puede ser anterior a
+Item_Incident_Button_Print::Print
+Item_Incident_Cost_Error_Range::It can not be prior to
 Item_Incident_Cost_IncidentActionCheck::Own costs of the action
 Item_Incident_Cost_IncidentCheck::Own costs of the incidence
 Item_Incident_Detail::Incidence sheet
@@ -995,6 +1165,7 @@ Item_Incident_Detail_Origin::Select the origin of the incident
 Item_Incident_Detail_Title::Review the data of the card
 Item_Incident_Detail_WhatHappened::Inform about what happened
 Item_Incident_Detail_WhatHappenedResponsible::Select who identifies what has happened
+Item_Incident_Error_BeforeActions::It can not be before the date of actions
 Item_Incident_Error_DateMalformed_Actions::The date of the action is not correct
 Item_Incident_Error_DateMalformed_Causes::The date of the causes is not correct
 Item_Incident_Error_DateMalformed_Close::The closing date is not correct
@@ -1004,38 +1175,38 @@ Item_Incident_ErrorMessage_ActionsExecuterRequired::Specify who will execute the
 Item_Incident_ErrorMessage_ActionsRequired::Report on actions
 Item_Incident_ErrorMessage_ActionsResponsibleRequired::Specify responsible
 Item_Incident_ErrorMessage_ActionsScheduleRequired::Specify the execution date
-Item_Incident_ErrorMessage_CausesDateRequired::Indicate the date of information on the causes
+Item_Incident_ErrorMessage_CausesDateRequired::Indicate the date of causes information
 Item_Incident_ErrorMessage_CausesRequired::Inform about the causes
 Item_Incident_ErrorMessage_CausesResponsibleRequired::Indicate responsible for the identification of causes
 Item_Incident_ErrorMessage_ClosedDateRequired::Specify the closing date
 Item_Incident_ErrorMessage_ClosedResponsibleRequired::Specify responsible for closing
 Item_Incident_ErrorMessage_DatesUntemporality::The dates are not ordered chronologically
 Item_Incident_ErrorMessage_DescriptionRequired::Enter a description
-Item_Incident_ErrorMessage_ReporterCustomerRequired::Specify the client related to the incident
+Item_Incident_ErrorMessage_ReporterCustomerRequired::Specify the customer related to the incident
 Item_Incident_ErrorMessage_ReporterDepartmentRequired::Specify the department related to the incident
 Item_Incident_ErrorMessage_ReporterProviderRequired::Specify the provider related to the incident
 Item_Incident_ErrorMessage_ReporterTypeRequired::Specify who reports the incident
 Item_Incident_ErrorMessage_WhatHappenedDateRequired::Indicate the information date of what happened
 Item_Incident_ErrorMessage_WhatHappenedRequired::Inform about what happened
 Item_Incident_ErrorMessage_WhatHappenedResponsibleRequired::Indicate who registers what happened
-Item_Incident_Field_Actions::Performances
+Item_Incident_Field_Actions::Actions
 Item_Incident_Field_ActionsDate::Date
 Item_Incident_Field_ActionsExecuter::Executor
-Item_Incident_Field_ActionsResponsible::Responsable
+Item_Incident_Field_ActionsResponsible::Responsible
 Item_Incident_Field_ActionsSchedule::Date
 Item_Incident_Field_Anotations::Notes
 Item_Incident_Field_Causes::Why has it happened?
 Item_Incident_Field_CausesDate::Date
 Item_Incident_Field_CausesResponsible::Written up
 Item_Incident_Field_CloseDate::Date
-Item_Incident_Field_CloseResponsible::Responsable
+Item_Incident_Field_CloseResponsible::Responsible
 Item_Incident_Field_Description::Description
 Item_Incident_Field_Notes::Notes
 Item_Incident_Field_WhatHappened::What happened?
 Item_Incident_Field_WhatHappenedDate::Date
 Item_Incident_Field_WhatHappenedResponsible::Registered by
 Item_Incident_FilterError_Customer::Select customer
-Item_Incident_FilterError_Date::The end date can not be before the initial
+Item_Incident_FilterError_Date::The end date cannot be before the initial
 Item_Incident_FilterError_Department::Select a department
 Item_Incident_FilterError_Origin::Select a type of origin
 Item_Incident_FilterError_Provider::Select a provider
@@ -1049,12 +1220,12 @@ Item_Incident_Header_Number::Number
 Item_Incident_Header_Open::Opening
 Item_Incident_Header_Origin::Origin
 Item_Incident_Header_Status::State
-Item_Incident_Label_Actions::Performances
+Item_Incident_Label_Actions::Actions
 Item_Incident_Label_Causes::Why has it happened?
 Item_Incident_Label_Closing::Closing
 Item_Incident_Label_Date::Date
 Item_Incident_Label_From::Since
-Item_Incident_Label_Responsible::Responsable
+Item_Incident_Label_Responsible::Responsible
 Item_Incident_label_To::Until
 Item_Incident_Label_WhatHappened::What happened?
 Item_Incident_List_Filter_From::Since
@@ -1064,20 +1235,20 @@ Item_Incident_List_Filter_Status::State
 Item_Incident_List_Filter_To::Until
 Item_Incident_Message_DeleteAction::The action linked to this incident will be deleted
 Item_Incident_New_Label::New incidence
-Item_Incident_Origin0::Everybody
+Item_Incident_Origin0::All
 Item_Incident_Origin1::Internal
 Item_Incident_Origin2::Provider
 Item_Incident_Origin3::Client
-Item_Incident_PDF_ActionPageTitle::Data of the action
+Item_Incident_PDF_ActionPageTitle::Data of the vinculated action
 Item_Incident_Plural::Incidents
-Item_Incident_Popup_Delete_Title::Remove the incidence
+Item_Incident_Popup_Delete_Title::Delete the incidence
 Item_Incident_PopupAnular_Title::Close the incidence
 Item_Incident_PopupDelete_Message::Eliminate the incidence?
 Item_Incident_PopupDelete_Message_Actions::The actions that are linked will also be eliminated
 Item_Incident_Status1::Identified
-Item_Incident_Status2::Analyzed
+Item_Incident_Status2::analysed
 Item_Incident_Status3::In progress
-Item_Incident_Status4::Closed by
+Item_Incident_Status4::Closed
 Item_Incident_Tab_Action::Action
 Item_Incident_Tab_Basic::Basic data
 Item_Incident_Tab_Costs::Costs
@@ -1086,11 +1257,12 @@ Item_Incident_Tab_UploadFiles::Attachments
 Item_Incident_Warning_ActionSaveIncident::To be able to link an action, save the incident
 Item_Incident_Warning_ActionTabAvailable::In the action tab, inform the data
 Item_IncidentAction::Action
-Item_IncidentAction_AnulateMessageTile::Closed stock
+Item_IncidentAction_AnulateMessageTile::Closed action
 Item_IncidentAction_Btn_Anular::Close
 Item_IncidentAction_Btn_Restaurar::Reopen
 Item_IncidentAction_Button_New::Add
-Item_IncidentAction_Cost_Error_Range::No puede ser anterior a
+Item_IncidentAction_Cost_Error_Range::It can not be prior to
+Item_IncidentAction_Error_BeforeActions::It can not be before the date of actions
 Item_IncidentAction_Error_DateMalformed_Actions::The date of actions is not correct
 Item_IncidentAction_Error_DateMalformed_Causes::The date of the causes is not correct
 Item_IncidentAction_Error_DateMalformed_Close::The closing date is not correct
@@ -1108,10 +1280,10 @@ Item_IncidentAction_ErrorMessage_CloseExecutor::Indicate responsible for the clo
 Item_IncidentAction_ErrorMessage_CloseExecutorDate::Indicate the closing date
 Item_IncidentAction_ErrorMessage_CloseResponsibleRequired::Indicate responsible for the closure
 Item_IncidentAction_ErrorMessage_DescriptionRequired::Enter the description of the action
-Item_IncidentAction_ErrorMessage_NoDeleteBusinessRisk::This action comes from a risk analysis. <br /> It can not be eliminated
-Item_IncidentAction_ErrorMessage_NoDeleteIncident::This action is linked to an issue. <br /> Can not be deleted
-Item_IncidentAction_ErrorMessage_NoDeleteObjetive::This action comes from a goal.<br />It can not be deleted
-Item_IncidentAction_ErrorMessage_NoDeleteOportunity::This action comes from an opportunity.<br />It can not be deleted
+Item_IncidentAction_ErrorMessage_NoDeleteBusinessRisk::This action comes from a risk analysis. <br /> cannot be eliminated
+Item_IncidentAction_ErrorMessage_NoDeleteIncident::This action is linked to an issue. <br /> cannot be deleted
+Item_IncidentAction_ErrorMessage_NoDeleteObjetive::This action comes from a goal.<br />cannot be deleted
+Item_IncidentAction_ErrorMessage_NoDeleteOportunity::This action comes from an opportunity.<br />cannot be deleted
 Item_IncidentAction_ErrorMessage_OriginRequired::Select the origin
 Item_IncidentAction_ErrorMessage_ReportedByRequired::Indicate who reports the action
 Item_IncidentAction_ErrorMessage_TypeRequired::Select type
@@ -1123,9 +1295,9 @@ Item_IncidentAction_Field_Actions::Performances
 Item_IncidentAction_Field_Anotations::Annotations
 Item_IncidentAction_Field_Causes::Why has it happened?
 Item_IncidentAction_Field_Close::Closing
-Item_IncidentAction_Field_Customer::Client
+Item_IncidentAction_Field_Customer::Customer
 Item_IncidentAction_Field_Date::Date
-Item_IncidentAction_Field_Executer::Responsable
+Item_IncidentAction_Field_Executer::Responsible
 Item_IncidentAction_Field_Fix::Correction
 Item_IncidentAction_Field_Improvement::Improvement
 Item_IncidentAction_Field_Internal::Internal
@@ -1133,35 +1305,36 @@ Item_IncidentAction_Field_Monitoring::Tracing
 Item_IncidentAction_Field_Notes::Notes
 Item_IncidentAction_Field_Prevent::Preventive
 Item_IncidentAction_Field_Provider::Provider
-Item_IncidentAction_Field_Responsible::Responsable
-Item_IncidentAction_Field_ResponsibleActions::Responsable
-Item_IncidentAction_Field_ResponsibleCauses::Responsable
-Item_IncidentAction_Field_ResponsibleClose::Responsable
-Item_IncidentAction_Field_ResponsibleWhatHappend::Responsable
+Item_IncidentAction_Field_Responsible::Responsible
+Item_IncidentAction_Field_ResponsibleActions::Responsible
+Item_IncidentAction_Field_ResponsibleCauses::Responsible
+Item_IncidentAction_Field_ResponsibleClose::Responsible
+Item_IncidentAction_Field_ResponsibleWhatHappend::Responsible
 Item_IncidentAction_Field_Schelude::Date
 Item_IncidentAction_Field_WhatHappened::What happened?
 Item_IncidentAction_Header_Close::Closing
 Item_IncidentAction_Header_Cost::Cost
 Item_IncidentAction_Header_Description::Action
-Item_IncidentAction_Header_ImplementDate::F. planned
+Item_IncidentAction_Header_ImplementDate::D. planned
 Item_IncidentAction_Header_ImplementDate_Tooltip::Planned implementation date
 Item_IncidentAction_Header_Number::Number
 Item_IncidentAction_Header_Open::Opening
 Item_IncidentAction_Header_Origin::Origin
 Item_IncidentAction_Header_Status::State
-Item_IncidentAction_Header_Type::Kind
+Item_IncidentAction_Header_Type::Type
 Item_IncidentAction_Label_ApplyAction::Apply corrective action?
+Item_IncidentAction_Label_Auditory::Audit
 Item_IncidentAction_Label_BusinessRisk::Risk analysis
 Item_IncidentAction_Label_Description::Description
-Item_IncidentAction_Label_EndDate::Data
-Item_IncidentAction_Label_EndResponsible::Responsable
+Item_IncidentAction_Label_EndDate::Date
+Item_IncidentAction_Label_EndResponsible::Responsible
 Item_IncidentAction_Label_Incident::Incidence
 Item_IncidentAction_Label_Objetivo::objective
 Item_IncidentAction_Label_Oportunity::Opportunity
 Item_IncidentAction_Label_Origin::Origin
 Item_IncidentAction_Label_Reporter::Reported by
-Item_IncidentAction_Label_Type::Kind
-Item_IncidentAction_List_Filter_ErrorDate::The final date can not be earlier than the initial
+Item_IncidentAction_Label_Type::Type
+Item_IncidentAction_List_Filter_ErrorDate::The final date cannot be earlier than the initial
 Item_IncidentAction_List_Filter_ErrorRequired::Data is missing to perform the search
 Item_IncidentAction_List_Filter_ErrorStatus::Select a state
 Item_IncidentAction_List_Filter_ErrorType::Select an action type
@@ -1171,18 +1344,19 @@ Item_IncidentAction_List_Filter_Periode2::-
 Item_IncidentAction_List_Filter_Source::Origin
 Item_IncidentAction_List_Filter_Status::State
 Item_IncidentAction_List_Filter_To::Until
-Item_IncidentAction_List_Filter_Type::Kind
+Item_IncidentAction_List_Filter_Type::Type
+Item_IncidentAction_Message_NoGrants::You do not have permissions to work with actions
 Item_IncidentAction_Origin1::Audit
-Item_IncidentAction_Origin2::Proposed by address
+Item_IncidentAction_Origin2::Proposed by direction
 Item_IncidentAction_Origin3::Incidence
 Item_IncidentAction_Origin4::Risk analysis
 Item_IncidentAction_Origin46::Risks and Opportunities
-Item_IncidentAction_Origin5::objective
+Item_IncidentAction_Origin5::Objective
 Item_IncidentAction_Origin6::Opportunity
 Item_IncidentAction_PopupAnular_Title::Close the action
 Item_IncidentAction_ReporterType1::Internal
 Item_IncidentAction_ReporterType2::Provider
-Item_IncidentAction_ReporterType3::Client
+Item_IncidentAction_ReporterType3::Customer
 Item_IncidentAction_Tab_Basic::Basic data
 Item_IncidentAction_Tab_Costs::Costs
 Item_IncidentAction_Tab_Traces::Traces
@@ -1190,7 +1364,7 @@ Item_IncidentAction_Tab_UploadFiles::Attachments
 Item_IncidentAction_Type1::Improvement
 Item_IncidentAction_Type2::Corrective
 Item_IncidentAction_Type3::Preventive
-Item_IncidentActionCost::Share costs
+Item_IncidentActionCost::Action costs
 Item_IncidentActionCost_Btn_New::Add
 Item_IncidentActionCost_FieldLabel_Amount::Cost
 Item_IncidentActionCost_FieldLabel_Cost::Cost
@@ -1201,7 +1375,7 @@ Item_IncidentActionCost_Filter_NoData::There are no data
 Item_IncidentActionCost_Header_Amount::Cost
 Item_IncidentActionCost_Header_Description::Description
 Item_IncidentActionCost_Header_Quantity::Quantity
-Item_IncidentActionCost_Header_ReportedBy::Responsable
+Item_IncidentActionCost_Header_ReportedBy::Responsible
 Item_IncidentActionCost_Header_Total::Total
 Item_IncidentActionCost_PopupTitle_Delete::Delete the cost
 Item_IncidentActionCost_PopupTitle_Update::Modify the cost
@@ -1234,7 +1408,7 @@ Item_IncidentCost_Radio_SelectCost::Select the cost
 Item_IncidentCosts::Costs
 Item_IncidentList::Incidents
 Item_Incidents::Incidents
-Item_Indicaddor_Filter_TypeLabel::Kind
+Item_Indicaddor_Filter_TypeLabel::Type
 Item_Indicaddor_Filter_TypeObjetivo::Linked to objective
 Item_Indicaddor_Filter_TypeProcess::Linked to process
 Item_Indicaddor_Popup_Units::Manage the units
@@ -1244,16 +1418,16 @@ Item_Indicador_Btn_Anular::Close
 Item_Indicador_Btn_UnitsBAR::Edit the units
 Item_Indicador_Button_New::Add
 Item_Indicador_Detail::Indicator Card
-Item_Indicador_Error_PreviousIndicadorDate::It can not be before the start date
-Item_Indicador_ErrorMessage_NoDelete::It can not be deleted because it is linked to a goal
+Item_Indicador_Error_PreviousIndicadorDate::Cannot be before the start date
+Item_Indicador_ErrorMessage_NoDelete::Cannot be deleted because it is linked to a goal
 Item_Indicador_Field_Alarma::Alarm
 Item_Indicador_Field_Calculo::Calculation
-Item_Indicador_Field_EndDate::Discharge date
-Item_Indicador_Field_EndReason::Reason for the low
+Item_Indicador_Field_EndDate::Unsubscribe date
+Item_Indicador_Field_EndReason::Reason for the unsubscribe
 Item_Indicador_Field_EndResponsible::Responsible
 Item_Indicador_Field_Meta::Goal
 Item_Indicador_Field_Name::First name
-Item_Indicador_Field_Objetivo::objective
+Item_Indicador_Field_Objetivo::Objective
 Item_Indicador_Field_Periodicity::Periodicity
 Item_Indicador_Field_Process::Process
 Item_Indicador_Field_Responsible::Responsible
@@ -1264,37 +1438,38 @@ Item_Indicador_Filter_From::Start from
 Item_Indicador_Filter_Periode1::Period
 Item_Indicador_Filter_Periode2::-
 Item_Indicador_Filter_Status::Status
-Item_Indicador_Filter_To::Start up
-Item_Indicador_GraphicsNoData::There are no records in the indicator
+Item_Indicador_Filter_To::Start until
+Item_Indicador_GraphicsNoData::There are no registers in the indicator
 Item_Indicador_Header_Description::Indicator
-Item_Indicador_Header_Objetivo::objective
+Item_Indicador_Header_Objetivo::Objective
 Item_Indicador_Header_ObjetivoResponsible::Responsible
 Item_Indicador_Header_Process::Process
 Item_Indicador_Header_ProcessResponsible::Responsible
 Item_Indicador_Header_ProcessType::Process type
 Item_Indicador_Header_StartDate::Start
-Item_Indicador_Label_Type::Kind
-Item_Indicador_Label_TypeObjetivo::objective
+Item_Indicador_Label_Type::Type
+Item_Indicador_Label_TypeObjetivo::Objective
 Item_Indicador_Label_TypeProceso::Process
 Item_Indicador_List::Indicators
-Item_Indicador_Message_IndicadorClosed::Can not add a record because the indicator is closed
-Item_Indicador_Message_IndicadorClosedDelete::Can not eliminate why the indicator is closed
-Item_Indicador_Message_IndicadorClosedUpdate::It can not be modified because the indicator is closed
+Item_Indicador_Message_BlockedByObjetivo::It cannot be modified because there are associated objectives
+Item_Indicador_Message_IndicadorClosed::Cannot add a register because the indicator is closed
+Item_Indicador_Message_IndicadorClosedDelete::Cannot eliminate why the indicator is closed
+Item_Indicador_Message_IndicadorClosedUpdate::Cannot be modified because the indicator is closed
 Item_Indicador_Message_ProcessBlocked::The indicator is linked to Objectives
 Item_Indicador_New_Button::Add
 Item_Indicador_New_Label::New indicator
-Item_Indicador_Popup_DeleteRecord_Message::Do you want to delete the record
+Item_Indicador_Popup_DeleteRecord_Message::Do you want to delete the register?
 Item_Indicador_PopupAnular_Title::Close the indicator
-Item_Indicador_PopupDelete_Message::You want to eliminate the indicator
-Item_Indicador_PopupDelete_Message2::This action can not be undone
-Item_Indicador_RecordsReportTitle::Indicator records
+Item_Indicador_PopupDelete_Message::You want to eliminate the indicator?
+Item_Indicador_PopupDelete_Message2::This action cannot be undone
+Item_Indicador_RecordsReportTitle::Indicator registers
 Item_Indicador_StatusLabelMeta::Goal achieved
 Item_Indicador_StatusLabelNoMeta::Goal not achieved
 Item_Indicador_StatusLabelWarning::Alarm!
 Item_Indicador_StatusLabelWithoutMeta::Undefined goal
 Item_Indicador_Tab_Basic::Basic data
 Item_Indicador_Tab_Graphics::Graphics
-Item_Indicador_Tab_Records::Records
+Item_Indicador_Tab_Records::Registers
 Item_Indicador_TabHistoric::Historical
 Item_Indicador_TableRecords_Header_Alarm::Alarm
 Item_Indicador_TableRecords_Header_Comments::Comments
@@ -1304,7 +1479,7 @@ Item_Indicador_TableRecords_Header_Meta::Goal
 Item_Indicador_TableRecords_Header_Responsible::Responsible
 Item_Indicador_TableRecords_Header_Status::State
 Item_Indicador_TableRecords_Header_Value::Value
-Item_IndicadorAction_List_Filter_ShowActive::Assets
+Item_IndicadorAction_List_Filter_ShowActive::Actives
 Item_IndicadorAction_List_Filter_ShowClosed::Closed
 Item_Indicadores::Indicators
 Item_IndicatorRecord_FieldLabel_Comments::Comments
@@ -1312,13 +1487,16 @@ Item_IndicatorRecord_FieldLabel_Date::Date
 Item_IndicatorRecord_FieldLabel_Reason::Reason
 Item_IndicatorRecord_FieldLabel_Responsible::Responsible
 Item_IndicatorRecord_FieldLabel_Value::Value
-Item_IndicatorRecord_PopupTitle_Insert::Add a record
-Item_IndicatorRecord_PopupTitle_Update::Modify the record
+Item_IndicatorRecord_PopupTitle_Insert::Add a register
+Item_IndicatorRecord_PopupTitle_Update::Modify the register
 Item_IndicentAction_Status1::Identified
-Item_IndicentAction_Status2::Analyzed
+Item_IndicentAction_Status2::Analysed
 Item_IndicentAction_Status3::In progress
 Item_IndicentAction_Status4::Closed
 Item_Indicents::Incidents
+Item_ItemQuestion_Popup_Delete_Title::Delete question
+Item_ItemQuestion_Popup_Edit_Title::Edit question
+Item_ItemQuestion_Popup_Insert_Title::Add question
 Item_JobPosition::Position
 Item_JobPosition_BreadCrumb_Edit::Charge sheet
 Item_JobPosition_Button_DepartmentsBAR::Manage departments
@@ -1326,7 +1504,7 @@ Item_JobPosition_Button_New::Add
 Item_JobPosition_Error_DeleteReasonRequired::Specify the reason for removal
 Item_JobPosition_ErrorMessage_HasEmployees::Has employees
 Item_JobPosition_ErrorMessage_HasEmployeesHistoric::Has employees
-Item_JobPosition_ErrorMessage_HasJobPositionLinked::It can not be deleted, it has an assigned charge
+Item_JobPosition_ErrorMessage_HasJobPositionLinked::Cannot be deleted, it has an assigned charge
 Item_JobPosition_FieldLabel_Academic_Learning::Academic training
 Item_JobPosition_FieldLabel_Department::Department
 Item_JobPosition_FieldLabel_DepartmentName::Department
@@ -1355,7 +1533,7 @@ Item_JobPosition_ListEmployees_Header_Phone::Phone
 Item_JobPosition_ListEmployees_Title::Employees
 Item_JobPosition_ListHeader_Department::Department
 Item_JobPosition_ListHeader_Name::Position
-Item_JobPosition_ListHeader_Responsible::Responsable
+Item_JobPosition_ListHeader_Responsible::Responsible
 Item_JobPosition_Message_WithoutEmployees::Position without employees
 Item_JobPosition_Message_WithoutResponsible::Position without responsibility
 Item_JobPosition_PopupDelete_Message::Eliminate the charge?
@@ -1368,24 +1546,24 @@ Item_Learning_Edit::Edit the training
 Item_Learning_Error_DateMalformed_EndDate::The end date is not correct
 Item_Learning_Error_DateMalformed_StartDate::The start date is not correct
 Item_Learning_Error_DeleteReasonRequired::Specify the reason for the deletion
-Item_Learning_Error_MimumOneAssistant::Select attendees
+Item_Learning_Error_MimumOneAssistant::Select assistants
 Item_Learning_Error_NoCompleted::Participation must be completed
 Item_Learning_Error_NoEmeployeesAvailables::There are no employees available
-Item_Learning_ErrorMessage_NoDeleteEvaluated:: You can not eliminate an evaluated training
-Item_Learning_ErrorMessage_NoDeleteFinished:: You can not delete a training
+Item_Learning_ErrorMessage_NoDeleteEvaluated::Cannot eliminate an evaluated training
+Item_Learning_ErrorMessage_NoDeleteFinished::Cannot delete a training
 Item_Learning_ErrorMessage_UntemporalyDates::Cross dates
 Item_Learning_FieldLabel_Academic_Desired::Desired academic training
 Item_Learning_FieldLabel_Amount::Cost
 Item_Learning_FieldLabel_Coach::Trainer
 Item_Learning_FieldLabel_Cost::Cost
 Item_Learning_FieldLabel_Course::Course
-Item_Learning_FieldLabel_EndDate::F.Fin real
-Item_Learning_FieldLabel_EstimatedDate::F.Preview
+Item_Learning_FieldLabel_EndDate::D. Real end
+Item_Learning_FieldLabel_EstimatedDate::D. Preview
 Item_Learning_FieldLabel_Hours::Hours
 Item_Learning_FieldLabel_Methodology::Methodology
 Item_Learning_FieldLabel_Name::Name of the training action
 Item_Learning_FieldLabel_Notes::Notes
-Item_Learning_FieldLabel_StartDate::F. Actual start
+Item_Learning_FieldLabel_StartDate::D. Real start
 Item_Learning_FieldLabel_Status::State
 Item_Learning_FieldLabel_Year::Year of completion of the course
 Item_Learning_Filter_AllPeriode::Every year
@@ -1394,11 +1572,11 @@ Item_Learning_Filter_Periode1::Period
 Item_Learning_Filter_Periode2::-
 Item_Learning_Filter_ToYear::Until
 Item_Learning_Help_Coach::Indicate trainer
-Item_Learning_Help_FinalReal::Actual completion date
+Item_Learning_Help_FinalReal::Real completion date
 Item_Learning_Help_Horas::Course hours
-Item_Learning_Help_InicioReal::Actual start date of the course
+Item_Learning_Help_InicioReal::Inicial real date of the course
 Item_Learning_Help_Item_Learning_FieldLabel_Amount::Cost of training
-Item_Learning_Help_MesPrevisto::Planned start of training month
+Item_Learning_Help_MesPrevisto::Planned start month of training
 Item_Learning_Help_Metologia::Methodology of the course
 Item_Learning_Help_Nombre::Indicate the name of the training
 Item_Learning_Help_Notas::Add training notes
@@ -1406,59 +1584,60 @@ Item_Learning_Help_Objetivo::Indicate the objective of the training
 Item_Learning_Help_SelectAllAssistants::Select course assistants
 Item_Learning_Help_Year::Year of training
 Item_Learning_Help_YearPrevisto::Year planned for the start of training
-Item_Learning_ListHeader_Assistants::Participants
+Item_Learning_ListHeader_Assistants::Assistants
 Item_Learning_ListHeader_Cost::Cost
 Item_Learning_ListHeader_Course::Training
 Item_Learning_ListHeader_DateComplete::Done
 Item_Learning_ListHeader_EstimatedDate::Preview
 Item_Learning_ListHeader_Status::State
-Item_Learning_Message_Evaluation::Saving a training with all the evaluated participants, is closed and can no longer be modified
+Item_Learning_Message_Evaluation::Saving a training with all the evaluated participants, closed it and can't be modified
 Item_Learning_Message_NoAssistants::There are no assistants to the course
-Item_Learning_Message_SelectOneAssistant::Required some assistent
-Item_Learning_NewLabel::Add
-Item_Learning_Objetive::objective
-Item_Learning_PopupDelete_Message::Eliminate the training?
+Item_Learning_Message_SelectOneAssistant::Required some assistant
+Item_Learning_NewLabel::Training file
+Item_Learning_Objetive::Objective
+Item_Learning_PopupDelete_Message::Delete training?
 Item_Learning_SelectAssistants::Add
 Item_Learning_Status_Done::Done
 Item_Learning_Status_Evaluated::Evaluated
 Item_Learning_Status_Finished::Done
 Item_Learning_Status_InProgress::Pending
+Item_Learning_Status_Started::Started
 Item_Learning_Tab_Principal::Basic data
 Item_Learning_Tab_UploadFiles::Attachments
 Item_Learning_ToolTip_New::New training
 Item_LearningAsistant_Button_SelectAll::Select all
 Item_LearningAsistant_Button_UnselectAll::Deselect all
 Item_LearningAssistant::Training assistants
-Item_LearningAssistant_Status_All::Everybody
+Item_LearningAssistant_Status_All::All
 Item_LearningAssistant_Status_Done::Accomplished
 Item_LearningAssistant_Status_DoneFail::Unrealized
 Item_LearningAssistant_Status_Evaluated::Suitable
-Item_LearningAssistant_Status_EvaluatedFail::Unfit
+Item_LearningAssistant_Status_EvaluatedFail::Unsuitable
 Item_LearningAssistant_Status_InProgress::Pending
 Item_LearningAssistant_Status_Selected::Selected
 Item_LearningAssistant_Status_Unevaluated::Not rated
 Item_LearningAssistants::Participants
 Item_LearningList::Training
-Item_LearningList_NoAssistants::No students
-Item_Learnings::Formations
-Item_Objetivo::Objectives
-Item_Objetivo_ActionsReportTitle::Accions de l'objectiu
-Item_Objetivo_AnulateMessageTile::Closed objective
+Item_LearningList_NoAssistants::No assistants
+Item_Learnings::Trainings
+Item_Objetivo::Goals
+Item_Objetivo_ActionsReportTitle::Target actions
+Item_Objetivo_AnulateMessageTile::Closed target
 Item_Objetivo_Btn_Anular::Close
 Item_Objetivo_Btn_Restaurar::Reopen
 Item_Objetivo_Button_Indicators::Indicators
 Item_Objetivo_Button_New::Add
-Item_Objetivo_DataChangedWarning::There have been changes to the goal. Want to save your changes to continue?
+Item_Objetivo_DataChangedWarning::There have been changes on the goal. Want to save your changes to continue?
 Item_Objetivo_DataChangedWarning_continue::Continue without saving
 Item_Objetivo_DataChangedWarning_save::Save and continue
 Item_Objetivo_Detail::Objective Card
-Item_Objetivo_Error_DateMinimum::It can not be before the start date
-Item_Objetivo_Error_PreviewEndDate::It can not be before the start date
-Item_Objetivo_Error_PreviousObjetivoDate::It can not be before the start date
+Item_Objetivo_Error_DateMinimum::cannot be before the initial date
+Item_Objetivo_Error_PreviewEndDate::cannot be before the initial date
+Item_Objetivo_Error_PreviousObjetivoDate::cannot be before the initial date
 Item_Objetivo_FieldLabel_Action::Action
 Item_Objetivo_FieldLabel_ClosePreviewDate::Expected date
 Item_Objetivo_FieldLabel_CloseRealDate::Date
-Item_Objetivo_FieldLabel_CloseResponsible::Responsable
+Item_Objetivo_FieldLabel_CloseResponsible::Responsible
 Item_Objetivo_FieldLabel_DateStart::Start date
 Item_Objetivo_FieldLabel_Description::Description
 Item_Objetivo_FieldLabel_Indicator::Indicator
@@ -1466,40 +1645,40 @@ Item_Objetivo_FieldLabel_Methodology::Methodology
 Item_Objetivo_FieldLabel_Name::First name
 Item_Objetivo_FieldLabel_Notes::Notes
 Item_Objetivo_FieldLabel_Periodicity::Periodicity
-Item_Objetivo_FieldLabel_Resources::Means
-Item_Objetivo_FieldLabel_Responsible::Responsable
+Item_Objetivo_FieldLabel_Resources::Resources
+Item_Objetivo_FieldLabel_Responsible::Responsible
 Item_Objetivo_FieldLabel_Viculated::Linked Indicator
-Item_Objetivo_GraphicsNoData::There are no records linked to the indicator
-Item_Objetivo_Header_Name::objective
-Item_Objetivo_Header_PreviewEndDate::F. planned
-Item_Objetivo_Header_Responsible::Responsable
+Item_Objetivo_GraphicsNoData::There are no registers linked to the indicator
+Item_Objetivo_Header_Name::Goal 
+Item_Objetivo_Header_PreviewEndDate::D. planned
+Item_Objetivo_Header_Responsible::Responsible
 Item_Objetivo_Header_StartDate::Start
-Item_Objetivo_List::goals
-Item_Objetivo_ListHeader_Name::objective
+Item_Objetivo_List::Goals
+Item_Objetivo_ListHeader_Name::Objective
 Item_Objetivo_ListHeader_PreviewEndDate::Expected closure
-Item_Objetivo_ListHeader_ResponsibleName::Responsable
+Item_Objetivo_ListHeader_ResponsibleName::Responsible
 Item_Objetivo_ListHeader_StartDate::Start date
-Item_Objetivo_Message_IndicadorBlocked::It can not be modified because it has linked records
-Item_Objetivo_Message_IndicadorClosed::Can not add a record because the indicator is closed
-Item_Objetivo_Message_IndicadorClosedDelete::Can not eliminate why the indicator is closed
-Item_Objetivo_Message_IndicadorClosedUpdate::It can not be modified because the indicator is closed
-Item_Objetivo_Message_IndicatorNoGrants::You do not have permissions to add indicators
-Item_Objetivo_Message_NoMeta::Can not add a record without a defined goal
-Item_Objetivo_Message_ObjetivoClosed::Can not add a record because the goal is closed
-Item_Objetivo_Message_ObjetivoClosedDelete::Can not delete why the goal is closed
-Item_Objetivo_Message_ObjetivoClosedUpdate::Can not change why the goal is closed
+Item_Objetivo_Message_IndicadorBlocked::Cannot be modified because it has linked registers
+Item_Objetivo_Message_IndicadorClosed::Cannot add a register because the indicator is closed
+Item_Objetivo_Message_IndicadorClosedDelete::Cannot eliminate why the indicator is closed
+Item_Objetivo_Message_IndicadorClosedUpdate::Cannot be modified because the indicator is closed
+Item_Objetivo_Message_IndicatorNoGrants::You haven´t permission to add indicators
+Item_Objetivo_Message_NoMeta::Cannot add a register without a defined goal
+Item_Objetivo_Message_ObjetivoClosed::Cannot add a register because the goal is closed
+Item_Objetivo_Message_ObjetivoClosedDelete::Cannot delete why the goal is closed
+Item_Objetivo_Message_ObjetivoClosedUpdate::Cannot change why the goal is closed
 Item_Objetivo_New_Label::New objective
 Item_Objetivo_NewSavedMessage::Form tabs can now be used
-Item_Objetivo_OpenActionsWarning::It can not be closed while you have open actions
+Item_Objetivo_OpenActionsWarning::Cannot be closed while you have open actions
 Item_Objetivo_PopupAnular_Title::Close the goal
-Item_Objetivo_RecordsReportTitle::Target Records
+Item_Objetivo_RecordsReportTitle::Target registers
 Item_Objetivo_StatusLabelMeta::Goal achieved
 Item_Objetivo_StatusLabelNoMeta::Goal not achieved
 Item_Objetivo_StatusLabelWarning::Alarm!
 Item_Objetivo_StatusLabelWithoutMeta::Undefined goal
-Item_Objetivo_Tab_Records::Records
+Item_Objetivo_Tab_Records::Registers  
 Item_Objetivo_Tab_RecordsFromIndicator::Registers of the linked indicator
-Item_Objetivo_Tab_RecordsFromIndicatorMessage::The records belong to the indicator ##
+Item_Objetivo_Tab_RecordsFromIndicatorMessage::The registers belong to the indicator ##
 Item_Objetivo_TabActions::Actions
 Item_Objetivo_TabBasic::Basic data
 Item_Objetivo_TabGraphics::Graphics
@@ -1510,36 +1689,36 @@ Item_Objetivo_TableRecords_Header_Meta::Goal
 Item_Objetivo_TableRecords_Header_Responsible::Responsible
 Item_Objetivo_TableRecords_Header_Status::State
 Item_Objetivo_TableRecords_Header_Value::Value
-Item_Objetivo_TabRecords::Records
+Item_Objetivo_TabRecords::Registers
 Item_Objetivo_TitleClose::Real close
 Item_ObjetivoAction_List_Filter_From::Since
 Item_ObjetivoAction_List_Filter_Periode1::Period
 Item_ObjetivoAction_List_Filter_Periode2::-
-Item_ObjetivoAction_List_Filter_ShowActive::Assets
+Item_ObjetivoAction_List_Filter_ShowActive::Actives
 Item_ObjetivoAction_List_Filter_ShowClosed::Closed
 Item_ObjetivoAction_List_Filter_Status::Status
 Item_ObjetivoAction_List_Filter_To::Until
-Item_ObjetivoHistorico_StatusAnulate::Anular
-Item_ObjetivoHistorico_StatusRestore::Restaurar
-Item_ObjetivoList::goals
+Item_ObjetivoHistorico_StatusAnulate::Cancel
+Item_ObjetivoHistorico_StatusRestore::Restore
+Item_ObjetivoList::Goals
 Item_ObjetivoRecord_FieldLabel_Reason::Reason
-Item_Objetivos::goals
+Item_Objetivos::Goals
 Item_Opoprtunity_Popup_Delete_Title::Eliminate opportunity
 Item_Oportunities::Opportunities
 Item_Oportunity::Opportunity
-Item_Oportunity_Btn_NewIPR::Fix new IPR
-Item_Oportunity_Button_CategoryBAR::Management of rules
-Item_Oportunity_Button_New::Add opportunity
-Item_Oportunity_Detail::Oportunity Card
+Item_Oportunity_Btn_NewIPR::Fix new PRI
+Item_Oportunity_Button_CategoryBAR::Norm Management
+Item_Oportunity_Button_New::Add
+Item_Oportunity_Detail::Opportunity Card
 Item_Oportunity_ErrorMesagge_OutOfDate::Invalid date
-Item_Oportunity_ErrorMessage_ActionVerDate::La acció no pot començar abans que la oportunitat
+Item_Oportunity_ErrorMessage_ActionVerDate::The action cannot start before the opportunity
 Item_Oportunity_ErrorMessage_DateStartRequired::The start date is invalid
-Item_Oportunity_ErrorMessage_DateUpToLimit::The date can not be later than today
+Item_Oportunity_ErrorMessage_DateUpToLimit::The date cannot be later than today
 Item_Oportunity_ErrorMessage_NameRequired::Mandatory name
 Item_Oportunity_ErrorMessage_ProcessRequired::The process must be indicated
-Item_Oportunity_ErrorMessage_ResultRequired::Especificar un resultat (cost x impacte)
-Item_Oportunity_ErrorMessage_RulesRequired::The rule must be indicated
-Item_Oportunity_Filter_CostsNoData::Aquesta oportunitat no té costos
+Item_Oportunity_ErrorMessage_ResultRequired::Specify a result (cost x impact)
+Item_Oportunity_ErrorMessage_RulesRequired::The norm must be indicated
+Item_Oportunity_Filter_CostsNoData::This opportunity has no costs
 Item_Oportunity_Filter_NoData::There is no data
 Item_Oportunity_Help_CostBlocked::In order to add costs, the action must first be saved
 Item_Oportunity_LabelField_ApplyActionNo::Do not apply action
@@ -1551,34 +1730,34 @@ Item_Oportunity_LabelField_Cost::Cost
 Item_Oportunity_LabelField_DateStart::Final date
 Item_Oportunity_LabelField_Description::Description
 Item_Oportunity_LabelField_Impact::Impact
-Item_Oportunity_LabelField_IPR::IPR
+Item_Oportunity_LabelField_IPR::PRI
 Item_Oportunity_LabelField_Name::First name
 Item_Oportunity_LabelField_Notes::Notes
 Item_Oportunity_LabelField_Process::Process
 Item_Oportunity_LabelField_Result::Result
-Item_Oportunity_LabelField_Rules::Standard
-Item_Oportunity_LabelField_Status::Estat
-Item_Oportunity_Message_InsertSucess::Now you can use the other tabs
-Item_Oportunity_Message_Reevaluate::Avaluar oportunitat després d'aplicar l'acció
-Item_Oportunity_MessageClosingNotAvailable::No es pot donar per resolta una oportunitat mentre l'acció està oberta
+Item_Oportunity_LabelField_Rules::Norm
+Item_Oportunity_LabelField_Status::Status
+Item_Oportunity_Message_InsertSucess::You can use the other tabs
+Item_Oportunity_Message_Reevaluate::Evaluate the opportunity after applying the action
+Item_Oportunity_MessageClosingNotAvailable::An opportunity cannot be considered resolved while the action is open
 Item_Oportunity_New::New opportunity
 Item_Oportunity_PopupDelete_Message::Eliminate the opportunity?
 Item_Oportunity_Status_Assumed::Assumed
 Item_Oportunity_Status_NotSignificant::Not significant
 Item_Oportunity_Status_Significant::Significant
-Item_Oportunity_Status_Unevaluated::Not rated
+Item_Oportunity_Status_Unevaluated::Not evaluated
 Item_Oportunity_Tab_Action::Action
 Item_Oportunity_Tab_Basic::Basic data
 Item_Oportunity_Tab_Costs::Costs
-Item_Oportunity_Tab_Graphics::Situació final
-Item_Oportunity_Tab_HistoryActions::Hitòric d'accions
+Item_Oportunity_Tab_Graphics::Final situation
+Item_Oportunity_Tab_HistoryActions::Historical of actions
 Item_Oportunity_Tab_UploadFiles::Attached
-Item_Oportunity_Title_FinalResult::Resultat de l'oportunitat
+Item_Oportunity_Title_FinalResult::Result of the Opportunity
 Item_Oportunity_Title_Graph::Graphic
 Item_Oportunity_Title_OportunityDetails::Opportunity file
 Item_Oportunity_Title_OportunityDetailsNou::New opportunity
 Item_Oportunity_Title_Result::Result
-Item_Oportunity_Title_StartResult::Accions després d'avaluar la oportunitat
+Item_Oportunity_Title_StartResult::Actions after evaluating the opportunity
 Item_Oportunity_Tooltip_Cost_1::Exorbitant (Very high costs, impossible to amortize)
 Item_Oportunity_Tooltip_Cost_2::High (High cost. A great positive impact on the process will be essential for its implementation)
 Item_Oportunity_Tooltip_Cost_3::Moderate (Good amortization rate in the medium term)
@@ -1589,20 +1768,22 @@ Item_Oportunity_Tooltip_Impact_2::Minor (Little contribution to the improvement 
 Item_Oportunity_Tooltip_Impact_3::Interesting (Significant contribution)
 Item_Oportunity_Tooltip_Impact_4::High (Impact on the very significant improvement)
 Item_Oportunity_Tooltip_Impact_5::Priority (Very clear direct impact if the action is implemented)
-Item_Oportunity_Type_Assumed::Assumida
+Item_Oportunity_Type_Assumed::Assumed
 Item_Oportunity_Warning_ActionTabAvailable::The action data can already be filled
 Item_Proccess::Process
 Item_Process::Process
+Item_Process_Btn_Anular::Deactivate
+Item_Process_Btn_Restaurar::Activate
 Item_Process_Button_Edit::Process tab
 Item_Process_Button_New::Add
-Item_Process_Button_NewLabel::Process tab
+Item_Process_Button_NewLabel::Process file
 Item_Process_Button_ProcessTypeBAR::Management of process types
 Item_Process_FieldLabel_Development::Development
 Item_Process_FieldLabel_End::End
 Item_Process_FieldLabel_Name::Process
 Item_Process_FieldLabel_Responsible::Responsible
 Item_Process_FieldLabel_Start::Start
-Item_Process_FieldLabel_Type::Kind
+Item_Process_FieldLabel_Type::Type
 Item_Process_Help_BARType::Manage the types of process
 Item_Process_Help_Deploy::Indicate how the process develops
 Item_Process_Help_End::Indicate how the process is completed
@@ -1611,20 +1792,21 @@ Item_Process_Help_ProcessType::Select the type of process
 Item_Process_Help_Responsible::Indicate responsible for the process
 Item_Process_Help_Start::Indicate the beginning of the process
 Item_Process_ListHeader_Name::Process
-Item_Process_ListHeader_ProcessType::Kind
+Item_Process_ListHeader_ProcessType::Type
 Item_Process_ListHeader_Responsible::Responsible
 Item_Process_ListIndicatorsHeader_Alarm::Alarm
 Item_Process_ListIndicatorsHeader_Meta::Goal
 Item_Process_ListIndicatorsHeader_Name::First name
 Item_Process_ListIndicatorsHeader_Responsible::Responsible
 Item_Process_ListIndicatorsHeader_Unit::Unity
-Item_Process_NoIndicators::No hi ha cap indicador associat
+Item_Process_NoIndicators::There is no associated indicator
 Item_Process_Popup_AddProcessType_Title::Add a type of process
-Item_Process_Popup_Delete_Title::Remove the process
+Item_Process_Popup_Delete_Title::Delete the process
 Item_Process_Popup_DeleteProcessType_Title::Delete the type of process
 Item_Process_Popup_UpdateProcessType_Title::Modify the type of process
-Item_Process_PopupDelete_Message::Eliminate the process?
-Item_Process_PopupType_Header::Kind
+Item_Process_PopupAnular_Title::Disable process
+Item_Process_PopupDelete_Message::Eliminate process?
+Item_Process_PopupType_Header::Type
 Item_Process_SelectJobPosition::Select a position
 Item_Process_SelectProcessType::Select a type of process
 Item_Process_SelectProcessTypeAcción::Action
@@ -1633,7 +1815,7 @@ Item_Process_Tab_Indicators::Indicators
 Item_Process_Tab_Principal::Basic data
 Item_Process_Tab_Traces::Traces
 Item_Processes::Processes
-Item_ProcessType::Kind
+Item_ProcessType::Type
 Item_ProcessType_Name_Estrategic::Strategic
 Item_ProcessType_Name_Principal::Principal
 Item_ProcessType_Name_Support::Support
@@ -1647,7 +1829,7 @@ Item_Profile_FieldLabel_Phone::Phone
 Item_Profile_ShortCuts::Quick access buttons
 Item_Profile_ShowHelp::Online help
 Item_Profile_Title_PersonalData::Personal information
-Item_Provider::Provider
+Item_Provider::Supplier
 Item_Provider_Btn_New::Add
 Item_Provider_Detail::Provider tab
 Item_Provider_Header_Associated::Related to
@@ -1657,49 +1839,78 @@ Item_Provider_Header_Description::Description
 Item_Provider_Header_Equipment::Equipment
 Item_Provider_Header_Operation::Operation
 Item_Provider_Header_Periodicity::Periodicity
-Item_Provider_Header_Responsible::Responsable
-Item_Provider_Header_Status::State
-Item_Provider_Header_Type::Kind
-Item_Provider_Help_Name::Provider's name
+Item_Provider_Header_Responsible::Responsible
+Item_Provider_Header_Status::Status
+Item_Provider_Header_Type::Type
+Item_Provider_Help_Name::Supplier name
 Item_Provider_Label_Costs::Actions to Calibrations / Verifications / Maintenance / Repairs
 Item_Provider_Label_Definitions::Configured in Calibrations / Verifications / Maintenance
 Item_Provider_Label_Incidents::Incidents and actions
-Item_Provider_ListHeader_Name::Provider
-Item_Provider_Popup_Delete_Title::Remove the provider
-Item_Provider_PopupTitle_Delete::Eliminate the provider?
+Item_Provider_ListHeader_Name::Supplier
+Item_Provider_Popup_Delete_Title::Delete the supplier
+Item_Provider_PopupTitle_Delete::Eliminate the supplier?
 Item_Provider_Tab_Principal::Basic data
 Item_Provider_Tab_Traces::Traces
 Item_Providers::Suppliers
+Item_Questionaries::Questionnaires
+Item_Questionary::Questionnaire
+Item_Questionary_BreadCrumb_Edit::Questionnaire sheet
+Item_Questionary_Button_New::Add
+Item_Questionary_FieldLabel_ApartadoNorma::Norm section
+Item_Questionary_FieldLabel_Notes::Notes
+Item_Questionary_FieldLabel_Process::Process
+Item_Questionary_FieldLabel_QuestionaryQuestionName::Question
+Item_Questionary_FieldLabel_Rule::Norm
+Item_Questionary_List_Filter_ApartadoNorma::Standard section
+Item_Questionary_List_Filter_Process::Process
+Item_Questionary_List_Filter_Rule::Norm
+Item_Questionary_ListHeader_Name::Questionnaire
+Item_Questionary_ListHeader_Process::Process
+Item_Questionary_ListHeader_Rule::Norm
+Item_Questionary_NewQuestionaryWarning::To add questions, you must first save the questionnaire
+Item_Questionary_Popup_Delete_Title::Delete questionnaire
+Item_Questionary_Popup_Duplicate_Title::Create copy
+Item_Questionary_PopupDelete_Message::Do you want to delete the questionnaire
+Item_Questionary_PopupDuplicate_Message::Since copying the questionnaire and your questions
+Item_Questionary_Tab_Founds::Findings and improvements
+Item_Questionary_Tab_Questions::Questionnaire
+Item_Questionary_Warning_NoQuestions::The questionnaire has no questions
+Item_QuestionaryQuestion_ListHeader_Name::Question
+Item_QuestionaryQuestion_PopupDelete_Message::Do you want to delete the question
+Item_QuestionaryQuestion_Title::Questions
+Item_QuestionaryQuestion_Tooltip_DeleteButton::Delete question
+Item_QuestionaryQuestion_Tooltip_EditButton::Edit Question
+Item_Questionay_Observations::Observations
 Item_Reports::Reports
 Item_Review::Review by management
-Item_Rule::Rule
+Item_Rule::Norm
 Item_Rule_ChangeIPRLabel::Specify the reason for the change
-Item_Rule_ChangeIPRMessage::You want to continue with the change?
+Item_Rule_ChangeIPRMessage::Do you want to continue with the change?
 Item_Rule_ChangeIPRTitle::Risks affected by the change
 Item_Rule_HistoryHeader_ApprovedBy::Approved by
 Item_Rule_HistoryHeader_Date::Date
-Item_Rule_HistoryHeader_IPR::IPR
+Item_Rule_HistoryHeader_IPR::PRI
 Item_Rule_HistoryHeader_Reason::Reason
-Item_Rules::Normes
+Item_Rules::Norms
 Item_Rules_Btn_New::Add
-Item_Rules_Button_New::Standard Sheet
+Item_Rules_Button_New::Norm
 Item_Rules_Error_LimitOutOfRange::The limit must be between 1 and 25
 Item_Rules_FieldLabel_Limit::Limit
 Item_Rules_FieldLabel_Name::First name
 Item_Rules_FieldLabel_Notes::Notes
-Item_Rules_HistoryTitle::History change of IPR
-Item_Rules_Popup_AddRule_Title::Add rule
-Item_Rules_Popup_DeleteProcessType_Title::Remove rule
-Item_Rules_Popup_Header::Rules
+Item_Rules_HistoryTitle::Historical changes of IPR
+Item_Rules_Popup_AddRule_Title::Add norm
+Item_Rules_Popup_DeleteProcessType_Title::Delete norm
+Item_Rules_Popup_Header::Norms
 Item_Rules_Popup_HeaderLimit::Limit
 Item_Rules_Popup_Limit::Limit
 Item_Rules_Popup_UpdateRules_Title::Modify the norm
-Item_Rules_PopupDelete_Message::Eliminate the rule?
+Item_Rules_PopupDelete_Message::Delete the norm?
 Item_Rules_Section_BusinessRisk::Linked risks
 Item_Rules_Section_BusinessRisk_Header_Code::Code
 Item_Rules_Section_BusinessRisk_Header_Name::Risk
 Item_Rules_Section_BusinessRisk_Header_Result::Result
-Item_Rules_Section_BusinessRisk_Header_Status::State
+Item_Rules_Section_BusinessRisk_Header_Status::Status
 Item_Rules_Section_BusinessRisk_NoData::This standard does not have risks linked
 Item_Rules_Tab_History::History
 Item_Rules_Tab_Principal::Basic data
@@ -1725,8 +1936,8 @@ Item_Unidad::Unity
 Item_Unidad_Btn_New::Add
 Item_Unidad_Help_Description::Description of the unit
 Item_Unidad_ListHeader_Description::Unity
-Item_Unidad_Popup_Delete_Title::Do you want to delete the unit?
-Item_Unidad_PopupTitle_Delete::Remove the unit
+Item_Unidad_Popup_Delete_Title::Do you want delete the unit?
+Item_Unidad_PopupTitle_Delete::Delete the unit
 Item_Unidad_Tab_Principal::Basic data
 Item_Unidad_Title::Units Tab
 Item_Unidades::Units
@@ -1737,7 +1948,7 @@ Item_User_Button_New::Add
 Item_User_ChangePassword::Change Password
 Item_User_ErrorMessage_PaswordsNoMatch::Passwords do not match
 Item_User_FieldLabel_PasswordConfirm::Confirm the password
-Item_User_Help_PrimaryUser::This permission can not be modified to this user
+Item_User_Help_PrimaryUser::This permission cannot be modified to this user
 Item_User_Help_ResetPassword::The new password will be sent to the user by mail
 Item_User_Help_ResetPasswordOwner::To change the password, access the profile
 Item_User_List_Header_Email::Mail
@@ -1750,12 +1961,12 @@ Item_User_MailResetPassword_Subject::Password renewed in ISSUS for a proprietary
 Item_User_Message_AfterChangePassword::When changing the password the session is restarted, to enter with the new one
 Item_User_Message_GrantsAvaiable::The permissions tab has been generated. Activate them so that the user can use the application
 Item_User_Message_ResetPassword_Ok::The password has been reset
-Item_User_Message_WelcommeMailSent::An email with instructions for access to the application has been sent to the new user
+Item_User_Message_WelcommeMailSent::An email with instructions for access to the application has been sent
 Item_User_NewPassword::New Password
-Item_User_PopupDelete_Message::Remove?
+Item_User_PopupDelete_Message::Delete?
 Item_User_Profile_Title_Settings::Configuration
 Item_User_Rol::Role
-Item_User_Suicide::A user can not eliminate himself / herself
+Item_User_Suicide::A user cannot eliminate himself / herself
 Item_User_Tab_Grants::Permissions
 Item_User_Tab_Password::Password
 Item_User_Tab_Principal::Basic data
@@ -1763,9 +1974,9 @@ Item_User_Title_Account::Account management
 Item_User_Title_Add::User's file
 Item_User_Title_ResetPassword::Reset your password
 Item_Users::Users
-LoginPage_BtnAccess::To access
+LoginPage_BtnAccess::Access
 LoginPage_Title::Access to the application
-Mail_Message_WelcomeSubject::Welcome to ISSUS {0}
+Mail_Message_WelcomeSubject:: {0} Welcome to ISSUS
 MailTemplate_ResetPassword_DefaultBody::Your password has been reset. <br /> Access http
 MailTemplate_ResetPassword_Error::The password has not been reset
 MailTemplate_ResetPassword_Subject::Reset the access password
@@ -1783,7 +1994,7 @@ Resumen::Summary
 semana::week
 Servicio::Service
 SkillsFor::Training for the employee
-Tipo::Kind
+Tipo::Type
 User_Admin::Administrator
 User_PrimaryUser::Owner
 Verification-Ext::External verification

@@ -100,7 +100,7 @@ function DocumentAttachDelete(id, description) {
         [
             {
                 "id": "BtnDeleteFileOk",
-                "html": "<i class= \"icon-trash bigger-110\"></i>& nbsp; " + Dictionary.Common_Yes,
+                "html": "<i class= \"icon-trash bigger-110\"></i>" + Dictionary.Common_Yes,
                 "class": "btn btn-danger btn-xs",
                 "click": function () {
                     DeleteUploadFileConfirmed();
@@ -108,7 +108,7 @@ function DocumentAttachDelete(id, description) {
             },
             {
                 "id": "BtnDeleteFileCancel",
-                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
+                "html": "<i class=\"icon-remove bigger-110\"></i>" + Dictionary.Common_No,
                 "class": "btn btn-xs",
                 "click": function () {
                     $(this).dialog("close");
@@ -179,18 +179,11 @@ function UploadFileGo(documentId) {
         //allow only valid image file types 
         switch (ftype) {
             case "text/plain":
-                //case "image/png":
+            case "image/png":
             case "image/jpeg":
-            case "image/pjpeg":
-                //case "image/gif":
+            case "application/msword":
             case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
             case "application/pdf":
-            case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-            case "application/vnd.ms-excel":
-            case "application/vnd.openxmlformats-officedocument.wordprocessingml.template":
-            case "application/vnd.oasis.opendocument.text":
-            case "application/vnd.oasis.opendocument.spreadsheet":
-            case "application/vnd.oasis.opendocument.graphics":
                 break;
             default:
                 alertUI("<i>" + ftype + "</i><br />" + Dictionary.Common_Error_UnsupportedFile);
