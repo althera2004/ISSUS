@@ -8,30 +8,34 @@ Alert_Large_ActionLastWeek::La data prevista per al tancament de l'acció ha venç
 Alert_Large_BusinessRiskActionNeeded::Risc sense acció
 Alert_Large_BusinessRiskNotEvaluated::Falta fer la valoració inicial del risc
 Alert_Large_EmployeeDelete::Responsable no actiu
+Alert_Large_EquipmentCalibration::Falta realitzar al menys una calibració
 Alert_Large_EquipmentIncomplete::Equip incomplet
-Alert_Large_EquipmentMaintenance::Falta configurar el registre inicial de manteniment
+Alert_Large_EquipmentMaintenance::Falta realitzar almenys un manteniment
+Alert_Large_EquipmentVerification::Falta realitzar al menys una verificació
 Alert_Large_ExpiredTasks::La data prevista per a la tasca ha vençut
 Alert_Large_IncidentEvaluatedWithoutAction::Falta omplir el camp 'Actuacions' de la incidència
 Alert_Large_IncidentIdentifiedNotEvaluated::Falta omplir el camp 'Perqué ha passat' de la incidència
 Alert_Large_IncidentLastWeek::La data prevista per al tancament de la incidència ha vençut
+Alert_Large_LearningExpired::La data prevista per a l'inici del curs ha vençut
 Alert_Large_LearningFinishedWithoutEvaluation::Curs finalitzat pendent d'avaluació
 Alert_Large_LearningStartedWithoutAssistants::Curs iniciat sense alumnes inscrits
-Alert_Large_LearningExpired::La data prevista per a l'inici del curs ha vençut
 Alert_Short_ActionEvaluatedWithoutAction::Acció sense actuacions
 Alert_Short_ActionIdentifiedNotEvaluated::Acció no analitzada
 Alert_Short_ActionLastWeek::Acció vençuda
 Alert_Short_BusinessRiskActionNeeded::Risc sense acció
 Alert_Short_BusinessRiskNotEvaluated::Risc sense valorar
 Alert_Short_EmployeeDelete::Responsable no actiu
+Alert_Short_EquipmentCalibration::Falta realitzar calibració
 Alert_Short_EquipmentIncomplete::Equip incomplet
-Alert_Short_EquipmentMaintenance::Manteniment sense registre
+Alert_Short_EquipmentMaintenance::Falta realitzar manteniment
+Alert_Short_EquipmentVerification::Falta realitzar verificació
 Alert_Short_ExpiredTasks::Tasca vençuda
 Alert_Short_IncidentEvaluatedWithoutAction::Incidència sense actuacions
 Alert_Short_IncidentIdentifiedNotEvaluated::Incidència no analitzada
 Alert_Short_IncidentLastWeek::Incidència vençuda
+Alert_Short_LearningExpired::Curs no iniciat
 Alert_Short_LearningFinishedWithoutEvaluation::Curs sense avaluar
 Alert_Short_LearningStartedWithoutAssistants::Curs sense alumnes
-Alert_Short_LearningExpired::Curs no iniciat
 Añadir::Afegir
 Auditorías::Auditories
 Avatar::Avatar
@@ -85,7 +89,7 @@ Common_Day::Dia
 Common_Days::Dies
 Common_Delete::Eliminar
 Common_DeleteMessage::Segur que vol eliminar
-Common_DeleteMessage_NoUndo::ATENCIÓ: Aquesta acció no es podrà desfer!						  
+Common_DeleteMessage_NoUndo::ATENCIÓ: Aquesta acció no es podrà desfer!
 Common_Edit::Editar
 Common_Error::Error
 Common_Error_Application::S'ha produït un error a l'aplicació
@@ -116,6 +120,7 @@ Common_Exit::Sortir
 Common_External::Extern
 Common_Filter::Filtrar
 Common_FinishDate::Finalització
+Common_FirstDate::Data primer registre
 Common_Form_CheckError::Revisar les dades obligatòries
 Common_Form_Errors::Revisar les dades del formulari
 Common_From::Des de
@@ -130,10 +135,13 @@ Common_Label_Weeks::setmanes
 Common_Label_Years::anys
 Common_LastWeek::Darrera setmana
 Common_ListPdf::Imprimir
+Common_Loading::Carregant dades
 Common_MaximumUploadSize::El màxim permès són 4MB
 Common_Message_Deleting::Eliminant...
 Common_Message_FormErrors::Revisar les dades del formulari
+Common_Message_ItemNoAccess::No té accés a aquest element, contacta amb l'administrador
 Common_Message_Saving::Guardant...
+Common_MessageMailMalformed::El mail no és vàlid
 Common_ModifiedBy::Modificat per
 Common_Modify::Modificar
 Common_Month::Mes
@@ -150,7 +158,7 @@ Common_MonthName_November::Novembre
 Common_MonthName_October::Octubre
 Common_MonthName_September::Setembre
 Common_Months::Mesos
-Common_Name::Usuari/a
+Common_Name::Nom
 Common_New::Nou
 Common_Next::Següent
 Common_No::No
@@ -163,6 +171,7 @@ Common_None_Male::Cap
 Common_NoSaveData::Dades sense guardar
 Common_NotSet_Female::No especificada
 Common_NotSet_Male::No especificat
+Common_PDF_Filter_Contains::Conté
 Common_Period::Període
 Common_PeriodAll::Tot el període
 Common_Previous::Anterior
@@ -180,6 +189,8 @@ Common_Selected::Seleccionat
 Common_SelectOne::Seleccionar
 Common_ShowAll::Veure tot
 Common_Status::Estat
+Common_Status_ActivePlural::Actius
+Common_Status_InactivePlural::Inactius
 Common_Target::Objectiu
 Common_Task::Tasca
 Common_ThisMonth::Aquest mes
@@ -234,6 +245,22 @@ DiskQuote_Other::Altres
 Email::Correu
 Fin::Fi
 Item_Action_Popup_Details_Title::Detalls de l'acció
+Item_Adutiry_Message_NoActions::No hi cap acció definida a la auditoria.
+Item_Adutory_Status_Explanation_0::Dades bàsiques sense acabar de planificar
+Item_Adutory_Status_Explanation_1::Planificada amb responsable i date
+Item_Adutory_Status_Explanation_2::Alguna pregunta del/ls qüestionaris marcada
+Item_Adutory_Status_Explanation_3::Totes les preguntes dels qüestionaris marcades
+Item_Adutory_Status_Explanation_4::AMb responsable i data de tancament
+Item_Adutory_Status_Explanation_5::Amb responsable i data de validació
+Item_Adutory_Status_Label_0::Planificant-se
+Item_Adutory_Status_Label_1::Planificada
+Item_Adutory_Status_Label_2::En curs
+Item_Adutory_Status_Label_3::Pendent
+Item_Adutory_Status_Label_4::Tancada
+Item_Adutory_Status_Label_5::Validada
+Item_Adutory_Type_Label_0::Interna
+Item_Adutory_Type_Label_1::Externa
+Item_Adutory_Type_Label_2::Proveïdor
 Item_Alert_ListHeader_Description::Descripció
 Item_Alert_ListHeader_Reason::Motiu
 Item_Alerts::Avisos
@@ -254,6 +281,125 @@ Item_Attachment_Header_Size::Mida
 Item_Attachment_Popup_Warning::Aquesta acció no es pot desfer
 Item_Attachment_SectionTitle::Documents adjunts
 Item_Attachment_Size::Mida
+Item_Auditories::Auditories
+Item_Auditory::Auditoria
+Item_Auditory_BreadCrumb_Edit::Fitxa d'auditoria
+Item_Auditory_Btn_AddIncidentAction::Afegir
+Item_Auditory_Btn_Close::Tancar auditoria
+Item_Auditory_Btn_PopupValidation::Validar
+Item_Auditory_Btn_Reopen::Reobrir auditoria
+Item_Auditory_Btn_Validation::Validar auditoria
+Item_Auditory_Button_AddFound::Afegir troballa
+Item_Auditory_Button_AddImprovement::Afegir millora
+Item_Auditory_Button_AddPlanning::Afegir planificació
+Item_Auditory_Button_New::Afegir
+Item_Auditory_ErrorMessage_QuestionairesClosed::Per validar la auditoria s'ha d'indicar l'inici i el final
+Item_Auditory_Filter_From::Des de
+Item_Auditory_Filter_Status::Estat
+Item_Auditory_Filter_To::Fins
+Item_Auditory_Filter_Type::Tipus
+Item_Auditory_FoundNoAction::Cap troballa genera una acció
+Item_Auditory_Header_Action::Acció
+Item_Auditory_Header_Found::Troballa
+Item_Auditory_Header_Improvement::Propostes de millora
+Item_Auditory_Header_Requirement::Requisit
+Item_Auditory_Header_Result::No conformitat
+Item_Auditory_Help_Status_Title::Estats d'auditoria
+Item_Auditory_ImprovementNoAction::Cap millora genera una acció
+Item_Auditory_Label_Action::Genera acció
+Item_Auditory_Label_Address::Adreça
+Item_Auditory_Label_Amount::Cost
+Item_Auditory_Label_AuditorTeam::Equip auditor
+Item_Auditory_Label_ClosedBy::Tancada per
+Item_Auditory_Label_ClosedOn::Data tancament
+Item_Auditory_Label_Customer::Client
+Item_Auditory_Label_Description::Descripció
+Item_Auditory_Label_EndQuestionarios::Tacament qüestionaris
+Item_Auditory_Label_Found::Troballa
+Item_Auditory_Label_Improvement::Millora
+Item_Auditory_Label_InternalResponsible::Responsable intern
+Item_Auditory_Label_Name::Nom
+Item_Auditory_Label_Notes::Notes
+Item_Auditory_Label_PannedDate::Data prevista
+Item_Auditory_Label_PlanningDate::Data
+Item_Auditory_Label_PlanningResponsible::Planificada per
+Item_Auditory_Label_Provider::Proveïdor
+Item_Auditory_Label_PuntosFuertes::Punts a destacar
+Item_Auditory_Label_Requeriment::Requisit
+Item_Auditory_Label_Rules::Normes
+Item_Auditory_Label_Scope::Àmbit
+Item_Auditory_Label_Type::Tipus
+Item_Auditory_Label_Unconformity::No conformitat
+Item_Auditory_Label_ValidatedBy::Validada per
+Item_Auditory_Label_ValidatedByResponsible::Validada per
+Item_Auditory_Label_ValidatedOn::Data
+Item_Auditory_ListHeader_Ammount::Cost
+Item_Auditory_ListHeader_Closed::Realitzada
+Item_Auditory_ListHeader_Name::Auditoria
+Item_Auditory_ListHeader_Planned::Prevista
+Item_Auditory_ListHeader_Status::Estat
+Item_Auditory_Message_ActionsZombie::Les accions no estaran disponibles al sistema fins que no es validi la auditoria
+Item_Auditory_Message_Closed::Tancada
+Item_Auditory_Message_NewAuditory::Per poder afegir planificacions, primer s'ha de desar l'auditoria
+Item_Auditory_Message_NoCompliantNoFound::El qüestionari té no conformitats sense troballes
+Item_Auditory_Message_NoPlanning::Per poder donar per planificada l'auditoria, al menys ha d'haver-hi una planificació
+Item_Auditory_Message_NoQuestions::Amb les normes i processos sel·leccionats no hi han preguntes per als questionaris
+Item_Auditory_Message_QuestionaryClosable::Ja es pot accedir a la pestanya Informes per tancar el qüestionaris
+Item_Auditory_Message_ReopenCuestionario::Vol reobrir els questionaris?
+Item_Auditory_Message_Validated::Auditoria validada
+Item_Auditory_Planning_Message::No pot el mateix que l'auditor
+Item_Auditory_PlanningTable_Title::Planificació
+Item_Auditory_Popup_CloseQuestionary::Tancar qüestionaris
+Item_Auditory_Popup_Delete_Title::Eliminar auditoria
+Item_Auditory_Popup_ReopenMessage::Vol reobrir la auditoria
+Item_Auditory_Popup_ReopenQuestionary::Reobrir qüestionaris
+Item_Auditory_Popup_ReopenTitle::Reobrir la auditoria
+Item_Auditory_PopupDelete_Message::Vol eliminar la auditoria
+Item_Auditory_PopupDelete_MessageFound::Eliminar troballa
+Item_Auditory_PopupDelete_MessageImprovement::Eliminar proposta de millora
+Item_Auditory_Report_EndLabel::Final
+Item_Auditory_Report_StartLabel::Inici
+Item_Auditory_SelectType_Error::S'ha d'escollir una opció
+Item_Auditory_SelectType_Title::S'ha d'escollir el tipus de auditoría
+Item_Auditory_Tab_Principal::Dades básiques
+Item_Auditory_Tab_Questionaries::Qüestionaris
+Item_Auditory_Tab_Report::Informe
+Item_Auditory_Tab_Traces::Traces
+Item_Auditory_Text_NotEnded::No finalitzat
+Item_Auditory_Text_NotStarted::No iniciat
+Item_Auditory_Title_Found::Troballes
+Item_Auditory_Title_Improvements::Millores
+Item_Auditory_Title_PopupAddFound::Nova troballa
+Item_Auditory_Title_PopupAddImprovement::Nova millora
+Item_Auditory_Title_PopupDeleteFound::Eliminar troballa
+Item_Auditory_Title_PopupDeleteImprovement::Eliminar millora
+Item_Auditory_Title_PopupUpdateFound::Modificar troballa
+Item_Auditory_Title_PopupUpdateImprovement::Modificar millora
+Item_Auditory_Title_QuestionariesAvailables::Qüestionaris de la auditoria
+Item_Auditory_ValidateCrossDate::No pot ser anterior a la data final
+Item_Auditory_ValidateCuestionarioCrossDate::No pot ser anterior a l'inici dels qüestionaris
+Item_AuditoryPlanning_Field_Duration::Durada
+Item_AuditoryPlanning_Field_Hour::Hora inici
+Item_AuditoryPlanning_Header_Audited::Auditat/da
+Item_AuditoryPlanning_Header_Auditor::Auditor/a
+Item_AuditoryPlanning_Header_Date::Data
+Item_AuditoryPlanning_Header_Duration::Horas
+Item_AuditoryPlanning_Header_Hour::Hora
+Item_AuditoryPlanning_Header_Process::Proceso
+Item_AuditoryPlanning_Label_Audited::Auditado/a
+Item_AuditoryPlanning_Label_Auditor::Auditor
+Item_AuditoryPlanning_Label_Date::Data
+Item_AuditoryPlanning_Label_EmailProvider::Dirección de email
+Item_AuditoryPlanning_Label_Process::Procés
+Item_AuditoryPlanning_Label_SendMail::Enviar correo al/a auditado/a
+Item_AuditoryPlanning_PopupDelete_Message::¿Vil eliminar la planificació
+Item_AuditoryPlanning_Title::Eliminar planificación
+Item_AuditoryPlanning_Title_PopupAdd::Añadir planificación
+Item_AuditoryPlanning_Title_PopupUpdate::Modificar planifiación
+Item_AuditoryQuestionary_Header_Name::Qüestionari
+Item_AuditoryQuestionary_Header_Status::Estat
+Item_AuditoryQuestionary_Tooltip_Continue::Continuar qüestionari
+Item_AuditoryQuestionary_Tooltip_Start::Iniciar qüestionari
 Item_Backup::Back-Up
 Item_Backup_Btn_Go::Iniciar back-up
 Item_Backup_Explain::Al clicar, es genera un fitxer XLS amb totes les dades de l'aplicació. És una còpia de seguretat.
@@ -422,9 +568,10 @@ Item_CompanyData_FieldLabel_Phone::Telèfon
 Item_CompanyData_FieldLabel_PostalAddress::Codi postal
 Item_CompanyData_FieldLabel_Province::Província
 Item_CompanyData_Popup_ImageDelete_Title::Eliminar la imatge
+Item_CompanyProfile_FieldLabel_Headquarters::Raó social
 Item_CompanyProfile_FieldLabel_Name::Nom
-Item_CompanyProfile_FieldLabel_Headquarters::Seu social
 Item_CompanyProfile_FieldLabel_Nif::NIF
+Item_CompanyProfile_Tooltip_Headquarters::Per a modificar aquesta dada contacta amb Scrambòtika
 Item_Cost::Cost habitual
 Item_CostDefinition::Costos habituals
 Item_CostDefinition_Button_New::Afegir
@@ -719,12 +866,16 @@ Item_Employee_Warning_NoUser::Aquest/a empleat/da no té usuari/a assignat/da i n
 Item_Employees::Empleats/des
 Item_EmployeeSkills::Habilitats dels/les empleats/des
 Item_Equipment::Equip
-Item_Equipment_Plural::Equips
 Item_Equipment_Actions::Accions
 Item_Equipment_AnulateMessageTile::Equip de baixa
 Item_Equipment_Btn_Anular::Baixa
 Item_Equipment_Btn_Restaurar::Reactivar
 Item_Equipment_Button_New::Afegir
+Item_Equipment_Calibration_Error_None::S'ha de definir com a mínim una calibració.
+Item_Equipment_Error_DuplicateData::Les dades de l'equip estan repetits.
+Item_Equipment_Error_NoOptions::Escolli com a mínim una opció,
+Item_Equipment_Error_NoRisponsible::S'ha d'informar el responsable de l'equip.
+Item_Equipment_Error_RequiredFields::Revisi els camps obligatoris de l'equip.
 Item_Equipment_Field_Calibration_Cost::Cost
 Item_Equipment_Field_Calibration_Expiration::Venciment
 Item_Equipment_Field_Calibration_Notes::Notes
@@ -772,10 +923,19 @@ Item_Equipment_Field_Verification_Provider::Proveïdor
 Item_Equipment_FieldLabel_EndDate::Data
 Item_Equipment_FieldLabel_EndReason::Motiu
 Item_Equipment_FieldLabel_EndResponsible::Responsable
+Item_Equipment_FilterLabel_Calibration_Ext::Cal. Ext
+Item_Equipment_FilterLabel_Calibration_Int::Cal. Int
+Item_Equipment_FilterLabel_CostType::Tipus
+Item_Equipment_FilterLabel_Maintenance_Ext::Mtm. Ext
+Item_Equipment_FilterLabel_Maintenance_Int::Mtm. Int
 Item_Equipment_FilterLabel_MaintenanceExternal::Manteniment extern
 Item_Equipment_FilterLabel_MaintenanceInternal::Manteniment intern
+Item_Equipment_FilterLabel_Repair_Ext::Rep. Ext
+Item_Equipment_FilterLabel_Repair_Int::Rep. Int
 Item_Equipment_FilterLabel_RepairExternal::Reparació externa
 Item_Equipment_FilterLabel_RepairInternal::Reparació interna
+Item_Equipment_FilterLabel_Verification_Ext::Ver. Ext
+Item_Equipment_FilterLabel_Verification_Int::Ver. Int
 Item_Equipment_Header_Code::Codi
 Item_Equipment_Header_Cost::Cost
 Item_Equipment_Header_Description::Descripció
@@ -798,6 +958,7 @@ Item_Equipment_Help_TradeMark::Indicar la marca
 Item_Equipment_Help_VerificationCheck::Marcar si l'equip té verificacions
 Item_Equipment_List_Filter_ShowActive::Actius
 Item_Equipment_List_Filter_ShowByOperation::Registres
+Item_Equipment_List_Filter_ShowByPeriod::Periode												
 Item_Equipment_List_Filter_ShowByStatus::Estat
 Item_Equipment_List_Filter_ShowCalibration::Calibratges
 Item_Equipment_List_Filter_ShowClosed::De baixa
@@ -809,10 +970,11 @@ Item_Equipment_Maintenance_Button_AddAct::Afegir
 Item_Equipment_Maintenance_Button_AddConfiguration::Afegir
 Item_Equipment_Message_Attachs::Veure adjunts
 Item_Equipment_Message_CalibrationChanged::Guardar els calibratges per afegir un registre
-Item_Equipment_Message_DeleteQuestion::Eliminar l'equip
+Item_Equipment_Message_DeleteQuestion::Eliminar l'equip 
 Item_Equipment_Message_InsertSucess::Equip guardat amb èxit. Ja es poden fer servir les pestanyes del formulari
 Item_Equipment_Message_VerificationChanged::Guardar les verificacions per afegir un registre
 Item_Equipment_PDFTitle::Registre d'actuacions a l'equip
+Item_Equipment_Plural::Equips
 Item_Equipment_Popup_AddCustomer_Title::Afegir un client
 Item_Equipment_Popup_AddProvider_Title::Afegir un proveïdor
 Item_Equipment_Popup_AddScaleDivision_Title::Afegir una divisió d'escala
@@ -822,6 +984,7 @@ Item_Equipment_PopupAnular_Title::Baixa de l'equip
 Item_Equipment_PopupTitle_DeleteScaleDivision::Eliminar una divisió d'escala
 Item_Equipment_Tab_Basic::Dades bàsiques
 Item_Equipment_Tab_Calibration::Calibratges
+Item_Equipment_Tab_Costs::Costos
 Item_Equipment_Tab_Details::Fitxa de l'equip
 Item_Equipment_Tab_Maintenance::Manteniments
 Item_Equipment_Tab_Records::Registres
@@ -829,6 +992,7 @@ Item_Equipment_Tab_Repair::Reparacions
 Item_Equipment_Tab_Traces::Traces
 Item_Equipment_Tab_UploadFiles::Adjunts
 Item_Equipment_Tab_Verification::Verificacions
+Item_Equipment_Verification_Error_None::S'ha de definir com a mínim una verificació.
 Item_Equipment_VerificationType_External::Configuració externa
 Item_Equipment_VerificationType_Internal::Configuració interna
 Item_EquipmentCalibration::Calibratge
@@ -859,7 +1023,7 @@ Item_EquipmentCalibrationAct_PopupUpdate_Title::Modificar el calibratge
 Item_EquipmentCalibrationDefinition::Definició de calibratges
 Item_EquipmentErrorInitialDate::La data d´inici no pot ser posterior a
 Item_EquipmentList::Llistat d'equips
-Item_EquipmentListCosts::Llistado de costos d'equips
+Item_EquipmentListCosts::Llistat de costos d'equips
 Item_EquipmentMaintenance::Manteniment
 Item_EquipmentMaintenance_Button_Register::Registrar
 Item_EquipmentMaintenance_ErrorMessage_AsociateRecords::No es pot eliminar un manteniment amb registres
@@ -1002,6 +1166,7 @@ Item_Incident_Detail_Origin::Seleccionar l'origen de la incidència
 Item_Incident_Detail_Title::Revisar les dades de la fitxa
 Item_Incident_Detail_WhatHappened::Informar què ha passat
 Item_Incident_Detail_WhatHappenedResponsible::Seleccionar qui identifica què ha passat
+Item_Incident_Error_BeforeActions::No pot ser anterior a la data d'actuacions
 Item_Incident_Error_DateMalformed_Actions::La data de l'acció no és correcta
 Item_Incident_Error_DateMalformed_Causes::La data de les causes no és correcta
 Item_Incident_Error_DateMalformed_Close::La data de tancament no és correcta
@@ -1098,6 +1263,7 @@ Item_IncidentAction_Btn_Anular::Tancar
 Item_IncidentAction_Btn_Restaurar::Reobrir
 Item_IncidentAction_Button_New::Afegir
 Item_IncidentAction_Cost_Error_Range::No pot ser anterior a 
+Item_IncidentAction_Error_BeforeActions::No pot ser anterior a la data d'actuacions
 Item_IncidentAction_Error_DateMalformed_Actions::La data d'accions no és correcta
 Item_IncidentAction_Error_DateMalformed_Causes::La data de les causes no és correcta
 Item_IncidentAction_Error_DateMalformed_Close::La data de tancament no és correcta
@@ -1158,6 +1324,7 @@ Item_IncidentAction_Header_Origin::Origen
 Item_IncidentAction_Header_Status::Estat
 Item_IncidentAction_Header_Type::Tipus
 Item_IncidentAction_Label_ApplyAction::Aplicar acció correctiva?
+Item_IncidentAction_Label_Auditory::Auditoria
 Item_IncidentAction_Label_BusinessRisk::Anàlisi de risc
 Item_IncidentAction_Label_Description::Descripció
 Item_IncidentAction_Label_EndDate::Data
@@ -1179,6 +1346,7 @@ Item_IncidentAction_List_Filter_Source::Origen
 Item_IncidentAction_List_Filter_Status::Estat
 Item_IncidentAction_List_Filter_To::Fins
 Item_IncidentAction_List_Filter_Type::Tipus
+Item_IncidentAction_Message_NoGrants::No té permissos per a treballar amb accions
 Item_IncidentAction_Origin1::Auditoria
 Item_IncidentAction_Origin2::Proposat per direcció
 Item_IncidentAction_Origin3::Incidència
@@ -1284,6 +1452,7 @@ Item_Indicador_Label_Type::Tipus
 Item_Indicador_Label_TypeObjetivo::Objectiu
 Item_Indicador_Label_TypeProceso::Procés
 Item_Indicador_List::Indicadors
+Item_Indicador_Message_BlockedByObjetivo::No es pot mopdificar perque hi ha objectius associats
 Item_Indicador_Message_IndicadorClosed::No es pot afegir un registre perquè l'indicador està tancat
 Item_Indicador_Message_IndicadorClosedDelete::No es pot eliminar perquè l'indicador està tancat
 Item_Indicador_Message_IndicadorClosedUpdate::No es pot modificar perquè l'indicador està tancat
@@ -1326,6 +1495,9 @@ Item_IndicentAction_Status2::Analitzada
 Item_IndicentAction_Status3::En progrés
 Item_IndicentAction_Status4::Tancada
 Item_Indicents::Incidències
+Item_ItemQuestion_Popup_Delete_Title::Eliminar pregunta
+Item_ItemQuestion_Popup_Edit_Title::Modificar pregunta
+Item_ItemQuestion_Popup_Insert_Title::Afegir pregunta
 Item_JobPosition::Càrrec
 Item_JobPosition_BreadCrumb_Edit::Fitxa del càrrec
 Item_JobPosition_Button_DepartmentsBAR::Gestionar els departaments
@@ -1420,17 +1592,17 @@ Item_Learning_ListHeader_DateComplete::Realitzada
 Item_Learning_ListHeader_EstimatedDate::Prevista
 Item_Learning_ListHeader_Status::Estat
 Item_Learning_Message_Evaluation::Guardant una formació amb tots els assistents avaluats, queda tancada i ja no es pot modificar
-Item_Learning_Message_NoAssistants::No hi ha assistents al curs
+Item_Learning_Message_NoAssistants::No es pot finalitzar la formación sense asistents
 Item_Learning_Message_SelectOneAssistant::Obligatori algún assistent
 Item_Learning_NewLabel::Fitxa de la formació
 Item_Learning_Objetive::Objectiu / Valoració de l'eficàcia
 Item_Learning_PopupDelete_Message::Vol eliminar la formació
 Item_Learning_SelectAssistants::Afegir
 Item_Learning_Status_Done::Realitzada
-Item_Learning_Status_Started::Iniciada
 Item_Learning_Status_Evaluated::Avaluada
 Item_Learning_Status_Finished::Realitzada
 Item_Learning_Status_InProgress::Pendent
+Item_Learning_Status_Started::Iniciada
 Item_Learning_Tab_Principal::Dades bàsiques
 Item_Learning_Tab_UploadFiles::Adjunts
 Item_Learning_ToolTip_New::Nova formació
@@ -1601,6 +1773,8 @@ Item_Oportunity_Type_Assumed::Assumida
 Item_Oportunity_Warning_ActionTabAvailable::Ja es poden omplir les dades de l'acció
 Item_Proccess::Procés
 Item_Process::Procés
+Item_Process_Btn_Anular::Desactivar
+Item_Process_Btn_Restaurar::Activar
 Item_Process_Button_Edit::Fitxa de procés
 Item_Process_Button_New::Afegir
 Item_Process_Button_NewLabel::Fitxa del Procés
@@ -1631,6 +1805,7 @@ Item_Process_Popup_AddProcessType_Title::Afegir un tipus de procés
 Item_Process_Popup_Delete_Title::Eliminar el procés
 Item_Process_Popup_DeleteProcessType_Title::Eliminar el tipus de procés
 Item_Process_Popup_UpdateProcessType_Title::Modificar el tipus de procés
+Item_Process_PopupAnular_Title::Desactivar procés
 Item_Process_PopupDelete_Message::Eliminar el procés
 Item_Process_PopupType_Header::Tipus
 Item_Process_SelectJobPosition::Seleccionar un càrrec
@@ -1678,6 +1853,35 @@ Item_Provider_PopupTitle_Delete::Eliminar el proveïdor
 Item_Provider_Tab_Principal::Dades bàsiques
 Item_Provider_Tab_Traces::Traces
 Item_Providers::Proveïdors
+Item_Questionaries::Qüestionaris
+Item_Questionary::Qüestionari
+Item_Questionary_BreadCrumb_Edit::Fitxa del qüestionari
+Item_Questionary_Button_New::Afegir
+Item_Questionary_FieldLabel_ApartadoNorma::Apartat
+Item_Questionary_FieldLabel_Notes::Notes
+Item_Questionary_FieldLabel_Process::Procés
+Item_Questionary_FieldLabel_QuestionaryQuestionName::Pregunta
+Item_Questionary_FieldLabel_Rule::Norma
+Item_Questionary_List_Filter_ApartadoNorma::Apartat norma
+Item_Questionary_List_Filter_Process::Procés
+Item_Questionary_List_Filter_Rule::Norma
+Item_Questionary_ListHeader_Name::Qüestionari
+Item_Questionary_ListHeader_Process::Procés
+Item_Questionary_ListHeader_Rule::Norma
+Item_Questionary_NewQuestionaryWarning::Per afegir preguntes, abans s'ha de desar el qüestionari
+Item_Questionary_Popup_Delete_Title::Eliminar qüestionari
+Item_Questionary_Popup_Duplicate_Title::Crear copia
+Item_Questionary_PopupDelete_Message::¿Vol eliminar el qüestionari
+Item_Questionary_PopupDuplicate_Message:: ¿Vol copiar el qüestionari i les seves preguntes
+Item_Questionary_Tab_Founds::Troballes i millores
+Item_Questionary_Tab_Questions::Qüestionari
+Item_Questionary_Warning_NoQuestions::El qüestionari no conté preguntes
+Item_QuestionaryQuestion_ListHeader_Name::Pregunta
+Item_QuestionaryQuestion_PopupDelete_Message::¿Vol eliminar la pregunta
+Item_QuestionaryQuestion_Title::Preguntes
+Item_QuestionaryQuestion_Tooltip_DeleteButton::Eliminar pregunta
+Item_QuestionaryQuestion_Tooltip_EditButton::Editar pregunta
+Item_Questionay_Observations::Observacions
 Item_Reports::Informes
 Item_Review::Revisió per la direcció
 Item_Rule::Norma
@@ -1793,213 +1997,10 @@ Servicio::Servei
 SkillsFor::Formació per l'empleat/da
 Tipo::Tipus
 User_Admin::Administrador/a
-Item_Incident_Error_BeforeActions::No pot ser anterior a la data d'actuacions
-Item_IncidentAction_Error_BeforeActions::No pot ser anterior a la data d'actuacions													   
 User_PrimaryUser::Propietari/a
 Verification-Ext::Verificació externa
 Verification-Int::Verificació interna
 ZZZZZ::Les noves claus a partir d'aquí cap avall
-Common_Message_ItemNoAccess::No tiene acceso a este elemento, contecte con el administrador
-Item_IncidentAction_Error_BeforeActions::No pot ser anterior a la data d'actuacions
-Item_Incident_Error_BeforeActions::No pot ser anterior a la data d'actuacions
-Item_Questionaries::Qüestionaris
-Item_Questionary::Qüestionari
-Item_Questionary_Button_New::Afegir
-Item_Questionary_ListHeader_Name::Qüestionari
-Item_Questionary_ListHeader_Rule::Norma
-Item_Questionary_ListHeader_Process::Procés
-Item_Questionary_Popup_Delete_Title::Eliminar qüestionari
-Item_Questionary_PopupDelete_Message::¿Vol eliminar el qüestionari
-Item_Questionary_List_Filter_Process::Procés
-Item_Questionary_List_Filter_Rule::Norma
-Item_Questionary_List_Filter_ApartadoNorma::Apartat norma
-Item_Questionary_Popup_Duplicate_Title::Crear copia
-Item_Questionary_PopupDuplicate_Message:: ¿Vol copiar el qüestionari i les seves preguntes
-Item_Questionary_BreadCrumb_Edit::Fitxa del qüestionari
-Item_Questionary_FieldLabel_Process::Procés
-Item_Questionary_FieldLabel_Rule::Norma
-Item_Questionary_FieldLabel_ApartadoNorma::Apartat
-Item_Questionary_FieldLabel_Notes::Notes
-Item_Questionary_NewQuestionaryWarning::Per afegir preguntes, abans s'ha de desar el qüestionari
-Item_QuestionaryQuestion_Title::Preguntes
-Item_QuestionaryQuestion_ListHeader_Name::Pregunta
-Item_QuestionaryQuestion_PopupDelete_Message::¿Vol eliminar la pregunta
-Item_Questionary_FieldLabel_QuestionaryQuestionName::Pregunta
-Item_QuestionaryQuestion_Tooltip_EditButton::Editar pregunta
-Item_QuestionaryQuestion_Tooltip_DeleteButton::Eliminar pregunta
-Item_ItemQuestion_Popup_Delete_Title::Eliminar pregunta
-Item_ItemQuestion_Popup_Edit_Title::Modificar pregunta
-Item_ItemQuestion_Popup_Insert_Title::Afegir pregunta
-Item_Questionary_Warning_NoQuestions::El qüestionari no conté preguntes
-Item_Adutory_Status_Label_0::Planificant-se
-Item_Adutory_Status_Label_1::Planificada
-Item_Adutory_Status_Label_2::En curs
-Item_Adutory_Status_Label_3::Pendent
-Item_Adutory_Status_Label_4::Tancada
-Item_Adutory_Status_Label_5::Validada
-Item_Adutory_Status_Explanation_0::Dades bàsiques sense acabar de planificar
-Item_Adutory_Status_Explanation_1::Planificada amb responsable i date
-Item_Adutory_Status_Explanation_2::Alguna pregunta del/ls qüestionaris marcada
-Item_Adutory_Status_Explanation_3::Totes les preguntes dels qüestionaris marcades
-Item_Adutory_Status_Explanation_4::AMb responsable i data de tancament
-Item_Adutory_Status_Explanation_5::Amb responsable i data de validació
-Item_Auditory::Auditoria
-Item_Auditories::Auditories
-Item_Auditory_Filter_From::Des de
-Item_Auditory_Filter_To::Fins
-Item_Auditory_Button_New::Afegir
-Item_Auditory_ListHeader_Status::Estat
-Item_Auditory_ListHeader_Name::Auditoria
-Item_Auditory_ListHeader_Planned::Prevista
-Item_Auditory_ListHeader_Closed::Realitzada
-Item_Auditory_ListHeader_Ammount::Cost
-Item_Auditory_Filter_Status::Estat
-Item_Auditory_Filter_Type::Tipus
-Item_Adutory_Type_Label_0::Interna
-Item_Adutory_Type_Label_1::Externa
-Item_Adutory_Type_Label_2::Proveïdor
-Item_Auditory_Label_Name::Nom
-Item_Auditory_Help_Status_Title::Estats d'auditoria
-Item_Auditory_Tab_Principal::Dades básiques
-Item_Auditory_Tab_Questionaries::Qüestionaris
-Item_Auditory_Tab_Report::Informe
-Item_Auditory_Tab_Traces::Traces
-Item_Auditory_PlanningTable_Title::Planificació
-Item_Auditory_SelectType_Title::S'ha d'escollir el tipus de auditoría
-Item_Auditory_SelectType_Error::S'ha d'escollir una opció
-Item_Auditory_Button_AddPlanning::Afegir planificació
-Item_AuditoryPlanning_PopupDelete_Message::¿Vil eliminar la planificació
-Item_Auditory_Label_Type::Tipus
-Item_Auditory_Label_Name::Nom
-Item_Auditory_Label_Rules::Normes
-Item_Auditory_BreadCrumb_Edit::Fitxa d'auditoria
-Item_Auditory_Label_Amount::Cost
-Item_Auditory_Label_InternalResponsible::Responsable intern
-Item_Auditory_Label_Description::Descripció
-Item_Auditory_Label_PuntosFuertes::Punts a destacar
-Item_Auditory_Label_Scope::Àmbit
-Item_Auditory_Label_Notes::Notes
-Item_Auditory_Label_Address::Adreça
-Item_Auditory_Label_Rules::Normes
-Item_AuditoryPlanning_Header_Date::Data
-Item_AuditoryPlanning_Header_Hour::Hora
-Item_AuditoryPlanning_Header_Duration::Horas
-Item_AuditoryPlanning_Header_Process::Proceso
-Item_AuditoryPlanning_Header_Auditor::Auditor/a
-Item_AuditoryPlanning_Header_Audited::Auditat/da
-Item_Auditory_Label_PannedDate::Data prevista
-Item_Auditory_Label_AuditorTeam::Equip auditor
-Item_Auditory_Label_Provider::Proveïdor
-Item_Auditory_Label_Customer::Client
-Common_MessageMailMalformed::El mail no és vàlid
-Item_AuditoryPlanning_Label_Process::Procés
-Item_AuditoryPlanning_Label_Auditor::Auditor
-Item_AuditoryPlanning_Label_Audited::Auditado/a
-Item_AuditoryPlanning_Label_SendMail::Enviar correo al/a auditado/a
-Item_AuditoryPlanning_Label_Date::Data
-Item_AuditoryPlanning_Field_Duration::Durada
-Item_AuditoryPlanning_Field_Hour::Hora inici
-Item_AuditoryPlanning_Title_PopupAdd::Añadir planificación
-Item_AuditoryPlanning_Title_PopupUpdate::Modificar planifiación
-Item_AuditoryPlanning_Label_EmailProvider::Dirección de email
-Item_AuditoryPlanning_Title::Eliminar planificación
-Item_Auditory_Label_PlanningResponsible::Planificada per
-Item_Auditory_Label_PlanningDate::Data
-Item_Auditory_Label_ValidatedByResponsible::Validada per
-Item_Auditory_Label_ValidatedOn::Data
-Item_Auditory_Title_QuestionariesAvailables::Qüestionaris de la auditoria
-Item_AuditoryQuestionary_Header_Status::Estat
-Item_AuditoryQuestionary_Header_Name::Qüestionari
-Item_AuditoryQuestionary_Tooltip_Start::Iniciar qüestionari
-Item_AuditoryQuestionary_Tooltip_Continue::Continuar qüestionari
-Item_Auditory_Report_StartLabel::Inici
-Item_Auditory_Report_EndLabel::Final
-Item_Auditory_Text_NotStarted::No iniciat
-Item_Auditory_Text_NotEnded::No finalitzat
-Item_Auditory_Title_Found::Troballes
-Item_Auditory_Title_Improvements::Millores
-Item_Auditory_Header_Found::Troballa
-Item_Auditory_Header_Requirement::Requisit
-Item_Auditory_Header_Result::No conformitat
-Item_Auditory_Header_Action::Acció
-Item_Questionary_Tab_Founds::Troballes i millores
-Item_Questionary_Tab_Questions::Qüestionari
-Item_Auditory_Header_Improvement::Propostes de millora
-Item_Auditory_Label_Unconformity::No conformitat
-Item_Auditory_Label_Improvement::Millora
-Item_Auditory_Label_Requeriment::Requisit
-Item_Auditory_Label_Found::Troballa
-Item_Auditory_Button_AddFound::Afegir troballa
-Item_Auditory_Button_AddImprovement::Afegir millora
-Item_Auditory_Title_PopupAddFound::Nova troballa
-Item_Auditory_Title_PopupUpdateFound::Modificar troballa
-Item_Auditory_Title_PopupDeleteFound::Eliminar troballa
-Item_Auditory_Title_PopupAddImprovement::Nova millora
-Item_Auditory_Title_PopupUpdateImprovement::Modificar millora
-Item_Auditory_Title_PopupDeleteImprovement::Eliminar millora
-Item_Auditory_PopupDelete_MessageFound::Eliminar troballa
-Item_Auditory_PopupDelete_MessageImprovement::Eliminar proposta de millora
-Item_Auditory_PopupDelete_Message::Vol eliminar la auditoria
-Item_Auditory_Popup_Delete_Title::Eliminar auditoria
-Item_Auditory_Label_EndQuestionarios::Tacament qüestionaris
-Item_Auditory_Btn_Validation::Validar auditoria
-Item_Auditory_Btn_Close::Tancar auditoria
-Item_Auditory_Btn_PopupValidation::Validar
-Item_Auditory_Label_Action::Genera acció
-Item_Auditory_ValidateCuestionarioCrossDate::No pot ser anterior a l'inici dels qüestionaris
-Item_Auditory_ValidateCrossDate::No pot ser anterior a la data final
-Item_Auditory_Message_Closed::Auditoria tancada
-Item_Auditory_Message_Validated::Auditoria validada
-Item_Auditory_Label_ValidatedBy::Validada per
-Item_Auditory_Label_ValidatedOn::Data validació
-Item_Auditory_Label_ClosedOn::Data tancament
-Item_Auditory_Label_ClosedBy::Tancada per
-Item_Auditory_Btn_AddIncidentAction::Afegir
-Item_Auditory_Btn_Reopen::Reobrir auditoria
-Item_Auditory_Message_Closed::Tancada
-Item_IncidentAction_Label_Auditory::Auditoria
-Item_Auditory_Popup_CloseQuestionary::Tancar qüestionaris
-Item_Auditory_Popup_ReopenQuestionary::Reobrir qüestionaris
-Item_Auditory_Popup_ReopenTitle::Reobrir la auditoria
-Item_Auditory_Popup_ReopenMessage::Vol reobrir la auditoria
-Item_Auditory_Message_ReopenCuestionario::Vol reobrir els questionaris?
-Item_Auditory_Message_NoCompliantNoFound::El qüestionari té no conformitats sense troballes
-Item_Auditory_Message_NoPlanning::Per poder donar per planificada l'auditoria, al menys ha d'haver-hi una planificació
-Item_Auditory_Message_NewAuditory::Per poder afegir planificacions, primer s'ha de desar l'auditoria
-Item_Auditory_Message_NoQuestions::Amb les normes i processos sel·leccionat no hi han preguntes per als questionaris
-Item_Auditory_Message_ReopenCuestionario::Obrir qüestionari
-Item_Auditory_Planning_Message::No pot el mateix que l'auditor
-Item_Learning_Message_NoAssistants::No es pot finalitzar la formación sense asistents
-Item_Equipment_Tab_Costs::Costos
-Item_Equipment_FilterLabel_CostType::Tipus
-Item_Equipment_FilterLabel_Calibration_Int::Cal. Int
-Item_Equipment_FilterLabel_Calibration_Ext::Cal. Ext
-Item_Equipment_FilterLabel_Verification_Int::Ver. Int
-Item_Equipment_FilterLabel_Verification_Ext::Ver. Ext
-Item_Equipment_FilterLabel_Maintenance_Int::Mtm. Int
-Item_Equipment_FilterLabel_Maintenance_Ext::Mtm. Ext
-Item_Equipment_FilterLabel_Repair_Int::Rep. Int
-Item_Equipment_FilterLabel_Repair_Ext::Rep. Ext
-Common_PDF_Filter_Contains::Conté
-Item_Auditory_FoundNoAction::Cap troballa genera una acció
-Item_Auditory_ImprovementNoAction::Cap millora genera una acció
-Common_Status_ActivePlural::Actius
-Common_Status_InactivePlural::Inactius
-Item_Process_Btn_Restaurar::Activar
-Item_Process_Btn_Anular::Desactivar
-Item_Process_PopupAnular_Title::Desactivar procés
-Item_Auditory_Message_ActionsZombie::Les accions no estaran disponibles al sistema fins que no es validi la auditoria
-Item_Auditory_ErrorMessage_QuestionairesClosed::Per validar la auditoria s'ha d'indicar l'inici i el final
-Item_Adutiry_Message_NoActions::No hi cap acció definida a la auditoria.
-Item_IncidentAction_Message_NoGrants::No té permissos per a treballar amb accions
-Common_FirstDate::Data primer registre
-Item_Equipment_Calibration_Error_None::S'ha de definir com a mínim una calibració.
-Item_Equipment_Verification_Error_None::S'ha de definir com a mínim una verificació.
-Item_Equipment_Error_NoRisponsible::S'ha d'informar el responsable de l'equip.
-Item_Equipment_Error_NoOptions::Escolli com a mínim una opció,
-Item_Equipment_Error_DuplicateData::Les dades de l'equip estan repetits.
-Item_Equipment_Error_RequiredFields::Revisi els camps obligatoris de l'equip.
-Common_Loading::Carregant dades
-Item_Auditory_Message_QuestionaryClosable::Ja es pot accedir a la pestanya Informes per tancar el qüestionaris
-Item_Questionay_Observations::Observacions
-Item_Indicador_Message_BlockedByObjetivo::No es pot mopdificar perque hi ha objectius associats
+Item_Auditory_ErrorMessage_ValidateCrossDate::La data de validació no pot ser anterior a la data de tancament de qüestionaris
+Item_Auditory_ErrorMessage_QuestionairesCrossDate::La data final no pot ser anterior a la data d'inici.
+Item_Auditory_ErrorMessage_ZobieDatesCross::Les dates de les accions no poden ser anteriors a la data final.

@@ -89,7 +89,7 @@ namespace GisoFramework.Item
                                 this.Code = rdr[6].ToString();
                                 this.DiskQuote = rdr.GetInt64(8);
                                 this.Agreement = rdr.GetBoolean(9);
-                                this.Headquarters = string.Empty; // TODO: rdr.GetString(10);
+                                this.Headquarters = rdr.GetString(10);
                             }
 
                             this.departments = Company.ObtainDepartments(this.Id);

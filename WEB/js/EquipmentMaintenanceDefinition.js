@@ -62,7 +62,12 @@ function EquipmentMaintenanceDefinitionRenderRow(equipmentMaintenance, targetNam
         iconEdit.title = Dictionary.Common_Edit;
         iconEdit.onclick = function (e) { EquipmentMaintenanceDefinitionEdit(this); };
         var innerEdit = document.createElement("I");
-        innerEdit.className = "icon-edit bigger-120";
+        if (Equipment.EndDate !== null) {
+            innerEdit.className = "icon-eye-open bigger-120";
+        }
+        else {
+            innerEdit.className = "icon-edit bigger-120";
+        }
         iconEdit.appendChild(innerEdit);
 
         iconDelete.className = "btn btn-xs btn-danger";
@@ -229,9 +234,11 @@ function EquipmentMaintenanceDefinitionValidateForm() {
         }
     }
     else {
-        if (!RequiredFieldText("NewMaintainmentFirstDate")) {
-            ok = false;
-            $("#TxtNewMaintainmentFirstDateErrorRequired").show();
+        if (SelectedEquipmentDefinitionSelectedId < 1) {
+            if (!RequiredFieldText("NewMaintainmentFirstDate")) {
+                ok = false;
+                $("#TxtNewMaintainmentFirstDateErrorRequired").show();
+            }
         }
     }
 

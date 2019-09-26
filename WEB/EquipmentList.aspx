@@ -26,6 +26,7 @@
         var Equipments = <%=this.EquipmentsJson %>;
         var Costs = <%=this.Costs %>;
         var Filter = "<%=this.Filter %>";
+        var FilterCosts = "<%= this.FilterCosts %>";
     </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
@@ -143,20 +144,21 @@
 											                    <span class="ErrorMessage" id="TxtDateToDateMalformed""><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                                             </div>
 										                </td>
-                                                        <td><strong><%=this.Dictionary["Item_Equipment_FilterLabel_CostType"] %>:</strong></td>
-                                                        <td><input type="checkbox" name="RBOperationCost" id="RBCI" checked="checked" /><%= this.Dictionary["Item_Equipment_FilterLabel_Calibration_Int"] %></td>
-                                                        <td><input type="checkbox" name="RBOperationCost" id="RBVI" checked="checked" /><%= this.Dictionary["Item_Equipment_FilterLabel_Verification_Int"] %></td>
-                                                        <td><input type="checkbox" name="RBOperationCost" id="RBMI" checked="checked" /><%= this.Dictionary["Item_Equipment_FilterLabel_Maintenance_Int"] %></td>
-                                                        <td><input type="checkbox" name="RBOperationCost" id="RBRI" checked="checked" /><%= this.Dictionary["Item_Equipment_FilterLabel_Repair_Int"] %></td>  
-                                                        <td><strong><%=this.Dictionary["Item_Equipment_List_Filter_ShowByStatus"] %>:</strong></td>                                       
+                                                        <td style="width:25px;">&nbsp;</td>
+                                                        <td><strong><%=this.Dictionary["Item_Equipment_FilterLabel_CostType"] %>:&nbsp;</strong></td>
+                                                        <td><input type="checkbox" name="RBOperationCost" id="RBCI" checked="checked" />&nbsp;<%= this.Dictionary["Item_Equipment_FilterLabel_Calibration_Int"] %></td>
+                                                        <td><input type="checkbox" name="RBOperationCost" id="RBVI" checked="checked" />&nbsp;<%= this.Dictionary["Item_Equipment_FilterLabel_Verification_Int"] %></td>
+                                                        <td><input type="checkbox" name="RBOperationCost" id="RBMI" checked="checked" />&nbsp;<%= this.Dictionary["Item_Equipment_FilterLabel_Maintenance_Int"] %></td>
+                                                        <td><input type="checkbox" name="RBOperationCost" id="RBRI" checked="checked" />&nbsp;<%= this.Dictionary["Item_Equipment_FilterLabel_Repair_Int"] %></td>  
+                                                        <!--<td><strong><%=this.Dictionary["Item_Equipment_List_Filter_ShowByStatus"] %>:</strong></td>                                       
                                                         <td>
-                                                            <input type="checkbox" name="RBStatusCost" id="RBCostStatus1" checked="checked" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowActive"] %>
+                                                            <input type="checkbox" name="RBStatusCost" id="RBCostStatus1" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowActive"] %>
                                                             &nbsp;&nbsp;
                                                             <input type="checkbox" name="RBStatusCost" id="RBCostStatus2" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowClosed"] %>
-                                                        </td>
+                                                        </td>-->
                                                     </tr>
                                                     <tr>
-                                                        <td colspan="5">&nbsp;</td>
+                                                        <td colspan="6">&nbsp;</td>
                                                         <td><input type="checkbox" name="RBOperationCost" id="RBCE" checked="checked" /><%= this.Dictionary["Item_Equipment_FilterLabel_Calibration_Ext"] %></td>
                                                         <td><input type="checkbox" name="RBOperationCost" id="RBVE" checked="checked" /><%= this.Dictionary["Item_Equipment_FilterLabel_Verification_Ext"] %></td>
                                                         <td><input type="checkbox" name="RBOperationCost" id="RBME" checked="checked" /><%= this.Dictionary["Item_Equipment_FilterLabel_Maintenance_Ext"] %></td>

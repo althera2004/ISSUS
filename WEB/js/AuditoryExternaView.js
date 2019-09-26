@@ -36,7 +36,7 @@ window.onload = function () {
         $("h1").append(" <i>(" + text + ")</i>");
     }
 
-    // Las auditorías planificads no pueden añadir normas
+    // Las auditorías planificadas no pueden añadir normas
     if (Auditory.PlannedOn !== null && Auditory.PlannedOn !== "") {
         $("#AuditoryRulesDiv input").attr("disabled", "disabled");
         $("input").attr("disabled", "disabled");
@@ -45,10 +45,11 @@ window.onload = function () {
         $("select").attr("disabled", "disabled");
         $("select").css("backgroundColor", "#eee");
         $("#BtnNewItem").remove();
-        //$("td .btn-info").remove();
         $("td .btn-danger").remove();
         $("#TxtNotes").removeAttr("disabled");
         $("#TxtNotes").css("backgroundColor", "transparent");
+        $("#TxtAmount").removeAttr("disabled");
+        $("#TxtAmount").css("backgroundColor", "transparent");
     } else {
         $("#CmbRules").chosen();
         if (Auditory.Id > 0) {
@@ -568,8 +569,8 @@ function PopupValidarReset() {
     $("#CmbValidatedBy").css("background", "transparent");
     $("#TxtValidatedOn").removeAttr("disabled");
     $("#TxtValidatedOn").css("background", "transparent");
-    $("#CmbValidatedByLabel").css("color", "#000");
-    $("#TxtValidatedOnLabel").css("color", "#000");
+    $("#CmbValidatedByLabel").css("color", Color.Label);
+    $("#TxtValidatedOnLabel").css("color", Color.Label);
     $("#CmbValidatedByErrorRequired").hide();
     $("#TxtValidatedOnErrorRequired").hide();
     $("#TxtValidatedOnErrorDateMalformed").hide();
@@ -578,6 +579,14 @@ function PopupValidarReset() {
     if ($("#TxtStartQuestionsOn").val() === "" || $("#TxtCloseQuestionsOn").val() === "") {
         alertUI(Dictionary.Item_Auditory_ErrorMessage_QuestionairesClosed);
         return false;
+    }
+
+    // Alex: Primero se comprueban que las fechas sean correctas
+    var fechaInicio = GetDate($("#TxtStartQuestionsOn").val(), "/", false);
+    var fechaFinal = GetDate($("#TxtCloseQuestionsOn").val(), "/", false);
+
+    if (fechaInicio > fechaFinal) {
+        alertUI(Dictionary.Item_Auditory_ErrorMessage_QuestionairesCrossDate);
     }
 
     if (Zombies.length === 0) {
@@ -609,9 +618,23 @@ function PopupValidarReset() {
                     }
                 ]
         });
+
         return false;
     }
     else {
+        // Alex: Si hay acciones zombies buscamos la fecha más antigua para comparar con la fecha final
+        for (var z = 0; z < Zombies.length; z++) {
+
+            // alex: cogemos la fecha de la accióm zombie
+            var fechaZombie = GetDate(Zombies[z].WhatHappendOn, "/", false);
+
+            // alex: sólo que haya una anterior a la final se indica el error
+            if (fechaZombie < fechaFinal) {
+                alertUI(Dictionary.Item_Auditory_ErrorMessage_ZobieDatesCross);
+                return false;
+            }
+        }
+
         return true;
     }
 }
@@ -634,7 +657,7 @@ function PopupValidarShow() {
         "buttons":
             [
                 {
-                    "Id": "BtnFoundSaveOK",
+                    "Id": "BtnValidateOK",
                     "html": "<i class=\"fa fa-check bigger-110\"></i>&nbsp;" + Dictionary.Item_Auditory_Btn_PopupValidation,
                     "class": "btn btn-success btn-xs",
                     "click": function () {
@@ -642,7 +665,7 @@ function PopupValidarShow() {
                     }
                 },
                 {
-                    "Id": "BtnFoundSaveCancel",
+                    "Id": "BtnValidateCancel",
                     "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                     "class": "btn btn-xs",
                     "click": function () {
@@ -654,6 +677,15 @@ function PopupValidarShow() {
 }
 
 function ValidationConfirmed() {
+    // alex: si hubieran errores de una validación anterior se ocultan;
+    $("#CmbValidatedByLabel").css("color", Color.Label);
+    $("#CmbValidatedByErrorRequired").hide();
+    $("#TxtValidatedOnLabel").css("color", Color.Label);
+    $("#TxtValidatedOnErrorRequired").hide();
+    $("#TxtValidatedOnErrorDateMalformed").hide();        
+    $("#TxtValidatedOnErrorCross").hide();
+
+
     var ok = true;
     if ($("#CmbValidatedBy").val() * 1 < 1) {
         ok = false;
@@ -666,20 +698,24 @@ function ValidationConfirmed() {
         $("#TxtValidatedOnLabel").css("color", Color.Error);
         $("#TxtValidatedOnErrorRequired").show();
     } else {
+        $("#TxtValidatedOnErrorRequired").hide();
         if (validateDate($("#TxtValidatedOn").val()) === false) {
             ok = false;
             $("#TxtValidatedOnLabel").css("color", Color.Error);
-            $("#TxtValidatedOnErrorDateMalformed").show();
-        }
+            $("#TxtValidatedOnErrorDateMalformed").show();        }
         else {
-            var reportEnd = GetDate(Auditory.ReportEnd, "/", false);
+            var closeDate = GetDate($("#TxtCloseQuestionsOn").val(), "/", false);
             var validationDate = GetDate($("#TxtValidatedOn").val(), "/", false);
-            if (validationDate < reportEnd) {
+            if (validationDate < closeDate) {
+                // alex: se comenta el error en popup porque ya lo muestra en el fomrulario
+                //alertUI(Dictionary.Item_Auditory_ErrorMessage_ValidateCrossDate);
                 $("#TxtValidatedOnLabel").css("color", Color.Error);
                 $("#TxtValidatedOnErrorCross").show();
             }
         }
     }
+
+    ok = false;
 
     if (ok === false) { return false; }
 
@@ -1830,3 +1866,10 @@ function FillCmbCustomer() {
     $("#CmbCustomer").html(res);
 }
 // ---------------------------------------------------------------
+
+// Botones de acceso a acciones reales
+$(".icon-eye-open").each(function (index) {
+    var tda = $(this).parent().parent().parent().children()[2];
+    var query = $(tda).html().split('?')[1].split("\"")[0];
+    $(this).on("click", function () { document.location = "ActionView.aspx?" + query; });
+});

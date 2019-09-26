@@ -612,7 +612,7 @@ function MalFormedEmail(fieldName) {
     }
     else {
         $("#" + fieldName + "ErrorMalformed").hide();
-        $("#" + fieldName + "Label").style.color = "#000";
+        $("#" + fieldName + "Label").css("Color", "#000");
         $("#" + fieldName).val($("#" + fieldName).val().toLowerCase());
     }
 

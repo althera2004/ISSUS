@@ -3,7 +3,7 @@
 
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
-            var $title = this.options.title || "&nbsp;"
+            var $title = this.options.title || "&nbsp;";
             if (("title_html" in this.options) && this.options.title_html === true) {
                 title.html($title);
             }
@@ -14,7 +14,7 @@
     }));
 
     $("#BtnSaveLogo").click(SaveLogo);
-    $("#BtnCancel").click(function (e) { document.location = "Dashboard.aspx"; });
+    $("#BtnCancel").click(function () { document.location = "Dashboard.aspx"; });
     $("#BtnSave").click(SaveCompany);
 
     $("#BtnShowAddress").on("click", function (e) {
@@ -63,8 +63,8 @@
     $("#CmbPais").ddslick({ data: ddData });
 
     if (ApplicationUser.ShowHelp === true) {
-        $("#DivCmbPais .dd-options").on("mouseover", function (e) { $("#DivCmbPais").tooltip("destroy"); });
-        $("#DivCmbPais .dd-options").on("mouseout", function (e) { SetToolTip("DivCmbPais", Dictionary.Item_Employee_Help_Pais); });
+        $("#DivCmbPais .dd-options").on("mouseover", function () { $("#DivCmbPais").tooltip("destroy"); });
+        $("#DivCmbPais .dd-options").on("mouseout", function () { SetToolTip("DivCmbPais", Dictionary.Item_Employee_Help_Pais); });
     }
 
     $("#EquipmentImg").css("width", "");
@@ -92,7 +92,7 @@
                         "color": "#fff",
                         "width": 2
                     },
-                    "startAngle": 2
+                    "startAngle": 45
                 }
             },
             "legend": {
@@ -445,7 +445,7 @@ function AddressUpdate()
                     alertUI(response.d.MessageError);
                 }
             },
-            "error": function (jqXHR, textStatus, errorThrown) {
+            "error": function (jqXHR) {
                 LoadingHide();
                 alert(jqXHR.responseText);
             }
@@ -461,6 +461,10 @@ function SaveCompany() {
     }
 
     var language = Company.Language === "es" ? 1 : 2;
+
+    var languageSelected = $("#CmbIdioma").val();
+    if (languageSelected === "es") { language = 1; }
+    else if (languageSelected === "ca") { language = 2; }
     
     var data = {
         "oldCompany":
@@ -477,7 +481,7 @@ function SaveCompany() {
             "Name": $("#TxtName").val(),
             "FiscalNumber": $("#TxtNif").val(),
             "DefaultAddress": { "Id": addressSelected },
-            "Language": Company.Language
+            "Language": language
         },
         "userId": user.Id
     };
@@ -498,7 +502,7 @@ function SaveCompany() {
                 alertUI(response.d.MessageError);
             }
         },
-        "error": function (jqXHR, textStatus, errorThrown) {
+        "error": function (jqXHR) {
             alert(jqXHR.responseText);
         }
     });

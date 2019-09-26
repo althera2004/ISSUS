@@ -251,10 +251,10 @@ if (typeof user.Grants.Learning === "undefined" || user.Grants.Learning.Delete =
 
 function Export() {
     var status = -1;
-    if (document.getElementById("Contentholder1_status0").checked === true) { status = 0; }
-    if (document.getElementById("Contentholder1_status1").checked === true) { status = 1; }
-    if (document.getElementById("Contentholder1_status2").checked === true) { status = 2; }
-    if (document.getElementById("Contentholder1_status3").checked === true) { status = 3; }
+    if (document.getElementById("status0").checked === true) { status = 0; }
+    if (document.getElementById("status1").checked === true) { status = 1; }
+    if (document.getElementById("status2").checked === true) { status = 2; }
+    if (document.getElementById("status3").checked === true) { status = 3; }
     var data =
         {
             "companyId": Company.Id,
@@ -488,7 +488,7 @@ function RenderLearningRow(data) {
     res += "    <span title=\"Editar " + data.Id + "\" class=\"btn btn-xs btn-info\" onclick=\"LearningUpdate(" + data.Id + ");\">";
     res += "      <i class=\"icon-edit bigger-120\"></i>";
     res += "    </span>&nbsp;";
-    res += "    <span title=\"Eliminar " + data.Id + "\" class=\"btn btn-xs btn-danger\" onclick=\"LearningDelete(" + data.Id + "');\">";
+    res += "    <span title=\"Eliminar " + data.Id + "\" class=\"btn btn-xs btn-danger\" onclick=\"LearningDelete(" + data.Id + ");\">";
     res += "      <i class=\"icon-trash bigger-120\"></i>";
     res += "    </span>";
     res += "  </td>";

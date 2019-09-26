@@ -247,22 +247,21 @@ function Save() {
 
 function Insert() {
     var data = {
-        "newDocument":
-            {
-                "Id": -1,
-                "CompanyId": Company.Id,
-                "Code": $("#TxtCodigo").val(),
-                "Description": $("#TxtDocumento").val(),
-                "StartDate": GetDate($("#TxtStartDate").val(), '-'),
-                "EndDate": GetDate($("#TxtEndDate").val(), '-'),
-                "Category": { "Id": categorySelected },
-                "Origin": { "Id": procedenciaSelected },
-                "Conservation": $("#TxtConservacion").val(),
-                "ConservationType": $("#CmbConservacion").val(),
-                "Source": $("#CmbOrigen").val() === 2,
-                "Location": $("#TxtUbicacion").val(),
-                "Active": true
-            },
+        "newDocument": {
+            "Id": -1,
+            "CompanyId": Company.Id,
+            "Code": $("#TxtCodigo").val(),
+            "Description": $("#TxtDocumento").val(),
+            "StartDate": GetDate($("#TxtStartDate").val(), "-"),
+            "EndDate": GetDate($("#TxtEndDate").val(), "-"),
+            "Category": { "Id": categorySelected },
+            "Origin": { "Id": procedenciaSelected },
+            "Conservation": $("#TxtConservacion").val(),
+            "ConservationType": $("#CmbConservacion").val(),
+            "Source": $("#CmbOrigen").val() * 1 === 2,
+            "Location": $("#TxtUbicacion").val(),
+            "Active": true
+        },
         "revisionDate": $("#TxtRevisionDate").val(),
         "version": $("#TxtRevision").val() * 1,
         "reason": selectedReason,
@@ -276,7 +275,7 @@ function Insert() {
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function (msg) {
+        "success": function () {
             LoadingHide();
             document.location = referrer;
         },
@@ -289,33 +288,30 @@ function Insert() {
 
 function Update() {
     var webMethod = "/Async/DocumentActions.asmx/Update";
-    documento.StartDate = GetDate(documento.StartDate, '-');
-    documento.EndDate = GetDate(documento.EndDate, '-');
-    documento.RevisionDate = GetDate(documento.RevisionDate, '-');
+    documento.StartDate = GetDate(documento.StartDate, "-");
+    documento.EndDate = GetDate(documento.EndDate, "-");
+    documento.RevisionDate = GetDate(documento.RevisionDate, "-");
     var data = {
         "oldDocument": documento,
-        "newDocument":
-        {
+        "newDocument": {
             "Id": documento.Id,
             "CompanyId": companyId,
-            "Code": document.getElementById('TxtCodigo').value,
-            "Description": document.getElementById('TxtDocumento').value,
-            "StartDate": GetDate(document.getElementById('TxtStartDate').value, '/'),
-            //"EndDate": GetDate(document.getElementById('TxtEndDate').value, '/'),
+            "Code": document.getElementById("TxtCodigo").value,
+            "Description": document.getElementById("TxtDocumento").value,
+            "StartDate": GetDate(document.getElementById("TxtStartDate").value, "/"),
+            //"EndDate": GetDate(document.getElementById("TxtEndDate").value, "/"),
             "Category": { "Id": categorySelected },
-            "RevisionDate": GetDate(document.getElementById('TxtRevisionDate').value, '/'),
+            "RevisionDate": GetDate(document.getElementById("TxtRevisionDate").value, "/"),
             "Origin": { "Id": procedenciaSelected },
-            "Conservation": $('#TxtConservacion').val(),
-            "ConservationType": $('#CmbConservacion').val(),
-            "Source": $('#CmbOrigen').val() === 2,
-            "Location": $('#TxtUbicacion').val(),
+            "Conservation": $("#TxtConservacion").val(),
+            "ConservationType": $("#CmbConservacion").val(),
+            "Source": $("#CmbOrigen").val() * 1 === 2,
+            "Location": $("#TxtUbicacion").val(),
             "Active": true
         },
         "reason": selectedReason,
         "userId": userId
     };
-
-    //alert(data.newDocument.EndDate);
 
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
@@ -324,7 +320,7 @@ function Update() {
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function (msg) {
+        "success": function () {
             LoadingHide();
             document.location = referrer;
         },
@@ -366,8 +362,8 @@ function AnularPopup() {
 var anulationData = null;
 function AnularConfirmed() {
     console.log("AnularConfirmed");
-    document.getElementById("TxtAnularCommentsLabel").style.color = Color.Label;
-    document.getElementById("TxtEndDateLabel").style.color = Color.Label;
+    $("#TxtAnularCommentsLabel").css("color", Color.Label);
+    $("#TxtEndDateLabel").css("color", Color.Label);
     $("#TxtAnularCommentsErrorRequired").hide();
     $("#TxtEndDateErrorRequired").hide();
     $("#TxtEndDateMalformed").hide();
@@ -379,7 +375,7 @@ function AnularConfirmed() {
     var ok = true;
     if ($("#TxtEndDate").val() === "") {
         ok = false;
-        document.getElementById("TxtEndDateLabel").style.color = Color.Error;
+        $("#TxtEndDateLabel").css("color", Color.Error);
         $("#TxtEndDateErrorRequired").show();
     }
     else {
@@ -403,7 +399,6 @@ function AnularConfirmed() {
         return false;
     }
 
-    var webMethod = "/Async/DocumentActions.asmx/Anulate";
     var data = {
         "documentId": documentId,
         "companyId": companyId,
@@ -416,8 +411,8 @@ function AnularConfirmed() {
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
         "type": "POST",
-        "url": webMethod,
-        "contentType: "application/json; charset=utf-8",
+        "url": "/Async/DocumentActions.asmx/Anulate",
+        "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
         "success": function () {
@@ -452,7 +447,6 @@ function AnulateLayout() {
     message += "    </p>";
     message += "</div>";
 
-    //$("#home").append(message);
     $("#oldFormFooter").before(message);
 }
 

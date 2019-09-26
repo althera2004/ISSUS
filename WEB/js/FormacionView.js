@@ -1,11 +1,18 @@
 ﻿var save = true;
 
+var FormacionStatus = {
+    "Pendiente": 0,
+    "EnProgreso": 1,
+    "Realizada": 2,
+    "Evaludada": 3
+};
+
 function AcceptSave() { SaveConfirmed(true); }
 function CancelSave() { }
 
 function EmployeeDelete(id, name) {
     $("#DeleteEmployeeName").html(name);
-    var dialog = $("#EmployeeDeleteDialog").removeClass("hide").dialog({
+    $("#EmployeeDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Common_Delete,
@@ -66,7 +73,7 @@ function DeleteEmployeeConfirmed(id) {
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
-        "success": function (msg) {
+        "success": function () {
             LoadingHide();
             // Eliminar de la lista
             var survivors = new Array();
@@ -444,11 +451,17 @@ function Toggle(sender, action, value, status) {
         sender.parentNode.parentNode.childNodes[3].childNodes[0].innerHTML = "<img src=\"assets/images/LoadingIcon.gif\" />";
     }
 
-    var webMethod = "/Async/LearningActions.asmx/Reset";
-    var data = { assistantId: value, companyId: Company.Id, userId: user.Id, completedCode: completedCode, successCode: successCode };
+    var data = {
+        "assistantId": value,
+        "companyId": Company.Id,
+        "userId": user.Id,
+        "completedCode": completedCode,
+        "successCode": successCode
+    };
+
     $.ajax({
         "type": "POST",
-        "url": webMethod,
+        "url": "/Async/LearningActions.asmx/Reset",
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
@@ -456,7 +469,6 @@ function Toggle(sender, action, value, status) {
             if (msg.d.Success === true) {
                 var status;
                 eval("status=" + msg.d.MessageError + ";");
-                //alert(status.AssistantId+"-"+status.Completed+"-"+status.Success);
                 for (var x = 0; x < SelectedEmployeesTable.childNodes.length; x++) {
                     if (SelectedEmployeesTable.childNodes[x].id.split("|")[0] * 1 === status.AssistantId) {
                         var completedSpan = SelectedEmployeesTable.childNodes[x].childNodes[2].childNodes[0];
@@ -547,18 +559,27 @@ function InsertAssistant(employeeId) {
     {
         lastNewAssistantId++;
         var assistantId = lastNewAssistantId;
-        var newAssistant = { "EmployeeId": employeeId, "AssistantId": assistantId };
+        var newAssistant = {
+            "EmployeeId": employeeId,
+            "AssistantId": assistantId
+        };
+
         SelectedEmployees.push(newAssistant);
         InsertEmployeeRow(newAssistant);
         return false;
     }
 
-    var webMethod = "/Async/LearningActions.asmx/InsertAssistant";
-    var data = { employeeId: employeeId, companyId: Company.Id, userId: user.Id, learningId: formacion.Id };
+    var data = {
+        "employeeId": employeeId,
+        "companyId": Company.Id,
+        "userId": user.Id,
+        "learningId": formacion.Id
+    };
+
     LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
         "type": "POST",
-        "url": webMethod,
+        "url": "/Async/LearningActions.asmx/InsertAssistant",
         "contentType": "application/json; charset=utf-8",
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
@@ -601,7 +622,7 @@ function Save() {
 
     // Sólo si el status = 2 (Realizado) se revisa si está en condiciones de pasar a evaluado
     var evaluatedAll = false;
-    if (formacion.Status === 2) {
+    if (formacion.Status === FormacionStatus.Realizada) {
         evaluatedAll = true;
         for (var x = 0; x < SelectedEmployeesTable.childNodes.length; x++) {
             if (SelectedEmployeesTable.childNodes[x].childNodes[2].childNodes[0].innerHTML === "-") {
@@ -617,6 +638,7 @@ function Save() {
     }
 
     if (evaluatedAll === true) {
+        formacion.Status = FormacionStatus.Evaludada;
         promptInfoUI(Dictionary.Item_Learning_Message_Evaluation, 300, AcceptSave, CancelSave);
     }
     else {
@@ -652,7 +674,7 @@ function SaveConfirmed(evaluatedAll)
     var ok = true;
     if (!RequiredFieldText("TxtName")) { ok = false; }
 
-    if (formacion.Status < 2) {
+    if (formacion.Status < FormacionStatus.Realizada) {
         $("#TxtFechaPrevistaErrorRequired").hide();
         $("#TxtFechaPrevistaDateMalformed").hide();
 
@@ -689,7 +711,7 @@ function SaveConfirmed(evaluatedAll)
         }
     }
 
-    if (formacion.Status < 1) {
+    if (formacion.Status < FormacionStatus.EnProgreso) {
         ClearFieldTextMessages("TxtRealStart");
         ClearFieldTextMessages("TxtRealFinish");
         $("#TxtRealStartDateMalformed").hide();
@@ -697,7 +719,10 @@ function SaveConfirmed(evaluatedAll)
         var dates = true;
 
         if ($("#TxtRealFinish").val() !== "") {
-            if (!RequiredFieldText("TxtRealStart")) { ok = false; dates = false; }
+            if (!RequiredFieldText("TxtRealStart")) {
+                ok = false;
+                dates = false;
+            }
 
             if (dates === true) {
                 if (d1 > d2) {
@@ -708,8 +733,8 @@ function SaveConfirmed(evaluatedAll)
                     $("#TxtRealFinishErrorDateRange").show();
                 }
                 else {
-                    $("#TxtRealStartLabel").css("color", "#000");
-                    $("#TxtRealFinishLabel").css("color", "#000");
+                    $("#TxtRealStartLabel").css("color", Color.Label);
+                    $("#TxtRealFinishLabel").css("color", Color.Label);
                     $("#TxtRealStartErrorDateRange").hide();
                     $("#TxtRealFinishErrorDateRange").hide();
                 }
@@ -764,7 +789,7 @@ function SaveConfirmed(evaluatedAll)
     }
 
     var dateEstimated = formacion.DateEstimated;
-    if (formacion.Status < 2) {
+    if (formacion.Status < FormacionStatus.Realizada) {
 		dateEstimated = GetDate($("#TxtFechaPrevista").val(), "/", true);
     }
 
@@ -859,13 +884,13 @@ jQuery(function ($) {
     $("#TxtRealStart").val(formacion.RealStart);
     $("#TxtRealFinish").val(formacion.RealFinish);
 
-    if (formacion.Status === 2) {
+    if (formacion.Status === FormacionStatus.Realizada) {
         document.getElementById("RBStatus3").checked = true;
     }
-    if (formacion.Status === 1) {
+    if (formacion.Status === FormacionStatus.EnProgreso) {
         document.getElementById("RBStatus2").checked = true;
     }
-    if (formacion.Status === 0) {
+    if (formacion.Status === FormacionStatus.Pendiente) {
         document.getElementById("RBStatus1").checked = true;
     }
 
@@ -933,7 +958,7 @@ jQuery(function ($) {
             return false;
         }
 
-        var dialog = $("#assistantDialog").removeClass("hide").css("max-height", "400px").dialog({
+        $("#assistantDialog").removeClass("hide").css("max-height", "400px").dialog({
             "resizable": false,
             "modal": true,
             "title": Dictionary.Item_Employees,
@@ -962,7 +987,6 @@ jQuery(function ($) {
     });
 });
 
-// ISSUS-201
 if (formacion.Id > 0)
 {
     $("#CmbFechaPrevistaMes").val(formacion.EstimatedMonthId);
@@ -974,14 +998,17 @@ else {
 }
 
 if (typeof user.Grants.Learning === "undefined" || user.Grants.Learning.Write === false) {
-    document.getElementById("TxtNotes").disabled = true;
+    console.log("Desactivar campos");
+    $("#TxtNotes").attr("disabled", "disabled");
+    $("#SelectedEmployeesTable span").attr("disabled", "disabled");
+
     $("#BtnNewUploadfile").hide();
     $("#BtnSelectEmpleado").hide();
-    $("#SelectedEmployeesTable span").disabled = true;
+
+    $("input").attr("disabled", "disabled");
+    $("textarea").attr("disabled", "disabled");
+    $("select").attr("disabled", "disabled");
     $(".btn-danger").hide();
-    $("input").attr("disabled", true);
-    $("textarea").attr("disabled", true);
-    $("select").attr("disabled", true);
     $("#BtnSave").hide();
 }
 

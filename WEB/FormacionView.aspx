@@ -58,7 +58,7 @@
                                                         <div class="form-group">
                                                             <label id="TxtNameLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Learning_FieldLabel_Course"] %><span style="color:#f00;">*</span></label>
                                                             <div class="col-sm-11">
-                                                                <input <% if (this.Learning.Status == 2) { %>readonly="readonly" <% } %>type="text" id="TxtName" placeholder="<%=this.Dictionary["Item_Learning_FieldLabel_Course"] %>" class="col-xs-12 col-sm-12"<% if(this.ShowHelp) { %> title="<%=this.Dictionary["Item_Learning_FieldLabel_Name"]%>"<% } %> maxlength="100" />
+                                                                <input <% if (this.Learning.Status == 3) { %>readonly="readonly" <% } %>type="text" id="TxtName" placeholder="<%=this.Dictionary["Item_Learning_FieldLabel_Course"] %>" class="col-xs-12 col-sm-12"<% if(this.ShowHelp) { %> title="<%=this.Dictionary["Item_Learning_FieldLabel_Name"]%>"<% } %> maxlength="100" />
                                                                 <span class="ErrorMessage" id="TxtNameErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
                                                         </div>
@@ -72,8 +72,8 @@
                                                                 <div class="row">
                                                                     <div class="col-xs-12 col-sm-12">
                                                                         <div class="input-group">
-                                                                            <input <% if (this.Learning.Status == 2) { %>readonly="readonly" <% } %>class="form-control <% if (this.Learning.Status == 2) { %>_<% } %>date-picker" id="TxtFechaPrevista" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
-                                                                            <span  <% if (this.Learning.Status == 2) { %>style="display:none;" <% } %>class="input-group-addon" onclick="document.getElementById('TxtFechaPrevista').focus();" id="BtnFechaPrevista">
+                                                                            <input <% if (this.Learning.Status == 3) { %>readonly="readonly" <% } %>class="form-control <% if (this.Learning.Status == 2) { %>_<% } %>date-picker" id="TxtFechaPrevista" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+                                                                            <span  <% if (this.Learning.Status == 3) { %>style="display:none;" <% } %>class="input-group-addon" onclick="document.getElementById('TxtFechaPrevista').focus();" id="BtnFechaPrevista">
                                                                                 <i class="icon-calendar bigger-110"></i>
                                                                             </span>
                                                                         </div>
@@ -111,24 +111,24 @@
                                                                     <asp:Literal runat="server" ID="LtYearPrevistos"></asp:Literal>
                                                                 </select>
                                                                 <% } %>
-                                                                <input <% if (this.Learning.Status != 2) { %>style="display:none;" <% } %> type="text" <% if (this.Learning.Status ==2) { %>readonly="readonly" <% } %>id="TxtFechaPrevistaYear" placeholder="<%=this.Dictionary["Common_Year"] %>" class="col-xs-12 col-sm-12" onkeypress="validate(event)" maxlength="4"  />
+                                                                <input <% if (this.Learning.Status != 3) { %>style="display:none;" <% } %> type="text" <% if (this.Learning.Status ==2) { %>readonly="readonly" <% } %>id="TxtFechaPrevistaYear" placeholder="<%=this.Dictionary["Common_Year"] %>" class="col-xs-12 col-sm-12" onkeypress="validate(event)" maxlength="4"  />
                                                                 <span class="ErrorMessage" id="TxtFechaPrevistaYearErrorRequired" style="display:none;"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>-->
                                                             <label id="TxtHoursLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Learning_FieldLabel_Hours"] %><span style="color:#f00;">*</span></label>
                                                             <div class="col-sm-2">
-                                                                <input type="text" <% if (this.Learning.Status ==2) { %>readonly="readonly" <% } %>id="TxtHours" placeholder="<%=this.Dictionary["Item_Learning_FieldLabel_Hours"] %>" class="col-xs-12 col-sm-12 integerFormated" maxlength="9" />
+                                                                <input type="text" <% if (this.Learning.Status ==3) { %>readonly="readonly" <% } %>id="TxtHours" placeholder="<%=this.Dictionary["Item_Learning_FieldLabel_Hours"] %>" class="col-xs-12 col-sm-12 integerFormated" maxlength="9" />
                                                                 <span class="ErrorMessage" id="TxtHoursErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
                                                             <label id="TxtAmountLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Learning_FieldLabel_Amount"] %></label>
                                                             <div class="col-sm-2">
-                                                                <input type="text" <% if (this.Learning.Status ==2) { %>readonly="readonly" <% } %>id="TxtAmount" placeholder="<%=this.Dictionary["Item_Learning_FieldLabel_Amount"] %>" class="col-xs-12 col-sm-12 money-bank" maxlength="9" />
+                                                                <input type="text" <% if (this.Learning.Status ==3) { %>readonly="readonly" <% } %>id="TxtAmount" placeholder="<%=this.Dictionary["Item_Learning_FieldLabel_Amount"] %>" class="col-xs-12 col-sm-12 money-bank" maxlength="9" />
                                                                 <span class="ErrorMessage" id="TxtAmountErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <label id="TxtMasterLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Learning_FieldLabel_Coach"] %><span style="color:#f00;">*</span></label>
                                                             <div class="col-sm-5">
-                                                                <input type="text" <% if (this.Learning.Status ==2) { %>readonly="readonly" <% } %>id="TxtMaster" placeholder="<%=this.Dictionary["Item_Learning_FieldLabel_Coach"] %>" class="col-xs-12 col-sm-12" maxlength="100" />
+                                                                <input type="text" <% if (this.Learning.Status ==3) { %>readonly="readonly" <% } %>id="TxtMaster" placeholder="<%=this.Dictionary["Item_Learning_FieldLabel_Coach"] %>" class="col-xs-12 col-sm-12" maxlength="100" />
                                                                 <span class="ErrorMessage" id="TxtMasterErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
                                                         <!--/div>
@@ -138,8 +138,8 @@
                                                                 <div class="row">
                                                                     <div class="col-xs-12 col-sm-12">
                                                                         <div class="input-group">
-                                                                            <input <% if (this.Learning.Status == 2) { %>readonly="readonly" <% } %>class="form-control <% if (this.Learning.Status == 2) { %>_<% } %>date-picker" id="TxtRealStart" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
-                                                                            <span  <% if (this.Learning.Status == 2) { %>style="display:none;" <% } %>class="input-group-addon" onclick="document.getElementById('TxtRealStart').focus();" id="BtnRealStart">
+                                                                            <input <% if (this.Learning.Status == 3) { %>readonly="readonly" <% } %>class="form-control <% if (this.Learning.Status == 2) { %>_<% } %>date-picker" id="TxtRealStart" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+                                                                            <span  <% if (this.Learning.Status == 3) { %>style="display:none;" <% } %>class="input-group-addon" onclick="document.getElementById('TxtRealStart').focus();" id="BtnRealStart">
                                                                                 <i class="icon-calendar bigger-110"></i>
                                                                             </span>
                                                                         </div>
@@ -154,8 +154,8 @@
                                                                 <div class="row">
                                                                     <div class="col-xs-12 col-sm-12">
                                                                         <div class="input-group">
-                                                                            <input <% if (this.Learning.Status == 2) { %>readonly="readonly" <% } %>class="form-control <% if (this.Learning.Status == 2) { %>_<% } %>date-picker" id="TxtRealFinish" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
-                                                                            <span <% if (this.Learning.Status == 2) { %>style="display:none;" <% } %>class="input-group-addon" onclick="document.getElementById('TxtRealFinish').focus();" id="BtnRealFinish">
+                                                                            <input <% if (this.Learning.Status == 3) { %>readonly="readonly" <% } %>class="form-control <% if (this.Learning.Status == 2) { %>_<% } %>date-picker" id="TxtRealFinish" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+                                                                            <span <% if (this.Learning.Status == 3) { %>style="display:none;" <% } %>class="input-group-addon" onclick="document.getElementById('TxtRealFinish').focus();" id="BtnRealFinish">
                                                                                 <i class="icon-calendar bigger-110"></i>
                                                                             </span>
                                                                         </div>
@@ -207,7 +207,7 @@
                                                                             </table>
                                                                 </div><!-- /.table-responsive -->
                                                             </div><!-- /span -->
-                                                            <% if (this.Learning.Status == 1) { %>
+                                                            <% if (this.Learning.Status == 2) { %>
                                                             <div class="col-xs-12">
                                                                 <button class="btn btn-info" type="button" id="BtnUnevaluated" onclick="Unevaluated();">
                                                                     <i class="icon-ok"></i>
@@ -232,7 +232,7 @@
                                                                 <button class="btn btn-info" type="button" id="BtnItem_LearningAssistant_Status_EvaluatedFail" onclick="Item_LearningAssistant_Status_EvaluatedFail();">
                                                                     <i class="icon-ok"></i>
                                                                     <%=this.Dictionary["Item_LearningAssistant_Status_EvaluatedFail"] %>
-                                                                </button>
+                                                                </button> 
                                                             </div>
                                                             <% } %>
                                                         </div><!-- /row -->	
@@ -243,19 +243,19 @@
                                                         
                                                         <!--div class="form-group">
                                                         </div-->
-                                                        <div class="for-group">
+                                                        <div class="form-group">
                                                             <label class="col-sm-12"><%=this.Dictionary["Item_Learning_Objetive"] %></label>
                                                         </div>
                                                         <div class="form-group">
-                                                            <div class="col-sm-12"><textarea rows="5" <% if (this.Learning.Status == 2) { %>readonly="readonly" <% } %>class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtObjetivo"></textarea></div>
+                                                            <div class="col-sm-12"><textarea rows="5" <% if (this.Learning.Status == 3) { %>readonly="readonly" <% } %>class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtObjetivo"></textarea></div>
                                                         </div>
-                                                        <div class="for-group">
+                                                        <div class="form-group">
                                                             <label class="col-sm-12"><%=this.Dictionary["Item_Learning_FieldLabel_Methodology"] %></label>
                                                         </div>
                                                         <div class="form-group">
-                                                            <div class="col-sm-12"><textarea rows="5" <% if (this.Learning.Status == 2) { %>readonly="readonly" <% } %>class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtMetodologia"></textarea></div>
+                                                            <div class="col-sm-12"><textarea rows="5" <% if (this.Learning.Status == 3) { %>readonly="readonly" <% } %>class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtMetodologia"></textarea></div>
                                                         </div>
-                                                        <div class="for-group">
+                                                        <div class="form-group">
                                                             <label class="col-sm-12"><%=this.Dictionary["Item_Learning_FieldLabel_Notes"] %></label>
                                                         </div>
                                                         <div class="form-group">

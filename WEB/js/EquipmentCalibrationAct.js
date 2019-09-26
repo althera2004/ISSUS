@@ -270,9 +270,15 @@ function EquipmentCalibrationActRenderRow(equipmentCalibrationAct, targetName) {
 
         iconEdit.className = "btn btn-xs btn-info";
         iconEdit.title = Dictionary.Common_Edit;
-        iconEdit.onclick = function () { EquipmentCalibrationActEdit(this) };
+        iconEdit.onclick = function () { EquipmentCalibrationActEdit(this); };
         var innerEdit = document.createElement("I");
-        innerEdit.className = "icon-edit bigger-120";
+        if (Equipment.EndDate !== null) {
+            innerEdit.className = "icon-eye-open bigger-120";
+        }
+        else {
+            innerEdit.className = "icon-edit bigger-120";
+        }
+
         iconEdit.appendChild(innerEdit);
 
         iconDelete.className = "btn btn-xs btn-danger";

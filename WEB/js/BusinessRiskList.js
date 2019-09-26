@@ -622,6 +622,7 @@ function RenderOportunityRow(item) {
             tdProcess.appendChild(link);
         }
     }
+
     if (objRules.Id > 0) {
 
         if (typeof user.Grants.Rules === "undefined" || user.Grants.Rules === null || user.Grants.Rules.Read === false || user.Grants.Rules.Write === false) {
@@ -653,13 +654,13 @@ function RenderOportunityRow(item) {
         icon.className = "icon-warning-sign bigger-110";
     } else {
         if (item.Result < item.RuleLimit) {
-            icon.style.color = "#DC8475";
-            //icon.title = Dictionary.Item_Oportunity_Status_NotSignificant;
+            icon.style.color = "#6fb3e0";
+            icon.title = Dictionary.Item_Oportunity_Status_NotSignificant;
             icon.className = "icon-circle bigger-110";
         }
         else {
             icon.style.color = "#A5CA9F";
-            //icon.title = Dictionary.Item_Oportunity_Status_Significant;
+            icon.title = Dictionary.Item_Oportunity_Status_Significant;
             icon.className = "icon-circle bigger-110";
         }
     }

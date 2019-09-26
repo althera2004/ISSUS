@@ -11,6 +11,7 @@ $(document).keypress(function (e) {
 });
 
 function Login() {
+    $("#ErrorSpan").hide();
     $("#ErrorMessage").hide();
     var ok = true;
     var errorMessage = "";
@@ -55,6 +56,7 @@ function Login() {
 
                 if (msg.d.ReturnValue.Id === -1) {
                     $("#ErrorSpan").show();
+                    $("#BtnLogin").html(Dictionary[language].Btn);
                     return false;
                 }
 
@@ -67,6 +69,7 @@ function Login() {
                 else {
                     if (msg.d.ReturnValue.Id === 2) {
                         $("#ErrorSpan").show();
+                        $("#BtnLogin").html(Dictionary[language].Btn);
                         return false;
                     }
                 }
@@ -96,6 +99,7 @@ function Login() {
                     $("#LoginForm").submit();
                 }
 
+                $("#BtnLogin").html(Dictionary[language].Btn);
                 return false;
             },
             "error": function () {

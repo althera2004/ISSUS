@@ -67,7 +67,7 @@ public partial class AuditoryView : Page
     {
         get
         {
-            if(this.Auditory.ReportStart == null)
+            if (this.Auditory.ReportStart == null)
             {
                 return this.Dictionary["Item_Auditory_Text_NotStarted"];
             }
@@ -119,9 +119,9 @@ public partial class AuditoryView : Page
         {
             var res = new StringBuilder("[");
             bool first = true;
-            using(var cmd = new SqlCommand("ApplicationUserEmployee_GetAll"))
+            using (var cmd = new SqlCommand("ApplicationUserEmployee_GetAll"))
             {
-                using(var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
                     cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -129,7 +129,7 @@ public partial class AuditoryView : Page
                     try
                     {
                         cmd.Connection.Open();
-                        using(var rdr = cmd.ExecuteReader())
+                        using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
                             {
@@ -152,7 +152,7 @@ public partial class AuditoryView : Page
                     }
                     finally
                     {
-                        if(cmd.Connection.State != ConnectionState.Closed)
+                        if (cmd.Connection.State != ConnectionState.Closed)
                         {
                             cmd.Connection.Close();
                         }
@@ -377,7 +377,7 @@ public partial class AuditoryView : Page
         this.master.Titulo = label;
         this.FillLists();
 
-        if(this.Auditory.Status > 0)
+        if (this.Auditory.Status > 0)
         {
             this.CuestionariosJson = Auditory.RenderCuestionarios(this.Auditory.Id, this.company.Id);
         }
@@ -435,7 +435,7 @@ public partial class AuditoryView : Page
             rulesList.Append("<select class=\"col-sm-12\" id=\"CmbRules\" multiple=\"multiple\" onchange=\"CalculeTotalQuestions();\">");
         }
 
-        foreach (var rule in rules.OrderBy(p => p.Description))
+        foreach (var rule in rules.Where(r => r.Active == true).OrderBy(p => p.Description))
         {
             bool selected = this.Auditory.Rules.Any(r => r.Id == rule.Id);
             if (selected)
@@ -548,7 +548,7 @@ public partial class AuditoryView : Page
 
         var auditorList = new StringBuilder();
         auditorList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
-        foreach(var user in ApplicationUser.CompanyUsers(this.company.Id).Where(us=>us.Status != GisoFramework.LogOn.ApplicationLogOn.LogOnResult.None).OrderBy(u => u.UserName))
+        foreach (var user in ApplicationUser.CompanyUsers(this.company.Id).Where(us => us.Status != GisoFramework.LogOn.ApplicationLogOn.LogOnResult.None).OrderBy(u => u.UserName))
         {
             auditorList.AppendFormat(
                 CultureInfo.InvariantCulture,
@@ -561,7 +561,7 @@ public partial class AuditoryView : Page
 
         var addressList = new StringBuilder();
         employesList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
-        foreach(var address in CompanyAddress.GetAddressByCompanyId(this.company))
+        foreach (var address in CompanyAddress.GetAddressByCompanyId(this.company))
         {
             addressList.AppendFormat(
                 CultureInfo.InvariantCulture,
@@ -592,7 +592,7 @@ public partial class AuditoryView : Page
         }
 
         this.LtCmbProvider.Text = providerList.ToString();
-    }    
+    }
 
     private void RenderDocuments()
     {
@@ -702,9 +702,9 @@ public partial class AuditoryView : Page
     private void CuestionariosPreguntas()
     {
         var res = new StringBuilder("[");
-        using(var cmd = new SqlCommand("CustionariosPreguntas_Count"))
+        using (var cmd = new SqlCommand("CustionariosPreguntas_Count"))
         {
-            using(var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+            using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
             {
                 cmd.Connection = cnn;
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -713,7 +713,7 @@ public partial class AuditoryView : Page
                 {
                     cmd.Connection.Open();
                     bool first = true;
-                    using(var rdr = cmd.ExecuteReader())
+                    using (var rdr = cmd.ExecuteReader())
                     {
                         while (rdr.Read())
                         {
@@ -737,7 +737,7 @@ public partial class AuditoryView : Page
                 }
                 finally
                 {
-                    if(cmd.Connection.State != ConnectionState.Closed)
+                    if (cmd.Connection.State != ConnectionState.Closed)
                     {
                         cmd.Connection.Close();
                     }

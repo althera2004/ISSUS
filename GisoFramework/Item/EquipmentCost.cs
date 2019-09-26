@@ -1,16 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using GisoFramework.DataAccess;
-
+﻿// --------------------------------
+// <copyright file="EquipmentCost.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
+// </copyright>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
+// --------------------------------
 namespace GisoFramework.Item
 {
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Configuration;
+    using System.Data;
+    using System.Data.SqlClient;
+    using System.Globalization;
+    using System.Text;
+    using GisoFramework.DataAccess;
+
     public class EquipmentCost
     {
         public long Id { get; set; }
@@ -60,18 +64,7 @@ namespace GisoFramework.Item
             {
                 return string.Format(
                     CultureInfo.InvariantCulture,
-                    @"{{""Id"":{0},
-                    ""D"":""{1}"",
-                    ""CI"":{2},
-                    ""CE"":{3},
-                    ""VI"":{4},
-                    ""VE"":{5},
-                    ""MI"":{6},
-                    ""ME"":{7},
-                    ""RI"":{8},
-                    ""RE"":{9},
-                    ""T"":{10},
-                    ""A"":{11}}}",
+                    @"{{""Id"":{0}, ""D"":""{1}"", ""CI"":{2}, ""CE"":{3}, ""VI"":{4}, ""VE"":{5}, ""MI"":{6}, ""ME"":{7}, ""RI"":{8}, ""RE"":{9}, ""T"":{10}, ""A"":{11}}}",
                     this.Id,
                     this.Description,
                     this.CI,
@@ -89,8 +82,8 @@ namespace GisoFramework.Item
 
         public static ReadOnlyCollection<EquipmentCost> Filter(string from, string to, string filter, int companyId)
         {
-            var fromDate = Tools.TextToDateYYYYMMDD(from);
-            var toDate = Tools.TextToDateYYYYMMDD(to);
+            var fromDate = Tools.DateFromTextYYYYMMDD(from);
+            var toDate = Tools.DateFromTextYYYYMMDD(to);
             var CI = filter.IndexOf("|CI") != -1;
             var CE = filter.IndexOf("|CE") != -1;
             var VI = filter.IndexOf("|VI") != -1;
@@ -119,15 +112,11 @@ namespace GisoFramework.Item
                         {
                             while (rdr.Read())
                             {
-                                var active = rdr.GetBoolean(10);
-                                if (active && !AC) { continue; }
-                                if (!active && !IN) { continue; }
-
                                 data.Add(new EquipmentCost
                                 {
                                     Id = rdr.GetInt64(8),
                                     Description = rdr.GetString(9),
-                                    Active = active,
+                                    Active = rdr.GetBoolean(10),
                                     CI = CI ? rdr.GetDecimal(0) : 0,
                                     CE = CE ? rdr.GetDecimal(1) : 0,
                                     VI = VI ? rdr.GetDecimal(2) : 0,

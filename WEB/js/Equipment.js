@@ -164,6 +164,12 @@ function SaveEquipment() {
         Equipment.StartDate = GetDate(GetDateYYYYMMDDText(Equipment.StartDate, "/", false), "/", false);
     }
 
+    var oldItem = Equipment;
+    oldItem.InternalCalibration = emptyCalibration;
+    oldItem.ExternalCalibration = emptyCalibration;
+    oldItem.InternalVerification = emptyVerification;
+    oldItem.ExternalVerification = emptyVerification;
+
     if (Equipment.Id > 0) {
         var dataUpdate = {
             "newItem": NewEquipment,
