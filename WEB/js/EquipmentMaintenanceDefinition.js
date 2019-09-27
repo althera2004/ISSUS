@@ -24,6 +24,7 @@ function EquipmentMaintenanceDefinitionRenderRow(equipmentMaintenance, targetNam
 
     var MaintenanceType = equipmentMaintenance.MaintenanceType === 0 ? Dictionary.Common_Internal : Dictionary.Common_External;
 
+    
     tdOperation.appendChild(document.createTextNode(equipmentMaintenance.Description));
     tdType.appendChild(document.createTextNode(MaintenanceType));
     tdPeriodicity.appendChild(document.createTextNode(ToMoneyFormat(equipmentMaintenance.Periodicity, 0))); // ISSUS-129 + " " + Dictionary.Common_Days.toLowerCase()));
@@ -45,6 +46,8 @@ function EquipmentMaintenanceDefinitionRenderRow(equipmentMaintenance, targetNam
     tdType.style.width = "90px";
     tdPeriodicity.style.width = "150px";
     tdCost.style.width = "90px";
+
+    
 
     row.appendChild(tdOperation);
     row.appendChild(tdType);

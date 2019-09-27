@@ -88,6 +88,8 @@ window.onload = function () {
     if (Auditory.Status > AuditoryStatus.Pendiente) {
         $("#TxtCloseQuestionsOn").attr("disabled", "disabled");
         $("#TxtCloseQuestionsOn").css("background", "#ccc");
+        $("#TxtReportStartBtn").hide();
+        $("#TxtReportEndBtn").hide();
         $("#CuestionarioDataTable .btn-success").hide();
     }
     else if (Auditory.Status === AuditoryStatus.Pendiente) {
@@ -589,6 +591,7 @@ function PopupValidarReset() {
 
     if (fechaInicio > fechaFinal) {
         alertUI(Dictionary.Item_Auditory_ErrorMessage_QuestionairesCrossDate);
+        return false;
     }
 
     if (Zombies.length === 0) {
@@ -716,8 +719,6 @@ function ValidationConfirmed() {
             }
         }
     }
-
-    ok = false;
 
     if (ok === false) { return false; }
 
