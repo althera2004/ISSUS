@@ -343,8 +343,7 @@ window.onload = function () {
     $(".page-header .col-sm-8").removeClass("col-sm-8");
     $(".page-header .col-sm-4").addClass("col-sm-6");
     $(".page-header .col-sm-4").removeClass("col-sm-4");
-    $("#th0").click();
-	var options = $.extend({}, $.datepicker.regional[userLanguage], { "autoclose": true, "todayHighlight": true });
+    var options = $.extend({}, $.datepicker.regional[userLanguage], { "autoclose": true, "todayHighlight": true });
     $(".date-picker").datepicker(options);	
 	$("#TxtDateFrom").on("change", DateChange);
     $("#TxtDateTo").on("change", DateChange);
@@ -443,7 +442,9 @@ function RenderLearningTable() {
     }
 
     $("#TotalList").html(tableCount);
-    $("#TotalAmount").html(ToMoneyFormat(tableTotal,2));
+    $("#TotalAmount").html(ToMoneyFormat(tableTotal, 2));
+    $("#th0").click();
+
 }
 
 function RenderLearningRow(data) {

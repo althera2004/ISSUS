@@ -707,7 +707,10 @@ function ValidationConfirmed() {
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
         "success": function (msg) {
-            document.location = document.location + "";
+            //LoadingHide();
+            alertInfoUI(Dictionary.Item_Employee_Message_InsertSucess, Reload);
+            //successInfoUI("todo ha ido bien", "auditorias", null);
+            //document.location = document.location + "";
         },
         "error": function (msg) {
             alertUI(msg.responseText);
