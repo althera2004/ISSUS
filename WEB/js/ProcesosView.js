@@ -702,6 +702,7 @@ window.onload = function () {
     Resize();
     var options = $.extend({}, $.datepicker.regional[ApplicationUser.Language], { "autoclose": true, "todayHighlight": true });
     $(".date-picker").datepicker(options);
+    $("#TxtName").val(process.Description);
 };
 
 function ButtonLayout() {

@@ -5,6 +5,7 @@
 // <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
 // --------------------------------
 using System;
+using System.Globalization;
 using System.Web.Script.Services;
 using System.Web.Services;
 using GisoFramework.Activity;
@@ -49,7 +50,7 @@ public class EquipmentActions : WebService
         var res = ActionResult.NoAction;
         if(!string.IsNullOrEmpty(scaleDivision))
         {
-            newItem.ScaleDivisionValue = Convert.ToDecimal(scaleDivision);//.Replace('.', ','));
+            newItem.ScaleDivisionValue = Convert.ToDecimal(scaleDivision.Replace(".", string.Empty).Replace(',', '.'));
         }
 
         string trace = newItem.Differences(oldItem);
@@ -221,7 +222,13 @@ public class EquipmentActions : WebService
     [ScriptMethod]
     public string SetFilterCosts(string from, string to, string filter, int companyId)
     {
-        Session["EquipmentFilterCosts"] = filter.ToUpperInvariant();
+        var res = string.Format(
+            CultureInfo.InvariantCulture,
+            @"{0}|{1}{2}",
+            from,
+            to,
+            filter);
+        Session["EquipmentFilterCosts"] = res.ToUpperInvariant();
         return EquipmentCost.JsonList(EquipmentCost.Filter(from, to, filter, companyId));
     }
 }

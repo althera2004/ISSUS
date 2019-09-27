@@ -77,10 +77,12 @@
                                                 <div id="home" class="tab-pane active">                                                
                                                     <form class="form-horizontal" role="form">
                                                         <div class="form-group">
-                                                            <label id="TxtNameLabel" class="col-sm-1 control-label no-padding-right" id="TxtNameLabel"><%=this.Dictionary["Item_Process_FieldLabel_Name"] %><span style="color:#f00">*</span></label>
+                                                            <label id="TxtNameLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Process_FieldLabel_Name"] %><span style="color:#f00">*</span></label>
                                                             <%=this.TxtName %>
                                                         </div>
-                                                        <div class="form-group">                                                             <label id="TxtProcessTypeLabel" class="col-sm-1 control-label no-padding-right" id="Label2"><%=this.Dictionary["Item_Process_FieldLabel_Type"] %><span style="color:#f00">*</span></label>
+
+                                                        <div class="form-group">
+                                                            <label id="TxtProcessTypeLabel" class="col-sm-1 control-label no-padding-right" id="Label2"><%=this.Dictionary["Item_Process_FieldLabel_Type"] %><span style="color:#f00">*</span></label>
                                                             <div class="col-sm-3" id="DivCmbTipo" style="height:35px !important;">
                                                                 <select id="CmbTipo" onchange="CmbTipoChanged();" class="col-xs-12 col-sm-12"></select>
                                                                 <input style="display:none;" readonly="readonly" type="text" id="TxtProcessType" placeholder="<%=this.Dictionary["Item_Process_FieldLabel_Type"] %>" class="col-xs-12 col-sm-12" value="" />

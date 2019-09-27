@@ -5,8 +5,20 @@ var filter = "IA";
 function FilterChanged() {
     if (document.getElementById("Chk1") !== null) {
         filter = "";
-        if (document.getElementById("Chk1").checked === true) { filter += "I"; };
-        if (document.getElementById("Chk2").checked === true) { filter += "A"; };
+
+        // Alex: Mantener al menos un check seleccionado
+        $("#Chk1").removeAttr("disabled");
+        $("#Chk2").removeAttr("disabled");
+        if (document.getElementById("Chk1").checked === true && document.getElementById("Chk2").checked === false) {
+            $("#Chk1").attr("disabled", "disabled");
+        }
+
+        if (document.getElementById("Chk1").checked === false && document.getElementById("Chk2").checked === true) {
+            $("#Chk2").attr("disabled", "disabled");
+        }
+
+        if (document.getElementById("Chk1").checked === true) { filter += "I"; }
+        if (document.getElementById("Chk2").checked === true) { filter += "A"; }
         IncidentCostRenderTable("IncidentCostsTableData");
     }
 }
@@ -25,9 +37,9 @@ function IncidentCostRenderTable(tableName) {
                 }
             }
 
-            if (filter.indexOf(IncidentCosts[x].Source) === -1) {
-                show = false;
-            }
+            var source = IncidentCosts[x].Source;
+            if (source === "A" && filter.indexOf("A") === -1) { show = false; }
+            if (source.indexOf("I") !== -1 && filter.indexOf("I") === -1) { show = false; }
 
             if (show === true) {
                 total += IncidentCostRenderRow(IncidentCosts[x], target);

@@ -60,8 +60,8 @@ public partial class ExportEquipmentExportCosts : Page
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
-        var fromDate = Tools.TextToDateYYYYMMDD(from);
-        var toDate = Tools.TextToDateYYYYMMDD(to);
+        var fromDate = Tools.DateFromTextYYYYMMDD(from);
+        var toDate = Tools.DateFromTextYYYYMMDD(to);
 
         var formatedDescription = ToolsPdf.NormalizeFileName(company.Name);
 
@@ -198,15 +198,11 @@ public partial class ExportEquipmentExportCosts : Page
                     {
                         while (rdr.Read())
                         {
-                            var active = rdr.GetBoolean(10);
-                            if (active && !AC) { continue; }
-                            if (!active && !IN) { continue; }
-
                             var newEquipmentCost = new EquipmentCost
                             {
                                 Id = rdr.GetInt64(8),
                                 Description = rdr.GetString(9),
-                                Active = active,
+                                Active = rdr.GetBoolean(10),
                                 CI = CI ? rdr.GetDecimal(0) : 0,
                                 CE = CE ? rdr.GetDecimal(1) : 0,
                                 VI = VI ? rdr.GetDecimal(2) : 0,
@@ -242,28 +238,43 @@ public partial class ExportEquipmentExportCosts : Page
 
 
 
-    //------ CRITERIA
-    var criteriatable = new iTSpdf.PdfPTable(2)
+        //------ CRITERIA
+        var criteriatable = new iTSpdf.PdfPTable(2)
         {
             WidthPercentage = 100
         };
 
         criteriatable.SetWidths(new float[] { 8f, 50f });
 
-        string statusText = string.Empty;
+        string periodText = string.Empty;
         string operativaText = string.Empty;
 
-        if (filter.IndexOf("|AC") != -1 && filter.IndexOf("|IN") != -1)
+        if (string.IsNullOrEmpty(from) && string.IsNullOrEmpty(to))
         {
-            statusText = dictionary["Common_All"];
+            periodText = dictionary["Common_PeriodAll"];
         }
-        else if (filter.IndexOf("|AC") != -1)
+        else if (!string.IsNullOrEmpty(from) && !string.IsNullOrEmpty(to))
         {
-            statusText = dictionary["Item_Equipment_List_Filter_ShowActive"];
+            periodText = string.Format(
+                @"{0} {1:dd/MM/yyyy} {2} {3:dd/MM/yyyy}",
+                dictionary["Common_From"],
+                Tools.DateFromTextYYYYMMDD(from),
+                dictionary["Common_To"],
+                Tools.DateFromTextYYYYMMDD(to));
         }
-        else if (filter.IndexOf("|IN") != -1)
+        else if (!string.IsNullOrEmpty(from))
         {
-            statusText = dictionary["Item_Equipment_List_Filter_ShowClosed"];
+            periodText = string.Format(
+                @"{0} {1:dd/MM/yyyy}",
+                dictionary["Common_From"],
+                Tools.DateFromTextYYYYMMDD(from));
+        }
+        else
+        {
+            periodText = string.Format(
+                @"{0} {1:dd/MM/yyyy}",
+                dictionary["Common_To"],
+                Tools.DateFromTextYYYYMMDD(to));
         }
 
         bool first = true;
@@ -316,7 +327,7 @@ public partial class ExportEquipmentExportCosts : Page
         }
 
         ToolsPdf.AddCriteria(criteriatable, dictionary["Item_Equipment_List_Filter_ShowByOperation"], operativaText);
-        ToolsPdf.AddCriteria(criteriatable, dictionary["Item_Equipment_List_Filter_ShowByStatus"], statusText);
+        ToolsPdf.AddCriteria(criteriatable, dictionary["Item_Equipment_List_Filter_ShowByPeriod"], periodText);
 
         bool pair = false;
         decimal total = 0;
@@ -324,6 +335,11 @@ public partial class ExportEquipmentExportCosts : Page
 
         foreach (EquipmentCost equipment in data)
         {
+            if(equipment.Total == 0)
+            {
+                continue;
+            }
+
             total += equipment.Total;
 
             var lineBackground = pair ? rowEven : rowPair;

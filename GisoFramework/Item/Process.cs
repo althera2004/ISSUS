@@ -299,8 +299,8 @@ namespace GisoFramework.Item
             bool first = true;
             foreach (var process in ByCompany(companyId))
             {
-                if (!process.CanBeDeleted)
-                {
+                //if (!process.CanBeDeleted)
+                //{
                     if (first)
                     {
                         first = false;
@@ -311,7 +311,7 @@ namespace GisoFramework.Item
                     }
 
                     res.Append(process.JsonKeyValue);
-                }
+                //}
             }
 
             res.Append("]");
@@ -415,13 +415,13 @@ namespace GisoFramework.Item
                             long lastProcessId = 0;
                             while (rdr.Read())
                             {
-                                long actualProcessId = rdr.GetInt64(0);
-                                if (actualProcessId != lastProcessId)
-                                {
-                                    lastProcessId = actualProcessId;
+                                //long actualProcessId = rdr.GetInt64(0);
+                                //if (actualProcessId != lastProcessId)
+                                //{
+                                //    lastProcessId = actualProcessId;
                                     var newProcess = new Process
                                     {
-                                        Id = actualProcessId,
+                                        Id = rdr.GetInt64(0),
                                         CompanyId = companyId,
                                         ProcessType = rdr.GetInt32(2),
                                         Start = rdr.GetString(3),
@@ -458,7 +458,9 @@ namespace GisoFramework.Item
                                     }
 
                                     res.Add(newProcess);
-                                }
+                                //}
+
+                                //lastProcessId = actualProcessId;
                             }
                         }
                     }

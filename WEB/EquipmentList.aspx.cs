@@ -53,6 +53,19 @@ public partial class EquipmentList : Page
         }
     }
 
+    public string FilterCosts
+    {
+        get
+        {
+            if (this.Session["EquipmentFilterCosts"] == null)
+            {
+                return "||CI|CE|VI|VE|MI|ME|RI|RE";
+            }
+
+            return this.Session["EquipmentFilterCosts"].ToString().ToUpperInvariant();
+        }
+    }
+
     /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {

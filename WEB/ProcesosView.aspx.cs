@@ -92,7 +92,7 @@ public partial class ProcesosView : Page
             return new FormText
             {
                 Name = "TxtName",
-                Value = this.Proceso.Description,
+                Value = string.Empty,
                 ColumnSpan = 11,
                 Placeholder = this.Dictionary["Common_Name"],
                 Required = true,

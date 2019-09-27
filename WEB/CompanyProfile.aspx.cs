@@ -6,6 +6,9 @@
 // --------------------------------
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Text;
 using System.Web.UI;
@@ -44,7 +47,7 @@ public partial class CompanyProfile : Page
     {
         get
         {
-            return string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", this.Company.DiskQuote).Replace(',', '*').Replace('.', ',').Replace('*', '.');
+            return string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", this.Company.DiskQuote);//.Replace(',', '*').Replace('.', ',').Replace('*', '.');
         }
     }
 
@@ -172,6 +175,7 @@ public partial class CompanyProfile : Page
     {
         this.user = Session["User"] as ApplicationUser;
         this.Company = Session["Company"] as Company;
+        GetCompany();
         this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
         this.master = this.Master as Giso;
         this.master.AdminPage = true;
@@ -286,5 +290,39 @@ public partial class CompanyProfile : Page
         }
 
         this.Countries = countries.Append(Environment.NewLine).Append("]").ToString();
+    }
+
+    private void GetCompany()
+    {
+        using (var cmd = new SqlCommand("Company_GetById"))
+        {
+            using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+            {
+                cmd.Connection = cnn;
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
+                cmd.Parameters["@CompanyId"].Value = this.Company.Id;
+
+                try
+                {
+                    cmd.Connection.Open();
+                    using (var rdr = cmd.ExecuteReader())
+                    {
+                        if (rdr.HasRows)
+                        {
+                            rdr.Read();
+                            this.Company.Headquarters = rdr.GetString(10);
+                        }
+                    }
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
+                    }
+                }
+            }
+        }
     }
 }

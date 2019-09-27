@@ -1,8 +1,8 @@
 ﻿// --------------------------------
-// <copyright file="LogOut.aspx.cs" company="OpenFramework">
-//     Copyright (c) OpenFramework. All rights reserved.
+// <copyright file="LogOut.aspx.cs" company="Sbrinna">
+//     Copyright (c) Sbrinna. All rights reserved.
 // </copyright>
-// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
+// <author>Juan Castilla Calderón - jcastilla@sbrinna.com</author>
 // --------------------------------
 using System;
 using System.Web.UI;
@@ -27,12 +27,9 @@ public partial class LogOut : Page
         }
 
         this.Session["UserId"] = null;
-        this.Session["CompanyId"] = null;
         this.Session["User"] = null;
         this.Session["IncidentFilter"] = null;
         this.Session["IncidentActionFilter"] = null;
-        this.Session["QuestionaryFilter"] = null;
-
         if (this.Request.QueryString["company"] != null)
         {
             this.Response.Redirect(string.Format("Default.aspx?company={0}", this.Request.QueryString["company"].ToString()), false);
@@ -46,6 +43,13 @@ public partial class LogOut : Page
             this.Response.Redirect(string.Format("Default.aspx?company={0}", company.Code), false);
             Context.ApplicationInstance.CompleteRequest();
         }
+		else 
+		{
+            Company company = Session["Company"] as Company;
+            this.Session["Company"] = null;
+            this.Response.Redirect("Default.aspx", false);
+            Context.ApplicationInstance.CompleteRequest();			
+		}
 
         Context.ApplicationInstance.CompleteRequest();
     }

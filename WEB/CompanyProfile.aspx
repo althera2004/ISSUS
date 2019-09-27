@@ -3,6 +3,9 @@
 <asp:Content ID="PageStyle" ContentPlaceHolderID="PageStyles" Runat="Server">
     <link rel="stylesheet" href="assets/css/jquery-ui-1.10.3.full.min.css" />
     <link href="/nv.d3/nv.d3.css" rel="stylesheet" type="text/css" />
+    <style>
+        .nvtooltip  .value {display:none;}
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
     <script type="text/javascript">
@@ -26,10 +29,10 @@
                                         <li class="active" id="TabHomeSelector">
                                             <a data-toggle="tab" href="#home"><%=this.Dictionary["Item_Company_Tab_Principal"] %></a>
                                         </li>
-                                        <li class="" id="TabDisk"onclick="$('#PieWidget').show();">
+                                        <li class="" id="TabDisk">
                                             <a data-toggle="tab" href="#disk"><%=this.Dictionary["Item_Company_Tab_DiskQuote"] %></a>
                                         </li>
-                                        <li class="" id="TabContrato"onclick="$('#PieWidget').show();">
+                                        <li class="" id="TabContrato">
                                             <a data-toggle="tab" href="#contrato"><%=this.Dictionary["Item_Company_Tab_Agreement"] %></a>
                                         </li>
                                     </ul>                                    
@@ -38,7 +41,7 @@
                                             <div class="form-group">
                                                 <label class="col-sm-1 control-label no-padding-right" id="TxtHeadquartersLabel"><%=this.Dictionary["Item_CompanyProfile_FieldLabel_Headquarters"] %><span style="color:#f00">*</span></label>
                                                 <div class="col-sm-11">
-                                                    <input type="text" id="TxtHeadquarters" placeholder="<%=this.Dictionary["Item_CompanyProfile_FieldLabel_Headquarters"] %>" class="col-xs-12 col-sm-12 tooltip-info" data-rel="tooltip" value="<%=this.Company.Headquarters %>" maxlength="50" readonly="readonly" />
+                                                    <input type="text" id="TxtHeadquarters" placeholder="<%=this.Dictionary["Item_CompanyProfile_FieldLabel_Headquarters"] %>" class="col-xs-12 col-sm-12 tooltip-info" data-rel="tooltip" value="<%=this.Company.Headquarters %>" readonly="readonly" />
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -117,8 +120,8 @@
                                                     <input readonly="readonly" type="text" class="col-xs-12 col-sm-12" id="TxtEmail" value="<%=this.CompanyDefaultAddress.Email %>" />
                                                 </div>
                                             </div>
-                                            <div class="space-4"></div>
-                                            <div class="form-group">
+                                            <div class="space-4" style="display:none;"></div>
+                                            <div class="form-group" style="display:none;">
                                                 <label class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Profile_FieldLabel_Language"] %></label>
                                                 <div class="col-xs-3" id="DivCmbIdioma" style="height:35px !important;">
                                                     <select id="CmbIdioma" class="col-xs-12">
@@ -166,11 +169,6 @@
                                             <%=this.FormFooter %>
                                         </div>
                                         <div id="disk" class="tab-pane active">
-                                            <!--<h2><%=this.Dictionary["Item_Attach_DiskQuote"] %>&nbsp;<%=this.AsignedQuote %>MB</h2>
-                                            <h4><%=this.Dictionary["Item_Attach_DiskFreeLabel1"] %><span id="_QuotePercentage"></span><%=this.Dictionary["Item_Attach_DiskFreeLabel2"] %></h4>
-                                            <div class="widget-main">
-											    <div id="piechart-placeholder" style="width: 90%; min-height: 150px; height:400px; padding: 0px; position: relative;"><canvas class="flot-base" width="358" height="150" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 358px; height: 150px;"></canvas><canvas class="flot-overlay" width="358" height="150" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 358px; height: 150px;"></canvas><div class="legend"><div style="position: absolute; width: 93px; height: 120px; top: 15px; right: -30px; background-color: rgb(255, 255, 255); opacity: 0.85;"> </div><table style="position:absolute;top:15px;right:-30px;;font-size:smaller;color:#545454"><tbody><tr><td class="legendColorBox"><div style="border:1px solid null;padding:1px"><div style="width:4px;height:0;border:5px solid #68BC31;overflow:hidden"></div></div></td><td class="legendLabel">social networks</td></tr><tr><td class="legendColorBox"><div style="border:1px solid null;padding:1px"><div style="width:4px;height:0;border:5px solid #2091CF;overflow:hidden"></div></div></td><td class="legendLabel">search engines</td></tr><tr><td class="legendColorBox"><div style="border:1px solid null;padding:1px"><div style="width:4px;height:0;border:5px solid #AF4E96;overflow:hidden"></div></div></td><td class="legendLabel">ad campaigns</td></tr><tr><td class="legendColorBox"><div style="border:1px solid null;padding:1px"><div style="width:4px;height:0;border:5px solid #DA5430;overflow:hidden"></div></div></td><td class="legendLabel">direct traffic</td></tr><tr><td class="legendColorBox"><div style="border:1px solid null;padding:1px"><div style="width:4px;height:0;border:5px solid #FEE074;overflow:hidden"></div></div></td><td class="legendLabel">other</td></tr></tbody></table></div></div>
-											</div>-->
                                             <div class="row">        
                                                 <div class="col-xs-12 col-sm-8 widget-container-col ui-sortable" style="min-height: 300px;">										
 			                                        <div class="widget-box ui-sortable-handle" style="opacity: 1; z-index: 0;" id="PieWidget">
@@ -252,7 +250,7 @@
                                                 <input type="text" id="SelectedCountries" style="display:block;" />
                                             </div>
                                         </div> -->                                        
-                                        <div id="contrato" class="tab-pane active">
+                                        <div id="contrato" class="tab-pane">
                                             <iframe src="/viewer/viewer.html?file=/Agreement/Agreement_<%=this.Company.Id %>.pdf" style="width:100%;" id="pdfViewer"></iframe>
                                         </div>
                                         <div id="trazas" class="tab-pane">													
@@ -391,29 +389,19 @@
         <script type="text/javascript" src="/nv.d3/nv.d3.js"></script>
         <script type="text/javascript">
             var chartPie1, chartPie1Data;
-            var dataPie1 =
-                [
-                    {"label": "ALPHABET", "value": 313},
-                    {"label": "ARVAL", "value": 241},
-                    {"label": "LEASEPLAN", "value": 12},
-                    {"label": "LEASEPLAN RUMANIA", "value": 2}
-                ];
+            var dataPie1 = [];
             nv.addGraph(function () {
                 console.log("DiskQuote",diskQuote);
                 chartPie1 = nv.models.pieChart()
                     .x(function (d) { return d.label })
-                    .y(function (d) { return d.value })                    
-                    
+                    .y(function (d) { return d.value })
                     .height(300)
                     .showLabels(true)
                     .labelType("percent")
                     .donut(true).donutRatio(0.1);
-
-                chartPie1Data = d3.select('#Pie1 svg').datum(diskQuote);
+                chartPie1Data = d3.select("#Pie1 svg").datum(diskQuote);
                 chartPie1Data.transition().duration(500).call(chartPie1);
                 nv.utils.windowResize(chartPie1.update);
-
-                $("#PieWidget").hide();
 
                 return chartPie1;
             });
@@ -452,10 +440,11 @@
 
                 $("#QuotePercentage2").html(ToMoneyFormat(diskQuote[x].total, 2) + " MB ");
                 $("#TableDiskBody").html(res);
+
+                setTimeout(function(){ $("#disk").removeClass("active") }, 500);
             }
 
             $("#TableDiskBody").html(res);
-
             Resize();
         </script>
 </asp:Content>

@@ -24,6 +24,7 @@ function EquipmentMaintenanceDefinitionRenderRow(equipmentMaintenance, targetNam
 
     var MaintenanceType = equipmentMaintenance.MaintenanceType === 0 ? Dictionary.Common_Internal : Dictionary.Common_External;
 
+    
     tdOperation.appendChild(document.createTextNode(equipmentMaintenance.Description));
     tdType.appendChild(document.createTextNode(MaintenanceType));
     tdPeriodicity.appendChild(document.createTextNode(ToMoneyFormat(equipmentMaintenance.Periodicity, 0))); // ISSUS-129 + " " + Dictionary.Common_Days.toLowerCase()));
@@ -46,6 +47,8 @@ function EquipmentMaintenanceDefinitionRenderRow(equipmentMaintenance, targetNam
     tdPeriodicity.style.width = "150px";
     tdCost.style.width = "90px";
 
+    
+
     row.appendChild(tdOperation);
     row.appendChild(tdType);
     row.appendChild(tdPeriodicity);
@@ -62,7 +65,12 @@ function EquipmentMaintenanceDefinitionRenderRow(equipmentMaintenance, targetNam
         iconEdit.title = Dictionary.Common_Edit;
         iconEdit.onclick = function (e) { EquipmentMaintenanceDefinitionEdit(this); };
         var innerEdit = document.createElement("I");
-        innerEdit.className = "icon-edit bigger-120";
+        if (Equipment.EndDate !== null) {
+            innerEdit.className = "icon-eye-open bigger-120";
+        }
+        else {
+            innerEdit.className = "icon-edit bigger-120";
+        }
         iconEdit.appendChild(innerEdit);
 
         iconDelete.className = "btn btn-xs btn-danger";
@@ -177,6 +185,11 @@ function EquipmentMaintenanceEditFormFill(equipmentMaintenanceDefinition) {
         else {
             fecha = FormatDate(equipmentMaintenanceDefinition.FirstDate, "/");
         }
+
+        // alex: cuando la fecha es 1970 es el valor por defecto de una fecha nul traspasada de SQL a JSON
+        if (fecha.indexOf("/1970") !== -1) {
+            fecha = "";
+        }
     }
     $("#NewMaintainmentFirstDate").val(fecha);
 
@@ -220,7 +233,7 @@ function EquipmentMaintenanceDefinitionValidateForm() {
         $("#RMaintainmentTypeErrorRequired").show();
     }
   
-    if ($("#NewMaintainmentFirstDate").val() !== "") { //&& $("#TxtStartDate").val() !== "") {
+    if ($("#NewMaintainmentFirstDate").val() !== "") {
         var date = GetDate($("#NewMaintainmentFirstDate").val(), "/", false);
         var eqdate = GetDate($("#TxtStartDate").val(), "/", false);
         if (date < eqdate) {
@@ -229,9 +242,11 @@ function EquipmentMaintenanceDefinitionValidateForm() {
         }
     }
     else {
-        if (!RequiredFieldText("NewMaintainmentFirstDate")) {
-            ok = false;
-            $("#TxtNewMaintainmentFirstDateErrorRequired").show();
+        if (SelectedEquipmentDefinitionSelectedId < 1) {
+            if (!RequiredFieldText("NewMaintainmentFirstDate")) {
+                ok = false;
+                $("#TxtNewMaintainmentFirstDateErrorRequired").show();
+            }
         }
     }
 
@@ -281,7 +296,7 @@ function EquipmentMaintenanceDefinitionEdit(sender) {
     }
 
     EquipmentMaintenanceEditFormFill(SelectedEquipmentMaintenanceDefinition);
-    var dialog = $("#dialogNewMaintaiment").removeClass("hide").dialog({
+    $("#dialogNewMaintaiment").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentMaintenance_PopupConfigurationUpdate_Title + "</h4></div>",
