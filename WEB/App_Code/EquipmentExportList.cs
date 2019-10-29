@@ -1,27 +1,31 @@
-﻿using System;
+﻿// --------------------------------
+// <copyright file="EquipmentExportList.ampx.cs" company="OpenFramework">
+//     Copyright (c) OpenFramework. All rights reserved.
+// </copyright>
+// <author>Juan Castilla Calderón - jcastilla@openframework.es</author>
+// --------------------------------
+using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
-using iTS = iTextSharp.text;
-using iTSpdf = iTextSharp.text.pdf;
 using GisoFramework;
 using GisoFramework.Activity;
 using GisoFramework.Item;
 using iTextSharp.text.pdf;
 using PDF_Tests;
-using System.Globalization;
-using System.Configuration;
-using System.IO;
+using iTS = iTextSharp.text;
+using iTSpdf = iTextSharp.text.pdf;
 
-/// <summary>
-/// Descripción breve de EquipmentExportList
-/// </summary>
+/// <summary>Descripción breve de EquipmentExportList</summary>
 [WebService(Namespace = "http://tempuri.org/")]
 [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
 [ScriptService]
-public class EquipmentExportList : System.Web.Services.WebService
+public class EquipmentExportList : WebService
 {
 
     public EquipmentExportList()
@@ -107,18 +111,25 @@ public class EquipmentExportList : System.Web.Services.WebService
 
         titleTable.AddCell(titleCell);
 
-        var table = new iTSpdf.PdfPTable(4)
+        // @alex: hay que indicar que hay una columna menos por fila
+        //// var table = new iTSpdf.PdfPTable(4)
+        var table = new iTSpdf.PdfPTable(3)
         {
             WidthPercentage = 100,
             HorizontalAlignment = 1,
             SpacingBefore = 20f,
             SpacingAfter = 30f
         };
-        table.SetWidths(new float[] { 20f, 10f, 5f, 15f });
+
+        // @alex: hay que indicar los anchos de las columna sin tener en cuenta la de importe
+        //// table.SetWidths(new float[] { 20f, 10f, 5f, 15f });
+        table.SetWidths(new float[] { 20f, 10f, 15f });
 
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Code"] + " - " + dictionary["Item_Equipment_Header_Description"]));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Location"]));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Cost"]));
+        
+        // @alex: se omite la columna de la cabecera
+        //// table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Cost"]));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Responsible"]));
 
         int cont = 0;
@@ -330,7 +341,8 @@ public class EquipmentExportList : System.Web.Services.WebService
                 PaddingTop = 4f
             });
 
-            string totalCost = string.Format("{0:#,##0.00}", equipment.TotalCost);
+            // @alex: se omite la celda de los datos del coste
+            /*string totalCost = string.Format("{0:#,##0.00}", equipment.TotalCost);
             table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(totalCost, ToolsPdf.LayoutFonts.Times))
             {
                 Border = border,
@@ -338,7 +350,7 @@ public class EquipmentExportList : System.Web.Services.WebService
                 Padding = 6f,
                 PaddingTop = 4f,
                 HorizontalAlignment = 2
-            });
+            });*/
 
             table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Responsible.FullName, ToolsPdf.LayoutFonts.Times))
             {

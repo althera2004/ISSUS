@@ -22,6 +22,7 @@ namespace GisoFramework.Item
     /// <summary>Implements IncidentAction class</summary>
     public class IncidentAction : BaseItem
     {
+        /// <summary>Gets an empty IncidentAction</summary>
         public static IncidentAction Empty
         {
             get
@@ -1332,6 +1333,7 @@ namespace GisoFramework.Item
                 res.Append(Tools.JsonPair("ImplementationDate", item.ImplementationDate)).Append(", ");
                 res.Append(Tools.JsonPair("CloseDate", item.CloseDate)).Append(", ");
                 res.Append(Tools.JsonPair("Amount", item.Amount)).Append(", ");
+                res.Append(Tools.JsonPair("AuditoryType", item.AuditoryType)).Append(", ");
                 res.Append("\"Associated\": {\"Id\": ").Append(item.Incident.Id).Append(", \"Description\": \"").Append(string.Format(CultureInfo.InvariantCulture, "{0}", Tools.JsonCompliant(item.Incident.Description))).Append("\"}");
                 res.Append("}");
             }
@@ -1395,7 +1397,8 @@ namespace GisoFramework.Item
                                         Id = rdr.GetInt64(IndicentActionFilterGet.IncidentId),
                                         Description = rdr.GetString(IndicentActionFilterGet.IncidentCode)
                                     },
-                                    Amount = rdr.GetDecimal(IndicentActionFilterGet.Amount)
+                                    Amount = rdr.GetDecimal(IndicentActionFilterGet.Amount),
+                                    AuditoryType = rdr.GetInt32(IndicentActionFilterGet.AuditoryType)
                                 };
 
                                 if (!rdr.IsDBNull(IndicentActionFilterGet.OpenDate))

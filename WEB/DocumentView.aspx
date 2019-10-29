@@ -424,19 +424,19 @@
 
             function SetOrigen() {
                 // Dejar las alertas procedencias en reset
-                document.getElementById("TxtProcedenciaLabel").style.color = "#000";
-                document.getElementById("TxtProcedenciaErrorRequired").style.display = "none";
+                $("#TxtProcedenciaLabel").css("color", "#000");
+                $("#TxtProcedenciaErrorRequired").hide();
 
                 if (sourceSelected == 1) {
-                    document.getElementById("TxtProcedenciaLabel").style.display = "none";
-                    document.getElementById("BtnProcedencia").style.display = "none";
-                    document.getElementById("CmbProcedencia").style.display = "none";
+                    $("#TxtProcedenciaLabel").hide();
+                    $("#BtnProcedencia").hide();
+                    $("#CmbProcedencia").hide();
                 }
 
                 if (sourceSelected == 2) {
-                    document.getElementById("TxtProcedenciaLabel").style.display = "block";
-                    document.getElementById("BtnProcedencia").style.display = "";
-                    document.getElementById("CmbProcedencia").style.display = "block";
+                    $("#TxtProcedenciaLabel").show();
+                    $("#BtnProcedencia").show();
+                    $("#CmbProcedencia").show();
                 }
             }
 
@@ -444,7 +444,7 @@
                 var ok = true;
                 $("#TxtCodigoErrorDuplicated").hide();
                 $("#TxtDocumentoErrorDuplicated").hide();
-                document.getElementById("TxtStartDateLabel").style.color = "#000";
+                $("#TxtStartDateLabel").css("color", "#000");
                 $("#TxtStartDateErrorRequired").hide();
                 $("#TxtStartDatePreviousRevision").hide();
                 if(!RequiredFieldText("TxtCodigo")) { ok = false; }
@@ -466,8 +466,8 @@
 
                     if(duplicated === true)
                     {
-                        document.getElementById("TxtCodigoErrorDuplicated").style.display = "block";
-                        document.getElementById("TxtDocumentoErrorDuplicated").style.display = "block";
+                        $("#TxtCodigoErrorDuplicated").show();
+                        $("#TxtDocumentoErrorDuplicated").show();
                         ok = false;
                     }
                 }
@@ -480,20 +480,20 @@
                 if (document.getElementById("CmbConservacion").value == 0) {
                     ok = false;
                     conservacionok = false;
-                    document.getElementById("CmbConservacionErrorRequired").style.display = "block";
+                    $("#CmbConservacionErrorRequired").show();
                 }
                 else
                 {
-                    document.getElementById("CmbConservacionErrorRequired").style.display = "none";
+                    $("#CmbConservacionErrorRequired").hide();
                 }
 
-                if(conservacionok===true)
+                if(conservacionok === true)
                 {                
-                    document.getElementById("TxtConservacionLabel").style.color = "#000";
+                    $("#TxtConservacionLabel").css("color", "#000");
                 }
                 else
                 {
-                    document.getElementById("TxtConservacionLabel").style.color = "#f00";
+                    $("#TxtConservacionLabel").css("color", "#f00");
                 }
 
                 if (!RequiredFieldText("TxtCategory")) { ok = false; }
@@ -503,8 +503,8 @@
                 }
                 else
                 {
-                    document.getElementById("TxtProcedenciaLabel").style.color="#000";
-                    document.getElementById("TxtProcedenciaErrorRequired").style.display="none";
+                    $("#TxtProcedenciaLabel").css("color", "#000");
+                    $("#TxtProcedenciaErrorRequired").hide();
                 }
 
                 // ISSUS-210 - Fecha alta no puede ser posterior a fecha de revision
@@ -595,7 +595,7 @@
                 $("#BtnCategory").on("click", function (e) {
                     e.preventDefault();
                     RenderCategoryTable();
-                    var dialog = $("#dialogCategory").removeClass("hide").dialog({
+                    $("#dialogCategory").removeClass("hide").dialog({
                         "resizable": false,
                         "modal": true,
                         "title": Dictionary.Item_Document_PopupCategory_Title,
@@ -625,25 +625,26 @@
                 $("#BtnProcedencia").on("click", function (e) {
                     e.preventDefault();
                     RenderProcedenciasTable();
-                    var dialog = $("#dialogProcedencia").removeClass("hide").dialog({
-                        resizable: false,
-                        modal: true,
-                        title: Dictionary.Item_Document_PopupSource_Title,
-                        title_html: true,
-                        width: 800,
-                        buttons: [
+                    $("#dialogProcedencia").removeClass("hide").dialog({
+                        "resizable": false,
+                        "modal": true,
+                        "title": Dictionary.Item_Document_PopupSource_Title,
+                        "title_html": true,
+                        "width": 800,
+                        "buttons": [
                             {
-                                id: 'BtnNewProcedencia',
-                                html: "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
+                                "id": "BtnNewProcedenciaSave",
+                                "html": "<i class=\"icon-ok bigger-110\"></i>&nbsp;" + Dictionary.Common_Add,
                                 "class": "btn btn-success btn-xs",
-                                click: function () {
+                                "click": function () {
                                     ProcedenciaInsert();
                                 }
                             },
                             {
-                                html: "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
+                                "id": "BtnNewProcedenciaCancel",
+                                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_Cancel,
                                 "class": "btn btn-xs",
-                                click: function () { $(this).dialog("close"); }
+                                "click": function () { $(this).dialog("close"); }
                             }
                         ]
                     });

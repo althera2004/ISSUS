@@ -1,4 +1,4 @@
-﻿function FilterList(listId, listDataHeader, totalDOMElement) {
+﻿function FilterList(e, listId, listDataHeader, totalDOMElement) {
     if (typeof listId === "undefined" || listId === null) {
         listId = "ListDataTable";
     }

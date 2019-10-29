@@ -1,4 +1,4 @@
-﻿var selectedRows = new Array();
+﻿var selectedRows = [];
 
 function LearningUpdate(id) {
     document.location = "FormacionView.aspx?id=" + id;
@@ -250,23 +250,23 @@ if (typeof user.Grants.Learning === "undefined" || user.Grants.Learning.Delete =
 }
 
 function Export() {
-    var status = -1;
-    if (document.getElementById("status0").checked === true) { status = 0; }
-    if (document.getElementById("status1").checked === true) { status = 1; }
-    if (document.getElementById("status2").checked === true) { status = 2; }
-    if (document.getElementById("status3").checked === true) { status = 3; }
-    var data =
-        {
-            "companyId": Company.Id,
-            "yearFrom": $("#TxtDateFrom").val(),
-            "yearTo": $("#TxtDateTo").val(),
-            "mode": status,
-            "listOrder": listOrder
-        };
+    var status = "";
+    if (document.getElementById("status0").checked === true) { status += "0"; }
+    if (document.getElementById("status1").checked === true) { status += "1"; }
+    if (document.getElementById("status2").checked === true) { status += "2"; }
+    if (document.getElementById("status3").checked === true) { status += "3"; }
+    var data = {
+        "companyId": Company.Id,
+        "yearFrom": $("#TxtDateFrom").val(),
+        "yearTo": $("#TxtDateTo").val(),
+        "mode": status,
+        "listOrder": listOrder,
+        "textFilter": $("#nav-search-input").val()
+    };
 
-    console.log(data);
+    console.log("Export",data);
 
-    LoadingShow(Dictionary.Common_Report_Rendering);
+    //LoadingShow(Dictionary.Common_Report_Rendering);
     $.ajax({
         "type": "POST",
         "url": "/Export/FormacionExportList.aspx/PDF",
@@ -274,7 +274,7 @@ function Export() {
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
         "success": function (msg) {
-            LoadingHide();
+            //LoadingHide();
             var link = document.createElement("a");
             link.id = "download";
             link.href = msg.d.MessageError;
@@ -305,7 +305,7 @@ function SetFilter() {
     filter += $("#TxtDateTo").val();
 
     var data = { "filter": filter };
-    LoadingShow(Dictionary.Common_Message_Saving);
+    //LoadingShow(Dictionary.Common_Message_Saving);
     $.ajax({
         "type": "POST",
         "url": "/Async/LearningActions.asmx/SetFilter",
@@ -417,16 +417,16 @@ function RenderLearningTable() {
 
             if ($("#TxtDateTo").val() !== "") {
                 var to = GetDate($("#TxtDateTo").val(), "/", false);
-                var compareFinish = GetDate(learningData[x].DateEstimated, "/", false);
-                if (typeof learningData[x].RealStart !== "undefined" && learningData[x].RealStart !== null && learningData[x].RealStart !== "") {
-                    compareFinish = GetDate(learningData[x].RealStart, "/", false);
-                }
+                var compareFinish = null;
 
                 if (typeof learningData[x].RealFinish !== "undefined" && learningData[x].RealFinish !== null && learningData[x].RealFinish !== "") {
                     compareFinish = GetDate(learningData[x].RealFinish, "/", false);
                 }
+                else if (typeof learningData[x].RealStart !== "undefined" && learningData[x].RealStart !== null && learningData[x].RealStart !== "") {
+                    compareFinish = GetDate(learningData[x].RealStart, "/", false);
+                }
 
-                if (compareFinish > to) { continue; }
+                if (compareFinish !== null && compareFinish > to) { continue; }
             }
 
             tableContent += RenderLearningRow(learningData[x]);
@@ -460,7 +460,12 @@ function RenderLearningRow(data) {
     }
 
     var realFinish = "";
+    var colorFinish = "";
     if (typeof data.RealFinish !== "undefined" && data.RealFinish !== null && data.RealFinish !== "") {
+        if (data.RealFinish.indexOf("/1970") !== -1) {
+            colorFinish = "color:transparent;";
+        }
+
         realFinish = data.RealFinish;
     }
 
@@ -481,7 +486,7 @@ function RenderLearningRow(data) {
     res += "<tr><td>";
     res += "    <a href=\"FormacionView.aspx?id=" + data.Id + "\">" + data.Description + "</a>";
     res += "  </td><td align=\"center\" style=\"width:100px;white-space:nowrap;\">" + realStart;
-    res += "  </td><td align=\"center\" style=\"width:100px;white-space:nowrap;\">" + realFinish;
+    res += "  </td><td align=\"center\" style=\"" + colorFinish + "width:100px;white-space:nowrap;\">" + realFinish;
     res += "  </td><td align=\"center\" class=\"hidden-480\" style=\"width:100px;white-space:nowrap;\">" + estadoText;
     res += "  </td><td align=\"right\" class=\"hidden-480\" style=\"width:150px;white-space:nowrap;\">" + ToMoneyFormat(data.Amount, 2);
     res += "  </td><td class=\"hidden-480\" style=\"width:90px;white-space:nowrap;\">";

@@ -6,16 +6,18 @@ function IncidentActionGetFilter(exportType) {
     $("#RType1").removeAttr("disabled");
     $("#RType2").removeAttr("disabled");
     $("#RType3").removeAttr("disabled");
+
     if (document.getElementById("RType1").checked === true && document.getElementById("RType2").checked === false && document.getElementById("RType3").checked === false) {
         $("#RType1").attr("disabled", "disabled");
     }
+
     if (document.getElementById("RType1").checked === false && document.getElementById("RType2").checked === true && document.getElementById("RType3").checked === false) {
         $("#RType2").attr("disabled", "disabled");
     }
+
     if (document.getElementById("RType1").checked === false && document.getElementById("RType2").checked === false && document.getElementById("RType3").checked === true) {
         $("#RType3").attr("disabled", "disabled");
     }
-
 
     var statusSelected = document.getElementById("chkStatus1").checked ? "1" : "0";
     statusSelected += document.getElementById("chkStatus2").checked ? "1" : "0";
@@ -72,8 +74,7 @@ function IncidentActionGetFilter(exportType) {
         return false;
     }
 
-    var data =
-    {
+    var data = {
         "companyId": Company.Id,
         "from": from,
         "to": to,
@@ -138,7 +139,6 @@ function ItemRenderTable(list) {
 
         total += list[x].Amount;
 
-        var status = "";
         var colorStatus = "#fff;";
         if (item.Status === 1) { status = Dictionary.Item_IndicentAction_Status1; colorStatus = "#f00"; }
         if (item.Status === 2) { status = Dictionary.Item_IndicentAction_Status2; colorStatus = "#dd0"; }
@@ -151,65 +151,77 @@ function ItemRenderTable(list) {
         if (item.ActionType === 3) { type = Dictionary.Item_IncidentAction_Type3; }
 
         var origin = "";
-        if (item.Origin === 1) {
 
-            if (item.Associated.Id === 0) {
-                origin = document.createTextNode(Dictionary.Item_IncidentAction_Origin1);
-            }
-            else {
+        if (item.Associated.Id === 0) {
+            item.Origin = 2;
+        }
+
+        switch (item.Origin) {
+            case 1:
+
+                if (item.Associated.Id === 0) {
+                    origin = document.createTextNode(Dictionary.Item_IncidentAction_Origin1);
+                }
+                else {
+                    origin = document.createElement("A");
+
+                    if (item.AuditoryType === 1) {
+                        origin.href = "AuditoryExternaView.aspx?id=" + item.Associated.Id;
+                    }
+                    else {
+                        origin.href = "AuditoryView.aspx?id=" + item.Associated.Id;
+                    }
+
+                    origin.appendChild(document.createTextNode(Dictionary.Item_IncidentAction_Origin1));
+                    var spantext = document.createElement("span");
+                    spantext.style.display = "none";
+                    spantext.appendChild(document.createTextNode(item.Associated.Description));
+                    origin.appendChild(spantext);
+                    origin.title = item.Associated.Description;
+                }
+                break;
+            case 2: origin = document.createTextNode(Dictionary.Item_IncidentAction_Origin2);
+                break;
+            case 3:
                 origin = document.createElement("A");
-                origin.href = "AuditoryView.aspx?id=" + item.Associated.Id;
-                origin.appendChild(document.createTextNode(Dictionary.Item_IncidentAction_Origin1));
-                var spantext = document.createElement("span");
-                spantext.style.display = "none";
-                spantext.appendChild(document.createTextNode(item.Associated.Description));
-                origin.appendChild(spantext);
+                origin.href = "IncidentView.aspx?id=" + item.Associated.Id;
+                origin.appendChild(document.createTextNode(Dictionary.Item_IncidentAction_Origin3));
+                var spantext3 = document.createElement("span");
+                spantext3.style.display = "none";
+                spantext3.appendChild(document.createTextNode(item.Associated.Description));
+                origin.appendChild(spantext3);
                 origin.title = item.Associated.Description;
-            }
-        }
-        if (item.Origin === 2) { origin = document.createTextNode(Dictionary.Item_IncidentAction_Origin2); }
-        if (item.Origin === 3) {
-            origin = document.createElement("A");
-            origin.href = "IncidentView.aspx?id=" + item.Associated.Id;
-            origin.appendChild(document.createTextNode(Dictionary.Item_IncidentAction_Origin3));
-            var spantext3 = document.createElement("span");
-            spantext3.style.display = "none";
-            spantext3.appendChild(document.createTextNode(item.Associated.Description));
-            origin.appendChild(spantext3);
-			origin.title = item.Associated.Description;
-        }
-
-        if (item.Origin === 4) {
-            origin = document.createElement("A");
-            origin.href = "BusinessRiskView.aspx?id=" + item.Associated.Id;
-            origin.appendChild(document.createTextNode(Dictionary.Item_IncidentAction_Origin4));
-            var businessRiskName = document.createElement("SPAN");
-            businessRiskName.style.display = "none";
-            businessRiskName.appendChild(document.createTextNode(item.Associated.Description));
-            origin.appendChild(businessRiskName);
-			origin.title = item.Associated.Description;
-        }
-
-        if (item.Origin === 5) {
-            origin = document.createElement("A");
-            origin.href = "ObjetivoView.aspx?id=" + item.Associated.Id;
-            origin.appendChild(document.createTextNode(Dictionary.Item_IncidentAction_Origin5));
-            var objetivoName = document.createElement("SPAN");
-            objetivoName.style.display = "none";
-            objetivoName.appendChild(document.createTextNode(item.Associated.Description));
-            origin.appendChild(objetivoName);
-            origin.title = item.Associated.Description;
-        }
-
-        if (item.Origin === 6) {
-            origin = document.createElement("A");
-            origin.href = "OportunityView.aspx?id=" + item.Associated.Id;
-            origin.appendChild(document.createTextNode(Dictionary.Item_IncidentAction_Origin6));
-            var oportunityName = document.createElement("SPAN");
-            oportunityName.style.display = "none";
-            oportunityName.appendChild(document.createTextNode(item.Associated.Description));
-            origin.appendChild(oportunityName);
-            origin.title = item.Associated.Description;
+                break;
+            case 4:
+                origin = document.createElement("A");
+                origin.href = "BusinessRiskView.aspx?id=" + item.Associated.Id;
+                origin.appendChild(document.createTextNode(Dictionary.Item_IncidentAction_Origin4));
+                var businessRiskName = document.createElement("SPAN");
+                businessRiskName.style.display = "none";
+                businessRiskName.appendChild(document.createTextNode(item.Associated.Description));
+                origin.appendChild(businessRiskName);
+                origin.title = item.Associated.Description;
+                break;
+            case 5:
+                origin = document.createElement("A");
+                origin.href = "ObjetivoView.aspx?id=" + item.Associated.Id;
+                origin.appendChild(document.createTextNode(Dictionary.Item_IncidentAction_Origin5));
+                var objetivoName = document.createElement("SPAN");
+                objetivoName.style.display = "none";
+                objetivoName.appendChild(document.createTextNode(item.Associated.Description));
+                origin.appendChild(objetivoName);
+                origin.title = item.Associated.Description;
+                break;
+            case 6:
+                origin = document.createElement("A");
+                origin.href = "OportunityView.aspx?id=" + item.Associated.Id;
+                origin.appendChild(document.createTextNode(Dictionary.Item_IncidentAction_Origin6));
+                var oportunityName = document.createElement("SPAN");
+                oportunityName.style.display = "none";
+                oportunityName.appendChild(document.createTextNode(item.Associated.Description));
+                origin.appendChild(oportunityName);
+                origin.title = item.Associated.Description;
+                break;
         }
 
         var actionLink = document.createElement("A");
@@ -223,14 +235,17 @@ function ItemRenderTable(list) {
             iconStatus.className = "fa icon-pie-chart";
 			iconStatus.title = Dictionary.Item_IndicentAction_Status1;
         }
+
 		if (item.Status === 2) {
             iconStatus.className = "fa icon-pie-chart";
 			iconStatus.title = Dictionary.Item_IndicentAction_Status2;
         }
+
 		if (item.Status === 3) {
             iconStatus.className = "fa icon-play";
 			iconStatus.title = Dictionary.Item_IndicentAction_Status3;
         }
+
         if (item.Status === 4) {
             iconStatus.className = "fa icon-lock";
 			iconStatus.title = Dictionary.Item_IndicentAction_Status4;
@@ -485,8 +500,7 @@ function ExportPDF() {
     var type2 = document.getElementById("RType2").checked;
     var type3 = document.getElementById("RType3").checked;
 
-    var data =
-    {
+    var data = {
         "companyId": Company.Id,
         "from": from,
         "to": to,

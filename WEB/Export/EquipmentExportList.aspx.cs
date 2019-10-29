@@ -107,8 +107,10 @@ public partial class ExportEquipmentList : Page
         };
 
         titleTable.AddCell(titleCell);
-        
-        var table = new iTSpdf.PdfPTable(4)
+
+        // @alex: hay que indicar que hay una columna menos por fila
+        //// var table = new iTSpdf.PdfPTable(4)
+        var table = new iTSpdf.PdfPTable(3)
         {
             WidthPercentage = 100,
             HorizontalAlignment = 1,
@@ -119,7 +121,9 @@ public partial class ExportEquipmentList : Page
 
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Code"] + " - " + dictionary["Item_Equipment_Header_Description"]));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Location"]));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Cost"]));
+
+        // @alex: se omite la columna de la cabecera
+        //// table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Cost"]));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Equipment_Header_Responsible"]));
 
         int cont = 0;
@@ -277,7 +281,8 @@ public partial class ExportEquipmentList : Page
                 PaddingTop = 4f
             });
 
-            string totalCost = string.Format("{0:#,##0.00}", equipment.TotalCost);
+            // @alex: se omite la celda de los datos del coste
+            /*string totalCost = string.Format("{0:#,##0.00}", equipment.TotalCost);
             table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(totalCost, ToolsPdf.LayoutFonts.Times))
             {
                 Border = border,
@@ -285,7 +290,7 @@ public partial class ExportEquipmentList : Page
                 Padding = 6f,
                 PaddingTop = 4f,
                 HorizontalAlignment = 2
-            });
+            });*/
             
             table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(equipment.Responsible.FullName, ToolsPdf.LayoutFonts.Times))
             {

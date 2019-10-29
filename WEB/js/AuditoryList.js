@@ -551,9 +551,9 @@ function ExportPDF() {
         "status3": document.getElementById("ChkStatus3").checked,
         "status4": document.getElementById("ChkStatus4").checked,
         "status5": document.getElementById("ChkStatus5").checked,
-        "interna": document.getElementById("ChkInterna").checked,
-        "externa": document.getElementById("ChkExterna").checked,
-        "provider": document.getElementById("ChkProvider").checked
+        "interna": document.getElementById("ChkType0").checked,
+        "externa": document.getElementById("ChkType1").checked,
+        "provider": document.getElementById("ChkType2").checked
     };
 
     LoadingShow(Dictionary.Common_Report_Rendering);
