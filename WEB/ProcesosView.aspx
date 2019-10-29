@@ -58,12 +58,15 @@
                                                 <li class="active" id="TabHome">
                                                     <a data-toggle="tab" href="#home"><%=this.Dictionary["Item_Process_Tab_Principal"] %></a>
                                                 </li>
-                                                <!--<li id="tabIndicators">                                                    
+                                                <!-- Mostramos/Ocultamos pestaña Indicadores -->
+                                                <li id="tabIndicators">                                                    
                                                     <a data-toggle="tab" href="#indicators"><%=this.Dictionary["Item_Process_Tab_Indicators"] %></a>
                                                 </li>
+                                                <!--
                                                 <li id="tabQuestionarios">                                                    
                                                     <a data-toggle="tab" href="#questionarios">Cuestionarios</a>
-                                                </li>-->
+                                                </li>
+                                                -->
                                                 <% if (this.Proceso.Id > 0) { %>
                                                 <li id="tabAttachments">                                                    
                                                     <a data-toggle="tab" href="#uploadFiles"><%=this.Dictionary["Item_IncidentAction_Tab_UploadFiles"] %></a>
