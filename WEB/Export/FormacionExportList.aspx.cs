@@ -14,14 +14,14 @@ using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
 using System.Web.UI;
-using iTS = iTextSharp.text;
-using iTSpdf = iTextSharp.text.pdf;
 using GisoFramework;
 using GisoFramework.Activity;
 using GisoFramework.Item;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using PDF_Tests;
+using iTS = iTextSharp.text;
+using iTSpdf = iTextSharp.text.pdf;
 
 public partial class ExportFormacionExportList : Page
 {
@@ -33,7 +33,7 @@ public partial class ExportFormacionExportList : Page
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public static ActionResult PDF(int companyId, string yearFrom, string yearTo, int mode, string listOrder)
+    public static ActionResult PDF(int companyId, string yearFrom, string yearTo, string mode, string listOrder, string textFilter)
     {
         var res = ActionResult.NoAction;
         var user = HttpContext.Current.Session["User"] as ApplicationUser;
@@ -123,9 +123,34 @@ public partial class ExportFormacionExportList : Page
         };
 
         string modeText = dictionary["Common_All_Female_Plural"];
-        if (mode == 0) { modeText = dictionary["Item_Learning_Status_InProgress"]; }
-        if (mode == 1) { modeText = dictionary["Item_Learning_Status_Finished"]; }
-        if (mode == 2) { modeText = dictionary["Item_Learning_Status_Evaluated"]; }        
+        if (!string.IsNullOrEmpty(mode))
+        {
+            modeText = string.Empty;
+            bool first = true;
+            if (mode.IndexOf("0") != -1)
+            {
+                modeText += dictionary["Item_Learning_Status_InProgress"];
+                first = false;
+            }
+
+            if (mode.IndexOf("1") != -1)
+            {
+                if (!first) { modeText += ", "; }
+                modeText += dictionary["Item_Learning_Status_Started"];
+                first = false;
+            }
+            if (mode.IndexOf("2") != -1)
+            {
+                if (!first) { modeText += ", "; }
+                modeText += dictionary["Item_Learning_Status_Finished"];
+                first = false;
+            }
+            if (mode.IndexOf("3") != -1)
+            {
+                if (!first) { modeText += ", "; }
+                modeText += dictionary["Item_Learning_Status_Evaluated"];
+            }
+        }
 
         criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Period"] + " :", ToolsPdf.LayoutFonts.TimesBold))
         {
@@ -159,6 +184,26 @@ public partial class ExportFormacionExportList : Page
             PaddingTop = 4f
         });
 
+        if (!string.IsNullOrEmpty(textFilter))
+        {
+            criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_PDF_Filter_Contains"] + " :", ToolsPdf.LayoutFonts.TimesBold))
+            {
+                Border = ToolsPdf.BorderNone,
+                HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+                Padding = 6f,
+                PaddingTop = 4f
+            });
+
+            criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(textFilter, ToolsPdf.LayoutFonts.Times))
+            {
+                Border = ToolsPdf.BorderNone,
+                HorizontalAlignment = iTS.Element.ALIGN_LEFT,
+                Padding = 6f,
+                PaddingTop = 4f,
+                Colspan =5
+            });
+        }
+
         pdfDoc.Add(criteriatable);
 
         var table = new iTSpdf.PdfPTable(5)
@@ -171,10 +216,10 @@ public partial class ExportFormacionExportList : Page
 
         table.SetWidths(new float[] { 15f, 5f, 5f, 5f, 5f });
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_FieldLabel_Course"]));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_ListHeader_DateComplete"]));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_FieldLabel_Cost"]));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_FieldLabel_Status"]));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_FieldLabel_EstimatedDate"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_ListHeader_DateComplete"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_FieldLabel_Status"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Learning_FieldLabel_Cost"]));
         int cont = 0;
 
         DateTime? yFrom = null;
@@ -182,15 +227,28 @@ public partial class ExportFormacionExportList : Page
 
         if (!string.IsNullOrEmpty(yearFrom) && yearFrom != "0")
         {
-            yFrom = Tools.TextToDate(yearFrom);
+            // yFrom = Tools.TextToDate(yearFrom);
+            var parts = yearFrom.Split('/');
+            yFrom = new DateTime(Convert.ToInt32(parts[2]), Convert.ToInt32(parts[1]), Convert.ToInt32(parts[0]));
         }
 
         if (!string.IsNullOrEmpty(yearTo) && yearTo != "0")
         {
-            yTo = Tools.TextToDate(yearTo);
+            // yTo = Tools.TextToDate(yearTo);
+            var parts = yearTo.Split('/');
+            yTo = new DateTime(Convert.ToInt32(parts[2]), Convert.ToInt32(parts[1]), Convert.ToInt32(parts[0]));
         }
 
-        var learningFilter = new LearningFilter(companyId) { Pendent =true, YearFrom = yFrom, YearTo = yTo };
+        var learningFilter = new LearningFilter(companyId)
+        {
+            Pendent = mode.IndexOf("0") != -1,
+            Started = mode.IndexOf("1") != -1,
+            Finished = mode.IndexOf("2") != -1,
+            Evaluated = mode.IndexOf("3") != -1,
+            YearFrom = yFrom,
+            YearTo = yTo
+        };
+
         decimal totalCost = 0;
         int count = 0;
 
@@ -207,7 +265,37 @@ public partial class ExportFormacionExportList : Page
                 case "TH0|DESC":
                     data = data.OrderByDescending(d => d.Description).ToList();
                     break;
+                case "TH1|ASC":
+                    data = data.OrderBy(d => d.RealStart).ToList();
+                    break;
+                case "TH1|DESC":
+                    data = data.OrderByDescending(d => d.RealStart).ToList();
+                    break;
+                case "TH2|ASC":
+                    data = data.OrderBy(d => d.RealFinish).ToList();
+                    break;
+                case "TH2|DESC":
+                    data = data.OrderByDescending(d => d.RealFinish).ToList();
+                    break;
+                case "TH3|ASC":
+                    data = data.OrderBy(d => d.Status).ToList();
+                    break;
+                case "TH3|DESC":
+                    data = data.OrderByDescending(d => d.Status).ToList();
+                    break;
+                case "TH4|ASC":
+                    data = data.OrderBy(d => d.Amount).ToList();
+                    break;
+                case "TH4|DESC":
+                    data = data.OrderByDescending(d => d.Amount).ToList();
+                    break;
             }
+        }
+
+        // aplicar filtro de texto
+        if (!string.IsNullOrEmpty(textFilter))
+        {
+            data = data.Where(d => d.Description.IndexOf(textFilter, StringComparison.OrdinalIgnoreCase) != -1).ToList();
         }
 
         foreach (var learning in data)
@@ -237,25 +325,6 @@ public partial class ExportFormacionExportList : Page
 
             int border = 0;
             table.AddCell(ToolsPdf.DataCell(learning.Description));
-            table.AddCell(ToolsPdf.DataCellCenter(learning.RealFinish));
-            table.AddCell(ToolsPdf.DataCellMoney(learning.Amount));
-            totalCost += learning.Amount;
-
-            string statusText = string.Empty;
-            switch (learning.Status)
-            {
-                default:
-                case 0: statusText = dictionary["Item_Learning_Status_InProgress"]; break;
-                case 1: statusText = dictionary["Item_Learning_Status_Finished"]; break;
-                case 2: statusText = dictionary["Item_Learning_Status_Evaluated"]; break;
-            }
-
-            table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(statusText, ToolsPdf.LayoutFonts.Times))
-            {
-                Border = border,
-                Padding = ToolsPdf.PaddingTableCell,
-                PaddingTop = ToolsPdf.PaddingTopTableCell
-            });
 
             string fecha = Tools.TranslatedMonth(learning.DateEstimated.Month, dictionary) + " " + learning.DateEstimated.Year;
             table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(fecha, ToolsPdf.LayoutFonts.Times))
@@ -265,6 +334,43 @@ public partial class ExportFormacionExportList : Page
                 PaddingTop = 4f,
                 HorizontalAlignment = Rectangle.ALIGN_CENTER
             });
+
+            if (learning.RealFinish != null)
+            {
+                if (learning.RealFinish.Value.Year == 1970)
+                {
+                    table.AddCell(ToolsPdf.DataCell(string.Empty));
+                }
+                else
+                {
+                    table.AddCell(ToolsPdf.DataCellCenter(learning.RealFinish));
+                }
+            }
+            else
+            {
+                table.AddCell(ToolsPdf.DataCell(string.Empty));
+            }
+
+            string statusText = string.Empty;
+            switch (learning.Status)
+            {
+                default:
+                case 0: statusText = dictionary["Item_Learning_Status_InProgress"]; break;
+                case 1: statusText = dictionary["Item_Learning_Status_Started"]; break;
+                case 2: statusText = dictionary["Item_Learning_Status_Finished"]; break;
+                case 3: statusText = dictionary["Item_Learning_Status_Evaluated"]; break;
+            }
+
+            table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(statusText, ToolsPdf.LayoutFonts.Times))
+            {
+                Border = border,
+                Padding = ToolsPdf.PaddingTableCell,
+                PaddingTop = ToolsPdf.PaddingTopTableCell
+            });
+
+            table.AddCell(ToolsPdf.DataCellMoney(learning.Amount));
+            totalCost += learning.Amount;
+
             cont++;
         }
 
@@ -279,7 +385,8 @@ public partial class ExportFormacionExportList : Page
             Border = iTS.Rectangle.TOP_BORDER,
             BackgroundColor = rowEven,
             Padding = 6f,
-            PaddingTop = 4f
+            PaddingTop = 4f,
+            Colspan = 3
         });
 
         table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_Total"].ToUpperInvariant(), ToolsPdf.LayoutFonts.Times))
@@ -299,13 +406,6 @@ public partial class ExportFormacionExportList : Page
             Padding = 6f,
             PaddingTop = 4f,
             HorizontalAlignment = 2
-        });
-
-        table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Empty, ToolsPdf.LayoutFonts.Times))
-        {
-            Border = iTS.Rectangle.TOP_BORDER,
-            BackgroundColor = rowEven,
-            Colspan = 2
         });
 
         pdfDoc.Add(table);

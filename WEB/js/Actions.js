@@ -29,6 +29,7 @@ var ActionType = {
 };
 
 jQuery(function ($) {
+    $("h1").parent().removeClass("col-sm-8");
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
             var $title = this.options.title || "&nbsp;";
@@ -105,8 +106,13 @@ function SaveAction() {
         ok = false;
     }
 
+    // Se asume que si el Id es -1, es nuevo y sólo puede ser "Propuesta por dirección"
+    if (IncidentAction.Id < 0) {
+        IncidentAction.Origin = Origins.Propuesta;
+    }
+
     // Sólo para propuestas por dirección
-    if (IncidentAction.Origin === 2) {
+    if (IncidentAction.Origin === Origins.Propuesta) {
         if (!document.getElementById("RType1").checked && !document.getElementById("RType2").checked && !document.getElementById("RType3").checked) {
             ok = false;
             ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_TypeRequired);
@@ -318,7 +324,7 @@ function SaveAction() {
 
     var ROrigin = 0;
     if (IncidentAction.Id === -1) {
-        ROrigin = Origins.Incident;
+        ROrigin = Origins.Propuesta;
     }
     else if (IncidentAction.AuditoryId > 0) {
         RReporter = IncidentAction.ReporterType;

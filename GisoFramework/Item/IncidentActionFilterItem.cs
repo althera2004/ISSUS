@@ -50,6 +50,9 @@ namespace GisoFramework.Item
         /// <summary>Gets or sets ammount</summary>
         public decimal Amount { get; set; }
 
+        /// <summary>Gets or sets auditory type</summary>
+        public int AuditoryType { get; set; }
+
         /// <summary>Implements equals operator</summary>
         /// <param name="filter1">First filter to compare</param>
         /// <param name="filter2">Second filter to compare</param>

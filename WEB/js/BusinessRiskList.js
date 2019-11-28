@@ -533,7 +533,6 @@ function BusinessRiskRenderTable(list) {
         }
     }
 
-
     if (items.length === 0) {
         $("#nav-search").hide();
     }
@@ -1314,10 +1313,13 @@ $(document).mousemove(function (event) {
 });
 
 function FilterListSpecial() {
+    console.log("FilterListSpecial", selectedTabItem);
     if (selectedTabItem === 1) {
         FilterList();
     }
     else {
         FilterList("ListDataTableOportunity", "ListDataHeaderOportunity", "NumberCostsOportunity");
     }
+
+    return false;
 }

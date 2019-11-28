@@ -372,7 +372,7 @@ function CategoryUpdateConfirmed(id, newDescription) {
 
 function CategoryInsert() {
     document.getElementById("dialogCategory").parentNode.style.cssText += "z-Index:1039 !important";
-    $("#TxtCategoryNewName").va("");
+    $("#TxtCategoryNewName").val("");
     Selected = 0;
     $("#CategoryInsertDialog").removeClass("hide").dialog({
         "resizable": false,

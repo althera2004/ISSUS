@@ -334,6 +334,11 @@ public partial class ActionView : Page
                 this.OriginItemLink = this.Dictionary["Item_IncidentAction_Origin1"] + " " + this.Auditory.Link;
             }
 
+            if (this.IncidentAction.Origin == 1)
+            {
+                this.OriginItemLink = this.Dictionary["Item_IncidentAction_Origin1"];
+            }
+
             this.RenderDocuments();            
         }
         else
@@ -354,6 +359,11 @@ public partial class ActionView : Page
             }
 
             this.OriginItemLink = this.Dictionary["Item_IncidentAction_Origin2"];
+
+            if(this.IncidentAction.Origin == 1)
+            {
+                this.OriginItemLink = this.Dictionary["Item_IncidentAction_Origin1"];
+            }
         }
 
         this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.Dictionary["Item_IncidentAction_Tab_Basic"], Available = true });

@@ -112,8 +112,9 @@ public partial class ExportPrintFormacionData : Page
         string statusText = string.Empty;
         switch (learning.Status)
         {
-            case 1: statusText = dictionary["Item_Learning_Status_Finished"]; break;
-            case 2: statusText = dictionary["Item_Learning_Status_Evaluated"]; break;
+            case 1: statusText = dictionary["Item_Learning_Status_Started"]; break;
+            case 2: statusText = dictionary["Item_Learning_Status_Finished"]; break;
+            case 3: statusText = dictionary["Item_Learning_Status_Evaluated"]; break;
             default: statusText = dictionary["Item_Learning_Status_InProgress"]; break;
         }
 
