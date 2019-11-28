@@ -245,7 +245,7 @@ DiskQuote_Other::Altres
 Email::Correu
 Fin::Fi
 Item_Action_Popup_Details_Title::Detalls de l'acció
-Item_Adutiry_Message_NoActions::No hi cap acció definida a la auditoria.
+Item_Adutory_Message_NoActions::No hi ha cap acció definida a la auditoria. ¿Continuar amb la validació?
 Item_Adutory_Status_Explanation_0::Dades bàsiques sense acabar de planificar
 Item_Adutory_Status_Explanation_1::Planificada amb responsable i date
 Item_Adutory_Status_Explanation_2::Alguna pregunta del/ls qüestionaris marcada

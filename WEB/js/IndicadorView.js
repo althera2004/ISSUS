@@ -931,6 +931,8 @@ function IndicadorRegistroSave() {
                 }
 
                 $("#BtnRecordShowAll").click();
+                $("#th2").click();
+                $("#th2").click();
             }
         },
         "error": function (jqXHR, textStatus, errorThrown) {

@@ -4,7 +4,7 @@ var FormacionStatus = {
     "Pendiente": 0,
     "EnProgreso": 1,
     "Realizada": 2,
-    "Evaludada": 3
+    "Evaluada": 3
 };
 
 function AcceptSave() { SaveConfirmed(true); }
@@ -638,7 +638,7 @@ function Save() {
     }
 
     if (evaluatedAll === true) {
-        formacion.Status = FormacionStatus.Evaludada;
+        formacion.Status = FormacionStatus.Evaluada;
         promptInfoUI(Dictionary.Item_Learning_Message_Evaluation, 300, AcceptSave, CancelSave);
     }
     else {
