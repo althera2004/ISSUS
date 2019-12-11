@@ -74,6 +74,7 @@
             display: block;
             float: left;
             font-size: 12px;
+            cursor: default;
         }
 
         .breadcrumbWizard li a:after {
