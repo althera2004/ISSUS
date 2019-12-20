@@ -326,17 +326,22 @@ public partial class ActionView : Page
                 this.Oportunity = this.IncidentAction.Oportunity;
                 this.OriginItemLink = this.Dictionary["Item_IncidentAction_Origin6"] + " " + this.Oportunity.Link;
             }
-
-            if (this.IncidentAction.AuditoryId.HasValue && this.IncidentAction.AuditoryId > 0)
-            {
-                this.Auditory = Auditory.ById(this.IncidentAction.AuditoryId.Value, this.Company.Id);
-                this.Oportunity = this.IncidentAction.Oportunity;
-                this.OriginItemLink = this.Dictionary["Item_IncidentAction_Origin1"] + " " + this.Auditory.Link;
-            }
-
+            
             if (this.IncidentAction.Origin == 1)
             {
-                this.OriginItemLink = this.Dictionary["Item_IncidentAction_Origin1"];
+                if (this.IncidentAction.AuditoryId != null && this.IncidentAction.AuditoryId > 0)
+                {
+                    var auditory = Auditory.ById(this.IncidentAction.AuditoryId.Value, this.Company.Id);
+                    this.OriginItemLink = string.Format(
+                        CultureInfo.InvariantCulture,
+                        @"{0} - {1}",
+                        this.Dictionary["Item_IncidentAction_Origin1"],
+                        auditory.Link);
+                }
+                else
+                {
+                    this.OriginItemLink = this.Dictionary["Item_IncidentAction_Origin1"];
+                }
             }
 
             this.RenderDocuments();            
@@ -363,6 +368,14 @@ public partial class ActionView : Page
             if(this.IncidentAction.Origin == 1)
             {
                 this.OriginItemLink = this.Dictionary["Item_IncidentAction_Origin1"];
+            } 
+            else if(this.IncidentAction.Origin == 5)
+            {
+                this.OriginItemLink = string.Format(
+                    CultureInfo.InvariantCulture,
+                    "{0}: {1}",
+                    this.Dictionary["Item_IncidentAction_Origin5"],
+                    this.Objetivo.Link);
             }
         }
 
@@ -408,7 +421,7 @@ public partial class ActionView : Page
 
     public void RenderForm()
     {
-        this.TxtWhatHappened = new FormTextArea { /*TitleLabel=true,*/  Rows = 5, Value = this.IncidentAction.WhatHappened, Name = "TxtWhatHappened", Label = this.Dictionary["Item_IncidentAction_Field_WhatHappened"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12,MaxLength= Constant.MaximumTextAreaLength, Embedded = true };
+        this.TxtWhatHappened = new FormTextArea { Rows = 5, Value = this.IncidentAction.WhatHappened, Name = "TxtWhatHappened", Label = this.Dictionary["Item_IncidentAction_Field_WhatHappened"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12,MaxLength= Constant.MaximumTextAreaLength, Embedded = true };
         this.TxtCauses = new FormTextArea {Rows = 5, Value = this.IncidentAction.Causes, Name = "TxtCauses", Label = this.Dictionary["Item_IncidentAction_Field_Causes"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12, MaxLength = Constant.MaximumTextAreaLength, Embedded = true };
         this.TxtActions = new FormTextArea {Rows = 5, Value = this.IncidentAction.Actions, Name = "TxtActions", Label = this.Dictionary["Item_IncidentAction_Field_Actions"], ColumnsSpan = Constant.ColumnSpan8, ColumnsSpanLabel = 12, MaxLength = Constant.MaximumTextAreaLength, Embedded = true };
         this.TxtMonitoring = new FormTextArea {Rows = 5, Value = this.IncidentAction.Monitoring, Name = "TxtMonitoring", Label = this.Dictionary["Item_IncidentAction_Field_Monitoring"], ColumnsSpan = 12, ColumnsSpanLabel = 12, MaxLength = Constant.MaximumTextAreaLength, Embedded = true };

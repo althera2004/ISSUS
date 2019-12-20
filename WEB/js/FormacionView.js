@@ -614,7 +614,7 @@ function SelectEmployees() {
 function Save() {
     // Si no hay alumnos no se puede finalizar el curso.
     if (SelectedEmployees.length === 0) {
-        if ($("#TxtRealFinish").val() !== "") {
+        if ($("#TxtRealStart").val() !== "") {
             alertUI(Dictionary.Item_Learning_Message_NoAssistants);
             return false;
         }
@@ -638,7 +638,6 @@ function Save() {
     }
 
     if (evaluatedAll === true) {
-        formacion.Status = FormacionStatus.Evaludada;
         promptInfoUI(Dictionary.Item_Learning_Message_Evaluation, 300, AcceptSave, CancelSave);
     }
     else {
@@ -648,7 +647,8 @@ function Save() {
 
 function SaveConfirmed(evaluatedAll)
 {
-    ClearFieldTextMessages("TxtRealStart");
+    // formacion.Status = FormacionStatus.Evaludada;
+	ClearFieldTextMessages("TxtRealStart");
     ClearFieldTextMessages("TxtRealFinish");
     var d1 = null;
     if ($("#TxtRealStart").val() === "")
@@ -780,8 +780,8 @@ function SaveConfirmed(evaluatedAll)
     }
 
     if (formacion.Id !== 0) {
-        if (typeof (formacion.DateEstimated) === "string") {
-            formacion.DateEstimated = new Date(formacion.DateEstimated.split("/")[2] * 1, formacion.DateEstimated.split("/")[1] * 1, formacion.DateEstimated.split("/")[0] * 1);
+        if (typeof formacion.DateEstimated === "string") {
+            formacion.DateEstimated = new Date(formacion.DateEstimated.split("/")[2] * 1, formacion.DateEstimated.split("/")[1] * 1 - 1, formacion.DateEstimated.split("/")[0] * 1);
         }
 
         if (formacion.RealStart !== null) { formacion.RealStart = GetDate(formacion.RealStart, "/"); }

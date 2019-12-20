@@ -1,13 +1,12 @@
-﻿var client;
+﻿var anulationData = null;
+var client;
 
 //Connect Options
 var options = {
     "timeout": 3,
-    //Gets Called if the connection has sucessfully been established
     "onSuccess": function () {
         MQTTAfterConnect();
     },
-    //Gets Called if the connection could not be established
     "onFailure": function (message) {
         console.log("Connection failed: " + message.errorMessage);
     }
@@ -59,6 +58,9 @@ $(document).ready(function () {
     if (documentId > 0) {
         $("#TxtRevisionDate").attr("readonly", "readonly");
         $("#TxtRevisionDateBtn").hide();
+    }
+    else {
+        $("#TxtRevision").val(0);
     }
 
     console.log("MQTT connect");
@@ -359,7 +361,6 @@ function AnularPopup() {
     });
 }
 
-var anulationData = null;
 function AnularConfirmed() {
     console.log("AnularConfirmed");
     $("#TxtAnularCommentsLabel").css("color", Color.Label);

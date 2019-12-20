@@ -96,6 +96,14 @@ function SaveAction() {
     var dateClose = null;
     var dateCloseExecution = null;
 
+    var CausesTxt = null;
+    var CausesResponsible = null;
+    var CausesDate = null;
+
+    var ActionsTxt = null;
+    var ActionsResponsible = null;
+    var ActionsDate = null;
+
     if (typeof IncidentAction.OportunityId === "undefined") {
         IncidentAction.OportunityId = -1;
     }
@@ -572,6 +580,11 @@ window.onload = function () {
     if (IncidentAction.Origin === 2 || IncidentAction.Id < 1) {
         $("#RTypeDiv").show();
         $("#RReporterDiv").show();
+    }
+
+    // Si es de auditoría hay que enseñar el tipo de acción
+    if (IncidentAction.Origin === 1) {
+        $("#RTypeDiv").show();
     }
 };
 

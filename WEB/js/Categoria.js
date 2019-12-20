@@ -178,7 +178,9 @@ function CategoryDelete(sender) {
                 }
             }
         ],
-        "close": function () {document.getElementById("dialogCategory").parentNode.style.cssText += "z-Index:1050 !important"; }
+        "close": function () {
+            document.getElementById("dialogCategory").parentNode.style.cssText += "z-Index:1050 !important";
+        }
     });
 }
 
@@ -207,7 +209,7 @@ function CategoryDeleteConfirmed(id) {
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
         "success": function (response) {
-            LoadingHide();
+            // LoadingHide();
             if (response.d.Success !== true) {
                 alertUI(response.d.MessageError);
             }
@@ -219,7 +221,7 @@ function CategoryDeleteConfirmed(id) {
 
     // 2.- Desactivar en HTML
     var temp = new Array();
-    for (var y = 0; y < categorias.length; x++) {
+    for (var y = 0; y < categorias.length; y++) {
         if (categorias[y].Id !== id) {
             temp.push(categorias[y]);
         }
@@ -227,17 +229,18 @@ function CategoryDeleteConfirmed(id) {
 
     categorias = new Array();
     for (var z = 0; z < temp.length; z++) {
-        categorias.push(temp[z]);
+            categorias.push(temp[z]);
     }
 
     // 3.- Eliminar la fila de la tabla del popup
-    var target = document.getElementById("CategorySelectable");
+    /*var target = document.getElementById("CategorySelectable");
     for (var w = 0; w < target.childNodes.length; w++) {
         if (target.childNodes[w].id === id) {
             target.childNodes[w].style.display = "none";
             break;
         }
-    }
+    }*/
+    $("#CategorySelectable #" + id).remove();
 
     FillCmbCategory();
 }
@@ -436,11 +439,11 @@ function CategoryInsert() {
     });
 }
 
-function CategoryInsertConfirmed(id, newDescription) {
+function CategoryInsertConfirmed() {
     // 1.- Modificar en la BBDD
     var data = {
         "categoryId": 0,
-        "description": newDescription,
+        "description": $("#TxtCategoryNewName").val(),
         "companyId": Company.Id,
         "userId": user.Id
     };
@@ -459,7 +462,13 @@ function CategoryInsertConfirmed(id, newDescription) {
                 newId = response.d.MessageError * 1;
 
                 // 2.- Añadir en HTML
-                var categoria = { "Id": newId, "Description": newDescription, "Active": true, "Deletable": true };
+                var categoria = {
+                    "Id": newId,
+                    "Description": $("#TxtCategoryNewName").val(),
+                    "Active": true,
+                    "Deletable": true
+                };
+
                 categorias.push(categoria);
 
                 // 3.- Modificar la fila de la tabla del popup

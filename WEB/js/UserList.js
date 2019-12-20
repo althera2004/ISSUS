@@ -8,14 +8,14 @@ function UserUpdate(id) {
 
 function UserDelete(id, description) {
 
-    if (ApplicationUser.Id === id)
+    if (ApplicationUser.Id === id * 1)
     {
         alertUI(Dictionary.Item_User_Suicide);
         return false;
     }
 
-    document.getElementById('UserName').innerHTML = description;
-    var dialog = $("#UserDeleteDialog").removeClass("hide").dialog({
+    $("#UserName").html(description);
+    $("#UserDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Common_Delete,

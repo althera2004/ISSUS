@@ -1562,7 +1562,7 @@ Item_Learning_FieldLabel_EstimatedDate::F.Prevista
 Item_Learning_FieldLabel_Hours::Horas
 Item_Learning_FieldLabel_Methodology::Metodología
 Item_Learning_FieldLabel_Name::Nombre de la acción formativa
-Item_Learning_FieldLabel_Notes::Notas
+Item_Learning_FieldLabel_Notes::Notas / Evidencias de la validación de la eficacia
 Item_Learning_FieldLabel_StartDate::F.Inicio real
 Item_Learning_FieldLabel_Status::Estado
 Item_Learning_FieldLabel_Year::Año de realización del curso
@@ -1591,10 +1591,10 @@ Item_Learning_ListHeader_DateComplete::Realizada
 Item_Learning_ListHeader_EstimatedDate::Prevista
 Item_Learning_ListHeader_Status::Estado
 Item_Learning_Message_Evaluation::Guardando una formación con todos los participantes evaluados, queda cerrada y ya no se puede modificar
-Item_Learning_Message_NoAssistants::No se puede finalizar la formación sin asistentes
+Item_Learning_Message_NoAssistants::No se puede iniciar la formación sin asistentes
 Item_Learning_Message_SelectOneAssistant::Obligatorio algún asistente
 Item_Learning_NewLabel::Ficha de la formación
-Item_Learning_Objetive::Objetivo 
+Item_Learning_Objetive::Objetivo / Validación de la eficacia
 Item_Learning_PopupDelete_Message::¿Eliminar la formación?
 Item_Learning_SelectAssistants::Añadir
 Item_Learning_Status_Done::Realizada

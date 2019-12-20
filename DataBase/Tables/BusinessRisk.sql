@@ -1,0 +1,32 @@
+IF OBJECT_ID('[dbo].[BusinessRisk]', 'U')  IS NOT NULL DROP TABLE [dbo].[BusinessRisk]
+
+
+CREATE TABLE [dbo].[BusinessRisk](
+	[Id] [bigint]  NOT NULL,
+	[CompanyId] [int]  NOT NULL,
+	[Description] [nvarchar](100)  NOT NULL,
+	[Code] [bigint]  NOT NULL,
+	[RuleId] [bigint]  NOT NULL,
+	[ItemDescription] [nvarchar](2000)  NULL,
+	[StartControl] [nvarchar](2000)  NULL,
+	[Notes] [nvarchar](2000)  NULL,
+	[ProbabilityId] [bigint]  NOT NULL,
+	[SecurityId] [bigint]  NOT NULL,
+	[Result] [int]  NOT NULL,
+	[FinalProbability] [bigint]  NULL,
+	[FinalSeverity] [bigint]  NULL,
+	[FinalResult] [bigint]  NULL,
+	[FinalDate] [datetime]  NULL,
+	[ApplyAction] [bit]  NOT NULL,
+	[CreatedBy] [int]  NOT NULL,
+	[CreatedOn] [datetime]  NOT NULL,
+	[ModifiedBy] [int]  NOT NULL,
+	[ModifiedOn] [datetime]  NOT NULL,
+	[Active] [bit]  NOT NULL,
+	[InitialValue] [int]  NULL,
+	[DateStart] [datetime]  NOT NULL,
+	[ProcessId] [bigint]  NOT NULL,
+	[Assumed] [bit]  NULL,
+	[PreviousBusinessRiskId] [bigint]  NULL,
+	[Causes] [nvarchar](2000)  NULL,
+) ON [PRIMARY]

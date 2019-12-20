@@ -433,7 +433,6 @@ function SetFilterCosts() {
         to = GetDateYYYYMMDDToText(to, false);
     }
 
-
     var data = {
         "from": from,
         "to": to,
@@ -514,7 +513,7 @@ function RenderTableCosts(data) {
         total++;
     }
 
-    $("#TotalListCosts").html(total);
+    $("#TotalListCosts").html($("#ListDataTableCosts TR").length);
 
     $("#TotalAmount").html(ToMoneyFormat(total, 2));
     $("#TCI").html(ToMoneyFormat(totalCI, 2));

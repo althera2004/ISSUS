@@ -558,15 +558,15 @@
                 });
 
                 // Control wizard de la incidencia
-                $('#TxtCauses').on('keyup', function (e) { e.preventDefault(); TxtCausesChanged(); });
-                $('#TxtActions').on('keyup', function (e) { e.preventDefault(); TxtActionsChanged(); });
-                $('#CmbClosedResponsible').on('change',function(e){e.preventDefault(); CmbClosedResponsibleChanged();});
+                $("#TxtCauses").on("keyup", function (e) { e.preventDefault(); TxtCausesChanged(); });
+                $("#TxtActions").on("keyup", function (e) { e.preventDefault(); TxtActionsChanged(); });
+                $("#CmbClosedResponsible").on("change",function(e){e.preventDefault(); CmbClosedResponsibleChanged();});
 
                 // Control wizard de la acción
-                $('#TxtActionCauses').on('keyup', function (e) { e.preventDefault(); TxtActionCausesChanged(); });
-                $('#TxtActionActions').on('keyup', function (e) { e.preventDefault(); TxtActionActionsChanged(); });
-                $('#CmbActionClosedResponsible').on('change', function(e) { e.preventDefault(); SetCloseRequired(); });
-                $('#TxtActionClosedDate').on('change', function(e) { e.preventDefault(); SetCloseRequired(); });
+                $("#TxtActionCauses").on("keyup", function (e) { e.preventDefault(); TxtActionCausesChanged(); });
+                $("#TxtActionActions").on("keyup", function (e) { e.preventDefault(); TxtActionActionsChanged(); });
+                $("#CmbActionClosedResponsible").on("change", function(e) { e.preventDefault(); SetCloseRequired(); });
+                $("#TxtActionClosedDate").on("change", function(e) { e.preventDefault(); SetCloseRequired(); });
 
 
                 //                <%if(this.ApplicationUser.ShowHelp) { %>

@@ -35,6 +35,9 @@ namespace GisoFramework.Item
         /// <summary>Gets or sets origin text</summary>
         public string OriginText { get; set; }
 
+        /// <summary>Gets or sets action type text</summary>
+        public string ActionTypeText { get; set; }
+
         /// <summary>Gets or sets status</summary>
         public int Status { get; set; }
 

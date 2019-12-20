@@ -398,6 +398,34 @@ namespace GisoFramework.Item
                 res.Append(string.Format(CultureInfo.InvariantCulture, @"Notes:{0}", newLearning.Notes));
             }
 
+            if (oldLearning.Objective != newLearning.Objective)
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    res.Append(",");
+                }
+
+                res.Append(string.Format(CultureInfo.InvariantCulture, @"Objective:{0}", newLearning.Objective));
+            }
+
+            if (oldLearning.Methodology != newLearning.Methodology)
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    res.Append(",");
+                }
+
+                res.Append(string.Format(CultureInfo.InvariantCulture, @"Methodology:{0}", newLearning.Methodology));
+            }
+
             if (oldLearning.Year != newLearning.Year)
             {
                 if (first)
@@ -577,52 +605,21 @@ namespace GisoFramework.Item
                     try
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@LearningId", SqlDbType.Int);
-                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                        cmd.Parameters.Add("@Description", SqlDbType.NVarChar);
-                        cmd.Parameters.Add("@Status", SqlDbType.Int);
-                        cmd.Parameters.Add("@DateStimatedDate", SqlDbType.Date);
-                        cmd.Parameters.Add("@RealStart", SqlDbType.Date);
-                        cmd.Parameters.Add("@RealFinish", SqlDbType.Date);
-                        cmd.Parameters.Add("@Master", SqlDbType.NVarChar);
-                        cmd.Parameters.Add("@Hours", SqlDbType.Int);
-                        cmd.Parameters.Add("@Amount", SqlDbType.Decimal);
-                        cmd.Parameters.Add("@Notes", SqlDbType.Text);
-                        cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                        cmd.Parameters.Add("@Year", SqlDbType.Int);
-                        cmd.Parameters.Add("@Objetivo", SqlDbType.Text);
-                        cmd.Parameters.Add("@Metodologia", SqlDbType.Text);
-                        cmd.Parameters["@LearningId"].Value = DBNull.Value;
-                        cmd.Parameters["@LearningId"].Direction = ParameterDirection.Output;
-                        cmd.Parameters["@CompanyId"].Value = this.CompanyId;
-                        cmd.Parameters["@Description"].Value = Tools.LimitedText(this.Description, 100);
-                        cmd.Parameters["@Status"].Value = this.Status;
-                        cmd.Parameters["@DateStimatedDate"].Value = this.DateEstimated;
-                        cmd.Parameters["@Master"].Value = Tools.LimitedText(this.Master, 100);
-                        cmd.Parameters["@Hours"].Value = this.Hours;
-                        cmd.Parameters["@Amount"].Value = this.Amount;
-                        cmd.Parameters["@Notes"].Value = Tools.LimitedText(this.Notes, 2000);
-                        cmd.Parameters["@Year"].Value = this.Year;
-                        cmd.Parameters["@UserId"].Value = userId;
-                        cmd.Parameters["@Objetivo"].Value = Tools.LimitedText(this.Objective, 2000);
-                        cmd.Parameters["@Metodologia"].Value = Tools.LimitedText(this.Methodology, 2000);
-                        if (this.RealStart.HasValue)
-                        {
-                            cmd.Parameters["@RealStart"].Value = this.RealStart.Value;
-                        }
-                        else
-                        {
-                            cmd.Parameters["@RealStart"].Value = DBNull.Value;
-                        }
-
-                        if (this.RealFinish.HasValue)
-                        {
-                            cmd.Parameters["@RealFinish"].Value = this.RealFinish.Value;
-                        }
-                        else
-                        {
-                            cmd.Parameters["@RealFinish"].Value = DBNull.Value;
-                        }
+                        cmd.Parameters.Add(DataParameter.OutputInt("@LearningId"));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Status", this.Status));
+                        cmd.Parameters.Add(DataParameter.Input("@DateStimatedDate", this.DateEstimated));
+                        cmd.Parameters.Add(DataParameter.Input("@RealStart", this.RealStart));
+                        cmd.Parameters.Add(DataParameter.Input("@RealFinish", this.RealFinish));
+                        cmd.Parameters.Add(DataParameter.Input("@Master", this.Master, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@Hours", this.Hours));
+                        cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
+                        cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Parameters.Add(DataParameter.Input("@Year", this.Year));
+                        cmd.Parameters.Add(DataParameter.Input("@Objetivo", this.Objective, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Metodologia", this.Methodology, 2000));
 
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
@@ -653,18 +650,21 @@ namespace GisoFramework.Item
         {
             var res = ActionResult.NoAction;
             /* CREATE PROCEDURE Learning_Update
-             * @CompanyId int,
-             * @Description nvarchar(100),
-             * @Status int,
-             * @DateStimatedDate date,
-             * @RealStart date,
-             * @RealFinish date,
-             * @Master nvarchar(100),
-             * @Hours int,
-             * @Amount numeric(18,3),
-             * @Notes text,
-             * @UserId int,
-             * @Year int */
+             *   @LearningId int,
+             *   @CompanyId int,
+             *   @Description nvarchar(100),
+             *   @Status int,
+             *   @DateStimatedDate date,
+             *   @RealStart date,
+             *   @RealFinish date,
+             *   @Master nvarchar(100),
+             *   @Hours int,
+             *   @Amount numeric(18,3),
+             *   @Notes text,
+             *   @UserId int,
+             *   @Year int,
+             *   @Objetivo text,
+             *   @Metodologia text */
             using (var cmd = new SqlCommand("Learning_Update"))
             {
                 using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
@@ -673,52 +673,21 @@ namespace GisoFramework.Item
                     try
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@LearningId", SqlDbType.Int);
-                        cmd.Parameters.Add("@CompanyId", SqlDbType.Int);
-                        cmd.Parameters.Add("@Description", SqlDbType.NVarChar);
-                        cmd.Parameters.Add("@Status", SqlDbType.Int);
-                        cmd.Parameters.Add("@DateStimatedDate", SqlDbType.Date);
-                        cmd.Parameters.Add("@RealStart", SqlDbType.Date);
-                        cmd.Parameters.Add("@RealFinish", SqlDbType.Date);
-                        cmd.Parameters.Add("@Master", SqlDbType.NVarChar);
-                        cmd.Parameters.Add("@Hours", SqlDbType.Int);
-                        cmd.Parameters.Add("@Amount", SqlDbType.Decimal);
-                        cmd.Parameters.Add("@Notes", SqlDbType.Text);
-                        cmd.Parameters.Add("@UserId", SqlDbType.Int);
-                        cmd.Parameters.Add("@Year", SqlDbType.Int);
-                        cmd.Parameters.Add("@Objetivo", SqlDbType.Text);
-                        cmd.Parameters.Add("@Metodologia", SqlDbType.Text);
-                        cmd.Parameters["@LearningId"].Value = this.Id;
-                        cmd.Parameters["@CompanyId"].Value = this.CompanyId;
-                        cmd.Parameters["@Description"].Value = Tools.LimitedText(this.Description, 2000);
-                        cmd.Parameters["@Status"].Value = this.Status;
-                        cmd.Parameters["@DateStimatedDate"].Value = this.DateEstimated;
-                        cmd.Parameters["@Master"].Value = Tools.LimitedText(this.Master, 100);
-                        cmd.Parameters["@Hours"].Value = this.Hours;
-                        cmd.Parameters["@Amount"].Value = this.Amount;
-                        cmd.Parameters["@Notes"].Value = this.Notes;
-                        cmd.Parameters["@Year"].Value = this.Year;
-                        cmd.Parameters["@UserId"].Value = userId;
-                        cmd.Parameters["@Objetivo"].Value = Tools.LimitedText(this.Objective, 2000);
-                        cmd.Parameters["@Metodologia"].Value = Tools.LimitedText(this.Methodology, 2000);
-                        if (this.RealStart.HasValue)
-                        {
-                            cmd.Parameters["@RealStart"].Value = this.RealStart.Value;
-                        }
-                        else
-                        {
-                            cmd.Parameters["@RealStart"].Value = DBNull.Value;
-                        }
-
-                        if (this.RealFinish.HasValue)
-                        {
-                            cmd.Parameters["@RealFinish"].Value = this.RealFinish.Value;
-                        }
-                        else
-                        {
-                            cmd.Parameters["@RealFinish"].Value = DBNull.Value;
-                        }
-
+                        cmd.Parameters.Add(DataParameter.Input("@LearningId", this.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
+                        cmd.Parameters.Add(DataParameter.Input("@Description", this.Description, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Status", this.Status));
+                        cmd.Parameters.Add(DataParameter.Input("@DateStimatedDate", this.DateEstimated));
+                        cmd.Parameters.Add(DataParameter.Input("@RealStart", this.RealStart));
+                        cmd.Parameters.Add(DataParameter.Input("@RealFinish", this.RealFinish));
+                        cmd.Parameters.Add(DataParameter.Input("@Master", this.Master, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@Hours", this.Hours));
+                        cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
+                        cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Parameters.Add(DataParameter.Input("@Year", this.Year));
+                        cmd.Parameters.Add(DataParameter.Input("@Objetivo", this.Objective, 2000));
+                        cmd.Parameters.Add(DataParameter.Input("@Metodologia", this.Methodology, 2000));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.SetSuccess();

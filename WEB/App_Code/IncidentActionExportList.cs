@@ -317,7 +317,7 @@ public class IncidentActionExportList : System.Web.Services.WebService
         pdfDoc.Add(criteriatable);
         //---------------------------
 
-        var table = new iTSpdf.PdfPTable(8)
+        var table = new iTSpdf.PdfPTable(7)
         {
             WidthPercentage = 100,
             HorizontalAlignment = 1,
@@ -325,21 +325,23 @@ public class IncidentActionExportList : System.Web.Services.WebService
             SpacingAfter = 30f
         };
 
-        table.SetWidths(new float[] { 30f, 10f, 10f, 10f, 10f, 10f, 10f, 10f });
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Description"]));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Type"]));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Open"]));
+        table.SetWidths(new float[] { 10f, 10f, 30f, 10f, 10f, 10f, 10f });
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Status"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Open"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Description"]));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Origin"]));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Cost"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Type"]));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_ImplementDate"]));
-        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Close"]));
+        // table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Close"]));
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Cost"]));
 
         int cont = 0;
         decimal totalCost = 0;
         var data = HttpContext.Current.Session["IncidentActionFilterData"] as List<IncidentActionFilterItem>;
 
-        foreach (IncidentActionFilterItem item in data)
+        // @alex: necesitamos el texto del tipo de acción y el origen para ordenarlos alfbéticamente
+        //       independientemente del id en la bbdd
+        foreach (var item in data)
         {
             string originText = string.Empty;
             if (item.Origin == 1) { originText = dictionary["Item_IncidentAction_Origin1"]; }
@@ -349,40 +351,46 @@ public class IncidentActionExportList : System.Web.Services.WebService
             if (item.Origin == 5) { originText = dictionary["Item_IncidentAction_Origin5"]; }
             if (item.Origin == 6) { originText = dictionary["Item_IncidentAction_Origin6"]; }
             item.OriginText = originText;
+
+            string typeText = string.Empty;
+            if (item.ActionType == 1) { typeText = dictionary["Item_IncidentAction_Type1"]; }
+            if (item.ActionType == 2) { typeText = dictionary["Item_IncidentAction_Type2"]; }
+            if (item.ActionType == 3) { typeText = dictionary["Item_IncidentAction_Type3"]; }
+            item.ActionTypeText = typeText;
         }
 
         switch (listOrder.ToUpperInvariant())
         {
             default:
             case "TH0|ASC":
-                data = data.OrderBy(d => d.Description).ToList();
-                break;
-            case "TH0|DESC":
-                data = data.OrderByDescending(d => d.Description).ToList();
-                break;
-            case "TH1|ASC":
-                data = data.OrderBy(d => d.ActionType).ToList();
-                break;
-            case "TH1|DESC":
-                data = data.OrderByDescending(d => d.ActionType).ToList();
-                break;
-            case "TH2|ASC":
-                data = data.OrderBy(d => d.OpenDate).ToList();
-                break;
-            case "TH2|DESC":
-                data = data.OrderByDescending(d => d.OpenDate).ToList();
-                break;
-            case "TH3|ASC":
                 data = data.OrderBy(d => d.Status).ToList();
                 break;
-            case "TH3|DESC":
+            case "TH0|DESC":
                 data = data.OrderByDescending(d => d.Status).ToList();
                 break;
-            case "TH4|ASC":
+            case "TH1|ASC":
+                data = data.OrderBy(d => d.OpenDate).ToList();
+                break;
+            case "TH1|DESC":
+                data = data.OrderByDescending(d => d.OpenDate).ToList();
+                break;
+            case "TH2|ASC":
+                data = data.OrderBy(d => d.Description).ToList();
+                break;
+            case "TH2|DESC":
+                data = data.OrderByDescending(d => d.Description).ToList();
+                break;
+            case "TH3|ASC":
                 data = data.OrderBy(d => d.OriginText).ToList();
                 break;
-            case "TH4|DESC":
+            case "TH3|DESC":
                 data = data.OrderByDescending(d => d.OriginText).ToList();
+                break;
+            case "TH4|ASC":
+                data = data.OrderBy(d => d.ActionTypeText).ToList();
+                break;
+            case "TH4|DESC":
+                data = data.OrderByDescending(d => d.ActionTypeText).ToList();
                 break;
             case "TH5|ASC":
                 data = data.OrderBy(d => d.ImplementationDate).ToList();
@@ -426,20 +434,13 @@ public class IncidentActionExportList : System.Web.Services.WebService
             if (action.Status == 3) { statustext = dictionary["Item_IndicentAction_Status3"]; }
             if (action.Status == 4) { statustext = dictionary["Item_IndicentAction_Status4"]; }
 
-            table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(action.Description, ToolsPdf.LayoutFonts.Times))
+            table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(statustext, ToolsPdf.LayoutFonts.Times))
             {
                 Border = border,
                 BackgroundColor = ToolsPdf.LineBackgroundColor,
                 Padding = 6f,
-                PaddingTop = 4f
-            });
-
-            table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(actionTypeText, ToolsPdf.LayoutFonts.Times))
-            {
-                Border = border,
-                BackgroundColor = ToolsPdf.LineBackgroundColor,
-                Padding = 6f,
-                PaddingTop = 4f
+                PaddingTop = 4f,
+                HorizontalAlignment = Rectangle.ALIGN_CENTER
             });
 
             table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", action.OpenDate), ToolsPdf.LayoutFonts.Times))
@@ -451,13 +452,12 @@ public class IncidentActionExportList : System.Web.Services.WebService
                 HorizontalAlignment = Rectangle.ALIGN_CENTER
             });
 
-            table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(statustext, ToolsPdf.LayoutFonts.Times))
+            table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(action.Description, ToolsPdf.LayoutFonts.Times))
             {
                 Border = border,
                 BackgroundColor = ToolsPdf.LineBackgroundColor,
                 Padding = 6f,
-                PaddingTop = 4f,
-                HorizontalAlignment = Rectangle.ALIGN_CENTER
+                PaddingTop = 4f
             });
 
             table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(action.OriginText, ToolsPdf.LayoutFonts.Times))
@@ -469,13 +469,13 @@ public class IncidentActionExportList : System.Web.Services.WebService
                 HorizontalAlignment = Rectangle.ALIGN_CENTER
             });
 
-            table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Tools.PdfMoneyFormat(action.Amount), ToolsPdf.LayoutFonts.Times))
+            table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(actionTypeText, ToolsPdf.LayoutFonts.Times))
             {
                 Border = border,
                 BackgroundColor = ToolsPdf.LineBackgroundColor,
                 Padding = 6f,
                 PaddingTop = 4f,
-                HorizontalAlignment = Rectangle.ALIGN_RIGHT
+                HorizontalAlignment = Rectangle.ALIGN_CENTER
             });
 
             table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", action.ImplementationDate), ToolsPdf.LayoutFonts.Times))
@@ -487,13 +487,22 @@ public class IncidentActionExportList : System.Web.Services.WebService
                 HorizontalAlignment = Rectangle.ALIGN_CENTER
             });
 
-            table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", action.CloseDate), ToolsPdf.LayoutFonts.Times))
+            /*table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", action.CloseDate), ToolsPdf.LayoutFonts.Times))
             {
                 Border = border,
                 BackgroundColor = ToolsPdf.LineBackgroundColor,
                 Padding = 6f,
                 PaddingTop = 4f,
                 HorizontalAlignment = Rectangle.ALIGN_CENTER
+            });*/
+
+            table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(Tools.PdfMoneyFormat(action.Amount), ToolsPdf.LayoutFonts.Times))
+            {
+                Border = border,
+                BackgroundColor = ToolsPdf.LineBackgroundColor,
+                Padding = 6f,
+                PaddingTop = 4f,
+                HorizontalAlignment = Rectangle.ALIGN_RIGHT
             });
 
             cont++;
@@ -534,7 +543,7 @@ public class IncidentActionExportList : System.Web.Services.WebService
         {
             Border = iTS.Rectangle.TOP_BORDER,
             BackgroundColor = ToolsPdf.SummaryBackgroundColor,
-            Colspan = 2
+            Colspan = 1
         });
 
         pdfDoc.Add(table);

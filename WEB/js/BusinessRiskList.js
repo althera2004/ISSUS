@@ -1154,6 +1154,12 @@ window.onload = function () {
 
     $("#BtnBRecordShowAll").on("click", BussinesRiskListGetAll);
     $("#BtnORecordShowAll").on("click", OportunityListGetAll);
+
+    // Tarjeta Trello: "Lista Riesgos/Oports - Al mostrar pestaña gráfico ocultar botoón Imprimir."
+    $("#tabbasic").on("click", function () { $("#BtnExportList").show(); });
+    $("#tabgraficos").on("click", function () { $("#BtnExportList").hide(); });
+    $("#taboportunity").on("click", function () { $("#BtnExportList").show(); });
+    $("#tabgraficosoportunity").on("click", function () { $("#BtnExportList").hide(); });
 };
 
 window.onresize = function () { Resize(); };

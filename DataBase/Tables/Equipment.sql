@@ -1,0 +1,32 @@
+IF OBJECT_ID('[dbo].[Equipment]', 'U')  IS NOT NULL DROP TABLE [dbo].[Equipment]
+
+
+CREATE TABLE [dbo].[Equipment](
+	[Id] [bigint]  NOT NULL,
+	[CompanyId] [int]  NOT NULL,
+	[Code] [nvarchar](50)  NOT NULL,
+	[Description] [nvarchar](150)  NOT NULL,
+	[TradeMark] [nvarchar](50)  NOT NULL,
+	[Model] [nvarchar](50)  NOT NULL,
+	[SerialNumber] [nvarchar](50)  NOT NULL,
+	[Location] [nvarchar](50)  NOT NULL,
+	[MeasureRange] [nvarchar](50)  NULL,
+	[ScaleDivision] [numeric](18,4)  NULL,
+	[MeasureUnit] [bigint]  NULL,
+	[Resposable] [int]  NOT NULL,
+	[IsCalibration] [bit]  NOT NULL,
+	[IsVerification] [bit]  NOT NULL,
+	[IsMaintenance] [bit]  NOT NULL,
+	[Image] [nvarchar](50)  NULL,
+	[Active] [bit]  NOT NULL,
+	[CreatedBy] [int]  NOT NULL,
+	[CreatedOn] [datetime]  NOT NULL,
+	[ModifiedBy] [int]  NOT NULL,
+	[ModifiedOn] [datetime]  NOT NULL,
+	[Observations] [nvarchar](2000)  NULL,
+	[Notes] [nvarchar](500)  NULL,
+	[EndReason] [nvarchar](500)  NULL,
+	[StartDate] [datetime]  NULL,
+	[EndDate] [datetime]  NULL,
+	[EndResponsible] [int]  NULL,
+) ON [PRIMARY]

@@ -158,7 +158,7 @@ public partial class ExportIndicadorExport : Page
             statusText = dictionary["Item_ObjetivoAction_List_Filter_ShowClosed"];
         }
 
-        criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(statusText));
+        criteriatable.AddCell(ToolsPdf.CriteriaCellData(statusText));
         criteriatable.AddCell(criteriaBlank);
         criteriatable.AddCell(criteriaBlank);
 
@@ -181,7 +181,7 @@ public partial class ExportIndicadorExport : Page
                 break;
         }
 
-        criteriatable.AddCell(ToolsPdf.CriteriaCellLabel(indicadorTypeText));
+        criteriatable.AddCell(ToolsPdf.CriteriaCellData(indicadorTypeText));
 
         switch (indicatorType)
         {
@@ -279,8 +279,31 @@ public partial class ExportIndicadorExport : Page
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_ProcessType"]));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_Header_ObjetivoResponsible"]));
 
+        var tipoProcesos = ProcessType.ObtainByCompany(company.Id, dictionary);
+
         int cont = 0;
         var data = Indicador.Filter(companyId, indicatorType, from, to, processId, processTypeId, targetId, status).ToList();
+
+        foreach (var item in data)
+        {
+            string processTypeText = string.Empty;
+            switch (item.Proceso.ProcessType)
+            {
+                case 1:
+                    item.Proceso.Work = dictionary["Item_ProcessType_Name_Principal"];
+                    break;
+                case 2:
+                    item.Proceso.Work = dictionary["Item_ProcessType_Name_Support"];
+                    break;
+                case 3:
+                    item.Proceso.Work = dictionary["Item_ProcessType_Name_Estrategic"];
+                    break;
+                default:
+                    item.Proceso.Work = tipoProcesos.First(tp => tp.Id == item.Proceso.ProcessType).Description;
+                    break;
+            }
+        }
+
         switch (listOrder.ToUpperInvariant())
         {
             default:
@@ -303,10 +326,10 @@ public partial class ExportIndicadorExport : Page
                 data = data.OrderByDescending(d => d.Proceso.Description).ToList();
                 break;
             case "TH3|ASC":
-                data = data.OrderBy(d => d.Proceso.ProcessType).ToList();
+                data = data.OrderBy(d => d.Proceso.Work).ToList();
                 break;
             case "TH3|DESC":
-                data = data.OrderByDescending(d => d.Proceso.ProcessType).ToList();
+                data = data.OrderByDescending(d => d.Proceso.Work).ToList();
                 break;
             case "TH4|ASC":
                 data = data.OrderBy(d => d.ObjetivoResponsible).ToList();
@@ -318,26 +341,11 @@ public partial class ExportIndicadorExport : Page
 
         foreach (var item in data)
         {
-            string processTypeText = string.Empty;
-            switch (item.Proceso.ProcessType)
-            {
-                default:
-                case 1:
-                    processTypeText = dictionary["Item_ProcessType_Name_Principal"];
-                    break;
-                case 2:
-                    processTypeText = dictionary["Item_ProcessType_Name_Support"];
-                    break;
-                case 3:
-                    processTypeText = dictionary["Item_ProcessType_Name_Estrategic"];
-                    break;
-            }
-
             table.AddCell(ToolsPdf.DataCell(item.Status == 0 ? dictionary["Common_Active"] : dictionary["Common_Inactive"], ToolsPdf.LayoutFonts.Times));
             table.AddCell(ToolsPdf.DataCell(item.Indicador.Description, ToolsPdf.LayoutFonts.Times));
             table.AddCell(ToolsPdf.DataCell(item.StartDate, ToolsPdf.LayoutFonts.Times, Rectangle.ALIGN_CENTER));            
             table.AddCell(ToolsPdf.DataCell(item.Proceso.Description, ToolsPdf.LayoutFonts.Times));
-            table.AddCell(ToolsPdf.DataCell(processTypeText, ToolsPdf.LayoutFonts.Times));
+            table.AddCell(ToolsPdf.DataCell(item.Proceso.Work, ToolsPdf.LayoutFonts.Times));
             table.AddCell(ToolsPdf.DataCell(item.ObjetivoResponsible, ToolsPdf.LayoutFonts.Times));
             cont++;
         }
