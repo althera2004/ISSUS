@@ -11,7 +11,7 @@
 /GisoFramework/bin/Debug
 /WEB/Bin
 /GisoFramework/obj/Debug
-/WEB/DOCS/4
+/WEB/DOCS/
 /WEB/web.config
-/GisoFramework.dll
-/WEB/DOCS/102
+/GisoFramework/obj/Release
+/SbrinnaFramework/obj/Release

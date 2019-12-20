@@ -74,6 +74,7 @@
             display: block;
             float: left;
             font-size: 12px;
+            cursor: default;
         }
 
         .breadcrumbWizard li a:after {
@@ -528,7 +529,7 @@
                             </div>
 
                             <div id="NoActionsPopup" class="hide"">
-                                <p><span id="NoActionsPopupMessage"><%=this.Dictionary["Item_Adutiry_Message_NoActions"] %></span></p>
+                                <p><span id="NoActionsPopupMessage"><%=this.Dictionary["Item_Adutory_Message_NoActions"] %></span></p>
                             </div>
 
                             <div id="ValidationPopup" class="hide">

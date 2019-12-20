@@ -50,7 +50,7 @@
                                                             </div>           
                                                             <label class="col-sm-1 no-padding-right" for="form-input-readonly"><%=this.Dictionary["Item_Learning_Status_InProgress"] %></label>
                                                             <div class="col-sm-1 control-label"><input value="1" type="radio" id="RBStatus2" name="RBStatus" class="col-xs-12 col-sm-12" /></div> 
-                                                            <label class="col-sm-1 no-padding-right" for="form-input-readonly"><%=this.Dictionary["Item_Learning_Status_Done"] %></label>
+                                                            <label class="col-sm-1 no-padding-right" for="form-input-readonly"><%=this.Dictionary["Item_Learning_Status_Finished"] %></label>
                                                             <div class="col-sm-1 control-label"><input value="2" type="radio" id="RBStatus3" name="RBStatus" class="col-xs-12 col-sm-12" /></div> 
                                                             <label class="col-sm-1 no-padding-right" for="form-input-readonly"><%=this.Dictionary["Item_Learning_Status_Evaluated"] %></label>                                                        
                                                             <div class="col-sm-7">&nbsp;</div>

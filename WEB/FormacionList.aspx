@@ -67,7 +67,7 @@
                                         <td><strong><%=this.Dictionary["Item_Learning_FieldLabel_Status"] %>:</strong></td>
                                         <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="status0" onclick="Go();" /><%=this.Dictionary["Item_Learning_Status_InProgress"] %></td>
                                         <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="status1" onclick="Go();" /><%=this.Dictionary["Item_Learning_Status_Started"] %></td>
-                                        <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="status2" onclick="Go();" /><%=this.Dictionary["Item_Learning_Status_Done"] %></td>
+                                        <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="status2" onclick="Go();" /><%=this.Dictionary["Item_Learning_Status_Finished"] %></td>
                                         <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="status3" onclick="Go();" /><%=this.Dictionary["Item_Learning_Status_Evaluated"] %></td>
                                         <!--<td>&nbsp;&nbsp;&nbsp;<input runat="server" type="checkbox" id="status4" name="status" value="-1" onclick="Go();" /><%=this.Dictionary["Common_All_Female_Plural"] %></td>-->
                                     </tr>

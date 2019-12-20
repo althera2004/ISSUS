@@ -4,7 +4,7 @@ var FormacionStatus = {
     "Pendiente": 0,
     "EnProgreso": 1,
     "Realizada": 2,
-    "Evaludada": 3
+    "Evaluada": 3
 };
 
 function AcceptSave() { SaveConfirmed(true); }

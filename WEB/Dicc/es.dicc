@@ -245,7 +245,7 @@ DiskQuote_Other::Otros
 Email::Correo
 Fin::Fin
 Item_Action_Popup_Details_Title::Detalles de la acción
-Item_Adutiry_Message_NoActions::No hay ninguna acción definida en la auditoria.
+Item_Adutory_Message_NoActions::No hay ninguna acción definida en la auditoria. ¿Continuar con la validación?
 Item_Adutory_Status_Explanation_0::Datos básicos sin acabar de planificar
 Item_Adutory_Status_Explanation_1::Planificada con responsable y fecha
 Item_Adutory_Status_Explanation_2::Alguna pregunta del/los cuestionarios marcada

@@ -743,7 +743,6 @@ function ValidationConfirmed() {
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
         "success": function (msg) {
-            //LoadingHide();
             alertInfoUI(Dictionary.Item_Employee_Message_InsertSucess, Reload);
             //successInfoUI("todo ha ido bien", "auditorias", null);
             //document.location = document.location + "";

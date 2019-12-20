@@ -245,7 +245,7 @@ DiskQuote_Other::Others
 Email::Mail
 Fin::End
 Item_Action_Popup_Details_Title::Details of the action
-Item_Adutiry_Message_NoActions::There is no defined action in the audit
+Item_Adutory_Message_NoActions::There is no defined action in the audit. ¿Continue with validation?
 Item_Adutory_Status_Explanation_0::Basic data without planning
 Item_Adutory_Status_Explanation_1::Planned with responsible and date
 Item_Adutory_Status_Explanation_2::Any question of the questionnaires marked
