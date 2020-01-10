@@ -586,6 +586,10 @@ window.onload = function () {
     if (IncidentAction.Origin === 1) {
         $("#RTypeDiv").show();
     }
+
+    if (IncidentAction.Id < 1) {
+        TxtActionsChanged(false);
+    }
 };
 
 window.onresize = function () { Resize(); };
@@ -653,6 +657,11 @@ function TxtCausesChanged(locked) {
         FieldSetRequired("TxtCausesLabel", Dictionary.Item_IncidentAction_Field_Causes, false);
         FieldSetRequired("CmbCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleCauses, false);
         FieldSetRequired("TxtCausesDateLabel", Dictionary.Item_IncidentAction_Field_Date, false);
+
+        $("#CmbCausesResponsible").attr("disabled", "disabled");
+        $("#TxtCausesDate").attr("disabled", "disabled");
+        $("#TxtCausesDateBtn").attr("disabled", "disabled");
+
         $("#CmbCausesResponsible").val(0);
         $("#TxtCausesDate").val("");
         IncidentCausesRequired = false;
@@ -662,6 +671,11 @@ function TxtCausesChanged(locked) {
         FieldSetRequired("TxtCausesLabel", Dictionary.Item_IncidentAction_Field_Causes, true);
         FieldSetRequired("CmbCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleCauses, true);
         FieldSetRequired("TxtCausesDateLabel", Dictionary.Item_IncidentAction_Field_Date, true);
+
+        $("#CmbCausesResponsible").removeAttr("disabled");
+        $("#TxtCausesDate").removeAttr("disabled");
+        $("#TxtCausesDateBtn").removeAttr("disabled");
+
         if (document.getElementById("CmbCausesResponsible").value * 1 === 0) {
             $("#CmbCausesResponsible").val(ApplicationUser.Employee.Id);
         }
@@ -679,6 +693,11 @@ function TxtActionsChanged(locked) {
         FieldSetRequired("TxtActionsLabel", Dictionary.Item_IncidentAction_Field_Actions, false);
         FieldSetRequired("CmbActionsResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleActions, false);
         FieldSetRequired("TxtActionsDateLabel", Dictionary.Common_DateExecution, false);
+
+        $("#CmbActionsResponsible").attr("disabled", "disabled");
+        $("#TxtActionsDate").attr("disabled", "disabled");
+        $("#TxtActionsDateBtn").attr("disabled", "disabled");
+
         $("#CmbActionsResponsible").val(0);
         $("#TxtActionsDate").val("");
         IncidentActionsRequired = false;
@@ -688,6 +707,11 @@ function TxtActionsChanged(locked) {
         FieldSetRequired("TxtActionsLabel", Dictionary.Item_IncidentAction_Field_Actions, true);
         FieldSetRequired("CmbActionsResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleActions, true);
         FieldSetRequired("TxtActionsDateLabel", Dictionary.Common_DateExecution, true);
+
+        $("#CmbActionsResponsible").removeAttr("disabled");
+        $("#TxtActionsDate").removeAttr("disabled");
+        $("#TxtActionsDateBtn").removeAttr("disabled");
+
         if ($("#CmbActionsResponsible").val() * 1 === 0) { document.getElementById("CmbActionsResponsible").value = ApplicationUser.Employee.Id; }
         if ($("#TxtActionsDate").val() === "") { document.getElementById("TxtActionsDate").value = FormatDate(new Date(), "/"); }
         IncidentActionsRequired = true;

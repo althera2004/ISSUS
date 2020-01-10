@@ -55,6 +55,11 @@ function IncidentFormAfterLoad() {
     {
         document.getElementById("CmbWhatHappenedResponsible").value = ApplicationUser.Employee.Id;
         document.getElementById("TxtWhatHappenedDate").value = FormatDate(new Date(), "/");
+        TxtActionsChanged(false);
+    }
+
+    if (IncidentAction.Id < 0) {
+        TxtActionActionsChanged(false);
     }
 
     FieldSetRequired("TxtDescriptionLabel", Dictionary.Item_Incident_Field_Description, true);
@@ -78,6 +83,8 @@ function IncidentFormAfterLoad() {
             }
         }
     }
+
+    TxtActionsChanged();
 }
 
 function IncidentActionFormAfterLoad() {
@@ -940,6 +947,11 @@ function TxtCausesChanged(locked) {
         FieldSetRequired("TxtCausesLabel", Dictionary.Item_Incident_Field_Causes, false);
         FieldSetRequired("CmbCausesResponsibleLabel", Dictionary.Item_Incident_Field_CausesResponsible, false);
         FieldSetRequired("TxtCausesDateLabel", Dictionary.Item_Incident_Field_CausesDate, false);
+
+        $("#CmbCausesResponsible").attr("disabled", "disabled");
+        $("#TxtCausesDate").attr("disabled", "disabled");
+        $("#TxtCausesDateBtn").attr("disabled", "disabled");
+
         $("#CmbCausesResponsible").val(0);
         $("#TxtCausesDate").val("");
     }
@@ -947,6 +959,11 @@ function TxtCausesChanged(locked) {
         FieldSetRequired("TxtCausesLabel", Dictionary.Item_Incident_Field_Causes, true);
         FieldSetRequired("CmbCausesResponsibleLabel", Dictionary.Item_Incident_Field_CausesResponsible, true);
         FieldSetRequired("TxtCausesDateLabel", Dictionary.Item_Incident_Field_CausesDate, true);
+
+        $("#CmbCausesResponsible").removeAttr("disabled");
+        $("#TxtCausesDate").removeAttr("disabled");
+        $("#TxtCausesDateBtn").removeAttr("disabled");
+
         if ($("#CmbCausesResponsible").val() * 1 === 0) {
             $("#CmbCausesResponsible").val(ApplicationUser.Employee.Id);
         }
@@ -964,6 +981,11 @@ function TxtActionsChanged(locked) {
         FieldSetRequired("TxtActionsLabel", Dictionary.Item_Incident_Field_Actions, false);
         FieldSetRequired("CmbActionsResponsibleLabel", Dictionary.Item_Incident_Field_ActionsResponsible, false);
         FieldSetRequired("TxtActionsDateLabel", Dictionary.Common_DateExecution, false);
+
+        $("#CmbActionsResponsible").attr("disabled", "disabled");
+        $("#TxtActionsDate").attr("disabled", "disabled");
+        $("#TxtActionsDateBtn").attr("disabled", "disabled");
+
         $("#CmbActionsResponsible").val(0);
         $("#TxtActionsDate").val("");
         TxtCausesChanged(false);
@@ -972,6 +994,11 @@ function TxtActionsChanged(locked) {
         FieldSetRequired("TxtActionsLabel", Dictionary.Item_Incident_Field_Actions, true);
         FieldSetRequired("CmbActionsResponsibleLabel", Dictionary.Item_Incident_Field_ActionsResponsible, true);
         FieldSetRequired("TxtActionsDateLabel", Dictionary.Common_DateExecution, true);
+
+        $("#CmbActionsResponsible").removeAttr("disabled");
+        $("#TxtActionsDate").removeAttr("disabled");
+        $("#TxtActionsDateBtn").removeAttr("disabled");
+
         if ($("#CmbActionsResponsible").val() * 1 === 0) {
             $("#CmbActionsResponsible").val(ApplicationUser.Employee.Id);
         }
@@ -1033,6 +1060,11 @@ function TxtActionCausesChanged(locked) {
         FieldSetRequired("TxtActionCausesLabel", Dictionary.Item_IncidentAction_Field_Causes, false);
         FieldSetRequired("CmbActionCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_Responsible, false);
         FieldSetRequired("TxtActionCausesDateLabel", Dictionary.Item_IncidentAction_Field_Date, false);
+
+        $("#CmbActionCausesResponsible").attr("disabled", "disabled");
+        $("#TxtActionCausesDate").attr("disabled", "disabled");
+        $("#TxtActionCausesDateBtn").attr("disabled", "disabled");
+
         $("#CmbActionCausesResponsible").val(0);
         $("#TxtActionCausesDate").val("");
         IncidentActionCausesRequired = false;
@@ -1042,6 +1074,11 @@ function TxtActionCausesChanged(locked) {
         FieldSetRequired("TxtActionCausesLabel", Dictionary.Item_IncidentAction_Field_Causes, true);
         FieldSetRequired("CmbActionCausesResponsibleLabel", Dictionary.Item_IncidentAction_Field_Responsible, true);
         FieldSetRequired("TxtActionCausesDateLabel", Dictionary.Item_IncidentAction_Field_Date, true);
+
+        $("#CmbActionCausesResponsible").removeAttr("disabled");
+        $("#TxtActionCausesDate").removeAttr("disabled");
+        $("#TxtActionCausesDateBtn").removeAttr("disabled");
+
         if ($("#CmbActionCausesResponsible").val() * 1 === 0) {
             $("#CmbActionCausesResponsible").val(ApplicationUser.Employee.Id);
         }
@@ -1062,6 +1099,11 @@ function TxtActionActionsChanged(locked) {
         FieldSetRequired("TxtActionActionsLabel", Dictionary.Item_IncidentAction_Field_Actions, false);
         FieldSetRequired("CmbActionActionsResponsibleLabel", Dictionary.Item_IncidentAction_Field_Responsible, false);
         FieldSetRequired("TxtActionActionsDateLabel", Dictionary.Item_IncidentAction_Field_Date, false);
+
+        $("#CmbActionActionsResponsible").attr("disabled", "disabled");
+        $("#TxtActionActionsDate").attr("disabled", "disabled");
+        $("#TxtActionActionsDateBtn").attr("disabled", "disabled");
+
         $("#CmbActionActionsResponsible").val(0);
         $("#TxtActionActionsDate").val("");
         IncidentActionActionsRequired = false;
@@ -1071,6 +1113,11 @@ function TxtActionActionsChanged(locked) {
         FieldSetRequired("TxtActionActionsLabel", Dictionary.Item_IncidentAction_Field_Actions, true);
         FieldSetRequired("CmbActionActionsResponsibleLabel", Dictionary.Item_IncidentAction_Field_Responsible, true);
         FieldSetRequired("TxtActionActionsDateLabel", Dictionary.Item_IncidentAction_Field_Date, true);
+
+        $("#CmbActionActionsResponsible").removeAttr("disabled");
+        $("#TxtActionActionsDate").removeAttr("disabled");
+        $("#TxtActionActionsDateBtn").removeAttr("disabled");
+
         if ($("#CmbActionActionsResponsible").val() * 1 === 0) {
             $("#CmbActionActionsResponsible").val(ApplicationUser.Employee.Id);
         }
