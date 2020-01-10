@@ -183,6 +183,7 @@ function LoadingShow(message) {
     }); */
 }
 
+//Para listas
 function LoadingHide() {
     try {
         $("#LoadingDialog").dialog("close");

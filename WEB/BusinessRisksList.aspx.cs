@@ -220,7 +220,7 @@ public partial class BusinessRisksList : Page
     public void FillCombos()
     {
         var processos = Process.ByCompany(this.Company.Id);
-        var resp = new StringBuilder(@"<option value=""0"">").Append(this.Dictionary["Common_All_Female_Plural"]).Append("</option>");
+        var resp = new StringBuilder(@"<option value=""0"">").Append(this.Dictionary["Common_All_Male_Plural"]).Append("</option>");
         foreach (var process in processos)
         {
             resp.AppendFormat(
