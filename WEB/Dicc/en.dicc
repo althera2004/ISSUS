@@ -1201,7 +1201,7 @@ Item_Incident_Field_CausesResponsible::Written up
 Item_Incident_Field_CloseDate::Date
 Item_Incident_Field_CloseResponsible::Responsible
 Item_Incident_Field_Description::Description
-Item_Incident_Field_Notes::Notes
+Item_Incident_Field_Notes::Notes / Relationship with risks and opportunities (if applicable)
 Item_Incident_Field_WhatHappened::What happened?
 Item_Incident_Field_WhatHappenedDate::Date
 Item_Incident_Field_WhatHappenedResponsible::Registered by

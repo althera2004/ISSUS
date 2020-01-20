@@ -1202,7 +1202,7 @@ Item_Incident_Field_CausesResponsible::Registrat per
 Item_Incident_Field_CloseDate::Data
 Item_Incident_Field_CloseResponsible::Responsable
 Item_Incident_Field_Description::Descripció
-Item_Incident_Field_Notes::Notes
+Item_Incident_Field_Notes::Notes / Relació amb riscos i oportunitats (si procedeix)
 Item_Incident_Field_WhatHappened::Què ha passat?
 Item_Incident_Field_WhatHappenedDate::Data
 Item_Incident_Field_WhatHappenedResponsible::Registrat per
