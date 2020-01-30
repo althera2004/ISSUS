@@ -443,7 +443,8 @@ function RenderLearningTable() {
 
     $("#TotalList").html(tableCount);
     $("#TotalAmount").html(ToMoneyFormat(tableTotal, 2));
-    $("#th0").click();
+    $("#th1").click();
+    $("#th1").click();
 
 }
 

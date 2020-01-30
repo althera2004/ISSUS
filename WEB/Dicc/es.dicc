@@ -1880,7 +1880,7 @@ Item_QuestionaryQuestion_PopupDelete_Message::¿Desea borrar la pregunta
 Item_QuestionaryQuestion_Title::Preguntas
 Item_QuestionaryQuestion_Tooltip_DeleteButton::Eliminar pregunta
 Item_QuestionaryQuestion_Tooltip_EditButton::Editar pregunta
-Item_Questionay_Observations::Observaciones
+Item_Questionay_Observations::Notas de auditoría
 Item_Reports::Informes
 Item_Review::Revisión por la dirección
 Item_Rule::Norma

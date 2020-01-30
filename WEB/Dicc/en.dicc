@@ -1880,7 +1880,7 @@ Item_QuestionaryQuestion_PopupDelete_Message::Do you want to delete the question
 Item_QuestionaryQuestion_Title::Questions
 Item_QuestionaryQuestion_Tooltip_DeleteButton::Delete question
 Item_QuestionaryQuestion_Tooltip_EditButton::Edit Question
-Item_Questionay_Observations::Observations
+Item_Questionay_Observations::Audit notes
 Item_Reports::Reports
 Item_Review::Review by management
 Item_Rule::Norm
