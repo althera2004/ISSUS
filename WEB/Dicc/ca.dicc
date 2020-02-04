@@ -373,7 +373,7 @@ Item_Auditory_Title_PopupAddFound::Nova troballa
 Item_Auditory_Title_PopupAddImprovement::Nova millora
 Item_Auditory_Title_PopupDeleteFound::Eliminar troballa
 Item_Auditory_Title_PopupDeleteImprovement::Eliminar millora
-Item_Auditory_Title_PopupUpdateFound::Modificar no confor
+Item_Auditory_Title_PopupUpdateFound::Modificar troballa
 Item_Auditory_Title_PopupUpdateImprovement::Modificar millora
 Item_Auditory_Title_QuestionariesAvailables::Qüestionaris de la auditoria
 Item_Auditory_ValidateCrossDate::No pot ser anterior a la data final
@@ -1302,7 +1302,7 @@ Item_IncidentAction_Field_Executer::Responsable
 Item_IncidentAction_Field_Fix::Correcció
 Item_IncidentAction_Field_Improvement::Millora
 Item_IncidentAction_Field_Internal::Interna
-Item_IncidentAction_Field_Monitoring::Seguiment
+Item_IncidentAction_Field_Monitoring::Seguiment/Avaluació de l'eficàcia
 Item_IncidentAction_Field_Notes::Notes
 Item_IncidentAction_Field_Prevent::Preventiva
 Item_IncidentAction_Field_Provider::Proveïdor

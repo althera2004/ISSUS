@@ -1,0 +1,3 @@
+ca.dicc debe estar codificado en ANSI
+es.dicc debe estar codificado en UTF-8
+en.dicc debe estar codificado en UTF-8
