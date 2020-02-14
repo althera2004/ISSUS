@@ -44,7 +44,7 @@
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataHeader">
                                                         <th id="th0" class="search sort" onclick="Sort(this,'ListDataTable');"><%=this.Dictionary["Common_Task"] %></th>
-                                                        <th id="th1" class="search sort" onclick="Sort(this,'ListDataTable');" style="width:350px;cursor:pointer;"><%=this.Dictionary["Common_Target"] %></th>
+                                                        <th id="th1" class="search sort" onclick="Sort(this,'ListDataTable');" style="width:350px;cursor:pointer;"><%=this.Dictionary["Item_Document_ListHeader_Origin"] %></th>
                                                         <th id="th2" class="search sort" onclick="Sort(this,'ListDataTable');" style="cursor:pointer;width:250px;"><%=this.Dictionary["Common_Responsible"] %></th>
                                                         <th id="th3" class="search sort" onclick="Sort(this,'ListDataTable', 'date');" style="width:107px;cursor:pointer;"><%=this.Dictionary["Common_Date"] %></th>
                                                     </tr>

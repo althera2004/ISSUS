@@ -1728,7 +1728,7 @@ Item_Oportunity_LabelField_Causes::Causes
 Item_Oportunity_LabelField_Code::Codi
 Item_Oportunity_LabelField_Control::Control
 Item_Oportunity_LabelField_Cost::Cost
-Item_Oportunity_LabelField_DateStart::Data final
+Item_Oportunity_LabelField_DateStart::Data d'alta
 Item_Oportunity_LabelField_Description::Descripció
 Item_Oportunity_LabelField_Impact::Impacte
 Item_Oportunity_LabelField_IPR::IPR
