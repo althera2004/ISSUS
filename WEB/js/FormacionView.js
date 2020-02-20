@@ -793,10 +793,23 @@ function SaveConfirmed(evaluatedAll)
 		dateEstimated = GetDate($("#TxtFechaPrevista").val(), "/", true);
     }
 
-    var status = 0;
+    /*var status = 0;
     if (document.getElementById("RBStatus2").checked) { status = 1; }
     else if (document.getElementById("RBStatus3").checked) { status = 2; }
-    if (evaluatedAll === true) { status = 2; }
+    if (evaluatedAll === true) { status = 2; }*/
+    var status = FormacionStatus.Pendiente;
+    if (d1 !== null) {
+        if (d2 === null) {
+            status = FormacionStatus.EnProgreso;
+        }
+        else {
+            status = FormacionStatus.Realizada;
+        }
+    }
+
+    if (evaluatedAll === true) {
+        status = FormacionStatus.Evaluada;
+    }
 
     var data = {
         "oldLearning": formacion,

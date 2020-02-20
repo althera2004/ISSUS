@@ -985,3 +985,15 @@ function HourToMinutes(minutes) {
     var parts = minutes.split(':');
     return parts[0] * 60 + parts[1] * 1;
 }
+
+function EmptyFieldText(fieldName) {
+    if ($("#" + fieldName).length === 0) {
+        return null;
+    }
+
+    var text = $("#" + fieldName).val();
+    text = text.trim();
+    text = text.split("\n").join("");
+    text = text.split("\r").join("");
+    return text === "";
+}

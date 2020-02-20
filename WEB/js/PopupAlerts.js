@@ -206,9 +206,8 @@ function LoadingShow(message, forced) {
 }
 
 function LoadingHide() {
-    return;
-    /*try {
+    try {
         $("#LoadingDialog").dialog("close");
     }
-    catch (e) { console.log(e); }*/
+    catch (e) { console.log(e); }
 }

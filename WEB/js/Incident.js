@@ -108,8 +108,6 @@ function IncidentActionFormAfterLoad() {
     FieldSetRequired("TxtActionActionsLabel", Dictionary.Item_IncidentAction_Field_Actions, IncidentActionActionsRequired);
     FieldSetRequired("CmbActionActionsResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleActions, IncidentActionActionsRequired);
     FieldSetRequired("TxtActionActionsDateLabel", Dictionary.Common_Date, IncidentActionActionsRequired);
-    // ISSUS-10 FieldSetRequired("CmbActionActionsExecuterLabel", Dictionary.Item_IncidentAction_Field_Executer, IncidentActionActionsRequired);
-    // ISSUS-10 FieldSetRequired("TxtActionActionsScheduleLabel", Dictionary.Item_IncidentAction_Field_Schelude, IncidentActionActionsRequired);
 
     // Close
     FieldSetRequired("CmbActionClosedResponsibleLabel", Dictionary.Item_IncidentAction_Field_ResponsibleClose, IncidentActionClosedRequired);
@@ -223,16 +221,14 @@ function SaveIncident() {
     var DateWhatHappened = null;
     var DateCauses = null;
     var DateActions = null;
-    var DateActionsSchedule = null;
     var DateClose = null;
 
     var DateActionWhatHappened = null;
     var DateActionCauses = null;
     var DateActionActions = null;
-    var DateActionActionsSchedule = null;
     var DateActionClose = null;
 
-    if ($("#TxtDescription").val().trim() === "") {
+    if (EmptyFieldText("TxtDescription")) {
         ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_DescriptionRequired);
         SetFieldTextMessages("TxtDescription");
         ok = false;
@@ -267,7 +263,7 @@ function SaveIncident() {
         }
     }
 
-    if ($("#TxtWhatHappened").val().trim() === "") {
+    if (EmptyFieldText("TxtWhatHappened")) {
         ok = false;
         ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_WhatHappenedRequired);
         SetFieldTextMessages("TxtWhatHappened");
@@ -279,7 +275,7 @@ function SaveIncident() {
         SetFieldTextMessages("CmbWhatHappenedResponsible");
     }
 
-    if ($("#TxtWhatHappenedDate").val().trim() === "") {
+    if (EmptyFieldText("TxtWhatHappenedDate")) {
         ok = false;
         ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_WhatHappenedDateRequired);
         SetFieldTextMessages("TxtWhatHappenedDate");
@@ -295,7 +291,7 @@ function SaveIncident() {
     }
 
     if (IncidentCausesRequired === true || IncidentActionsRequired === true || IncidentClosedRequired === true) {
-        if ($("#TxtCauses").val().trim() === "") {
+        if (EmptyFieldText("TxtCauses")) {
             ok = false;
             ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_CausesRequired);
             SetFieldTextMessages("TxtCauses");
@@ -307,7 +303,7 @@ function SaveIncident() {
             SetFieldTextMessages("CmbCausesResponsible");
         }
 
-        if ($("#TxtCausesDate").val().trim() === "") {
+        if (EmptyFieldText("TxtCausesDate")) {
             ok = false;
             ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_CausesDateRequired);
             SetFieldTextMessages("TxtCausesDate");
@@ -324,7 +320,7 @@ function SaveIncident() {
     }
 
     if (IncidentActionsRequired === true || IncidentClosedRequired === true) {
-        if ($("#TxtActions").val().trim() === "") {
+        if (EmptyFieldText("TxtActions")) {
             ok = false;
             ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_ActionsRequired);
             SetFieldTextMessages("TxtActions");
@@ -336,7 +332,7 @@ function SaveIncident() {
             SetFieldTextMessages("CmbActionsResponsible");
         }
 
-        if ($("#TxtActionsDate").val().trim() === "") {
+        if (EmptyFieldText("TxtActionsDate")) {
             ok = false;
             ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_ActionsDateRequired);
             SetFieldTextMessages("TxtActionsDate");
@@ -350,23 +346,6 @@ function SaveIncident() {
                 DateActions = GetDate($("#TxtActionsDate").val(), "/", false);
             }
         }
-
-        /* ISSUS-74
-        if (document.getElementById("CmbActionsExecuter").value * 1 === 0) {
-            ok = false;
-            ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_ActionsExecuterRequired);
-            SetFieldTextMessages("CmbActionsExecuter");
-        }
-
-        if ($("#TxtActionsSchedule").val() === "") {
-            ok = false;
-            ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_ActionsScheduleRequired);
-            SetFieldTextMessages("TxtActionsSchedule");
-        }
-        else
-        {
-            DateActionsSchedule = GetDate($("#TxtActionsSchedule").val(), "/", false);
-        }*/
     }
 
     if (IncidentClosedRequired === true) {
@@ -376,7 +355,7 @@ function SaveIncident() {
             SetFieldTextMessages("CmbClosedResponsible");
         }
 
-        if ($("#TxtClosedDate").val().trim() === "") {
+        if (EmptyFieldText("TxtClosedDate")) {
             ok = false;
             ErrorMessage.push(Dictionary.Item_Incident_ErrorMessage_ClosedDateRequired);
             SetFieldTextMessages("TxtClosedDate");
@@ -412,12 +391,6 @@ function SaveIncident() {
             SetFieldTextMessages("TxtActionsDate");
         }
 
-        //if (DateActionsSchedule !== null && DateWhatHappened > DateActionsSchedule) {
-        //    okFechas = false;
-        //    SetFieldTextMessages("TxtWhatHappenedDate");
-        //    SetFieldTextMessages("TxtActionsSchedule");
-        //}
-
         if (DateClose !== null && DateWhatHappened > DateClose) {
             okFechas = false;
             SetFieldTextMessages("TxtWhatHappenedDate");
@@ -432,12 +405,6 @@ function SaveIncident() {
             SetFieldTextMessages("TxtActionsDate");
         }
 
-        //if (DateActionsSchedule !== null && DateCauses > DateActionsSchedule) {
-        //    okFechas = false;
-        //    SetFieldTextMessages("TxtCausesDate");
-        //    SetFieldTextMessages("TxtActionsSchedule");
-        //}
-
         if (DateClose !== null && DateCauses > DateClose) {
             okFechas = false;
             SetFieldTextMessages("TxtCausesDate");
@@ -446,26 +413,12 @@ function SaveIncident() {
     }
 
     if (DateActions !== null) {
-        //if (DateActionsSchedule !== null && DateActions > DateActionsSchedule) {
-        //    okFechas = false;
-        //    SetFieldTextMessages("TxtActionsDate");
-        //    SetFieldTextMessages("TxtActionsSchedule");
-        //}
-
         if (DateClose !== null && DateActions > DateClose) {
             okFechas = false;
             SetFieldTextMessages("TxtActionsDate");
             SetFieldTextMessages("TxtClosedDate");
         }
     }
-
-    //if (DateActionsSchedule !== null) {
-    //    if (DateClose !== null && DateActionsSchedule > DateClose) {
-    //        okFechas = false;
-    //        SetFieldTextMessages("TxtActionsSchedule");
-    //        SetFieldTextMessages("TxtClosedDate");
-    //    }
-    //}
 
     if (okFechas === false) {
         ok = false;
@@ -475,13 +428,13 @@ function SaveIncident() {
     SaveAction = false;
     if (document.getElementById("RActionYes").checked) {
         SaveAction = true;
-        if ($("#TxtActionDescription").val().trim() === "") {
+        if (EmptyFieldText("TxtActionDescription")) {
             ok = false;
             SetFieldTextMessages("TxtActionDescription");
             ErrorMessageActions.push(Dictionary.Item_IncidentAction_ErrorMessage_DescriptionRequired);
         }
 
-        if ($("#TxtActionWhatHappened").val().trim() === "") {
+        if (EmptyFieldText("TxtActionWhatHappened")) {
             ok = false;
             SetFieldTextMessages("TxtActionWhatHappened");
             ErrorMessageActions.push(Dictionary.Item_IncidentAction_ErrorMessage_WhatHappenedRequired);
@@ -493,7 +446,7 @@ function SaveIncident() {
             ErrorMessageActions.push(Dictionary.Item_IncidentAction_ErrorMessage_WhatHappenedRequiredResponsible);
         }
 
-        if ($("#TxtActionWhatHappenedDate").val().trim() === "") {
+        if (EmptyFieldText("TxtActionWhatHappenedDate")) {
             ok = false;
             SetFieldTextMessages("TxtActionWhatHappenedDate");
             ErrorMessageActions.push(Dictionary.Item_IncidentAction_ErrorMessage_WhatHappenedRquiredDate);
@@ -509,7 +462,7 @@ function SaveIncident() {
         }
 
         if (IncidentActionCausesRequired === true) {
-            if ($("#TxtActionCauses").val().trim() === "") {
+            if (EmptyFieldText("TxtActionCauses")) {
                 ok = false;
                 SetFieldTextMessages("TxtActionCauses");
                 ErrorMessageActions.push(Dictionary.Item_IncidentAction_ErrorMessage_CausesRequired);
@@ -521,7 +474,7 @@ function SaveIncident() {
                 ErrorMessageActions.push(Dictionary.Item_IncidentAction_ErrorMessage_CausesRequiredResponsible);
             }
 
-            if ($("#TxtActionCausesDate").val().trim() === "") {
+            if (EmptyFieldText("TxtActionCausesDate")) {
                 ok = false;
                 SetFieldTextMessages("TxtActionCausesDate");
                 ErrorMessageActions.push(Dictionary.Item_IncidentAction_ErrorMessage_CausesRequiredDate);
@@ -539,7 +492,7 @@ function SaveIncident() {
 
         if (IncidentActionActionsRequired === true) {
 
-            if ($("#TxtActionActions").val().trim() === "") {
+            if (EmptyFieldText("TxtActionActions")) {
                 ok = false;
                 SetFieldTextMessages("TxtActionActions");
                 ErrorMessageActions.push(Dictionary.Item_IncidentAction_ErrorMessage_ActionsRequired);
@@ -551,7 +504,7 @@ function SaveIncident() {
                 ErrorMessageActions.push(Dictionary.Item_IncidentAction_ErrorMessage_ActionsRequiredResponsible);
             }
 
-            if ($("#TxtActionActionsDate").val().trim() === "") {
+            if (EmptyFieldText("TxtActionActionsDate")) {
                 ok = false;
                 SetFieldTextMessages("TxtActionActionsDate");
                 ErrorMessageActions.push(Dictionary.Item_IncidentAction_ErrorMessage_ActionsRequiredDate);
@@ -573,7 +526,7 @@ function SaveIncident() {
                     ErrorMessageActions.push(Dictionary.Item_IncidentAction_ErrorMessage_CloseResponsibleRequired);
                 }
 
-                if ($("#TxtActionClosedDate").val().trim() === "") {
+                if (EmptyFieldText("TxtActionClosedDate")) {
                     ok = false;
                     SetTextFieldMessages("TxtActionClosedDate");
                     ErrorMessageActions.push(Dictionary.Item_IncidentAction_ErrorMessage_CloseDate);
@@ -715,7 +668,6 @@ function SaveIncident() {
             "dataType": "json",
             "data": JSON.stringify(data, null, 2),
             "success": function (msg) {
-                // ISSUS-36
                 if (SaveAction) {
                     var action =
                         {
@@ -826,7 +778,7 @@ function SaveIncident() {
                         "contentType": "application/json; charset=utf-8",
                         "dataType": "json",
                         "data": JSON.stringify(data, null, 2),
-                        "success": function (msg) {
+                        "success": function () {
                             document.location = referrer;
                         },
                         "error": function (msg) {
@@ -891,16 +843,16 @@ function RActionChanged() {
 }
 
 function LastRequiredLevel() {
-    if ($("#CmbClosedResponsible").val() * 1 > 0 || $("#TxtClosedDate").val() !== "") { return 4; }
-    if ($("#TxtActions").val() !== "") { return 3; }
-    if ($("#TxtCauses").val() !== "") { return 2; }
+    if ($("#CmbClosedResponsible").val() * 1 > 0 || !EmptyFieldText("TxtClosedDate")) { return 4; }
+    if (!EmptyFieldText("TxtActions")) { return 3; }
+    if (!EmptyFieldText("TxtCauses")) { return 2; }
     return 1;
 }
 
 function LastRequiredLevelAction() {
-    if ($("#CmbActionClosedResponsible").val() * 1 > 0 || $("#TxtActionClosedDate").val() !== "") { return 4; }
-    if ($("#TxtActionActions").val() !== "") { return 3; }
-    if ($("#TxtActionCauses").val() !== "") { return 2; }
+    if ($("#CmbActionClosedResponsible").val() * 1 > 0 || !EmptyFieldText("TxtActionClosedDate")) { return 4; }
+    if (!EmptyFieldText("TxtActionActions")) { return 3; }
+    if (!EmptyFieldText("TxtActionCauses")) { return 2; }
     return 1;
 }
 
@@ -1003,7 +955,7 @@ function TxtActionsChanged(locked) {
             $("#CmbActionsResponsible").val(ApplicationUser.Employee.Id);
         }
 
-        if ($("#TxtActionsDate").val().trim() === "") {
+        if (EmptyFieldText("TxtActionsDate")) {
             $("#TxtActionsDate").val(FormatDate(new Date(), "/"));
         }
 
@@ -1178,7 +1130,6 @@ if (ApplicationUser.Grants.Incident.Write === false) {
     $("#UploadFilesList .btn-danger").hide();
 }
 else {
-    // ISSUS-190
     document.getElementById("TxtDescription").focus();
 }
 
@@ -1217,10 +1168,8 @@ window.onload = function () {
         $("#BtnNewUploadfile").hide();
         $("#home .icon-trash").parent().hide();
         $("#home .icon-edit").parent().hide();
-
         $("#CmbClosedResponsible").removeAttr("disabled");
         $("#TxtClosedDate").removeAttr("disabled");
-
         $("#Chk1").removeAttr("disabled");
         $("#Chk2").removeAttr("disabled");
     }

@@ -207,7 +207,15 @@ public partial class CompanyProfile : Page
     private void RenderCountries()
     {
         var res = new StringBuilder();
-        string countryCompare = this.Company.Id < 0 ? this.Dictionary["Common_None"] : this.Company.DefaultAddress.Country;
+        string countryCompare = this.Dictionary["Common_None"];
+		try 
+		{
+			countryCompare = this.Company.Id < 0 ? this.Dictionary["Common_None"] : this.Company.DefaultAddress.Country;
+		}
+		catch(Exception ex)
+		{
+		}
+		
         res.Append(string.Format(@"{{
             ""text"": ""{0}"",
             ""value"": ""0"",

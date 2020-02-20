@@ -114,18 +114,27 @@ public partial class ExportPrintActionData : Page
             {
                 case 1:
                     reporterType = dictionary["Item_IncidentAction_ReporterType1"];
-                    var department = Department.ById(action.Department.Id, action.CompanyId);
-                    reporter = department.Description;
+                    if (action.Department != null && action.Department.Id > 0)
+                    {
+                        var department = Department.ById(action.Department.Id, action.CompanyId);
+                        reporter = department.Description;
+                    }
                     break;
                 case 2:
                     reporterType = dictionary["Item_IncidentAction_ReporterType2"];
-                    var provider = Provider.ById(action.Provider.Id, action.CompanyId);
-                    reporter = provider.Description;
+                    if (action.Provider != null && action.Provider.Id > 0)
+                    {
+                        var provider = Provider.ById(action.Provider.Id, action.CompanyId);
+                        reporter = provider.Description;
+                    }
                     break;
                 case 3:
                     reporterType = dictionary["Item_IncidentAction_ReporterType3"];
-                    var customer = Customer.ById(action.Customer.Id, action.CompanyId);
-                    reporter = customer.Description;
+                    if (action.Customer != null && action.Customer.Id > 0)
+                    {
+                        var customer = Customer.ById(action.Customer.Id, action.CompanyId);
+                        reporter = customer.Description;
+                    }
                     break;
                 default:
                     break;
@@ -183,7 +192,7 @@ public partial class ExportPrintActionData : Page
         table.AddCell(ValueCell(origin + originSufix, ToolsPdf.BorderNone, alignLeft, 3));
 
         // Reportador
-        if (action.Origin != 4 && action.Origin != 5)
+        if (action.Origin != 4 && action.Origin != 5 && !string.IsNullOrEmpty(reporter))
         {
             table.AddCell(LabelCell(dictionary["Item_IncidentAction_Label_Reporter"], Rectangle.NO_BORDER));
             table.AddCell(ValueCell(reporterType + " (" + reporter + ")", ToolsPdf.BorderNone, alignLeft, 3));
