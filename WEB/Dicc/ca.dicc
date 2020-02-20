@@ -380,29 +380,29 @@ Item_Auditory_ValidateCrossDate::No pot ser anterior a la data final
 Item_Auditory_ValidateCuestionarioCrossDate::No pot ser anterior a l'inici dels qüestionaris
 Item_AuditoryPlanning_Field_Duration::Durada
 Item_AuditoryPlanning_Field_Hour::Hora inici
-Item_AuditoryPlanning_Header_Audited::Auditat/da
+Item_AuditoryPlanning_Header_Audited::Auditat/ada
 Item_AuditoryPlanning_Header_Auditor::Auditor/a
 Item_AuditoryPlanning_Header_Date::Data
-Item_AuditoryPlanning_Header_Duration::Horas
+Item_AuditoryPlanning_Header_Duration::Hores
 Item_AuditoryPlanning_Header_Hour::Hora
-Item_AuditoryPlanning_Header_Process::Proceso
-Item_AuditoryPlanning_Label_Audited::Auditado/a
+Item_AuditoryPlanning_Header_Process::Procés
+Item_AuditoryPlanning_Label_Audited::Auditat/ada
 Item_AuditoryPlanning_Label_Auditor::Auditor
 Item_AuditoryPlanning_Label_Date::Data
-Item_AuditoryPlanning_Label_EmailProvider::Dirección de email
+Item_AuditoryPlanning_Label_EmailProvider::Direcció d'email
 Item_AuditoryPlanning_Label_Process::Procés
-Item_AuditoryPlanning_Label_SendMail::Enviar correo al/a auditado/a
-Item_AuditoryPlanning_PopupDelete_Message::¿Vil eliminar la planificació
-Item_AuditoryPlanning_Title::Eliminar planificación
-Item_AuditoryPlanning_Title_PopupAdd::Añadir planificación
-Item_AuditoryPlanning_Title_PopupUpdate::Modificar planifiación
+Item_AuditoryPlanning_Label_SendMail::Enviar correu al/a auditat/ada
+Item_AuditoryPlanning_PopupDelete_Message::Vol eliminar la planificació?
+Item_AuditoryPlanning_Title::Eliminar planificació
+Item_AuditoryPlanning_Title_PopupAdd::Afegir planificació
+Item_AuditoryPlanning_Title_PopupUpdate::Modificar planificació
 Item_AuditoryQuestionary_Header_Name::Qüestionari
 Item_AuditoryQuestionary_Header_Status::Estat
 Item_AuditoryQuestionary_Tooltip_Continue::Continuar qüestionari
 Item_AuditoryQuestionary_Tooltip_Start::Iniciar qüestionari
 Item_Backup::Back-Up
 Item_Backup_Btn_Go::Iniciar back-up
-Item_Backup_Explain::Al clicar, es genera un fitxer XLS amb totes les dades de l'aplicació. És una còpia de seguretat.
+Item_Backup_Explain::Al fer clic, es genera un fitxer XLS amb totes les dades de l'aplicació. És una còpia de seguretat.
 Item_BusinesRisk_ListHeader_Date::Data
 Item_BusinesRisk_ListHeader_Description::Risc
 Item_BusinesRisk_ListHeader_IPR::IPR
@@ -1202,7 +1202,7 @@ Item_Incident_Field_CausesResponsible::Registrat per
 Item_Incident_Field_CloseDate::Data
 Item_Incident_Field_CloseResponsible::Responsable
 Item_Incident_Field_Description::Descripció
-Item_Incident_Field_Notes::Notes
+Item_Incident_Field_Notes::Notes / Relació amb riscos i oportunitats (si procedeix)
 Item_Incident_Field_WhatHappened::Què ha passat?
 Item_Incident_Field_WhatHappenedDate::Data
 Item_Incident_Field_WhatHappenedResponsible::Registrat per
@@ -1302,7 +1302,7 @@ Item_IncidentAction_Field_Executer::Responsable
 Item_IncidentAction_Field_Fix::Correcció
 Item_IncidentAction_Field_Improvement::Millora
 Item_IncidentAction_Field_Internal::Interna
-Item_IncidentAction_Field_Monitoring::Seguiment
+Item_IncidentAction_Field_Monitoring::Seguiment/Avaluació de l'eficàcia
 Item_IncidentAction_Field_Notes::Notes
 Item_IncidentAction_Field_Prevent::Preventiva
 Item_IncidentAction_Field_Provider::Proveïdor
@@ -1728,7 +1728,7 @@ Item_Oportunity_LabelField_Causes::Causes
 Item_Oportunity_LabelField_Code::Codi
 Item_Oportunity_LabelField_Control::Control
 Item_Oportunity_LabelField_Cost::Cost
-Item_Oportunity_LabelField_DateStart::Data final
+Item_Oportunity_LabelField_DateStart::Data d'alta
 Item_Oportunity_LabelField_Description::Descripció
 Item_Oportunity_LabelField_Impact::Impacte
 Item_Oportunity_LabelField_IPR::IPR
@@ -1881,7 +1881,7 @@ Item_QuestionaryQuestion_PopupDelete_Message::¿Vol eliminar la pregunta
 Item_QuestionaryQuestion_Title::Preguntes
 Item_QuestionaryQuestion_Tooltip_DeleteButton::Eliminar pregunta
 Item_QuestionaryQuestion_Tooltip_EditButton::Editar pregunta
-Item_Questionay_Observations::Observacions
+Item_Questionay_Observations::Notes d'auditoria
 Item_Reports::Informes
 Item_Review::Revisió per la direcció
 Item_Rule::Norma

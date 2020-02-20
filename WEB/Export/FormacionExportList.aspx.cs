@@ -325,7 +325,8 @@ public partial class ExportFormacionExportList : Page
 
             int border = 0;
             table.AddCell(ToolsPdf.DataCell(learning.Description));
-
+            table.AddCell(ToolsPdf.DataCellCenter(learning.DateEstimated));
+            /*
             string fecha = Tools.TranslatedMonth(learning.DateEstimated.Month, dictionary) + " " + learning.DateEstimated.Year;
             table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(fecha, ToolsPdf.LayoutFonts.Times))
             {
@@ -334,7 +335,7 @@ public partial class ExportFormacionExportList : Page
                 PaddingTop = 4f,
                 HorizontalAlignment = Rectangle.ALIGN_CENTER
             });
-
+            */
             if (learning.RealFinish != null)
             {
                 if (learning.RealFinish.Value.Year == 1970)
@@ -365,7 +366,8 @@ public partial class ExportFormacionExportList : Page
             {
                 Border = border,
                 Padding = ToolsPdf.PaddingTableCell,
-                PaddingTop = ToolsPdf.PaddingTopTableCell
+                PaddingTop = ToolsPdf.PaddingTopTableCell,
+                HorizontalAlignment = Rectangle.ALIGN_CENTER
             });
 
             table.AddCell(ToolsPdf.DataCellMoney(learning.Amount));

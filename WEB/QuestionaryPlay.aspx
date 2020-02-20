@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Giso.master" AutoEventWireup="true" CodeFile="QuestionaryPlay.aspx.cs" Inherits="QuestionaryPlay" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PageStyles" Runat="Server">
+    <br />
     <link rel="stylesheet" href="assets/css/jquery-ui-1.10.3.full.min.css" />
     <style type="text/css">
         .iconfile {
@@ -78,8 +79,11 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
-                            <div>
-                                <div id="user-profile-2" class="user-profile">                                             
+                            <br /><br /><br />
+                            <div class="row">
+                               <div class="col-xs-12"><h4><%=this.Dictionary["Item_QuestionaryQuestion_Title"] %></h4></div>
+                            </div>
+                                <div id="user-profile-2" class="user-profile" style="margin-top:0;">                                             
                                                 <div class="form-horizontal" role="form">
                                                     <div class="table-responsive" id="scrollTableDiv">
                                                         <table class="table table-bordered table-striped" style="margin: 0">
@@ -90,13 +94,20 @@
 		                                                        </tr>
                                                             </thead>
                                                         </table>
-                                                        <div id="ListDataDiv" style="overflow: scroll; overflow-x: hidden; padding: 0;min-height:200px;">
-                                                            <table class="table table-bordered table-striped" style="border-top: none;">
+                                                        <div id="ListDataDiv" style="overflow: scroll; overflow-x: hidden; padding: 0;">
+                                                            <table class="table table-bordered table-striped" style="border-top: none;margin-bottom:0;">
                                                                 <tbody id="ListDataTable"><asp:Literal runat="server" ID="LtQuestions"></asp:Literal></tbody>
                                                             </table>
                                                         </div>
                                                     </div> <!-- /.table-responsive -->
                                                     <%=this.FormFooter %>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-xs-12"><h4><%=this.Dictionary["Item_Questionay_Observations"] %></h4></div>
+                                                    <div class="col-sm-12">
+                                                        <textarea id="TxtObservations" rows="5" class="col-xs-12"></textarea>
+                                                    </div>
                                                 </div>
                                                 <br />
                                                 <div class="row" id="TableFoundHeader">
@@ -158,15 +169,7 @@
                                                         </thead>
                                                     </table>
                                                 </div> <!-- /.table-responsive -->
-                                                <div class="row">
-                                                    <div class="col-xs-12"><h4><%=this.Dictionary["Item_Questionay_Observations"] %></h4></div>
-                                                    <div class="col-sm-12">
-                                                        <textarea id="TxtObservations" rows="5" class="col-xs-12"></textarea>
-                                                    </div>
-                                                </div>
-                            </div>
-
-                            </div>
+                                                <br />
                             <div id="foundDeleteDialog" class="hide" style="width:500px;">
                                 <p><%=this.Dictionary["Item_Auditory_PopupDelete_MessageFound"] %>&nbsp;<strong><span id="foundName"></span></strong>?</p>
                             </div>

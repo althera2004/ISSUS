@@ -1201,7 +1201,7 @@ Item_Incident_Field_CausesResponsible::Written up
 Item_Incident_Field_CloseDate::Date
 Item_Incident_Field_CloseResponsible::Responsible
 Item_Incident_Field_Description::Description
-Item_Incident_Field_Notes::Notes
+Item_Incident_Field_Notes::Notes / Relationship with risks and opportunities (if applicable)
 Item_Incident_Field_WhatHappened::What happened?
 Item_Incident_Field_WhatHappenedDate::Date
 Item_Incident_Field_WhatHappenedResponsible::Registered by
@@ -1301,7 +1301,7 @@ Item_IncidentAction_Field_Executer::Responsible
 Item_IncidentAction_Field_Fix::Correction
 Item_IncidentAction_Field_Improvement::Improvement
 Item_IncidentAction_Field_Internal::Internal
-Item_IncidentAction_Field_Monitoring::Tracing
+Item_IncidentAction_Field_Monitoring::Tracing/Evaluation of effectiveness
 Item_IncidentAction_Field_Notes::Notes
 Item_IncidentAction_Field_Prevent::Preventive
 Item_IncidentAction_Field_Provider::Provider
@@ -1562,7 +1562,7 @@ Item_Learning_FieldLabel_EstimatedDate::D. Preview
 Item_Learning_FieldLabel_Hours::Hours
 Item_Learning_FieldLabel_Methodology::Methodology
 Item_Learning_FieldLabel_Name::Name of the training action
-Item_Learning_FieldLabel_Notes::Notes
+Item_Learning_FieldLabel_Notes::Notes / Evidence of validation of efficacy
 Item_Learning_FieldLabel_StartDate::D. Real start
 Item_Learning_FieldLabel_Status::State
 Item_Learning_FieldLabel_Year::Year of completion of the course
@@ -1594,7 +1594,7 @@ Item_Learning_Message_Evaluation::Saving a training with all the evaluated parti
 Item_Learning_Message_NoAssistants::There are no assistants to the course
 Item_Learning_Message_SelectOneAssistant::Required some assistant
 Item_Learning_NewLabel::Training file
-Item_Learning_Objetive::Objective
+Item_Learning_Objetive::Objective / Effectiveness validation
 Item_Learning_PopupDelete_Message::Delete training?
 Item_Learning_SelectAssistants::Add
 Item_Learning_Status_Done::Done
@@ -1727,7 +1727,7 @@ Item_Oportunity_LabelField_Causes::Causes
 Item_Oportunity_LabelField_Code::Code
 Item_Oportunity_LabelField_Control::Control
 Item_Oportunity_LabelField_Cost::Cost
-Item_Oportunity_LabelField_DateStart::Final date
+Item_Oportunity_LabelField_DateStart::Start date
 Item_Oportunity_LabelField_Description::Description
 Item_Oportunity_LabelField_Impact::Impact
 Item_Oportunity_LabelField_IPR::PRI
@@ -1880,7 +1880,7 @@ Item_QuestionaryQuestion_PopupDelete_Message::Do you want to delete the question
 Item_QuestionaryQuestion_Title::Questions
 Item_QuestionaryQuestion_Tooltip_DeleteButton::Delete question
 Item_QuestionaryQuestion_Tooltip_EditButton::Edit Question
-Item_Questionay_Observations::Observations
+Item_Questionay_Observations::Audit notes
 Item_Reports::Reports
 Item_Review::Review by management
 Item_Rule::Norm

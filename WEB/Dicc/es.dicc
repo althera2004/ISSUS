@@ -460,13 +460,13 @@ Item_BusinessRisk_LabelField_Probability::Probabilidad
 Item_BusinessRisk_LabelField_Process::Procesos
 Item_BusinessRisk_LabelField_Remainder::Tabla
 Item_BusinessRisk_LabelField_Result::Resultado
-Item_BusinessRisk_LabelField_Rules::Normas
+Item_BusinessRisk_LabelField_Rules::Norma
 Item_BusinessRisk_LabelField_Severity::Severidad
 Item_BusinessRisk_LabelField_StartControl::Control inicial
 Item_BusinessRisk_LabelField_Status::Estado
 Item_BusinessRisk_List_Filter_From::Desde
 Item_BusinessRisk_List_Filter_Process::Procesos
-Item_BusinessRisk_List_Filter_Rules::Normas
+Item_BusinessRisk_List_Filter_Rules::Norma
 Item_BusinessRisk_List_Filter_To::Hasta
 Item_BusinessRisk_List_Filter_Type::Estado
 Item_BusinessRisk_List_Filter_Type_Assumed::Asumido
@@ -1201,7 +1201,7 @@ Item_Incident_Field_CausesResponsible::Redactado
 Item_Incident_Field_CloseDate::Fecha
 Item_Incident_Field_CloseResponsible::Responsable
 Item_Incident_Field_Description::Descripción
-Item_Incident_Field_Notes::Notas
+Item_Incident_Field_Notes::Notas / Relación con riesgos y oportunidades (si procede)
 Item_Incident_Field_WhatHappened::¿Qué ha pasado?
 Item_Incident_Field_WhatHappenedDate::Fecha
 Item_Incident_Field_WhatHappenedResponsible::Registrado por
@@ -1301,7 +1301,7 @@ Item_IncidentAction_Field_Executer::Responsable
 Item_IncidentAction_Field_Fix::Corrección
 Item_IncidentAction_Field_Improvement::Mejora
 Item_IncidentAction_Field_Internal::Interna
-Item_IncidentAction_Field_Monitoring::Seguimiento
+Item_IncidentAction_Field_Monitoring::Seguimiento/Evaluación de la eficacia
 Item_IncidentAction_Field_Notes::Notas
 Item_IncidentAction_Field_Prevent::Preventiva
 Item_IncidentAction_Field_Provider::Proveedor
@@ -1727,7 +1727,7 @@ Item_Oportunity_LabelField_Causes::Causas
 Item_Oportunity_LabelField_Code::Código
 Item_Oportunity_LabelField_Control::Control
 Item_Oportunity_LabelField_Cost::Coste
-Item_Oportunity_LabelField_DateStart::Fecha final
+Item_Oportunity_LabelField_DateStart::Fecha de alta
 Item_Oportunity_LabelField_Description::Descripción
 Item_Oportunity_LabelField_Impact::Impacto
 Item_Oportunity_LabelField_IPR::IPR
@@ -1880,7 +1880,7 @@ Item_QuestionaryQuestion_PopupDelete_Message::¿Desea borrar la pregunta
 Item_QuestionaryQuestion_Title::Preguntas
 Item_QuestionaryQuestion_Tooltip_DeleteButton::Eliminar pregunta
 Item_QuestionaryQuestion_Tooltip_EditButton::Editar pregunta
-Item_Questionay_Observations::Observaciones
+Item_Questionay_Observations::Notas de auditoría
 Item_Reports::Informes
 Item_Review::Revisión por la dirección
 Item_Rule::Norma

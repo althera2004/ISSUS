@@ -203,7 +203,7 @@
                                             <td><strong><%=this.Dictionary["Item_BusinessRisk_List_Filter_Type"] %>:</strong></td>
                                             <td>
                                                 <select id="CmbTypeO" class="col-sm-12">
-                                                    <option value="0"><%=this.Dictionary["Common_All_Female_Plural"] %></option>
+                                                    <option value="0"><%=this.Dictionary["Common_All_Male_Plural"] %></option>
                                                     <option value="1"><%=this.Dictionary["Item_Oportunity_Status_Significant"] %></option>
                                                     <option value="2"><%=this.Dictionary["Item_Oportunity_Status_NotSignificant"] %></option>
                                                     <option value="3"><%=this.Dictionary["Item_Oportunity_Status_Unevaluated"] %></option>

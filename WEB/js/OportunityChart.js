@@ -37,7 +37,7 @@ function RenderchartOportunity() {
             .color(myColorsoportunity)
             .tooltipContent(function (key, x, y, e) {
                 if (e.value >= 0) {
-                    return "<div style=\"min-width:150px;-webkit-border-radius: 40px;-moz-border-radius: 10px;border-radius: 10px;border:3px solid #DBE6FF;background:rgba(242,246,252,0.8);-webkit-box-shadow: #B3B3B3 2px 2px 2px;-moz-box-shadow: #B3B3B3 2px 2px 2px; box-shadow: #B3B3B3 2px 2px 2px;padding-top:4px;padding-left:4px;\"><strong>" + GetRiskNameById(x) + "</strong><p>" + Dictionary.Item_BusinessRisk_LabelField_Result + ": <strong>" + y + "</strong></p></div>";
+                    return "<div style=\"min-width:150px;-webkit-border-radius: 40px;-moz-border-radius: 10px;border-radius: 10px;border:3px solid #DBE6FF;background:rgba(242,246,252,0.8);-webkit-box-shadow: #B3B3B3 2px 2px 2px;-moz-box-shadow: #B3B3B3 2px 2px 2px; box-shadow: #B3B3B3 2px 2px 2px;padding-top:4px;padding-left:4px;\"><strong>" + GetOportunityNameById(x) + "</strong><p>" + Dictionary.Item_BusinessRisk_LabelField_Result + ": <strong>" + y + "</strong></p></div>";
                 } else {
                     return "";
                 }
