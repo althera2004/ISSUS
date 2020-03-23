@@ -636,7 +636,7 @@ namespace GisoFramework.Item
                                     ModifiedOn = rdr.GetDateTime(ColumnsIncidentActionGet.ModifiedOn)
                                 };
 
-                                if (!rdr.IsDBNull(ColumnsIncidentActionGet.CausesId))
+                                if (!rdr.IsDBNull(ColumnsIncidentActionGet.CausesId) && !rdr.IsDBNull(ColumnsIncidentActionGet.CausesOn))
                                 {
                                     res.Causes = rdr.GetString(ColumnsIncidentActionGet.Causes);
                                     res.CausesOn = rdr.GetDateTime(ColumnsIncidentActionGet.CausesOn);
@@ -648,7 +648,7 @@ namespace GisoFramework.Item
                                     };
                                 }
 
-                                if (!rdr.IsDBNull(ColumnsIncidentActionGet.ActionsId))
+                                if (!rdr.IsDBNull(ColumnsIncidentActionGet.ActionsId) && !rdr.IsDBNull(ColumnsIncidentActionGet.ActionsOn))
                                 {
                                     res.Actions = rdr.GetString(ColumnsIncidentActionGet.Actions);
                                     res.ActionsOn = rdr.GetDateTime(ColumnsIncidentActionGet.ActionsOn);
@@ -1635,18 +1635,38 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@CustomerId", this.Customer));
 
                         cmd.Parameters.Add(DataParameter.Input("@WhatHappend", this.WhatHappened ?? string.Empty, Constant.MaximumTextAreaLength));
-                        cmd.Parameters.Add(DataParameter.Input("@WhatHappendBy", this.WhatHappenedBy.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@WhatHappendBy", this.WhatHappenedBy));
                         cmd.Parameters.Add(DataParameter.Input("@WhatHappendDate", this.WhatHappenedOn));
 
-                        cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes ?? string.Empty, Constant.MaximumTextAreaLength));
-                        cmd.Parameters.Add(DataParameter.Input("@CausesBy", this.CausesBy));
-                        cmd.Parameters.Add(DataParameter.Input("@CausesDate", this.CausesOn));
+                        if (string.IsNullOrEmpty(this.Causes))
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@Causes"));
+                            cmd.Parameters.Add(DataParameter.InputNull("@CausesBy"));
+                            cmd.Parameters.Add(DataParameter.InputNull("@CausesDate"));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes, Constant.MaximumTextAreaLength));
+                            cmd.Parameters.Add(DataParameter.Input("@CausesBy", this.CausesBy));
+                            cmd.Parameters.Add(DataParameter.Input("@CausesDate", this.CausesOn));
+                        }
 
-                        cmd.Parameters.Add(DataParameter.Input("@Actions", this.Actions ?? string.Empty, Constant.MaximumTextAreaLength));
-                        cmd.Parameters.Add(DataParameter.Input("@ActionsBy", this.ActionsBy));
-                        cmd.Parameters.Add(DataParameter.Input("@ActionsDate", this.ActionsOn));
-                        cmd.Parameters.Add(DataParameter.Input("@ActionsExecuter", this.ActionsExecuter));
-                        cmd.Parameters.Add(DataParameter.Input("@ActionsSchedule", this.ActionsSchedule));
+                        if (string.IsNullOrEmpty(this.Actions))
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@Actions"));
+                            cmd.Parameters.Add(DataParameter.InputNull("@ActionsBy"));
+                            cmd.Parameters.Add(DataParameter.InputNull("@ActionsDate"));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@Actions", this.Actions, Constant.MaximumTextAreaLength));
+                            cmd.Parameters.Add(DataParameter.Input("@ActionsBy", this.ActionsBy));
+                            cmd.Parameters.Add(DataParameter.Input("@ActionsDate", this.ActionsOn));
+                        }
+
+                        cmd.Parameters.Add(DataParameter.InputNull("@ActionsExecuter"));
+                        cmd.Parameters.Add(DataParameter.InputNull("@ActionsSchedule"));
+
                         cmd.Parameters.Add(DataParameter.Input("@Monitoring", this.Monitoring ?? string.Empty, Constant.MaximumTextAreaLength));
 
                         cmd.Parameters.Add(DataParameter.Input("@ClosedBy", this.ClosedBy));
@@ -1757,15 +1777,34 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@WhatHappendBy", this.WhatHappenedBy.Id));
                         cmd.Parameters.Add(DataParameter.Input("@WhatHappendOn", this.WhatHappenedOn));
 
-                        cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes ?? string.Empty, Constant.MaximumTextAreaLength));
-                        cmd.Parameters.Add(DataParameter.Input("@CausesBy", this.CausesBy));
-                        cmd.Parameters.Add(DataParameter.Input("@CausesOn", this.CausesOn));
+                        if (string.IsNullOrEmpty(this.Causes))
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@Causes"));
+                            cmd.Parameters.Add(DataParameter.InputNull("@CausesBy"));
+                            cmd.Parameters.Add(DataParameter.InputNull("@CausesOn"));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@Causes", this.Causes));
+                            cmd.Parameters.Add(DataParameter.Input("@CausesBy", this.CausesBy));
+                            cmd.Parameters.Add(DataParameter.Input("@CausesOn", this.CausesOn));
+                        }
 
-                        cmd.Parameters.Add(DataParameter.Input("@Actions", this.Actions ?? string.Empty, Constant.MaximumTextAreaLength));
-                        cmd.Parameters.Add(DataParameter.Input("@ActionsBy", this.ActionsBy));
-                        cmd.Parameters.Add(DataParameter.Input("@ActionsOn", this.ActionsOn));
-                        cmd.Parameters.Add(DataParameter.Input("@ActionsExecuter", this.ActionsExecuter));
-                        cmd.Parameters.Add(DataParameter.Input("@ActionsSchedule", this.ActionsSchedule));
+                        if (string.IsNullOrEmpty(this.Actions))
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@Actions"));
+                            cmd.Parameters.Add(DataParameter.InputNull("@ActionsBy"));
+                            cmd.Parameters.Add(DataParameter.InputNull("@ActionsOn"));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@Actions", this.Actions, Constant.MaximumTextAreaLength));
+                            cmd.Parameters.Add(DataParameter.Input("@ActionsBy", this.ActionsBy));
+                            cmd.Parameters.Add(DataParameter.Input("@ActionsOn", this.ActionsOn));
+                        }
+
+                        cmd.Parameters.Add(DataParameter.InputNull("@ActionsExecuter"));
+                        cmd.Parameters.Add(DataParameter.InputNull("@ActionsSchedule"));
                         cmd.Parameters.Add(DataParameter.Input("@Monitoring", this.Monitoring ?? string.Empty, Constant.MaximumTextAreaLength));
 
                         cmd.Parameters.Add(DataParameter.Input("@ClosedBy", this.ClosedBy));

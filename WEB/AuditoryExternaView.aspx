@@ -528,7 +528,7 @@
                                 <p><%=this.Dictionary["Item_Auditory_Popup_ReopenMessage"] %>&nbsp;<strong><span id="AuditoryPlanningName"></span></strong>?</p>
                             </div>
 
-                            <div id="NoActionsPopup" class="hide"">
+                            <div id="NoActionsPopup" class="hide">
                                 <p><span id="NoActionsPopupMessage"><%=this.Dictionary["Item_Adutory_Message_NoActions"] %></span></p>
                             </div>
 
