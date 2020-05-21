@@ -318,7 +318,7 @@ Item_Auditory_Label_EndQuestionarios::Tacament qüestionaris
 Item_Auditory_Label_Found::Troballa
 Item_Auditory_Label_Improvement::Millora
 Item_Auditory_Label_InternalResponsible::Responsable intern
-Item_Auditory_Label_Name::Nom
+Item_Auditory_Label_Name::Nom auditoría
 Item_Auditory_Label_Notes::Notes
 Item_Auditory_Label_PannedDate::Data prevista
 Item_Auditory_Label_PlanningDate::Data

@@ -318,7 +318,7 @@ Item_Auditory_Label_EndQuestionarios::Cierre cuestionarios
 Item_Auditory_Label_Found::Hallazgo
 Item_Auditory_Label_Improvement::Mejora
 Item_Auditory_Label_InternalResponsible::Responsable interno
-Item_Auditory_Label_Name::Nombre
+Item_Auditory_Label_Name::Nombre auditoria
 Item_Auditory_Label_Notes::Notas
 Item_Auditory_Label_PannedDate::Fecha prevista
 Item_Auditory_Label_PlanningDate::Fecha
