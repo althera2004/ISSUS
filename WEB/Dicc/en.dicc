@@ -318,7 +318,7 @@ Item_Auditory_Label_EndQuestionarios::Close questionnaires
 Item_Auditory_Label_Found::Find
 Item_Auditory_Label_Improvement::Improvement
 Item_Auditory_Label_InternalResponsible::Internal responsible
-Item_Auditory_Label_Name::First name
+Item_Auditory_Label_Name::Audit name
 Item_Auditory_Label_Notes::Notes
 Item_Auditory_Label_PannedDate::Expected date
 Item_Auditory_Label_PlanningDate::Date

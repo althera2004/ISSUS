@@ -77,6 +77,7 @@
 			                                                        <th id="th3" onclick="Sort(this,'ListDataTable','text');" class="sort" style="width:110px;"><%=this.Dictionary["Item_Document_ListHeader_Origin"] %></th>
 			                                                        <th id="th4" onclick="Sort(this,'ListDataTable','text');" class="search sort" style="width:200px;"><%=this.Dictionary["Item_Document_ListHeader_Location"] %></th>
 			                                                        <th id="th5" onclick="Sort(this,'ListDataTable','money');" class="sort" style="width:80px;"><%=this.Dictionary["Item_Document_ListHeader_Revision"] %></th>
+			                                                        <th id="th6" onclick="Sort(this,'ListDataTable','date',false);"  class="hidden-480 sort" style="width:100px; text-align:center;"><%=this.Dictionary["Item_BusinessRisk_LabelField_DateStart"] %></th>
 			                                                        <th style="width:107px;">&nbsp;</th>
 		                                                        </tr>
                                                             </thead>
