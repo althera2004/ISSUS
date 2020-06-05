@@ -529,9 +529,9 @@
                                             <div id="actions" class="tab-pane">
                                                 <div class="row">
                                                     <div class="col-sm-6"><h4><%=this.Dictionary["Item_IncidentActions"] %></h4></div>
-                                                    <div class="col-sm-6" style="text-align:right;">
+                                                    <!--<div class="col-sm-6" style="text-align:right;">
                                                         <button type="button" id="BtnActionAddReal" class="btn btn-success" style="margin-top:6px;height:28px;padding-top:0;float:right;"><i class="fa fa-plus"></i>&nbsp;<%=this.Dictionary["Item_Auditory_Btn_AddIncidentAction"] %></button>
-                                                    </div>
+                                                    </div>-->
                                                 </div>
                                                 
                                                 <div class="table-responsive" id="scrollTableDivIncidentActionsReal" style="margin-top:4px;border-left:1px solid #ddd;">

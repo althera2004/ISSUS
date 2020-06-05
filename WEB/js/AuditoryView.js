@@ -913,9 +913,9 @@ function RenderFounds() {
         if (found.Active === true) {
             count++;
             res += "<tr id=\"" + found.Id + "\" style=\"border-left:none;\">";
-            res += "<td>" + found.Text + "</td>";
-            res += "<td style=\"width:200px;\">" + found.Requeriment + "</td>";
-            res += "<td style=\"width:200px;\">" + found.Unconformity + "</td>";
+            res += "<td>" + found.Text.split("\\n").join("<br />") + "</td>";
+            res += "<td style=\"width:200px;\">" + found.Requeriment.split("\\n").join("<br />") + "</td>";
+            res += "<td style=\"width:200px;\">" + found.Unconformity.split("\\n").join("<br />") + "</td>";
             res += "<td style=\"width:80px;text-align:center\">";
             res += found.Action === true ? Dictionary.Common_Yes : Dictionary.Common_No;
             res += "</td>";
@@ -958,7 +958,7 @@ function RenderImprovements() {
         if (improvement.Active === true) {
             count++;
             res += "<tr id=\"" + improvement.Id + "\" style=\"border-left:none;\">";
-            res += "<td>" + improvement.Text + "</td>";
+            res += "<td>" + improvement.Text.split("\\n").join("<br />") + "</td>";
             res += "<td style=\"width:80px;text-align:center\">";
             res += improvement.Action === true ? Dictionary.Common_Yes : Dictionary.Common_No;
             res += "</td>";
@@ -2315,7 +2315,7 @@ function RenderRealActions() {
         tdStatus.appendChild(iconStatus);
 
         var actionLinkDescription = document.createElement("A");
-        actionLinkDescription.appendChild(document.createTextNode(item.Description));
+        actionLinkDescription.id = "actionLinkDescription_" + item.Id;
         actionLinkDescription.href = "ActionView.aspx?id=" + item.Id;
         tdDescription.appendChild(actionLinkDescription);
 
@@ -2348,6 +2348,10 @@ function RenderRealActions() {
 
         row.appendChild(tdActions);
         target.appendChild(row);
+
+
+        var descripcion = item.Description.split("\\n").join("<br />");
+        $("#actionLinkDescription_" + item.Id).html(descripcion);
 
         if ($.inArray(item.Description, items) === -1) {
             items.push(item.Description);

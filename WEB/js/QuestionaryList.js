@@ -115,7 +115,7 @@ function ItemRenderTable(list) {
         questionaryLink.href = "QuestionaryView.aspx?id=" + item.Id;
         questionaryLink.appendChild(document.createTextNode(item.Description));
         tdDescription.appendChild(questionaryLink);
-        if (item.NQuestions == 0) {
+        if (item.NQuestions === 0) {
             var icon = document.createElement("I");
             icon.className = "fa fa-warning";
             icon.style.color = "#f77";
@@ -394,7 +394,7 @@ function ProposeName(original) {
 }
 
 function DuplicatedName(text) {
-    var text = text.toUpperCase();
+    text = text.toUpperCase();
     for (var x = 0; x < QuestionaryList.length; x++) {
         if (QuestionaryList[x].Description.toUpperCase() === text) {
             return true;
@@ -414,20 +414,20 @@ window.onload = function () {
     Resize();
 
     $("#CmbProcess").html("");
-    var res = "<option value=\"-1\">" + Dictionary.Common_All + "</option>";
-    for (var x = 0; x < ProcessList.length; x++) {
-        if (ProcessList[x].Active === true) {
-            res += "<option value=\"" + ProcessList[x].Id + "\">" + ProcessList[x].Description + "</option>";
+    var resProcess = "<option value=\"-1\">" + Dictionary.Common_All + "</option>";
+    for (var p = 0; p < ProcessList.length; p++) {
+        if (ProcessList[p].Active === true) {
+            resProcess += "<option value=\"" + ProcessList[p].Id + "\">" + ProcessList[p].Description + "</option>";
         }
     }
-    $("#CmbProcess").html(res);
+    $("#CmbProcess").html(resProcess);
 
     $("#CmbRules").html("");
-    var res = "<option value=\"-1\">" + Dictionary.Common_All + "</option>";
-    for (var x = 0; x < RulesList.length; x++) {
-        res += "<option value=\"" + RulesList[x].Id + "\">" + RulesList[x].Description + "</option>";
+    var resRules = "<option value=\"-1\">" + Dictionary.Common_All + "</option>";
+    for (var r = 0; r < RulesList.length; r++) {
+        resRules += "<option value=\"" + RulesList[r].Id + "\">" + RulesList[r].Description + "</option>";
     }
-    $("#CmbRules").html(res);
+    $("#CmbRules").html(resRules);
 
     $("#CmbProcess").on("change", QuestionaryGetFilter);
     $("#CmbRules").on("change", CmbRulesChange);

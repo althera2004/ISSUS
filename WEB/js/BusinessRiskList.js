@@ -451,7 +451,10 @@ function OportunityRenderTable(list) {
         }
     }
 
-    $("#nav-search-input").trigger("keyup");
+    if ($("#RO").prop("checked") === true) {
+        $("#nav-search-input").trigger("keyup");
+    }
+
     OportunityRenderGraph();
 }
 

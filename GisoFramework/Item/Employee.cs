@@ -1351,7 +1351,7 @@ namespace GisoFramework.Item
             }
 
             string iconRename = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} {1}"" class=""btn btn-xs btn-info"" onclick=""EmployeeUpdate({0},'{1}');""><i class=""icon-edit bigger-120""></i></span>", this.Id, this.FullName, dictionary["Common_Edit"]);
-            string iconDelete = string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} {1}"" class=""btn btn-xs btn-danger"" onclick=""{3}({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>", this.Id, this.FullName, dictionary["Common_Delete"], deleteAction);
+            string iconDelete = string.Empty; // string.Format(CultureInfo.GetCultureInfo("en-us"), @"<span title=""{2} {1}"" class=""btn btn-xs btn-danger"" onclick=""{3}({0},'{1}');""><i class=""icon-trash bigger-120""></i></span>", this.Id, this.FullName, dictionary["Common_Delete"], deleteAction);
             //iconDelete = string.Empty;
             return string.Format(CultureInfo.InvariantCulture, @"<tr><td>{0}</td><td class=""hidden-480"">{1}</td><td class=""hidden-480"">{2}</td><td class=""hidden-480"">{3}</td><td>{4} {5}</td></tr>", this.Link, this.Nif, this.Email, this.Phone, iconRename, iconDelete);
         }

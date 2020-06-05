@@ -4,6 +4,7 @@ var client;
 //Connect Options
 var options = {
     "timeout": 3,
+    "useSSL": true,
     "onSuccess": function () {
         MQTTAfterConnect();
     },
@@ -56,7 +57,7 @@ $(document).ready(function () {
     }
 
     if (documentId > 0) {
-        $("#TxtRevisionDate").attr("readonly", "readonly");
+        $("#TxtRevisionDate").attr("disabled", "disabled");
         $("#TxtRevisionDateBtn").hide();
     }
     else {

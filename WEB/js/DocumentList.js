@@ -125,10 +125,8 @@ window.onload = function () {
     if (Filter.indexOf("A") !== -1) { document.getElementById("Chk1").checked = true; }
     if (Filter.indexOf("I") !== -1) { document.getElementById("Chk2").checked = true; }
     var parts = Filter.split('|');
-    console.log(parts);
     FillComboCategorias();
     if (parts.length > 2) {
-        console.log(parts[1], parts[2]);
         $("#CmbCategory").val(parts[1] * 1);
         $("#CmbOrigin").val(parts[2] * 1);
     }
@@ -191,7 +189,6 @@ function RenderDocumentTable() {
 
     var th = listOrder.split('|')[0];
     var order = listOrder.split('|')[1];
-    console.log(listOrder);
     $("#" + th).click();
     if (document.getElementById(th).className.indexOf(order) === -1) {
         $("#" + th).click();
@@ -339,7 +336,6 @@ function SetFilter() {
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
         "success": function () {
-            console.log("SetFilter", "OK");
         },
         "error": function (msg) {
             console.log("SetFilter", msg.responseText);
