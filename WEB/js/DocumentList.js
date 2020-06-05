@@ -258,7 +258,7 @@ function RenderDocumentRow(data) {
         tdActions.appendChild(buttonDelete);
     }
 
-    tdCode.style.width = "250px";
+    tdCode.style.width = "150px";
     tdCategory.style.width = "200px";
     tdOrigin.style.width = "110px";
     tdLocation.style.width = "200px";

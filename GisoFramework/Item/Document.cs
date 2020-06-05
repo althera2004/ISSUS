@@ -948,7 +948,7 @@ namespace GisoFramework.Item
             var actual = this.LastVersion;
             return string.Format(
                 CultureInfo.InvariantCulture,
-                @"<tr><td>{0}</td><td class=""hidden-480"" style=""width:110px;"">{1}</td><td class=""hidden-480"" align=""right"" style=""width:110px;"">{2}</td><td style=""width:90px;"">{3}&nbsp;{4}</td<</tr>",
+                @"<tr><td>**{0}</td><td class=""hidden-480"" style=""width:110px;"">{1}</td><td class=""hidden-480"" align=""right"" style=""width:110px;"">{2}</td><td style=""width:90px;"">{3}&nbsp;{4}</td></tr>",
                 this.Link,
                 this.Code,
                 actual.Version,

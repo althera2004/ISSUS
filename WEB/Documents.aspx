@@ -72,7 +72,7 @@
                                                             <thead>
                                                                 <tr id="ListDataHeader">
 			                                                        <th id="th0" onclick="Sort(this,'ListDataTable','link');" class="search sort" style="cursor:pointer;"><%=this.Dictionary["Item_Document_ListHeader_Name"] %></th>
-			                                                        <th id="th1" onclick="Sort(this,'ListDataTable','text');" class="search sort" style="width:250px;"><%=this.Dictionary["Item_Document_ListHeader_Code"] %></th>
+			                                                        <th id="th1" onclick="Sort(this,'ListDataTable','text');" class="search sort" style="width:150px;"><%=this.Dictionary["Item_Document_ListHeader_Code"] %></th>
 			                                                        <th id="th2" onclick="Sort(this,'ListDataTable','text');" class="sort" style="width:200px;"><%=this.Dictionary["Item_Document_ListHeader_Category"] %></th>
 			                                                        <th id="th3" onclick="Sort(this,'ListDataTable','text');" class="sort" style="width:110px;"><%=this.Dictionary["Item_Document_ListHeader_Origin"] %></th>
 			                                                        <th id="th4" onclick="Sort(this,'ListDataTable','text');" class="search sort" style="width:200px;"><%=this.Dictionary["Item_Document_ListHeader_Location"] %></th>

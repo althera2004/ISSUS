@@ -186,13 +186,17 @@ public partial class ExportDocumentExportList : Page
             PaddingTop = 4f
         });
 
-        var table = new iTSpdf.PdfPTable(6)
+        // @alex-20200605: hay que indicr que son 7 columnas en lugar de 6
+        var table = new iTSpdf.PdfPTable(7)
+        //var table = new iTSpdf.PdfPTable(6)
         {
             WidthPercentage = 100,
             HorizontalAlignment = 1
         };
 
-        table.SetWidths(new float[] { 20f, 5f, 15f, 15f, 10f, 5f }); //GTK ERROR AKI
+        // @alex-20200605: supongo que te petaba aquí porque le enviarías 7 anchos cuando sólo había 6 columnas (mensaje anterior)
+        table.SetWidths(new float[] { 20f, 5f, 12f, 9f, 9f, 5f, 5f });
+        //table.SetWidths(new float[] { 20f, 5f, 15f, 15f, 10f, 5f }); 
         table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Name"]));
         table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Code"]));
         table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Category"]));
@@ -222,7 +226,31 @@ public partial class ExportDocumentExportList : Page
             case "TH2|DESC":
                 data = data.OrderByDescending(d => d.LastNumber).ToList();
                 break;
-            //GTK AKI FALTEN??
+            case "TH3|ASC":
+                data = data.OrderBy(d => d.Origin).ToList();
+                break;
+            case "TH3|DESC":
+                data = data.OrderByDescending(d => d.Origin).ToList();
+                break;
+            // @alex-20200605: toda columna ordenable en pantalla debe aparece aquí para replicar el orden en el pdf
+            case "TH4|ASC":
+                data = data.OrderBy(d => d.Location).ToList();
+                break;
+            case "TH4|DESC":
+                data = data.OrderByDescending(d => d.Location).ToList();
+                break;
+            case "TH5|ASC":
+                data = data.OrderBy(d => d.LastNumber).ToList();
+                break;
+            case "TH5|DESC":
+                data = data.OrderByDescending(d => d.LastNumber).ToList();
+                break;
+            case "TH6|ASC":
+                data = data.OrderBy(d => d.StartDate).ToList();
+                break;
+            case "TH6|DESC":
+                data = data.OrderByDescending(d => d.StartDate).ToList();
+                break;
         }
         
         int count = 0;
