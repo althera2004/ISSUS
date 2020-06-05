@@ -463,6 +463,7 @@ namespace GisoFramework.Item
                                         CompanyId = companyId,
                                         Description = rdr.GetString(ColumnsCompanyGetDocuments.Description),
                                         Code = rdr.GetString(ColumnsCompanyGetDocuments.Code),
+                                        StartDate = rdr.GetDateTime(ColumnsCompanyGetDocuments.StartDate),
                                         Category = new DocumentCategory()
                                         {
                                             Description = rdr.GetString(ColumnsCompanyGetDocuments.CategoryName),

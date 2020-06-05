@@ -212,6 +212,7 @@ function RenderDocumentRow(data) {
     var tdCategory = document.createElement("TD");
     var tdOrigin = document.createElement("TD");
     var tdLocation = document.createElement("TD");
+    var tdStartDate = document.createElement("TD");
     var tdActions = document.createElement("TD");
 
     if (data.Baja === true) {
@@ -234,7 +235,8 @@ function RenderDocumentRow(data) {
     tdCategory.appendChild(document.createTextNode(data.Category.Description));
     tdOrigin.appendChild(document.createTextNode(data.Origin.Id === 0 ? Dictionary.Common_Internal : Dictionary.Common_External));
     tdLocation.appendChild(document.createTextNode(data.Location));
-
+    tdStartDate.appendChild(document.createTextNode(data.StartDate)); //AKI GTK
+    
     var buttonEdit = document.createElement("SPAN");
     buttonEdit.id = data.Id;
     buttonEdit.title = Dictionary.Common_Edit + " " + data.Description;
@@ -265,6 +267,8 @@ function RenderDocumentRow(data) {
     tdLocation.style.width = "200px";
     tdRevision.style.width = "80px";
     tdRevision.align = "right";
+    tdStartDate.style.width = "100px";
+    tdStartDate.align = "center";
     tdActions.style.width = "90px";
 
     var target = document.getElementById("ListDataTable");
@@ -274,6 +278,7 @@ function RenderDocumentRow(data) {
     tr.appendChild(tdOrigin);
     tr.appendChild(tdLocation);
     tr.appendChild(tdRevision);
+    tr.appendChild(tdStartDate);
     tr.appendChild(tdActions);
     target.appendChild(tr);
 }

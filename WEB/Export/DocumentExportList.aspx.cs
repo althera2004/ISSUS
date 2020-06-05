@@ -192,13 +192,14 @@ public partial class ExportDocumentExportList : Page
             HorizontalAlignment = 1
         };
 
-        table.SetWidths(new float[] { 20f, 5f, 15f, 15f, 10f, 5f });
+        table.SetWidths(new float[] { 20f, 5f, 15f, 15f, 10f, 5f }); //GTK ERROR AKI
         table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Name"]));
         table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Code"]));
         table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Category"]));
         table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Origin"]));
         table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Location"]));
         table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Revision"]));
+        table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_BusinessRisk_LabelField_DateStart"]));
 
         switch (listOrder.ToUpperInvariant())
         {
@@ -221,6 +222,7 @@ public partial class ExportDocumentExportList : Page
             case "TH2|DESC":
                 data = data.OrderByDescending(d => d.LastNumber).ToList();
                 break;
+            //GTK AKI FALTEN??
         }
         
         int count = 0;
@@ -233,6 +235,7 @@ public partial class ExportDocumentExportList : Page
             table.AddCell(ToolsPdf.DataCell(document.Origin.Id == 0 ? Dictionary["Common_Internal"] : Dictionary["Common_External"]));
             table.AddCell(ToolsPdf.DataCell(document.Location));
             table.AddCell(ToolsPdf.DataCell(document.LastNumber));
+            table.AddCell(ToolsPdf.DataCell(document.StartDate));
         }
 
         string totalRegistros = string.Format(
