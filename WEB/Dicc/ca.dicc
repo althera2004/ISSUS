@@ -318,7 +318,7 @@ Item_Auditory_Label_EndQuestionarios::Tacament qüestionaris
 Item_Auditory_Label_Found::Troballa
 Item_Auditory_Label_Improvement::Millora
 Item_Auditory_Label_InternalResponsible::Responsable intern
-Item_Auditory_Label_Name::Nom auditoría
+Item_Auditory_Label_Name::Nom
 Item_Auditory_Label_Notes::Notes
 Item_Auditory_Label_PannedDate::Data prevista
 Item_Auditory_Label_PlanningDate::Data
@@ -390,6 +390,7 @@ Item_AuditoryPlanning_Label_Audited::Auditat/ada
 Item_AuditoryPlanning_Label_Auditor::Auditor
 Item_AuditoryPlanning_Label_Date::Data
 Item_AuditoryPlanning_Label_EmailProvider::Direcció d'email
+Item_AuditoryPlanning_Label_NameProvider::Nom
 Item_AuditoryPlanning_Label_Process::Procés
 Item_AuditoryPlanning_Label_SendMail::Enviar correu al/a auditat/ada
 Item_AuditoryPlanning_PopupDelete_Message::Vol eliminar la planificació?

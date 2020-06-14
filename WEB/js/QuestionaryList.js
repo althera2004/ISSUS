@@ -4,7 +4,7 @@ jQuery(function ($) {
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
             var $title = this.options.title || "&nbsp;";
-            if (("title_html" in this.options) && this.options.title_html === true) {
+            if ("title_html" in this.options && this.options.title_html === true) {
                 title.html($title);
             }
             else {
@@ -120,7 +120,7 @@ function ItemRenderTable(list) {
             icon.className = "fa fa-warning";
             icon.style.color = "#f77";
             icon.style.marginLeft = "4px";
-            icon.title = Dictionary.Item_Questionary_Warning_NoQuestions
+            icon.title = Dictionary.Item_Questionary_Warning_NoQuestions;
             tdDescription.appendChild(icon);
         }
 
@@ -447,37 +447,12 @@ function Export() {
 }
 
 function ExportPDF() {
-    var from = $("#TxtDateFrom").val();
-    var to = $("#TxtDateTo").val();
-
-    var status1 = document.getElementById("RIncidentStatus1").checked;
-    var status2 = document.getElementById("RIncidentStatus2").checked;
-    var status3 = document.getElementById("RIncidentStatus3").checked;
-    var status4 = document.getElementById("RIncidentStatus4").checked;
-
-    var origin0 = document.getElementById("ROrigin0").checked;
-    var origin1 = document.getElementById("ROrigin1").checked;
-    var origin2 = document.getElementById("ROrigin2").checked;
-    var origin3 = document.getElementById("ROrigin3").checked;
-
-    var origin = 0;
-    var originId = 0;
-    if (origin1 === true) { origin = 1; originId = $("#CmbOrigin1").val() * 1; }
-    if (origin2 === true) { origin = 2; originId = $("#CmbOrigin2").val() * 1; }
-    if (origin3 === true) { origin = 3; originId = $("#CmbOrigin3").val() * 1; }
 
     var data = {
         "companyId": Company.Id,
-        "from": from,
-        "to": to,
-        "statusIdnetified": status1,
-        "statusAnalyzed": status2,
-        "statusInProgress": status3,
-        "statusClose": status4,
-        "origin": origin,
-        "departmentId": $("#CmbOrigin1").val() * 1,
-        "providerId": $("#CmbOrigin2").val() * 1,
-        "customerId": $("#CmbOrigin3").val() * 1,
+        "process": $("#CmbProcess").val() * 1,
+        "rule": $("#CmbRules").val() * 1,
+        "norma": $("#CmbApartadosNorma").val() *1,
         "listOrder": listOrder
     };
 

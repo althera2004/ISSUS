@@ -318,7 +318,7 @@ Item_Auditory_Label_EndQuestionarios::Cierre cuestionarios
 Item_Auditory_Label_Found::Hallazgo
 Item_Auditory_Label_Improvement::Mejora
 Item_Auditory_Label_InternalResponsible::Responsable interno
-Item_Auditory_Label_Name::Nombre auditoria
+Item_Auditory_Label_Name::Nombre
 Item_Auditory_Label_Notes::Notas
 Item_Auditory_Label_PannedDate::Fecha prevista
 Item_Auditory_Label_PlanningDate::Fecha
@@ -390,6 +390,7 @@ Item_AuditoryPlanning_Label_Audited::Auditado/a
 Item_AuditoryPlanning_Label_Auditor::Auditor
 Item_AuditoryPlanning_Label_Date::Fecha
 Item_AuditoryPlanning_Label_EmailProvider::Dirección de email
+Item_AuditoryPlanning_Label_NameProvider::Nombre
 Item_AuditoryPlanning_Label_Process::Proceso
 Item_AuditoryPlanning_Label_SendMail::Enviar correo al/a auditado/a
 Item_AuditoryPlanning_PopupDelete_Message::Desea eliminar la planificación?

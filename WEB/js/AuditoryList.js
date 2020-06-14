@@ -17,7 +17,7 @@ jQuery(function ($) {
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
             var $title = this.options.title || "&nbsp;";
-            if (("title_html" in this.options) && this.options.title_html === true) {
+            if ("title_html" in this.options && this.options.title_html === true) {
                 title.html($title);
             }
             else {
@@ -553,7 +553,9 @@ function ExportPDF() {
         "status5": document.getElementById("ChkStatus5").checked,
         "interna": document.getElementById("ChkType0").checked,
         "externa": document.getElementById("ChkType1").checked,
-        "provider": document.getElementById("ChkType2").checked
+        "provider": document.getElementById("ChkType2").checked,
+        "filterText": $("#nav-search-input").val(),
+        "listOrder": "1ASC"
     };
 
     LoadingShow(Dictionary.Common_Report_Rendering);
@@ -595,7 +597,7 @@ function FillApartadoNorma() {
     if (RuleId > 0) {
         var res = "<option value=\"-1\">" + Dictionary.Common_All + "</option>";
         for (var x = 0; x < ApartadosNormasList.length; x++) {
-            if (ApartadosNormasList[x].R == RuleId) {
+            if (ApartadosNormasList[x].R === RuleId) {
                 res += "<option value=\"" + ApartadosNormasList[x].A + "\">" + ApartadosNormasList[x].A + "</option>";
             }
         }

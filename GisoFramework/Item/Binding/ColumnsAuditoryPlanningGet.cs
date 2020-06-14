@@ -79,5 +79,8 @@ namespace GisoFramework.Item.Binding
 
         /// <summary>Index column of field Active</summary>
         public const int Active = 23;
+
+        /// <summary>Index column of field ProviderName</summary>
+        public const int ProviderName = 24;
     }
 }

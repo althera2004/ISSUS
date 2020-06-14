@@ -390,6 +390,7 @@ Item_AuditoryPlanning_Label_Audited::Audited
 Item_AuditoryPlanning_Label_Auditor::Auditor
 Item_AuditoryPlanning_Label_Date::Date
 Item_AuditoryPlanning_Label_EmailProvider::Email address
+Item_AuditoryPlanning_Label_NameProvider::Name
 Item_AuditoryPlanning_Label_Process::Process
 Item_AuditoryPlanning_Label_SendMail::Send mail to the auditee
 Item_AuditoryPlanning_PopupDelete_Message::Do you want to delete the planning?

@@ -115,11 +115,21 @@
         ._breadcrumbWizard li:last-child a:after { border: 0;
           margin-right: 10px; }
 
-        .past a       { background: hsla(233, 85%, 25% ,1); color:#fff; }
-        .past a:after { border-left: 30px solid hsla(233, 85%, 25% ,1); }
-
         .current a       { background: hsla(230, 79%, 69%, 1); color:#fff; }
         .current a:after { border-left: 30px solid hsla(230, 79%, 69%,1); }
+        
+        .past0 a { background-color:#6fb3e0; color:#000;}
+        .past0 a:after { border-left: 30px solid #6fb3e0; }
+        .past1 a { background-color:#ff0 ;color:#000;}
+        .past1 a:after { border-left: 30px solid #ff0; }
+        .past2 a { background-color:#ffb752; color:#000;}
+        .past2 a:after { border-left: 30px solid #ffb752; }
+        .past3 a { background-color:#d15b47; color:#000;}
+        .past3 a:after { border-left: 30px solid #d15b47; }
+        .past4 a { background-color:#87b87f; color:#000;}
+        .past4 a:after { border-left: 30px solid #87b87f; }
+        .past5 a { background-color:#555; color:#000;}
+        .past5 a:after { border-left: 30px solid #555; }
 
         .future a       { background: hsla(230, 37%, 86%, 1); }
         .future a:after { border-left: 30px solid hsla(230, 37%, 86%,1); }
@@ -151,12 +161,12 @@
                             <% if (this.Auditory.Type != 1) { %>
                             <div style="margin-top:-12px;">
                                 <ul class="breadcrumbWizard">
-                                    <li class="<%= this.Auditory.Status == 0 ? "current" : this.Auditory.Status > 0 ? "past" : "future" %>"><a href="#0"><%=this.Dictionary["Item_Adutory_Status_Label_0"] %></a></li>
-                                    <li class="<%= this.Auditory.Status == 1 ? "current" : this.Auditory.Status > 1 ? "past" : "future" %>"><a href="#0"><%=this.Dictionary["Item_Adutory_Status_Label_1"] %></a></li>
-                                    <li class="<%= this.Auditory.Status == 2 ? "current" : this.Auditory.Status > 2 ? "past" : "future" %>"><a href="#0"><%=this.Dictionary["Item_Adutory_Status_Label_2"] %></a></li>
-                                    <li class="<%= this.Auditory.Status == 3 ? "current" : this.Auditory.Status > 3 ? "past" : "future" %>"><a href="#0"><%=this.Dictionary["Item_Adutory_Status_Label_3"] %></a></li>
-                                    <li class="<%= this.Auditory.Status == 4 ? "current" : this.Auditory.Status > 4 ? "past" : "future" %>"><a href="#0"><%=this.Dictionary["Item_Adutory_Status_Label_4"] %></a></li>
-                                    <li class="<%= this.Auditory.Status == 5 ? "current" : this.Auditory.Status > 5 ? "past" : "future" %>"><a href="#0"><%=this.Dictionary["Item_Adutory_Status_Label_5"] %></a></li>
+                                    <li style="cursor:default;" class="<%= this.Auditory.Status > -1 ? "past0" : "future" %>"><a href="#0"><%=this.Dictionary["Item_Adutory_Status_Label_0"] %></a></li>
+                                    <li style="cursor:default;" class="<%= this.Auditory.Status > 0 ? "past1" : "future" %>"><a href="#0"><%=this.Dictionary["Item_Adutory_Status_Label_1"] %></a></li>
+                                    <li style="cursor:default;" class="<%= this.Auditory.Status > 1 ? "past2" : "future" %>"><a href="#0"><%=this.Dictionary["Item_Adutory_Status_Label_2"] %></a></li>
+                                    <li style="cursor:default;" class="<%= this.Auditory.Status > 2 ? "past3" : "future" %>"><a href="#0"><%=this.Dictionary["Item_Adutory_Status_Label_3"] %></a></li>
+                                    <li style="cursor:default;" class="<%= this.Auditory.Status > 3 ? "past4" : "future" %>"><a href="#0"><%=this.Dictionary["Item_Adutory_Status_Label_4"] %></a></li>
+                                    <li style="cursor:default;" class="<%= this.Auditory.Status > 4 ? "past5" : "future" %>"><a href="#0"><%=this.Dictionary["Item_Adutory_Status_Label_5"] %></a></li>
                                 </ul>
                             </div>
                             <% } %>
@@ -808,18 +818,21 @@
                                         <span class="ErrorMessage" id="CmbAuditorErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                     </div>
                                 </div>
-                                <div class="col-sm-12" style="margin-top:4px;">
+                                <div class="col-sm-12" style="margin-top:4px;display:none;" id="CmbAuditedRow">
                                     <label id="CmbAuditedLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_AuditoryPlanning_Label_Audited"] %><span class="required">*</span></label>
                                     <div class="col-sm-10">
                                         <select id="CmbAudited" class="col-xs-12 col-sm-12"><asp:Literal runat="server" ID ="LtAuditedList"></asp:Literal></select>
                                         <span class="ErrorMessage" id="CmbAuditedErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                         <span class="ErrorMessage" id="CmbAuditedErrorSame"><%=this.Dictionary["Item_Auditory_Planning_Message"] %></span>
                                     </div>
-                                </div>
-                                <div class="col-sm-12" style="margin-top:4px;">
-                                    <div class="col-sm-1"><input type="checkbox" id="ChkSendMail" onclick="ChkSendMailChanged();" /></div>
-                                    <label id="ChkSendMailLabel" class="col-sm-11 control-label no-padding-right"><%=this.Dictionary["Item_AuditoryPlanning_Label_SendMail"] %></label>                                    
                                 </div>     
+                                <div class="col-sm-12" style="margin-top:4px;display:none;" id="TxtProviderName2Row">
+                                    <label id ="TxtProviderName2Label" class="col-sm-2 control-label no-padding-right" for="TxtProviderName2"><%=this.Dictionary["Item_AuditoryPlanning_Label_NameProvider"] %><span class="required">*</span></label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="col-xs-12 col-sm-12" id="TxtProviderName2" placeholder="<%=this.Dictionary["Item_AuditoryPlanning_Label_NameProvider"] %>" value="" maxlength="150" />
+                                        <span class="ErrorMessage" id="TxtProviderName2ErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
+                                    </div>
+                                </div>    
                                 <div class="col-sm-12" style="margin-top:4px;display:none;" id="TxtProviderEmailRow">
                                     <label id ="TxtProviderEmailLabel" class="col-sm-2 control-label no-padding-right" for="TxtProviderEmail"><%=this.Dictionary["Item_AuditoryPlanning_Label_EmailProvider"] %><span class="required">*</span></label>
                                     <div class="col-sm-10">
@@ -828,6 +841,10 @@
                                         <span class="ErrorMessage" id="TxtProviderEmailMalformed"><%=this.Dictionary["Common_MessageMailMalformed"]%></span>
                                     </div>
                                 </div> 
+                                <div class="col-sm-12" style="margin-top:4px;">
+                                    <div class="col-sm-1"><input type="checkbox" id="ChkSendMail" onclick="ChkSendMailChanged();" /></div>
+                                    <label id="ChkSendMailLabel" class="col-sm-11 control-label no-padding-right"><%=this.Dictionary["Item_AuditoryPlanning_Label_SendMail"] %></label>                                    
+                                </div>
                             </div>
 
                             <!-- Report popups -->

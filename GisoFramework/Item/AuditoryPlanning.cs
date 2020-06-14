@@ -20,16 +20,6 @@ namespace GisoFramework.Item
 
     public class AuditoryPlanning : BaseItem
     {
-        public long AuditoryId { get; set; }
-        public DateTime Date { get; set; }
-        public int Hour { get; set; }
-        public int Duration { get; set; }
-        public Process Process { get; set; }
-        public ApplicationUser Auditor { get; set; }
-        public Employee Audited { get; set; }
-        public bool SendMail { get; set; }
-        public string ProviderEmail { get; set; }
-
         public static AuditoryPlanning Empty
         {
             get
@@ -45,6 +35,7 @@ namespace GisoFramework.Item
                     Audited = Employee.Empty,
                     SendMail = false,
                     ProviderEmail = string.Empty,
+                    ProviderName = string.Empty,
                     CreatedBy = ApplicationUser.Empty,
                     CreatedOn = DateTime.Now,
                     ModifiedBy = ApplicationUser.Empty,
@@ -54,12 +45,32 @@ namespace GisoFramework.Item
             }
         }
 
+        public long AuditoryId { get; set; }
+
+        public DateTime Date { get; set; }
+
+        public int Hour { get; set; }
+
+        public int Duration { get; set; }
+
+        public Process Process { get; set; }
+
+        public ApplicationUser Auditor { get; set; }
+
+        public Employee Audited { get; set; }
+
+        public bool SendMail { get; set; }
+
+        public string ProviderEmail { get; set; }
+
+        public string ProviderName { get; set; }
+
         /// <summary>Gets an identifier/description json item</summary>
         public override string JsonKeyValue
         {
             get
             {
-                return Json;
+                return this.Json;
             }
         }
 
@@ -68,9 +79,7 @@ namespace GisoFramework.Item
         {
             get
             {
-                return string.Format(
-                    CultureInfo.InvariantCulture,
-                    @"{{""Id"":{0},
+                var pattern = @"{{""Id"":{0},
                     ""Date"":""{1:dd/MM/yyyy}"",
                     ""Hour"":{2},
                     ""Duration"":{3},
@@ -79,7 +88,11 @@ namespace GisoFramework.Item
                     ""Audited"":{6},
                     ""SendMail"":{7},
                     ""ProviderEmail"":""{8}"",
-                    ""Active"":{9}}}",
+                    ""ProviderName"":""{9}"",
+                    ""Active"":{10}}}";
+                return string.Format(
+                    CultureInfo.InvariantCulture,
+                    pattern,
                     this.Id,
                     this.Date,
                     this.Hour,
@@ -89,6 +102,7 @@ namespace GisoFramework.Item
                     this.Audited.JsonKeyValue,
                     this.SendMail ? Constant.JavaScriptTrue : Constant.JavaScriptFalse,
                     this.ProviderEmail,
+                    Tools.JsonCompliant(this.ProviderName),
                     this.Active ? "true" : "false");
             }
         }
@@ -119,7 +133,6 @@ namespace GisoFramework.Item
 
                 res.Append(planning.Json);
             }
-
 
             res.Append("]");
             return res.ToString();
@@ -177,6 +190,7 @@ namespace GisoFramework.Item
                                     },
                                     SendMail = rdr.GetBoolean(ColumnsAuditoryPlanningGet.SendMail),
                                     ProviderEmail = rdr.GetString(ColumnsAuditoryPlanningGet.ProviderEmail),
+                                    ProviderName = rdr.GetString(ColumnsAuditoryPlanningGet.ProviderName),
                                     CreatedBy = new ApplicationUser
                                     {
                                         Id = rdr.GetInt32(ColumnsAuditoryPlanningGet.CreatedBy),
@@ -214,9 +228,9 @@ namespace GisoFramework.Item
             /* CREATE PROCEDURE AuditoryPlanning_ByAuditory
              *   @CompanyId int,
              *   @AuditoryId bigint */
-            using(var cmd = new SqlCommand("AuditoryPlanning_ByAuditory"))
+            using (var cmd = new SqlCommand("AuditoryPlanning_ByAuditory"))
             {
-                using(var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
                     cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -225,7 +239,7 @@ namespace GisoFramework.Item
                     try
                     {
                         cmd.Connection.Open();
-                        using(var rdr = cmd.ExecuteReader())
+                        using (var rdr = cmd.ExecuteReader())
                         {
                             while (rdr.Read())
                             {
@@ -256,6 +270,7 @@ namespace GisoFramework.Item
                                     },
                                     SendMail = rdr.GetBoolean(ColumnsAuditoryPlanningGet.SendMail),
                                     ProviderEmail = rdr.GetString(ColumnsAuditoryPlanningGet.ProviderEmail),
+                                    ProviderName = rdr.GetString(ColumnsAuditoryPlanningGet.ProviderName),
                                     CreatedBy = new ApplicationUser
                                     {
                                         Id = rdr.GetInt32(ColumnsAuditoryPlanningGet.CreatedBy),
@@ -277,7 +292,7 @@ namespace GisoFramework.Item
                     }
                     finally
                     {
-                        if(cmd.Connection.State != ConnectionState.Closed)
+                        if (cmd.Connection.State != ConnectionState.Closed)
                         {
                             cmd.Connection.Close();
                         }
@@ -416,10 +431,11 @@ namespace GisoFramework.Item
              *   @Audited int,
              *   @SendMail bit,
              *   @ProviderEmail nvarchar(150),
+             *   @ProviderName nvarchar(50),
              *   @ApplicationUserId int */
-            using(var cmd = new SqlCommand("AuditoryPlanning_Insert"))
+            using (var cmd = new SqlCommand("AuditoryPlanning_Insert"))
             {
-                using(var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
                     cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -433,7 +449,8 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@Auditor", this.Auditor.Id));
                     cmd.Parameters.Add(DataParameter.Input("@Audited", this.Audited.Id));
                     cmd.Parameters.Add(DataParameter.Input("@SendMail", this.SendMail));
-                    cmd.Parameters.Add(DataParameter.Input("@ProviderEmail", this.ProviderEmail));
+                    cmd.Parameters.Add(DataParameter.Input("@ProviderEmail", this.ProviderEmail, 150));
+                    cmd.Parameters.Add(DataParameter.Input("@ProviderName", this.ProviderName, 50));
                     cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
                     try
                     {
@@ -442,20 +459,21 @@ namespace GisoFramework.Item
                         this.Id = Convert.ToInt64(cmd.Parameters["@Id"].Value);
                         res.SetSuccess(this.Id);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         ExceptionManager.Trace(ex, source);
                         res.SetFail(ex);
                     }
                     finally
                     {
-                        if(cmd.Connection.State != ConnectionState.Closed)
+                        if (cmd.Connection.State != ConnectionState.Closed)
                         {
                             cmd.Connection.Close();
                         }
                     }
                 }
             }
+
             return res;
         }
 
@@ -475,6 +493,7 @@ namespace GisoFramework.Item
              *   @Audited int,
              *   @SendMail bit,
              *   @ProviderEmail nvarchar(150),
+             *   @ProviderName nvarchar(50),
              *   @ApplicationUserId int */
             using (var cmd = new SqlCommand("AuditoryPlanning_Update"))
             {
@@ -482,7 +501,7 @@ namespace GisoFramework.Item
                 {
                     cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add(DataParameter.Input("@Id",this.Id));
+                    cmd.Parameters.Add(DataParameter.Input("@Id", this.Id));
                     cmd.Parameters.Add(DataParameter.Input("@CompanyId", this.CompanyId));
                     cmd.Parameters.Add(DataParameter.Input("@AuditoryId", this.AuditoryId));
                     cmd.Parameters.Add(DataParameter.Input("@Date", this.Date));
@@ -492,7 +511,8 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@Auditor", this.Auditor.Id));
                     cmd.Parameters.Add(DataParameter.Input("@Audited", this.Audited.Id));
                     cmd.Parameters.Add(DataParameter.Input("@SendMail", this.SendMail));
-                    cmd.Parameters.Add(DataParameter.Input("@ProviderEmail", this.ProviderEmail));
+                    cmd.Parameters.Add(DataParameter.Input("@ProviderEmail", this.ProviderEmail, 150));
+                    cmd.Parameters.Add(DataParameter.Input("@ProviderEmail", this.ProviderName, 50));
                     cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
                     try
                     {
@@ -514,6 +534,7 @@ namespace GisoFramework.Item
                     }
                 }
             }
+
             return res;
         }
     }

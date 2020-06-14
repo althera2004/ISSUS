@@ -13,7 +13,7 @@ jQuery(function ($) {
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
             var $title = this.options.title || "&nbsp;";
-            if (("title_html" in this.options) && this.options.title_html === true) {
+            if ("title_html" in this.options && this.options.title_html === true) {
                 title.html($title);
             }
             else {
@@ -976,9 +976,9 @@ function RenderStepsBusinessRisk() {
         span.appendChild(document.createTextNode(x));
         span.appendChild(document.createElement("BR"));
         span.appendChild(document.createTextNode("|"));
-        span.style.left = ((100 / 24) * (x - 1)) + "%";
+        span.style.left = 100 / 24 * (x - 1) + "%";
         document.getElementById("steps").appendChild(span);
-        span.onclick = function () { SetRule(this.id) };
+        span.onclick = function () { SetRule(this.id); };
         if (x === RuleLimitFromDBBusinessRisk) {
             span.style.color = "#00f";
             span.style.fontWeight = "bold";
@@ -995,9 +995,9 @@ function RenderStepsOportunity() {
         span.appendChild(document.createTextNode(x));
         span.appendChild(document.createElement("BR"));
         span.appendChild(document.createTextNode("|"));
-        span.style.left = ((100 / 24) * (x - 1)) + "%";
+        span.style.left = 100 / 24 * (x - 1) + "%";
         document.getElementById("stepsoportunity").appendChild(span);
-        span.onclick = function () { SetRule(this.id) };
+        span.onclick = function () { SetRule(this.id); };
         if (x === RuleLimitFromDBOportunity) {
             span.style.color = "#00f";
             span.style.fontWeight = "bold";

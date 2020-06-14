@@ -25,7 +25,7 @@ var AuditoryStatus = {
 $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
     "_title": function (title) {
         var $title = this.options.title || "&nbsp;";
-        if (("title_html" in this.options) && this.options.title_html === true) {
+        if ("title_html" in this.options && this.options.title_html === true) {
             title.html($title);
         }
         else {
@@ -191,7 +191,7 @@ window.onload = function () {
         if (Auditory.Status === AuditoryStatus.Cerrada) {
             RenderZombies();
             $("#DivClosedResume").show();
-            $("#BtnActionAdd").hide
+            $("#BtnActionAdd").hide;
 
             $("#scrollTableDivIncidentActions").hide();
             $("#scrollTableDivIncidentActionsReal").show();
@@ -258,7 +258,14 @@ function RenderPlanningTable()
             res += "  <td style=\"width:90px;text-align:right\">" + AuditoryPlanning[x].Duration + "</td>";
             res += "  <td style=\"\">" + AuditoryPlanning[x].Process.Description + "</td>";
             res += "  <td style=\"width:150px;\">" + AuditoryPlanning[x].Auditor.Value + "</td>";
-            res += "  <td style=\"width:150px;\">" + AuditoryPlanning[x].Audited.Value;
+
+            if (Auditory.Type === AuditoryTypes.Proveedor) {
+                res += "  <td style=\"width:150px;\">" + AuditoryPlanning[x].ProviderName;
+            }
+            else {
+                res += "  <td style=\"width:150px;\">" + AuditoryPlanning[x].Audited.Value;
+            }
+
             if (AuditoryPlanning[x].SendMail === true) { res += " <i class=\"icon-envelope\"></i>"; }
             res += "</td>";
             res += "  <td style=\"width:90px;\">";
@@ -296,12 +303,18 @@ function RenderPlanningTable()
 
 function ShowPopupPlanningDialog(id) {
     AuditoringPlanningReset();
-    $("#TxtProviderEmailRow").hide();
+    if (Auditory.Type === AuditoryTypes.Proveedor) {
+        $("#TxtProviderEmailRow").show();
+        $("#TxtProviderName2Row").show();
+        $("#CmbAuditedRow").hide();
+    }
+    else {
+        $("#TxtProviderEmailRow").hide();
+        $("#TxtProviderName2Row").hide();
+        $("#CmbAuditedRow").show();
+    }
     auditoryPlanningSelectedId = id;
     auditoryPlanningSelected = AuditoryPlanningGetById(id);
-    /*if (auditoryPlanningSelected === null) {
-
-    }*/
 
     var title = Dictionary.Item_AuditoryPlanning_Title_PopupUpdate;
     if (id < 0) {
@@ -314,6 +327,7 @@ function ShowPopupPlanningDialog(id) {
         $("#CmbAudited").val(-1);
         $("#ChkSendMail").removeAttr("checked");
         $("#TxtProviderEmail").val("");
+        $("#TxtProviderName").val("");
     }
     else {
         if (typeof auditoryPlanningSelected.Date === "object") {
@@ -329,7 +343,7 @@ function ShowPopupPlanningDialog(id) {
         $("#CmbAuditor").val(auditoryPlanningSelected.Auditor.Id);
         $("#CmbAudited").val(auditoryPlanningSelected.Audited.Id);
 
-        if (auditoryPlanningSelected.SendMail === true && Auditory.Type !== 1) {
+        if ((auditoryPlanningSelected.SendMail === true && Auditory.Type !== AuditoryTypes.Externa) || Auditory.Type ===  AuditoryTypes.Proveedor) {
             $("#ChkSendMail").attr("checked", "checked");
             $("#TxtProviderEmailRow").show();
         }
@@ -339,6 +353,7 @@ function ShowPopupPlanningDialog(id) {
         }
 
         $("#TxtProviderEmail").val(auditoryPlanningSelected.ProviderEmail);
+        $("#TxtProviderName2").val(auditoryPlanningSelected.ProviderName);
         ChkSendMailChanged();
     }
 
@@ -378,6 +393,7 @@ function AuditoringPlanningReset() {
     $("#CmbAuditorLabel").css("color", "#333");
     $("#CmbAuditedLabel").css("color", "#333");
     $("#TxtProviderEmailLabel").css("color", "#333");
+    $("#TxtProviderName2Label").css("color", "#333");
     $("#CmbProcessErrorRequired").hide();
     $("#TxtPlanningDateErrorRequired").hide();
     $("#TxtPlanningDateMalformed").hide();
@@ -388,6 +404,7 @@ function AuditoringPlanningReset() {
     $("#CmbAuditedErrorRequired").hide();
     $("#CmbAuditedErrorSame").hide();
     $("#TxtProviderEmailErrorRequired").hide();
+    $("#TxtProviderName2ErrorRequired").hide();
     $("#TxtProviderEmailMalformed").hide();
 }
 
@@ -431,10 +448,32 @@ function AuditoryPlanningValidate() {
         $("#CmbAuditorErrorRequired").show();
     }
 
-    if ($("#CmbAudited").val() * 1 < 1) {
-        ok = false;
-        $("#CmbAuditedLabel").css("color", Color.Error);
-        $("#CmbAuditedErrorRequired").show();
+    if (Auditory.Type === AuditoryTypes.Proveedor) {
+        if ($("#TxtProviderEmail").val() === "") {
+            ok = false;
+            $("#TxtProviderEmailLabel").css("color", Color.Error);
+            $("#TxtProviderEmailErrorRequired").show();
+        }
+        else {
+            if (validateEmail($("#TxtProviderEmail").val()) === false) {
+                ok = false;
+                $("#TxtProviderEmailLabel").css("color", Color.Error);
+                $("#TxtProviderEmailMalformed").show();
+            }
+        }
+
+        if ($("#TxtProviderName2").val() === "") {
+            ok = false;
+            $("#TxtProviderName2Label").css("color", Color.Error);
+            $("#TxtProviderName2ErrorRequired").show();
+        }
+    }
+    else {
+        if ($("#CmbAudited").val() * 1 < 1) {
+            ok = false;
+            $("#CmbAuditedLabel").css("color", Color.Error);
+            $("#CmbAuditedErrorRequired").show();
+        }
     }
 
     if ($("#CmbAuditor").val() * 1 > 0) {
@@ -478,6 +517,10 @@ function AuditoryPlanningValidate() {
 
 function AuditoryPlanningSave() {
     if (AuditoryPlanningValidate() === false) { return false; }
+    var audited = { "Id": -1, "Value": "" };
+    if (Auditory.Type !== AuditoryTypes.Proveedor) {
+        audited = { "Id": $("#CmbAudited").val() * 1, "Value": $("#CmbAudited option:selected").text() };
+    }
     auditoryPlanningSelected = {
         "Id": auditoryPlanningSelectedId,
         "CompanyId": Company.Id,
@@ -487,9 +530,10 @@ function AuditoryPlanningSave() {
         "Duration": ParseInputValueToNumber($("#TxtDuration").val()),
         "Process": { "Id": $("#CmbProcess").val() * 1, "Description": $("#CmbProcess option:selected").text() },
         "Auditor": { "Id": $("#CmbAuditor").val() * 1, "Value": $("#CmbAuditor option:selected").text() },
-        "Audited": { "Id": $("#CmbAudited").val() * 1, "Value": $("#CmbAudited option:selected").text() },
+        "Audited": audited,
         "SendMail": document.getElementById("ChkSendMail").checked,
         "ProviderEmail": $("#TxtProviderEmail").val(),
+        "ProviderName": $("#TxtProviderName2").val(),
         "Active": true
     };
 
@@ -574,7 +618,7 @@ function AuditoryPlanningDeleteConfirmed() {
     var data = {
         "planningId": auditoryPlanningSelectedId,
         "applicationUserId": ApplicationUser.Id,
-        "companyId": Company.Id,
+        "companyId": Company.Id
     };
 
     console.log(data);
@@ -905,6 +949,86 @@ function QuestionaryPlay(cuestionarioId, editable) {
     AppWindow = window.open("/QuestionaryPlay.aspx?a=" + Auditory.Id + "&c=" + cuestionarioId + "&e=" + (editable === true ? "1" : "0"));
 }
 
+function ToggleFound(sender) {
+    var id = sender.id.split('_')[1];
+    var status = $("#F_" + id).data("status");
+    foundSelectedId = id * 1;
+
+    var data = {
+        "foundId": id,
+        "actualStatus": status
+    };
+    console.log(data);
+
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/AuditoryActions.asmx/FoundToggle",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            console.log("msg", msg);
+            var result = msg.d.MessageError.split('|');
+            if (foundSelectedId > 0) {
+                var temp = [];
+                for (var x = 0; x < Founds.length; x++) {
+                    if (Founds[x].Id === foundSelectedId) {
+                        Founds[x].Action = result[1] === "1";
+                    }
+
+                    temp.push(Founds[x]);
+                }
+
+                Founds = temp;
+                RenderFounds();
+            }
+        },
+        "error": function (msg) {
+            alertUI(msg.responseText);
+        }
+    });
+}
+
+function ImprovementToogle(sender) {
+    var id = sender.id.split('_')[1];
+    var status = $("#I_" + id).data("status");
+    improvementSelected = id * 1;
+
+    var data = {
+        "improvementId": id,
+        "actualStatus": status
+    };
+    console.log(data);
+
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/AuditoryActions.asmx/ImprovementToggle",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            console.log("msg", msg);
+            var result = msg.d.MessageError.split('|');
+            if (improvementSelected > 0) {
+                var temp = [];
+                for (var x = 0; x < Improvements.length; x++) {
+                    if (Improvements[x].Id === improvementSelected) {
+                        Improvements[x].Action = result[1] === "1";
+                    }
+
+                    temp.push(Founds[x]);
+                }
+
+                Improvements = temp;
+                RenderImprovements();
+            }
+        },
+        "error": function (msg) {
+            alertUI(msg.responseText);
+        }
+    });
+}
+
 function RenderFounds() {
     var res = "";
     var count = 0;
@@ -917,7 +1041,10 @@ function RenderFounds() {
             res += "<td style=\"width:200px;\">" + found.Requeriment.split("\\n").join("<br />") + "</td>";
             res += "<td style=\"width:200px;\">" + found.Unconformity.split("\\n").join("<br />") + "</td>";
             res += "<td style=\"width:80px;text-align:center\">";
+            //res += found.Action === true ? Dictionary.Common_Yes : Dictionary.Common_No;
+            res += "<span id=\"F_" + found.Id + "\" style=\"cursor:pointer;\" onclick=\"ToggleFound(this);\" data-status=\"" + (found.Action === true ? "1" : "0") +"\">";
             res += found.Action === true ? Dictionary.Common_Yes : Dictionary.Common_No;
+            res += "</span > ";
             res += "</td>";
             res += "<td class=\"hidden-480\" style=\"width: 90px;white-space:nowrap;\">";
             if (Auditory.Status !== 5) {
@@ -960,7 +1087,10 @@ function RenderImprovements() {
             res += "<tr id=\"" + improvement.Id + "\" style=\"border-left:none;\">";
             res += "<td>" + improvement.Text.split("\\n").join("<br />") + "</td>";
             res += "<td style=\"width:80px;text-align:center\">";
+            //res += improvement.Action === true ? Dictionary.Common_Yes : Dictionary.Common_No;
+            res += "<span id=\"I_" + improvement.Id + "\" style=\"cursor:pointer;\" onclick=\"ImprovementToogle(this);\" data-status=\"" + (improvement.Action === true ? "1" : "0") + "\">";
             res += improvement.Action === true ? Dictionary.Common_Yes : Dictionary.Common_No;
+            res += "</span > ";
             res += "</td>";
             res += "<td class=\"hidden-480\" style=\"width: 90px;white-space:nowrap;\">";
             if (Auditory.Status !== 5) {
@@ -1167,6 +1297,7 @@ function FoundSave() {
                 }
 
                 Founds = temp;
+                RenderFounds();
             }
             else {
                 foundSelected.Id = msg.d.MessageError * 1;
@@ -1174,7 +1305,6 @@ function FoundSave() {
             }
 
             $("#PopupFoundDialog").dialog("close");
-            RenderFounds();
         },
         "error": function (msg) {
             alertUI(msg.responseText);
@@ -2013,7 +2143,7 @@ function RenderCuestionarios() {
     var cuestionariosCerrables = true;
     for (var x = 0; x < Cuestionarios.length; x++) {
         var cuestionario = Cuestionarios[x];
-        var percent = (cuestionario.C / cuestionario.T) * 100;
+        var percent = cuestionario.C / cuestionario.T * 100;
         if (cuestionario.C > 0) { cuestionariosHasResponses = true; }
         var warning = "";
         if (cuestionario.Co < cuestionario.C && cuestionario.F === 0) {

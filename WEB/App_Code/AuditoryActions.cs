@@ -285,6 +285,86 @@ public class AuditoryActions : WebService
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
+    public ActionResult FoundToggle(long foundId, int actualStatus)
+    {
+        var res = ActionResult.NoAction;
+        var query = string.Format(
+            CultureInfo.InvariantCulture,
+            @"UPDATE AuditoryCuestionarioFound SET Action = {1} WHERE Id = {0}",
+            foundId,
+            actualStatus == 1 ? 0 : 1);
+
+        using(var cmd = new SqlCommand(query))
+        {
+            using(var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+            {
+                cmd.Connection = cnn;
+                cmd.CommandType = CommandType.Text;
+                try
+                {
+                    cmd.Connection.Open();
+                    cmd.ExecuteNonQuery();
+                    res.SetSuccess(foundId.ToString() + "|" + (actualStatus == 1 ? "0" : "1"));
+                }
+                catch(Exception ex)
+                {
+                    res.SetFail(ex);
+                }
+                finally
+                {
+                    if(cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
+                    }
+                }
+            }
+        }
+
+        return res;
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
+    public ActionResult ImprovementToggle(long improvementId, int actualStatus)
+    {
+        var res = ActionResult.NoAction;
+        var query = string.Format(
+            CultureInfo.InvariantCulture,
+            @"UPDATE AuditoryCuestionarioImprovement SET Action = {1} WHERE Id = {0}",
+            improvementId,
+            actualStatus == 1 ? 0 : 1);
+
+        using (var cmd = new SqlCommand(query))
+        {
+            using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+            {
+                cmd.Connection = cnn;
+                cmd.CommandType = CommandType.Text;
+                try
+                {
+                    cmd.Connection.Open();
+                    cmd.ExecuteNonQuery();
+                    res.SetSuccess(improvementId.ToString() + "|" + (actualStatus == 1 ? "0" : "1"));
+                }
+                catch (Exception ex)
+                {
+                    res.SetFail(ex);
+                }
+                finally
+                {
+                    if (cmd.Connection.State != ConnectionState.Closed)
+                    {
+                        cmd.Connection.Close();
+                    }
+                }
+            }
+        }
+
+        return res;
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
     public ActionResult ImprovementSave(AuditoryCuestionarioImprovement improvement, int applicationUserId)
     {
         if (improvement.Id > 0)

@@ -114,12 +114,22 @@
 
         ._breadcrumbWizard li:last-child a:after { border: 0;
           margin-right: 10px; }
-
-        .past a       { background: hsla(233, 85%, 25% ,1); color:#fff; }
-        .past a:after { border-left: 30px solid hsla(233, 85%, 25% ,1); }
-
+        
         .current a       { background: hsla(230, 79%, 69%, 1); color:#fff; }
         .current a:after { border-left: 30px solid hsla(230, 79%, 69%,1); }
+        
+        .past0 a { background-color:#6fb3e0; color:#000;}
+        .past0 a:after { border-left: 30px solid #6fb3e0; }
+        .past1 a { background-color:#ff0 ;color:#000;}
+        .past1 a:after { border-left: 30px solid #ff0; }
+        .past2 a { background-color:#ffb752; color:#000;}
+        .past2 a:after { border-left: 30px solid #ffb752; }
+        .past3 a { background-color:#d15b47; color:#000;}
+        .past3 a:after { border-left: 30px solid #d15b47; }
+        .past4 a { background-color:#87b87f; color:#000;}
+        .past4 a:after { border-left: 30px solid #87b87f; }
+        .past5 a { background-color:#555; color:#000;}
+        .past5 a:after { border-left: 30px solid #555; }
 
         .future a       { background: hsla(230, 37%, 86%, 1); }
         .future a:after { border-left: 30px solid hsla(230, 37%, 86%,1); }
@@ -142,10 +152,10 @@
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
                             <div style="margin-top:-12px;">
                                 <ul class="breadcrumbWizard">
-                                    <li class="<%= this.Auditory.Status == 0 ? "current" : this.Auditory.Status > 0 ? "past" : "future" %>"><a href="#0"><%=this.Dictionary["Item_Adutory_Status_Label_0"] %></a></li>
-                                    <li class="<%= this.Auditory.Status == 1 ? "current" : this.Auditory.Status > 1 ? "past" : "future" %>"><a href="#0"><%=this.Dictionary["Item_Adutory_Status_Label_1"] %></a></li>
-                                    <li class="<%= this.Auditory.Status == 3 ? "current" : this.Auditory.Status > 3 ? "past" : "future" %>"><a href="#0"><%=this.Dictionary["Item_Adutory_Status_Label_3"] %></a></li>
-                                    <li class="<%= this.Auditory.Status == 5 ? "current" : this.Auditory.Status > 5 ? "past" : "future" %>"><a href="#0"><%=this.Dictionary["Item_Adutory_Status_Label_5"] %></a></li>
+                                    <li style="cursor:default;" class="<%= this.Auditory.Status > -1 ? "past0" : "future" %>"><a href="#0"><%=this.Dictionary["Item_Adutory_Status_Label_0"] %></a></li>
+                                    <li style="cursor:default;" class="<%= this.Auditory.Status > 0 ? "past1" : "future" %>"><a href="#0"><%=this.Dictionary["Item_Adutory_Status_Label_1"] %></a></li>
+                                    <li style="cursor:default;" class="<%= this.Auditory.Status > 2 ? "past3" : "future" %>"><a href="#0"><%=this.Dictionary["Item_Adutory_Status_Label_3"] %></a></li>
+                                    <li style="cursor:default;" class="<%= this.Auditory.Status > 3 ? "past5" : "future" %>"><a href="#0"><%=this.Dictionary["Item_Adutory_Status_Label_5"] %></a></li>
                                 </ul>
                             </div>
                             <div style="margin-top:30px;">
@@ -566,7 +576,7 @@
                             <div id="PopupUploadFile" class="hide" style="width:800px;">
                                 <div class="table-responsive">
                                     <form action="/dummy.html" class="dropzone well dz-clickable" id="dropzone">
-                                        <input type="file" id="fileName" name="fileName" multiple style="position:absolute;top:-100000px;"/>
+                                        <input type="file" id="fileName" name="fileName" multiple="multiple" style="position:absolute;top:-100000px;"/>
                                         <div class="dz-default dz-message">
                                             <span id="UploadMessage">
                                                 <span class="bigger-150 bolder">
