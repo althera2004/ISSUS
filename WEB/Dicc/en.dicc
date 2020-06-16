@@ -318,7 +318,7 @@ Item_Auditory_Label_EndQuestionarios::Close questionnaires
 Item_Auditory_Label_Found::Find
 Item_Auditory_Label_Improvement::Improvement
 Item_Auditory_Label_InternalResponsible::Internal responsible
-Item_Auditory_Label_Name::Audit name
+Item_Auditory_Label_Name::Name
 Item_Auditory_Label_Notes::Notes
 Item_Auditory_Label_PannedDate::Expected date
 Item_Auditory_Label_PlanningDate::Date
@@ -959,6 +959,7 @@ Item_Equipment_Help_TradeMark::Indicate the brand
 Item_Equipment_Help_VerificationCheck::Check if the equipment has verifications
 Item_Equipment_List_Filter_ShowActive::Actives
 Item_Equipment_List_Filter_ShowByOperation::Registers  
+Item_Equipment_List_Filter_ShowByPeriod::Period
 Item_Equipment_List_Filter_ShowByStatus::State
 Item_Equipment_List_Filter_ShowCalibration::Calibrations
 Item_Equipment_List_Filter_ShowClosed::Unsubscribed
@@ -2001,3 +2002,6 @@ User_PrimaryUser::Owner
 Verification-Ext::External verification
 Verification-Int::Internal verification
 ZZZZZ::The new keys from here downwards
+Item_Auditory_ErrorMessage_ValidateCrossDate::The validation date cannot be earlier than the closing date of the questionnaires
+Item_Auditory_ErrorMessage_QuestionairesCrossDate::The end date cannot be earlier than the start date
+Item_Auditory_ErrorMessage_ZobieDatesCross::The dates of the actions cannot be earlier than the end date

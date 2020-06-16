@@ -3,9 +3,9 @@
 </center>
 <FONT FACE="calibri" SIZE="4" COLOR="black">
   <p>Hola #AUDITAT#!</p>
-  <p>L'empresa #EMPRESA# t'ha convidat com a auditat en l'auditoria #AUDIT# planificada per al proper #PLANIFICADA# a les #HORA# hores. Se't requerirà per un temps aproximat de #DURADA# hores.</p>
+  <p>La empresa #EMPRESA# te ha invitado como auditado en la auditoria #AUDIT# planificada para el próximo #PLANIFICADA# a las #HORA# horas. Se te requirá por un tiempo aproximado de #DURADA# hora/s.</p>
   <p>
-    L'equip Scrambòtika<br/>
+    El equipo Scrambòtika<br/>
     <a href="mailto:hola@scrambotika.com>hola@scrambotika.com“"/a>
   </p>
 </FONT>
@@ -13,7 +13,7 @@
 <p>
   <center>
     <FONT FACE="calibri" SIZE="2" COLOR="black">
-      <br />Si us plau, no responguis a aquest email. Si necessites contactar amb nosaltres envia’ns un correu a <a href="mailto:hola@scrambotika.com">hola@scrambotika.com.</a>
+      <br />Por favor, no respondas a este email. Si necesitas contactar con nosotros envíanos un correo a <a href="mailto:hola@scrambotika.com">hola@scrambotika.com.</a>
     </FONT>
   </center>
 </p>

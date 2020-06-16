@@ -308,7 +308,7 @@ Item_Auditory_Help_Status_Title::Estados de una auditoría
 Item_Auditory_ImprovementNoAction::Ninguna mejora genera una acción
 Item_Auditory_Label_Action::Genera acción
 Item_Auditory_Label_Address::Dirección
-Item_Auditory_Label_Amount::Cost
+Item_Auditory_Label_Amount::Coste
 Item_Auditory_Label_AuditorTeam::Equipo auditor
 Item_Auditory_Label_ClosedBy::Cerrada por
 Item_Auditory_Label_ClosedOn::Fecha cierre
@@ -318,7 +318,7 @@ Item_Auditory_Label_EndQuestionarios::Cierre cuestionarios
 Item_Auditory_Label_Found::Hallazgo
 Item_Auditory_Label_Improvement::Mejora
 Item_Auditory_Label_InternalResponsible::Responsable interno
-Item_Auditory_Label_Name::Nombre
+Item_Auditory_Label_Name::Nombre auditoria
 Item_Auditory_Label_Notes::Notas
 Item_Auditory_Label_PannedDate::Fecha prevista
 Item_Auditory_Label_PlanningDate::Fecha
@@ -959,6 +959,7 @@ Item_Equipment_Help_TradeMark::Indicar la marca
 Item_Equipment_Help_VerificationCheck::Marcar si el equipo tiene verificaciones
 Item_Equipment_List_Filter_ShowActive::Activos
 Item_Equipment_List_Filter_ShowByOperation::Registros
+Item_Equipment_List_Filter_ShowByPeriod::Periodo
 Item_Equipment_List_Filter_ShowByStatus::Estado
 Item_Equipment_List_Filter_ShowCalibration::Calibraciones
 Item_Equipment_List_Filter_ShowClosed::De baja
@@ -2001,3 +2002,6 @@ User_PrimaryUser::Propietario/a
 Verification-Ext::Verificación externa
 Verification-Int::Verificación interna
 ZZZZZ::Las nuevas claves a partir de aquí hacia abajo
+Item_Auditory_ErrorMessage_ValidateCrossDate::La fecha de validación no puede ser anterior a la fecha de cierre de cuestionarios
+Item_Auditory_ErrorMessage_QuestionairesCrossDate::La fecha final no puede ser anterior a la fecha de inicio
+Item_Auditory_ErrorMessage_ZobieDatesCross::Las fechas de las acciones no pueden ser anteriores a la fecha final																															 
