@@ -57,7 +57,7 @@
         SetToolTip("TxtNewAddressEmail", Dictionary.Item_Company_Help_Email);
 
         $("[data-rel=tooltip]").tooltip();
-        $("[data-rel=popover]").popover({ container: "body" });
+        $("[data-rel=popover]").popover({ "container": "body" });
     }
 
     $("#CmbPais").ddslick({ data: ddData });
@@ -460,11 +460,16 @@ function SaveCompany() {
         return false;
     }
 
-    var language = Company.Language === "es" ? 1 : 2;
+    //var language = Company.Language === "es" ? 1 : 2;
 
     var languageSelected = $("#CmbIdioma").val();
-    if (languageSelected === "es") { language = 1; }
-    else if (languageSelected === "ca") { language = 2; }
+
+    if (typeof languageSelected === "undefined" || languageSelected === null || languageSelected === "") {
+        languageSelected = Company.Language;
+    }
+
+    if (languageSelected === "1") { language = 1; }
+    else if (languageSelected === "2") { language = 2; }
     
     var data = {
         "oldCompany":
@@ -481,7 +486,7 @@ function SaveCompany() {
             "Name": $("#TxtName").val(),
             "FiscalNumber": $("#TxtNif").val(),
             "DefaultAddress": { "Id": addressSelected },
-            "Language": language
+            "Language": languageSelected
         },
         "userId": user.Id
     };

@@ -1322,12 +1322,13 @@ $(document).mousemove(function (event) {
 });
 
 function FilterListSpecial() {
+    selectedTabItem = $("#RR").prop("checked") === true ? 1 : 2;
     console.log("FilterListSpecial", selectedTabItem);
     if (selectedTabItem === 1) {
         FilterList();
     }
     else {
-        FilterList("ListDataTableOportunity", "ListDataHeaderOportunity", "NumberCostsOportunity");
+        FilterList(null, "ListDataTableOportunity", "ListDataHeaderOportunity", "NumberCostsOportunity");
     }
 
     return false;

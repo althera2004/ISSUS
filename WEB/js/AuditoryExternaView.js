@@ -167,6 +167,14 @@ window.onload = function () {
     // BAR Popups
     $("#BtnProviderBAR").on("click", ShowProviderBarPopup);
     $("#BtnCustomerBAR").on("click", ShowCustomerBarPopup);
+
+    switch (Auditory.Status) {
+        case AuditoryStatus.EnCurso: $("#tabQuestionaries").click(); break;
+        case AuditoryStatus.Pendiente:
+        case AuditoryStatus.Cerrada:
+        case AuditoryStatus.Validada:
+            $("#TabReportExternal").click(); break;
+    }
 };
 
 function TxtCloseQuestionsOnChanged() {

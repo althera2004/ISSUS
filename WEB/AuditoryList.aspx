@@ -63,23 +63,24 @@
 											    <span class="ErrorMessage" id="TxtDateToDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
                                             </div>
 										</td>
+                                        <td rowspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                         <td><strong><%=this.Dictionary["Item_Auditory_Filter_Type"] %>:</strong></td>
                                         <td>
-                                            <input type="checkbox" id="ChkType0" onclick="ChkTypeChanged();" /><%=this.Dictionary["Item_Adutory_Type_Label_0"] %>&nbsp;
-                                            <input type="checkbox" id="ChkType1" onclick="ChkTypeChanged();" /><%=this.Dictionary["Item_Adutory_Type_Label_1"] %>&nbsp;
-                                            <input type="checkbox" id="ChkType2" onclick="ChkTypeChanged();" /><%=this.Dictionary["Item_Adutory_Type_Label_2"] %>
+                                            <input type="checkbox" id="ChkType0" onclick="ChkTypeChanged();" />&nbsp;<%=this.Dictionary["Item_Adutory_Type_Label_0"] %>&nbsp;&nbsp;
+                                            <input type="checkbox" id="ChkType1" onclick="ChkTypeChanged();" />&nbsp;<%=this.Dictionary["Item_Adutory_Type_Label_1"] %>&nbsp;&nbsp;
+                                            <input type="checkbox" id="ChkType2" onclick="ChkTypeChanged();" />&nbsp;<%=this.Dictionary["Item_Adutory_Type_Label_2"] %>
                                         </td>
                                     </tr>
-                                    <tr>
+                                    <tr style="height:30px;">
 										<td colspan="4"></td>
                                         <td><strong><%=this.Dictionary["Item_Auditory_Filter_Status"] %>&nbsp;<i class="icon-question-sign" style="color:#77f;cursor:help;" onclick="ShowStatusHelp();">:</strong></td>
                                         <td>
-                                            <input type="checkbox" id="ChkStatus0" onclick="ChkStatusChanged();" /><%=this.Dictionary["Item_Adutory_Status_Label_0"] %>&nbsp;
-                                            <input type="checkbox" id="ChkStatus1" onclick="ChkStatusChanged();" /><%=this.Dictionary["Item_Adutory_Status_Label_1"] %>&nbsp;
-                                            <input type="checkbox" id="ChkStatus2" onclick="ChkStatusChanged();" /><%=this.Dictionary["Item_Adutory_Status_Label_2"] %>&nbsp;
-                                            <input type="checkbox" id="ChkStatus3" onclick="ChkStatusChanged();" /><%=this.Dictionary["Item_Adutory_Status_Label_3"] %>&nbsp;
-                                            <input type="checkbox" id="ChkStatus4" onclick="ChkStatusChanged();" /><%=this.Dictionary["Item_Adutory_Status_Label_4"] %>&nbsp;
-                                            <input type="checkbox" id="ChkStatus5" onclick="ChkStatusChanged();" /><%=this.Dictionary["Item_Adutory_Status_Label_5"] %>
+                                            <input type="checkbox" id="ChkStatus0" onclick="ChkStatusChanged();" />&nbsp;<%=this.Dictionary["Item_Adutory_Status_Label_0"] %>&nbsp;&nbsp;
+                                            <input type="checkbox" id="ChkStatus1" onclick="ChkStatusChanged();" />&nbsp;<%=this.Dictionary["Item_Adutory_Status_Label_1"] %>&nbsp;&nbsp;
+                                            <input type="checkbox" id="ChkStatus2" onclick="ChkStatusChanged();" />&nbsp;<%=this.Dictionary["Item_Adutory_Status_Label_2"] %>&nbsp;&nbsp;
+                                            <input type="checkbox" id="ChkStatus3" onclick="ChkStatusChanged();" />&nbsp;<%=this.Dictionary["Item_Adutory_Status_Label_3"] %>&nbsp;&nbsp;
+                                            <input type="checkbox" id="ChkStatus4" onclick="ChkStatusChanged();" />&nbsp;<%=this.Dictionary["Item_Adutory_Status_Label_4"] %>&nbsp;&nbsp;
+                                            <input type="checkbox" id="ChkStatus5" onclick="ChkStatusChanged();" />&nbsp;<%=this.Dictionary["Item_Adutory_Status_Label_5"] %>
                                         </td>
                                     </tr>
                                 </table>

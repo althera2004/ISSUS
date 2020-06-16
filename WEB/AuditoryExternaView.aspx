@@ -177,7 +177,7 @@
                                             </li>
                                             <% } else { %>
                                             <li class="" <% if (this.Auditory.Status < 1) { %>style="display:none;" <% } %>>
-                                                <a data-toggle="tab" href="#reportExternal"><%=this.Dictionary["Item_Auditory_Tab_Report"]%></a>
+                                                <a data-toggle="tab" href="#reportExternal" id="TabReportExternal"><%=this.Dictionary["Item_Auditory_Tab_Report"]%></a>
                                             </li>
                                             <% } %>
                                             <li class="" <% if (this.Auditory.Id < 1) { %>style="display:none;" <% } %>>
@@ -222,7 +222,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="col-sm-1 control-label" id="TxtRulesIdLabel" for="CmbRules"><%=this.Dictionary["Item_Auditory_Label_Rules"] %><span style="color:#f00">*</span></label>
+                                                        <label class="col-sm-1" id="TxtRulesIdLabel" for="CmbRules"><%=this.Dictionary["Item_Auditory_Label_Rules"] %><span style="color:#f00">*</span></label>
                                                         <div class="col-sm-11" id="AuditoryRulesDiv">
                                                             <input type="text" id="TxtRulesId" style="display:none;" value="<%=this.RulesIds %>" />
                                                             <asp:Literal runat="server" ID="LtCmbRules"></asp:Literal>
