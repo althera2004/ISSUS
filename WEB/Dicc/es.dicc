@@ -2004,4 +2004,5 @@ Verification-Int::Verificación interna
 ZZZZZ::Las nuevas claves a partir de aquí hacia abajo
 Item_Auditory_ErrorMessage_ValidateCrossDate::La fecha de validación no puede ser anterior a la fecha de cierre de cuestionarios
 Item_Auditory_ErrorMessage_QuestionairesCrossDate::La fecha final no puede ser anterior a la fecha de inicio
-Item_Auditory_ErrorMessage_ZobieDatesCross::Las fechas de las acciones no pueden ser anteriores a la fecha final																															 
+Item_Auditory_ErrorMessage_ZobieDatesCross::Las fechas de las acciones no pueden ser anteriores a la fecha final	
+Mail_Message_InivitationAuditProv::Invitación a una auditoria																														 

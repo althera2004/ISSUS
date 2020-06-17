@@ -2005,3 +2005,4 @@ ZZZZZ::Les noves claus a partir d'aquí cap avall
 Item_Auditory_ErrorMessage_ValidateCrossDate::La data de validació no pot ser anterior a la data de tancament de qüestionaris
 Item_Auditory_ErrorMessage_QuestionairesCrossDate::La data final no pot ser anterior a la data d'inici.
 Item_Auditory_ErrorMessage_ZobieDatesCross::Les dates de les accions no poden ser anteriors a la data final.
+Mail_Message_InivitationAuditProv::Invitació a una auditoria

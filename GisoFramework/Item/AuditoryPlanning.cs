@@ -512,7 +512,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@Audited", this.Audited.Id));
                     cmd.Parameters.Add(DataParameter.Input("@SendMail", this.SendMail));
                     cmd.Parameters.Add(DataParameter.Input("@ProviderEmail", this.ProviderEmail, 150));
-                    cmd.Parameters.Add(DataParameter.Input("@ProviderEmail", this.ProviderName, 50));
+                    cmd.Parameters.Add(DataParameter.Input("@ProviderName", this.ProviderName, 50));
                     cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));
                     try
                     {

@@ -2132,7 +2132,7 @@ function CalculeTotalQuestions() {
         }
 
         if (Auditory.Id > 0) {
-            if (total > 0) {
+            if (total > 0 || AuditoryPlanning.length < 1) {
                 $("#DivNoQuestions").hide();
                 $("#CmbPlanningResponsible").removeAttr("disabled");
                 $("#TxtAuditoryPlanningDate").removeAttr("disabled");

@@ -6,7 +6,7 @@
   <p>L'empresa #EMPRESA# t'ha convidat com a auditat en l'auditoria #AUDIT# planificada per al proper #PLANIFICADA# a les #HORA# hores. Se't requerirà per un temps aproximat de #DURADA# hores.</p>
   <p>
     L'equip Scrambòtika<br/>
-    <a href="mailto:hola@scrambotika.com>hola@scrambotika.com“"/a>
+    <a href="mailto:hola@scrambotika.com>hola@scrambotika.com"/a>
   </p>
 </FONT>
 <img src="http://issus.scrambotika.com/scrambotika_mail.jpg" alt="Scrambòtika" />
