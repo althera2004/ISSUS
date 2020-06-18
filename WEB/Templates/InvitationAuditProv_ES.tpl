@@ -3,11 +3,8 @@
 </center>
 <FONT FACE="calibri" SIZE="4" COLOR="black">
   <p>Hola #AUDITAT#!</p>
-  <p>La empresa #EMPRESA# te ha invitado como auditado en la auditoria #AUDIT# planificada para el próximo #PLANIFICADA# a las #HORA# horas. Se te requirá por un tiempo aproximado de #DURADA# hora/s.</p>
-  <p>
-    El equipo Scrambòtika<br/>
-    <a href="mailto:hola@scrambotika.com>hola@scrambotika.com“"/a>
-  </p>
+  <p>La empresa #EMPRESA# te ha invitado como auditado en la auditoria #AUDIT# planificada para el próximo #PLANIFICADA# a las #HORA# horas y se te requerirá por un tiempo aproximado de #DURADA# hora/s.</p>
+  <p>Que pases un buen dia!</p>
 </FONT>
 <img src="http://issus.scrambotika.com/scrambotika_mail.jpg" alt="Scrambòtika" />
 <p>

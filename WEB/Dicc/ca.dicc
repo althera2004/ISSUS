@@ -311,7 +311,7 @@ Item_Auditory_Label_Address::Adreça
 Item_Auditory_Label_Amount::Cost
 Item_Auditory_Label_AuditorTeam::Equip auditor
 Item_Auditory_Label_ClosedBy::Tancada per
-Item_Auditory_Label_ClosedOn::Data tancament
+Item_Auditory_Label_ClosedOn::Data
 Item_Auditory_Label_Customer::Client
 Item_Auditory_Label_Description::Descripció
 Item_Auditory_Label_EndQuestionarios::Tacament qüestionaris
@@ -346,7 +346,7 @@ Item_Auditory_Message_NoPlanning::Per poder donar per planificada l'auditoria, a
 Item_Auditory_Message_NoQuestions::Amb les normes i processos sel·leccionats no hi han preguntes per als questionaris
 Item_Auditory_Message_QuestionaryClosable::Ja es pot accedir a la pestanya Informes per tancar el qüestionaris
 Item_Auditory_Message_ReopenCuestionario::Vol reobrir els questionaris?
-Item_Auditory_Message_Validated::Auditoria validada
+Item_Auditory_Message_Validated::Validada
 Item_Auditory_Planning_Message::No pot el mateix que l'auditor
 Item_Auditory_PlanningTable_Title::Planificació
 Item_Auditory_Popup_CloseQuestionary::Tancar qüestionaris
@@ -2005,3 +2005,4 @@ ZZZZZ::Les noves claus a partir d'aquí cap avall
 Item_Auditory_ErrorMessage_ValidateCrossDate::La data de validació no pot ser anterior a la data de tancament de qüestionaris
 Item_Auditory_ErrorMessage_QuestionairesCrossDate::La data final no pot ser anterior a la data d'inici.
 Item_Auditory_ErrorMessage_ZobieDatesCross::Les dates de les accions no poden ser anteriors a la data final.
+Mail_Message_InivitationAuditProv::Invitació a una auditoria
