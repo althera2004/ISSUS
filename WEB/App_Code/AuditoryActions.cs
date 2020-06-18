@@ -9,7 +9,11 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Net.Mail;
 using System.Text;
+using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
 using GisoFramework;
@@ -78,12 +82,25 @@ public class AuditoryActions : WebService
 
         string differences = auditory.Differences(oldAuditory);
         var res = auditory.Update(applicationUserId, auditory.CompanyId, differences);
+
+        // Cuando pasa a planificada hay que generar los cuestionarios y enviar los mails
         if (res.Success && toPlanned && auditory.Type != 1)
         {
+            // Generar custionarios
             var resPlanned = Auditory.SetQuestionaries(auditory.Id, applicationUserId);
             if (!resPlanned.Success)
             {
                 res.SetFail(resPlanned.MessageError);
+            }
+
+            // enviar mails
+            var planning = AuditoryPlanning.ByAuditory(auditory.Id, auditory.CompanyId);
+            if(auditory.Type == 2)
+            {
+                foreach(var pl in planning.Where(p=>p.SendMail == true))
+                {
+                    SendPanningMail(pl, auditory.Description);
+                }
             }
         }
 
@@ -407,5 +424,105 @@ public class AuditoryActions : WebService
             ReturnValue = res,
             MessageError = string.Empty
         };
+    }
+
+    private ActionResult SendPanningMail(AuditoryPlanning planning, string auditoryName)
+    {
+        var res = ActionResult.NoAction;
+
+        var dictionary = ApplicationDictionary.Load("ca");
+        string path = HttpContext.Current.Request.PhysicalApplicationPath;
+        string destino = path;
+        if (!path.EndsWith("\\", StringComparison.Ordinal))
+        {
+            path = string.Format(CultureInfo.InvariantCulture, @"{0}\images\noimage.jpg", path);
+        }
+        else
+        {
+            path = string.Format(CultureInfo.InvariantCulture, @"{0}\images\noimage.jpg", path);
+        }
+
+        if (!destino.EndsWith("\\", StringComparison.Ordinal))
+        {
+            destino = string.Format(CultureInfo.InvariantCulture, @"{0}\images\Logos\{1}.jpg", destino, res.MessageError.Split('|')[0]);
+        }
+        else
+        {
+            destino = string.Format(CultureInfo.InvariantCulture, @"{0}\images\Logos\{1}.jpg", destino, res.MessageError.Split('|')[0]);
+        }
+
+        //System.IO.File.Copy(path, destino);
+
+        path = HttpContext.Current.Request.PhysicalApplicationPath;
+        if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
+        {
+            path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
+        }
+
+        var templateName = "InvitationAuditProv.tpl";
+        var user = Session["User"] as ApplicationUser;
+        if (!string.IsNullOrEmpty(user.Language))
+        {
+            templateName = "InvitationAuditProv_" + user.Language + ".tpl";
+        }
+
+        path = string.Format(CultureInfo.InvariantCulture, @"{0}Templates\{1}", path, templateName);
+        string bodyPattern = string.Empty;
+        using (var rdr = new StreamReader(path))
+        {
+            bodyPattern = rdr.ReadToEnd();
+            bodyPattern = bodyPattern.Replace("#AUDITAT#", "{0}");
+            bodyPattern = bodyPattern.Replace("#EMPRESA#", "{1}");
+            bodyPattern = bodyPattern.Replace("#AUDIT#", "{2}");
+            bodyPattern = bodyPattern.Replace("#PLANIFICADA#", "{3:dd/MM/yyyy}");
+            bodyPattern = bodyPattern.Replace("#HORA#", "{4}");
+            bodyPattern = bodyPattern.Replace("#DURADA#", "{5}");
+        }
+
+        var company = HttpContext.Current.Session["company"] as Company;
+
+        var hora = planning.Hour;
+        var horarioText = string.Empty;
+        var horas = 0;
+        while(hora > 59)
+        {
+            hora -= 60;
+            horas++;
+        }
+
+        horarioText = string.Format(CultureInfo.InvariantCulture, "{0:#0}:{1:00}", horas, hora);
+
+        string subject = string.Format(dictionary["Mail_Message_InivitationAuditProv"], res.MessageError.Split('|')[0]);
+        string body = string.Format(
+            CultureInfo.InvariantCulture,
+            bodyPattern,
+            planning.ProviderName,
+            company.Name,
+            auditoryName,
+            planning.Date,
+            horarioText,
+            planning.Duration);
+
+
+        var mail = new MailMessage
+        {
+            From = new MailAddress("issus@scrambotika.com", "ISSUS"),
+            IsBodyHtml = true,
+            Subject = subject,
+            Body = body
+        };
+
+        mail.To.Add(planning.ProviderEmail);
+        //mail.To.Add("hola@scrambotika.com");
+        mail.Bcc.Add("jcastilla@openframework.es");
+
+        var smtpServer = new SmtpClient("smtp.scrambotika.com")
+        {
+            Port = 587,
+            Credentials = new System.Net.NetworkCredential("issus@scrambotika.com", "W3&S1B%h7Jz%7W7f5$%B")
+        };
+        smtpServer.Send(mail);
+
+        return res;
     }
 }
