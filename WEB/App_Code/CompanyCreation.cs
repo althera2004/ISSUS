@@ -128,7 +128,7 @@ public class CompanyCreation : WebService
             var smtpServer = new SmtpClient("smtp.scrambotika.com")
             {
                 Port = 587,
-                Credentials = new System.Net.NetworkCredential("issus@scrambotika.com", "W3&S1B%h7Jz%7W7f5$%B")
+                Credentials = new System.Net.NetworkCredential("issus@scrambotika.com", "wtzAsmjENShJU457KkuK")
             };
             smtpServer.Send(mail);
         }

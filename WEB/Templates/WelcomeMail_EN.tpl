@@ -13,7 +13,7 @@
   </li>
   <p>Thanks for trusting ISSUS.</p>
   <p>The Scrambòtika team <br/>
-<a href="mailto:hola@scrambotika.com>hola@scrambotika.com“"/a>  </p></FONT>
+<a href="mailto:hola@scrambotika.com>hola@scrambotika.com"/a>  </p></FONT>
 
 <img src="http://issus.scrambotika.com/scrambotika_mail.jpg" alt="Scrambòtika" />
 <p>

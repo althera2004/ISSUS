@@ -19,8 +19,8 @@ public partial class TestMail : System.Web.UI.Page
             string subject = "Mail de test desde www.scrambotika.com";
             string body = "Mail de test desde www.scrambotika.com";
             MailMessage mail = new MailMessage();
-            SmtpClient SmtpServer = new SmtpClient("issus.scrambotika.cat");
-            mail.From = new MailAddress("info@issus.scrambotika.cat", "ISSUS");
+            SmtpClient SmtpServer = new SmtpClient("smtp.scrambotika.com");
+            mail.From = new MailAddress("issus@scrambotika.com", "ISSUS");
             mail.IsBodyHtml = true;
             mail.To.Add("jcastilla@openframework.es");
             mail.CC.Add("althera2004@gmail.com");
@@ -30,7 +30,7 @@ public partial class TestMail : System.Web.UI.Page
 
             SmtpServer.Port = 25;
             SmtpServer.EnableSsl = false;
-            SmtpServer.Credentials = new System.Net.NetworkCredential("info@issus.scrambotika.cat", "$Cramb0tika");
+            SmtpServer.Credentials = new System.Net.NetworkCredential("issus@scrambotika.com", "wtzAsmjENShJU457KkuK");
             SmtpServer.Send(mail);
             this.LtMail.Text = "ok";
         }
