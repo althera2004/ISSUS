@@ -311,7 +311,7 @@ Item_Auditory_Label_Address::Direction
 Item_Auditory_Label_Amount::Cost
 Item_Auditory_Label_AuditorTeam::Auditor team
 Item_Auditory_Label_ClosedBy::Closed by
-Item_Auditory_Label_ClosedOn::Closing date
+Item_Auditory_Label_ClosedOn::Date
 Item_Auditory_Label_Customer::Client
 Item_Auditory_Label_Description::Description
 Item_Auditory_Label_EndQuestionarios::Close questionnaires
@@ -346,7 +346,7 @@ Item_Auditory_Message_NoPlanning::In order to consider the audit planned, there 
 Item_Auditory_Message_NoQuestions::With the norms and processes selected there are no questions for the questionnaires
 Item_Auditory_Message_QuestionaryClosable::You can now access the Reports tab to close the questionnaires
 Item_Auditory_Message_ReopenCuestionario::Do you want to reopen the questionnaires?
-Item_Auditory_Message_Validated::Validated audit
+Item_Auditory_Message_Validated::Validated
 Item_Auditory_Planning_Message::It cannot be the same as the auditor
 Item_Auditory_PlanningTable_Title::Planning
 Item_Auditory_Popup_CloseQuestionary::Close questionnaires
@@ -2005,4 +2005,4 @@ ZZZZZ::The new keys from here downwards
 Item_Auditory_ErrorMessage_ValidateCrossDate::The validation date cannot be earlier than the closing date of the questionnaires
 Item_Auditory_ErrorMessage_QuestionairesCrossDate::The end date cannot be earlier than the start date
 Item_Auditory_ErrorMessage_ZobieDatesCross::The dates of the actions cannot be earlier than the end date
-Mail_Message_InivitationAuditProv::Invitation to auditory
+Mail_Message_InivitationAuditProv::Invitation to an auditory

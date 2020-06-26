@@ -311,7 +311,7 @@ Item_Auditory_Label_Address::Dirección
 Item_Auditory_Label_Amount::Coste
 Item_Auditory_Label_AuditorTeam::Equipo auditor
 Item_Auditory_Label_ClosedBy::Cerrada por
-Item_Auditory_Label_ClosedOn::Fecha cierre
+Item_Auditory_Label_ClosedOn::Fecha
 Item_Auditory_Label_Customer::Cliente
 Item_Auditory_Label_Description::Descripción
 Item_Auditory_Label_EndQuestionarios::Cierre cuestionarios
@@ -346,7 +346,7 @@ Item_Auditory_Message_NoPlanning::Para poder dar por planificada la auditoría, 
 Item_Auditory_Message_NoQuestions::Con las normas y procesos seleccionadas no hay preguntas para los cuestionarios
 Item_Auditory_Message_QuestionaryClosable::Ya se puede acceder a la pestaña Informes para cerrar el cuestionarios
 Item_Auditory_Message_ReopenCuestionario::Desea reabrir los cuestionarios?
-Item_Auditory_Message_Validated::Auditoria validada
+Item_Auditory_Message_Validated::Validada
 Item_Auditory_Planning_Message::No puede ser el mismo que el auditor
 Item_Auditory_PlanningTable_Title::Planificación
 Item_Auditory_Popup_CloseQuestionary::Cerrar cuestionarios
@@ -2004,5 +2004,5 @@ Verification-Int::Verificación interna
 ZZZZZ::Las nuevas claves a partir de aquí hacia abajo
 Item_Auditory_ErrorMessage_ValidateCrossDate::La fecha de validación no puede ser anterior a la fecha de cierre de cuestionarios
 Item_Auditory_ErrorMessage_QuestionairesCrossDate::La fecha final no puede ser anterior a la fecha de inicio
-Item_Auditory_ErrorMessage_ZobieDatesCross::Las fechas de las acciones no pueden ser anteriores a la fecha final	
-Mail_Message_InivitationAuditProv::Invitación a una auditoria																														 
+Item_Auditory_ErrorMessage_ZobieDatesCross::Las fechas de las acciones no pueden ser anteriores a la fecha final																															 
+Mail_Message_InivitationAuditProv::Invitación a una auditoria																														 																							 

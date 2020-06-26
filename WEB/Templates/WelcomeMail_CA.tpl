@@ -15,7 +15,7 @@
   <p>Gràcies per confiar en ISSUS.</p>
   <p>
     L'equip Scrambòtika<br/>
-    <a href="mailto:hola@scrambotika.com>hola@scrambotika.com“"/a>
+    <a href="mailto:hola@scrambotika.com>hola@scrambotika.com"/a>
   </p>
 </FONT>
 <img src="http://issus.scrambotika.com/scrambotika_mail.jpg" alt="Scrambòtika" />
