@@ -125,12 +125,20 @@ public class CompanyCreation : WebService
             //mail.To.Add("hola@scrambotika.com");
             //mail.CC.Add(companyEmail);
 
-            var smtpServer = new SmtpClient("smtp.scrambotika.com")
+            var key = Tools.DecryptString(ConfigurationManager.AppSettings["mailpass"] as string);
+            if (key.StartsWith("Error::", StringComparison.OrdinalIgnoreCase))
             {
-                Port = 587,
-                Credentials = new System.Net.NetworkCredential("issus@scrambotika.com", "W3&S1B%h7Jz%7W7f5$%B")
-            };
-            smtpServer.Send(mail);
+                res.SetFail(key);
+            }
+            else
+            {
+                var smtpServer = new SmtpClient("smtp.scrambotika.com")
+                {
+                    Port = 587,
+                    Credentials = new System.Net.NetworkCredential("issus@scrambotika.com", key)
+                };
+                smtpServer.Send(mail);
+            }
         }
 
         return res.MessageError;

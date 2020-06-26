@@ -29,7 +29,7 @@ namespace GisoFramework.Item
                     Id = Constant.DefaultId,
                     Date = DateTime.Now,
                     Hour = 0,
-                    Duration = 0,
+                    Duration = "0",
                     Process = Process.Empty,
                     Auditor = ApplicationUser.Empty,
                     Audited = Employee.Empty,
@@ -51,7 +51,7 @@ namespace GisoFramework.Item
 
         public int Hour { get; set; }
 
-        public int Duration { get; set; }
+        public string Duration { get; set; }
 
         public Process Process { get; set; }
 
@@ -168,7 +168,7 @@ namespace GisoFramework.Item
                                     Id = rdr.GetInt64(ColumnsAuditoryPlanningGet.Id),
                                     Date = rdr.GetDateTime(ColumnsAuditoryPlanningGet.Date),
                                     Hour = rdr.GetInt32(ColumnsAuditoryPlanningGet.Hour),
-                                    Duration = rdr.GetInt32(ColumnsAuditoryPlanningGet.Duration),
+                                    Duration = rdr.GetString(ColumnsAuditoryPlanningGet.Duration),
                                     AuditoryId = auditoryId,
                                     CompanyId = companyId,
                                     Auditor = new ApplicationUser
@@ -248,7 +248,7 @@ namespace GisoFramework.Item
                                     Id = rdr.GetInt64(ColumnsAuditoryPlanningGet.Id),
                                     Date = rdr.GetDateTime(ColumnsAuditoryPlanningGet.Date),
                                     Hour = rdr.GetInt32(ColumnsAuditoryPlanningGet.Hour),
-                                    Duration = rdr.GetInt32(ColumnsAuditoryPlanningGet.Duration),
+                                    Duration = rdr.GetString(ColumnsAuditoryPlanningGet.Duration),
                                     AuditoryId = auditoryId,
                                     CompanyId = companyId,
                                     Auditor = new ApplicationUser
@@ -444,7 +444,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@AuditoryId", this.AuditoryId));
                     cmd.Parameters.Add(DataParameter.Input("@Date", this.Date));
                     cmd.Parameters.Add(DataParameter.Input("@Hour", this.Hour));
-                    cmd.Parameters.Add(DataParameter.Input("@Duration", this.Duration));
+                    cmd.Parameters.Add(DataParameter.Input("@Duration", this.Duration, 6));
                     cmd.Parameters.Add(DataParameter.Input("@ProcessId", this.Process.Id));
                     cmd.Parameters.Add(DataParameter.Input("@Auditor", this.Auditor.Id));
                     cmd.Parameters.Add(DataParameter.Input("@Audited", this.Audited.Id));
@@ -506,7 +506,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@AuditoryId", this.AuditoryId));
                     cmd.Parameters.Add(DataParameter.Input("@Date", this.Date));
                     cmd.Parameters.Add(DataParameter.Input("@Hour", this.Hour));
-                    cmd.Parameters.Add(DataParameter.Input("@Duration", this.Duration));
+                    cmd.Parameters.Add(DataParameter.Input("@Duration", this.Duration, 6));
                     cmd.Parameters.Add(DataParameter.Input("@ProcessId", this.Process.Id));
                     cmd.Parameters.Add(DataParameter.Input("@Auditor", this.Auditor.Id));
                     cmd.Parameters.Add(DataParameter.Input("@Audited", this.Audited.Id));

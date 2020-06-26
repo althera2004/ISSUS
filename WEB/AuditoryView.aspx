@@ -806,7 +806,7 @@
                                 <div class="col-sm-12" style="margin-top:4px;">
                                     <label id ="TxtDurationLabel" class="col-sm-2 control-label no-padding-right" for="TxtDuration"><%=this.Dictionary["Item_AuditoryPlanning_Field_Duration"] %><span class="required">*</span></label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="col-xs-2 col-sm-2 integerFormated" id="TxtDuration" placeholder="<%=this.Dictionary["Item_AuditoryPlanning_Field_Duration"] %>" value="" maxlength="12" />
+                                        <input type="text" class="col-xs-2 col-sm-2 money-bank" id="TxtDuration" placeholder="<%=this.Dictionary["Item_AuditoryPlanning_Field_Duration"] %>" value="" maxlength="12" />
                                         <span class="ErrorMessage" id="TxtDurationRequired"><%=this.Dictionary["Common_Required"] %></span>
                                         <span class="ErrorMessage" id="TxtDurationMalformed"><%=this.Dictionary["Common_Error_MoneyMalformed"] %></span>
                                     </div>

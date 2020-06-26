@@ -10,6 +10,8 @@ namespace GisoFramework
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
+    using System.Security.Cryptography;
+    using System.Text;
     using System.Web;
     using GisoFramework.Activity;
     using GisoFramework.Item;
@@ -17,6 +19,38 @@ namespace GisoFramework
     /// <summary>Implements Tools class.</summary>
     public static class Tools
     {
+        public static string DecryptString(string cipherText)
+        {
+            var key = (HttpContext.Current.Request.Url.Host + "b14ca5898a4e4133bbce2ea2315a1916").Substring(0, 32);
+            byte[] iv = new byte[16];
+            byte[] buffer = Convert.FromBase64String(cipherText);
+
+            try
+            {
+                using (Aes aes = Aes.Create())
+                {
+                    aes.Key = Encoding.UTF8.GetBytes(key);
+                    aes.IV = iv;
+                    ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+
+                    using (MemoryStream memoryStream = new MemoryStream(buffer))
+                    {
+                        using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, decryptor, CryptoStreamMode.Read))
+                        {
+                            using (StreamReader streamReader = new StreamReader((Stream)cryptoStream))
+                            {
+                                return streamReader.ReadToEnd();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return "Error::No decriptation aviable for " + HttpContext.Current.Request.Url.Host;
+            }
+        }
+
         public static ActionResult DeleteAttachs(int companyId, string itemName, long itemId)
         {
             var res =  ActionResult.NoAction;

@@ -126,7 +126,14 @@ namespace GISOWeb
             var company = new Company(itemUser.CompanyId);
             var createdUser = ApplicationUser.GetById(id, company.Id);
             string sender = ConfigurationManager.AppSettings["mailaddress"];
-            string pass = ConfigurationManager.AppSettings["mailpass"];
+
+            var key = GisoFramework.Tools.DecryptString(ConfigurationManager.AppSettings["mailpass"] as string);
+            if (key.StartsWith("Error::", StringComparison.OrdinalIgnoreCase))
+            {
+                res.SetFail(key);
+            }
+
+            string pass = key;
             string server = ConfigurationManager.AppSettings["mailserver"];
             int port = Convert.ToInt32(ConfigurationManager.AppSettings["mailport"]);
             var senderMail = new MailAddress(sender, "ISSUS");
@@ -297,8 +304,14 @@ namespace GISOWeb
 
                         var selectedUser = new ApplicationUser(userId);
 
+                        var key = GisoFramework.Tools.DecryptString(ConfigurationManager.AppSettings["mailpass"] as string);
+                        if (key.StartsWith("Error::", StringComparison.OrdinalIgnoreCase))
+                        {
+                            res.SetFail(key);
+                        }
+
                         string sender = ConfigurationManager.AppSettings["mailaddress"];
-                        string pass = ConfigurationManager.AppSettings["mailpass"];
+                        string pass = key;
 						int port = Convert.ToInt32(ConfigurationManager.AppSettings["mailport"]);
                         string server = ConfigurationManager.AppSettings["mailserver"];
 
@@ -467,7 +480,13 @@ namespace GISOWeb
         private void SendMailUserMother(ApplicationUser user, string companyName)
         {
             string sender = ConfigurationManager.AppSettings["mailaddress"];
-            string pass = ConfigurationManager.AppSettings["mailpass"];
+            var key = GisoFramework.Tools.DecryptString(ConfigurationManager.AppSettings["mailpass"] as string);
+            if (key.StartsWith("Error::", StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            string pass = key;
             var senderMail = new MailAddress(sender, "ISSUS");
             var server = ConfigurationManager.AppSettings["mailserver"];
             int port = Convert.ToInt32(ConfigurationManager.AppSettings["mailport"]);

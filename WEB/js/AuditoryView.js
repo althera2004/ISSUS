@@ -345,7 +345,7 @@ function ShowPopupPlanningDialog(id) {
         }
         
         $("#TxtHour").val(MinutesToHour(auditoryPlanningSelected.Hour));
-        $("#TxtDuration").val(auditoryPlanningSelected.Duration);
+        $("#TxtDuration").val(ToMoneyFormat(auditoryPlanningSelected.Duration));
         $("#CmbProcess").val(auditoryPlanningSelected.Process.Id);
         $("#CmbAuditor").val(auditoryPlanningSelected.Auditor.Id);
         $("#CmbAudited").val(auditoryPlanningSelected.Audited.Id);

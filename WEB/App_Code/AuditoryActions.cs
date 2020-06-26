@@ -35,19 +35,19 @@ public class AuditoryActions : WebService
     [ScriptMethod]
     public ActionResult SaveZombie(IncidentActionZombie zombie)
     {
-        if(zombie.Id > 0)
+        if (zombie.Id > 0)
         {
             return zombie.Update();
         }
 
-        return zombie.Insert(); 
+        return zombie.Insert();
     }
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
     public ActionResult Insert(Auditory auditory, bool toPlanned, string rules, int applicationUserId)
     {
-        foreach(var ruleId in rules.Split('|'))
+        foreach (var ruleId in rules.Split('|'))
         {
             if (!string.IsNullOrEmpty(ruleId))
             {
@@ -56,7 +56,7 @@ public class AuditoryActions : WebService
         }
 
         var res = auditory.Insert(applicationUserId, auditory.CompanyId);
-        if(res.Success && toPlanned && auditory.Type != 1)
+        if (res.Success && toPlanned && auditory.Type != 1)
         {
             var resPlanned = Auditory.SetQuestionaries(auditory.Id, applicationUserId);
             if (!resPlanned.Success)
@@ -95,24 +95,29 @@ public class AuditoryActions : WebService
 
             // enviar mails
             var planning = AuditoryPlanning.ByAuditory(auditory.Id, auditory.CompanyId);
-            if(auditory.Type == 2)
+            if (auditory.Type == 2)
             {
-                foreach(var pl in planning.Where(p=>p.SendMail == true))
+                foreach (var pl in planning.Where(p => p.SendMail == true))
                 {
-                    SendPanningMail(pl, auditory.Description);
+                    res = SendPanningMail(pl, auditory.Description);
                 }
             }
         }
 
-        if(auditory.Type == 1 && auditory.ReportStart != null)
+        if (!res.Success)
         {
-             /* CREATE PROCEDURE [dbo].[Auditory_SetReportStart]
-              *   @AuditoryId bigint,
-              *   @CompanyId int,
-              *   @ReportStart datetime */
-            using(var cmd = new SqlCommand("Auditory_SetReportStart"))
+            return res;
+        }
+
+        if (auditory.Type == 1 && auditory.ReportStart != null)
+        {
+            /* CREATE PROCEDURE [dbo].[Auditory_SetReportStart]
+             *   @AuditoryId bigint,
+             *   @CompanyId int,
+             *   @ReportStart datetime */
+            using (var cmd = new SqlCommand("Auditory_SetReportStart"))
             {
-                using(var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
                 {
                     cmd.Connection = cnn;
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -126,7 +131,7 @@ public class AuditoryActions : WebService
                     }
                     finally
                     {
-                        if(cmd.Connection.State != ConnectionState.Closed)
+                        if (cmd.Connection.State != ConnectionState.Closed)
                         {
                             cmd.Connection.Close();
                         }
@@ -141,7 +146,7 @@ public class AuditoryActions : WebService
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
-    public ActionResult Close(long auditoryId, long closedBy,DateTime questionaryStart, DateTime questionaryEnd, DateTime closedOn, int applicationUserId, int companyId, string notes, string puntosFuertes)
+    public ActionResult Close(long auditoryId, long closedBy, DateTime questionaryStart, DateTime questionaryEnd, DateTime closedOn, int applicationUserId, int companyId, string notes, string puntosFuertes)
     {
         return Auditory.Close(auditoryId, questionaryStart, questionaryEnd, closedBy, closedOn, applicationUserId, companyId, notes, puntosFuertes);
     }
@@ -178,7 +183,7 @@ public class AuditoryActions : WebService
     [ScriptMethod]
     public ActionResult ValidateExternal(long auditoryId, DateTime questionaryStart, DateTime questionaryEnd, long validatedBy, DateTime validatedOn, int applicationUserId, int companyId, string notes, string puntosFuertes)
     {
-        return Auditory.ValidateExternal(auditoryId,validatedBy,questionaryStart, questionaryEnd, validatedOn, applicationUserId, companyId, notes, puntosFuertes);
+        return Auditory.ValidateExternal(auditoryId, validatedBy, questionaryStart, questionaryEnd, validatedOn, applicationUserId, companyId, notes, puntosFuertes);
     }
 
     [WebMethod(EnableSession = true)]
@@ -237,19 +242,19 @@ public class AuditoryActions : WebService
         var res = ActionResult.NoAction;
 
         status++;
-        if(status == 3)
+        if (status == 3)
         {
             status = 0;
         }
 
-        using(var cmd = new SqlCommand("AuditoryCuestionarioPregunta_Toogle"))
+        using (var cmd = new SqlCommand("AuditoryCuestionarioPregunta_Toogle"))
         {
-            using(var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+            using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
             {
                 cmd.Connection = cnn;
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.Add(DataParameter.Input("@PreguntaId", questionId));
-                if(status == 0)
+                if (status == 0)
                 {
                     cmd.Parameters.Add(DataParameter.InputNull("@Compliant"));
                 }
@@ -264,13 +269,13 @@ public class AuditoryActions : WebService
                     cmd.ExecuteNonQuery();
                     res.SetSuccess(string.Format(CultureInfo.InvariantCulture, "{0}|{1}", questionId, status));
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     res.SetFail(ex);
                 }
                 finally
                 {
-                    if(cmd.Connection.State != System.Data.ConnectionState.Closed)
+                    if (cmd.Connection.State != System.Data.ConnectionState.Closed)
                     {
                         cmd.Connection.Close();
                     }
@@ -292,7 +297,7 @@ public class AuditoryActions : WebService
     [ScriptMethod]
     public ActionResult FoundSave(AuditoryCuestionarioFound found, int applicationUserId)
     {
-        if(found.Id > 0)
+        if (found.Id > 0)
         {
             return found.Update(applicationUserId);
         }
@@ -311,9 +316,9 @@ public class AuditoryActions : WebService
             foundId,
             actualStatus == 1 ? 0 : 1);
 
-        using(var cmd = new SqlCommand(query))
+        using (var cmd = new SqlCommand(query))
         {
-            using(var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+            using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
             {
                 cmd.Connection = cnn;
                 cmd.CommandType = CommandType.Text;
@@ -323,13 +328,13 @@ public class AuditoryActions : WebService
                     cmd.ExecuteNonQuery();
                     res.SetSuccess(foundId.ToString() + "|" + (actualStatus == 1 ? "0" : "1"));
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     res.SetFail(ex);
                 }
                 finally
                 {
-                    if(cmd.Connection.State != ConnectionState.Closed)
+                    if (cmd.Connection.State != ConnectionState.Closed)
                     {
                         cmd.Connection.Close();
                     }
@@ -484,7 +489,7 @@ public class AuditoryActions : WebService
         var hora = planning.Hour;
         var horarioText = string.Empty;
         var horas = 0;
-        while(hora > 59)
+        while (hora > 59)
         {
             hora -= 60;
             horas++;
@@ -516,12 +521,27 @@ public class AuditoryActions : WebService
         //mail.To.Add("hola@scrambotika.com");
         mail.Bcc.Add("jcastilla@openframework.es");
 
-        var smtpServer = new SmtpClient("smtp.scrambotika.com")
+        try
         {
-            Port = 587,
-            Credentials = new System.Net.NetworkCredential("issus@scrambotika.com", "W3&S1B%h7Jz%7W7f5$%B")
-        };
-        smtpServer.Send(mail);
+            var key = Tools.DecryptString(ConfigurationManager.AppSettings["mailpass"] as string);
+            if (key.StartsWith("Error::", StringComparison.OrdinalIgnoreCase))
+            {
+                res.SetFail(key);
+            }
+            else
+            {
+                var smtpServer = new SmtpClient("smtp.scrambotika.com")
+                {
+                    Port = 587,
+                    Credentials = new System.Net.NetworkCredential("issus@scrambotika.com", key)
+                };
+                smtpServer.Send(mail);
+            }
+        }
+        catch(Exception ex)
+        {
+            res.SetFail(HttpContext.Current.Request.Url.Host + " ::> "+ ex.Message);
+        }
 
         return res;
     }

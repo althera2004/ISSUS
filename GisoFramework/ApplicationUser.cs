@@ -1085,7 +1085,13 @@ namespace GisoFramework
                         var selectedUser = new ApplicationUser(userId);
 
                         string sender = ConfigurationManager.AppSettings["mailaddress"];
-                        string pass = ConfigurationManager.AppSettings["mailpass"];
+                        var key = GisoFramework.Tools.DecryptString(ConfigurationManager.AppSettings["mailpass"] as string);
+                        if (key.StartsWith("Error::", StringComparison.OrdinalIgnoreCase))
+                        {
+                            res.SetFail(key);
+                        }
+
+                        string pass = key;
                         int port = Convert.ToInt32(ConfigurationManager.AppSettings["mailport"]);
 
                         var senderMail = new MailAddress(sender, "ISSUS");
@@ -1902,10 +1908,16 @@ namespace GisoFramework
                         int port = Convert.ToInt32(ConfigurationManager.AppSettings["mailport"]);
                         var to = new MailAddress(this.Email);
 
+                        var key = GisoFramework.Tools.DecryptString(ConfigurationManager.AppSettings["mailpass"] as string);
+                        if (key.StartsWith("Error::", StringComparison.OrdinalIgnoreCase))
+                        {
+                            res.SetFail(key);
+                        }
+
                         using (var client = new SmtpClient
                         {
                             Host = "smtp.scrambotika.com",
-                            Credentials = new System.Net.NetworkCredential(sender, pass),
+                            Credentials = new System.Net.NetworkCredential(sender, key),
                             Port = port,
                             DeliveryMethod = SmtpDeliveryMethod.Network
                         })
