@@ -1191,7 +1191,7 @@ Item_Incident_ErrorMessage_ReporterTypeRequired::Specify who reports the inciden
 Item_Incident_ErrorMessage_WhatHappenedDateRequired::Indicate the information date of what happened
 Item_Incident_ErrorMessage_WhatHappenedRequired::Inform about what happened
 Item_Incident_ErrorMessage_WhatHappenedResponsibleRequired::Indicate who registers what happened
-Item_Incident_Field_Actions::Actions
+Item_Incident_Field_Actions::Contingency actions
 Item_Incident_Field_ActionsDate::Date
 Item_Incident_Field_ActionsExecuter::Executor
 Item_Incident_Field_ActionsResponsible::Responsible
@@ -1222,7 +1222,7 @@ Item_Incident_Header_Number::Number
 Item_Incident_Header_Open::Opening
 Item_Incident_Header_Origin::Origin
 Item_Incident_Header_Status::State
-Item_Incident_Label_Actions::Actions
+Item_Incident_Label_Actions::Contingency actions
 Item_Incident_Label_Causes::Why has it happened?
 Item_Incident_Label_Closing::Closing
 Item_Incident_Label_Date::Date
@@ -1293,7 +1293,7 @@ Item_IncidentAction_ErrorMessage_UntemporalyDates::The dates are not ordered chr
 Item_IncidentAction_ErrorMessage_WhatHappenedRequired::Indicate what happened
 Item_IncidentAction_ErrorMessage_WhatHappenedRequiredDate::Indicate the date when it happened
 Item_IncidentAction_ErrorMessage_WhatHappenedRequiredResponsible::Indicate who wrote it
-Item_IncidentAction_Field_Actions::Performances
+Item_IncidentAction_Field_Actions::Actions
 Item_IncidentAction_Field_Anotations::Annotations
 Item_IncidentAction_Field_Causes::Why has it happened?
 Item_IncidentAction_Field_Close::Closing

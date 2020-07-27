@@ -1191,7 +1191,7 @@ Item_Incident_ErrorMessage_ReporterTypeRequired::Especificar qui reporta la inci
 Item_Incident_ErrorMessage_WhatHappenedDateRequired::Indicar la data d'informació de què ha passat
 Item_Incident_ErrorMessage_WhatHappenedRequired::Indicar què ha passat
 Item_Incident_ErrorMessage_WhatHappenedResponsibleRequired::Indicar qui registra el que ha passat
-Item_Incident_Field_Actions::Actuacions
+Item_Incident_Field_Actions::Accions de contingència
 Item_Incident_Field_ActionsDate::Data
 Item_Incident_Field_ActionsExecuter::Executor/a
 Item_Incident_Field_ActionsResponsible::Responsable
@@ -1222,7 +1222,7 @@ Item_Incident_Header_Number::Número
 Item_Incident_Header_Open::Obertura
 Item_Incident_Header_Origin::Origen
 Item_Incident_Header_Status::Estat
-Item_Incident_Label_Actions::Actuacions
+Item_Incident_Label_Actions::Accions de contingència
 Item_Incident_Label_Causes::Per què ha passat?
 Item_Incident_Label_Closing::Tancament
 Item_Incident_Label_Date::Data
@@ -1293,7 +1293,7 @@ Item_IncidentAction_ErrorMessage_UntemporalyDates::Les dates no estan ordenades 
 Item_IncidentAction_ErrorMessage_WhatHappenedRequired::Indicar què ha passat
 Item_IncidentAction_ErrorMessage_WhatHappenedRequiredDate::Indicar la data de quan ha passat
 Item_IncidentAction_ErrorMessage_WhatHappenedRequiredResponsible::Indicar responsable d'informació de què ha passat
-Item_IncidentAction_Field_Actions::Actuacions
+Item_IncidentAction_Field_Actions::Accions
 Item_IncidentAction_Field_Anotations::Anotacions
 Item_IncidentAction_Field_Causes::Per què ha passat?
 Item_IncidentAction_Field_Close::Tancament
