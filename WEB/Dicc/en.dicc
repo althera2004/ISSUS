@@ -2006,3 +2006,146 @@ Item_Auditory_ErrorMessage_ValidateCrossDate::The validation date cannot be earl
 Item_Auditory_ErrorMessage_QuestionairesCrossDate::The end date cannot be earlier than the start date
 Item_Auditory_ErrorMessage_ZobieDatesCross::The dates of the actions cannot be earlier than the end date
 Mail_Message_InivitationAuditProv::Invitation to an auditory
+core_rule_9001::ISO 9001
+core_Questionary_Contexto::Context, stakeholders and scope
+core_Questionary_Procesos::Processes
+core_Questionary_Liderazgo::Leadership
+core_Questionary_Política::Politics
+core_Questionary_Responsabilildades::Responsibilities
+core_Questionary_RiesgosOports::Risks and opportunities
+core_Questionary_ObjetivosCambios::Goals and changes
+core_Questionary_Recursos::Means
+core_Questionary_Formacion::Training
+core_Questionary_Requisitos::Requirements
+core_Questionary_Design::Design
+core_Questionary_Compras::Purchases and subcontracting
+core_Questionary_Comunicacion::Communication
+core_Questionary_Mantenimiento::Maintenance
+core_Questionary_Identificacion::Identification and traceability
+core_Questionary_InformacionDocumentada::Documented information
+core_Questionary_Propiedad::Customer property
+core_Questionary_Preservacion::Preservation
+core_Questionary_Incidencias::Non-conformity management
+core_Questionary_Analisis::Analysis and evaluation
+core_Questionary_AuditoriaInterna::Internal audit
+core_Questionary_RevisionDireccion::Management review
+core_Questionary_Mejora::Improvement
+core_Process_Comercial::Commercial
+core_Process_Compras::Purchases
+core_Process_Direccion::Management
+core_Process_Design::Design
+core_Process_Expediciones::Expeditions
+core_Process_Mantenimiento:Maintenance
+core_Process_Produccion::Production
+core_Process_Sistema::Management system
+core_question_10_1_a::Improvement actions are implemented to meet customer requirements and increase customer satisfaction
+core_question_10_2_a::Identifies and reacts to a nonconformity, taking actions for its control and correction
+core_question_10_2_b::Documented information is kept of the nature of the nonconformities and of any action taken
+core_question_10_2_c::The need to take actions to eliminate the causes of nonconformity is evaluated
+core_question_10_2_d::The effectiveness of the corrective actions taken is reviewed
+core_question_10_2_e::When necessary, changes are made to risks and opportunities, or to the management system
+core_question_10_2_f::Documented information is preserved as evidence of the results of corrective actions
+core_question_10_3_a::The results of management analysis, evaluation and review are considered to determine needs or opportunities for continuous improvement
+core_question_4_1_a::Internal and external issues have been determined
+core_question_4_1_b::These issues are monitored and reviewed
+core_question_4_2_a::Stakeholders have been determined
+core_question_4_2_b::Stakeholder requirements have been determined
+core_question_4_2_c::Monitoring and review of stakeholder information and requirements
+core_question_4_3_a::The scope of the management system has been determined. It is kept as documented information
+core_question_4_3_b::Scope is available and possible non-applications have been justified
+core_question_4_4_a::The inputs and outputs of the processes have been determined. Its sequence and interaction
+core_question_4_4_b::Criteria and methods are determined and applied to ensure their control
+core_question_4_4_c::Necessary resources are determined
+core_question_4_4_d::Responsibilities and authorities have been assigned
+core_question_4_4_e::Risks and opportunities are addressed
+core_question_4_4_f::Changes are evaluated and implemented to ensure the expected results
+core_question_4_4_g::There is process improvement. Documented information is maintained
+core_question_5_1_a::A quality policy and objectives have been established by the Management
+core_question_5_1_b::The necessary resources are available
+core_question_5_1_c::All customer, legal and regulatory requirements are determined, understood and met
+core_question_5_1_d::The risks and opportunities are determined and considered
+core_question_5_1_e::A focus on customer satisfaction is maintained
+core_question_5_2_a::Management maintains an appropriate policy, referenced to objectives
+core_question_5_2_b::Includes commitment to meet goals and continuous improvement
+core_question_5_2_c::Documented, communicated, understood and applied policy, available to all interested parties
+core_question_5_3_a::Responsibilities and authorities are communicated and understood
+core_question_5_3_a::These responsibilities are ensured by the integrity of the system and the customer focus
+core_question_6_1_a::Risks and opportunities are determined based on context and stakeholders
+core_question_6_1_b::Actions are developed and their effectiveness is evaluated
+core_question_6_2_a::There are measurable and policy-consistent quality objectives
+core_question_6_2_b::They are communicated and monitored through documented information
+core_question_6_3_a::Changes are implemented in a planned way
+core_question_6_3_b::During the changes, its purpose, consequences, availability of resources and assignment of responsibilities are analyzed.
+core_question_7_1_2_a::The necessary personnel are provided for an effective management system
+core_question_7_1_3_a::The necessary infrastructure is determined, provided and maintained
+core_question_7_1_4_a::Determines, provides and maintains the necessary environment
+core_question_7_1_5_a::Documented information on the suitability of monitoring and measurement resources is preserved
+core_question_7_1_5_b::The measuring equipment essential for the validity of the results is calibrated or verified
+core_question_7_1_5_c::The status of the measuring equipment is identified
+core_question_7_1_5_d::Adequate information on the traceability of measurements is available
+core_question_7_1_6_a::The necessary internal and external knowledge have been determined
+core_question_7_2_a::The necessary competence of staff has been determined
+core_question_7_2_b::Competency is assured based on education, training or experience
+core_question_7_2_c::When necessary, the effectiveness of the actions is evaluated and documented information is preserved.
+core_question_7_3_a::Ensures that staff become aware of the quality policy, objectives, contribution to effectiveness and implications of non-compliance
+core_question_7_4_a::Internal and external communications are determined
+core_question_7_5_a::It has all the documented information required as necessary by this standard and by the organization
+core_question_7_5_b::Documentation is available and suitable where needed
+core_question_7_5_c::Its distribution, preservation, conservation and changes are controlled
+core_question_7_5_d::Documented information of external origin is identified and controlled
+core_question_8_1_a::The necessary processes are planned, implemented and controlled to comply with the requirements of products or services
+core_question_8_2_1_a::Communication is maintained with customers including feedback regarding products or services
+core_question_8_2_1_b::Customer ownership is controlled
+core_question_8_2_2_a::The requirements of products or services have been determined including legal and regulatory
+core_question_8_2_3_a::Has the organization the ability to meet applicable requirements
+core_question_8_2_3_b::Customer's requirements are confirmed before accepting a contract or order
+core_question_8_2_4_a::Documentation of the results of the requirements review and its changes is kept
+core_question_8_3_1_a::Stages of design and development have been determined
+core_question_8_3_2_a::Review, verification and validation are included in these stages
+core_question_8_3_2_b::Resource needs, responsibilities and authorities are included
+core_question_8_3_3_a::The essential requirements of the product or service have been determined
+core_question_8_3_3_b::Documented information on design and development inputs is preserved
+core_question_8_3_4_a::Controls are applied to the design process
+core_question_8_3_4_b::Review and validation activities are carried out to check the entry requirements and their application
+core_question_8_3_4_c::Appropriate actions are taken to solve the detected problems
+core_question_8_3_4_d::Documented information of the reviews carried out is kept
+core_question_8_3_5_a::Exit requirements meet entry requirements
+core_question_8_3_5_b::Documented information on design and development outputs is preserved
+core_question_8_3_6_a::Changes made during design and development are identified, reviewed and controlled
+core_question_8_3_6_b::Documented information is maintained about changes, results and their authorizations
+core_question_8_4_a::Criteria have been determined and applied for the evaluation, selection and monitoring of supplier performance and reevaluation.
+core_question_8_4_b::Ensures that externally supplied processes, products and services are compliant with requirements
+core_question_8_4_c::Documented information on the suitability of suppliers is kept
+core_question_8_4_d::Suppliers have been informed of the criteria used for their evaluation and monitoring
+core_question_8_5_1_a::Production and service provision is implemented under controlled conditions
+core_question_8_5_1_b::Monitoring and measurement activities and acceptance criteria for products and services are included.
+core_question_8_5_1_c::The necessary resources are available for monitoring and measurement activities
+core_question_8_5_1_d::Competent persons have been designated, including their required qualification
+core_question_8_5_2_a::Appropriate means are used to identify outputs and their status with respect to requirements
+core_question_8_5_2_b::When traceability is a requirement, unique identification is controlled
+core_question_8_5_2_c::Documented information is preserved to allow identification and traceability
+core_question_8_5_3_a::The property of clients and suppliers is taken care of
+core_question_8_5_3_b::In the event of loss or deterioration, suppliers or customers are informed, keeping documented information
+core_question_8_5_4_a::Outlets are preserved during production and service provision
+core_question_8_5_5_a::Requirements for post-delivery activities are met
+core_question_8_5_6_a::Changes for the production or provision of the service are reviewed and controlled, keeping documented information
+core_question_8_6_a::Documented information on the release of products and services is preserved, including evidence of conformity and traceability
+core_question_8_7_a::Ensures that non-compliant exits are identified and controlled to prevent their unintended use or delivery
+core_question_8_7_b::Appropriate actions are taken to correct, separate, contain, return, etc. nonconforming outputs
+core_question_8_7_c::Documented information is maintained to describe the nonconformity and its actions
+core_question_9_1_1_a::Monitoring and analysis methods have been determined
+core_question_9_1_1_b::The performance and effectiveness of the Management System is evaluated
+core_question_9_1_1_c::Documented information is preserved to show results
+core_question_9_1_2_a::Customer perception is tracked
+core_question_9_1_2_b::Methods have been determined to obtain, carry out and review customer perception
+core_question_9_1_3_a::Monitoring and measurement information is analyzed
+core_question_9_1_3_b::The results are used to evaluate the effectiveness of the system: product compliance, effectiveness of actions, supplier performance, etc.
+core_question_9_2_a::Internal audits are planned to check compliance with the own requirements and the standard
+core_question_9_2_b::The audit criteria and their scope have been defined
+core_question_9_2_c::There is a selection of auditors that ensures the objectivity and impartiality of the audit process
+core_question_9_2_d::Management is informed of the results and corrections are made
+core_question_9_2_e::Documented information is kept as evidence of the implementation of the program and its results
+core_question_9_3_a::Top management reviews the quality management system at planned intervals
+core_question_9_3_b::All entries specified for this standard have been addressed
+core_question_9_3_c::Opportunities for improvement, need for changes or resources have been identified
+core_question_9_3_d::Documented information is retained as evidence of management review results

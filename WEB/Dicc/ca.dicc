@@ -2006,3 +2006,146 @@ Item_Auditory_ErrorMessage_ValidateCrossDate::La data de validació no pot ser an
 Item_Auditory_ErrorMessage_QuestionairesCrossDate::La data final no pot ser anterior a la data d'inici.
 Item_Auditory_ErrorMessage_ZobieDatesCross::Les dates de les accions no poden ser anteriors a la data final.
 Mail_Message_InivitationAuditProv::Invitació a una auditoria
+core_rule_9001::ISO 9001
+core_Questionary_Contexto::Context, parts interessades i abast
+core_Questionary_Procesos::Processos
+core_Questionary_Liderazgo::Lideratge
+core_Questionary_Política::Política
+core_Questionary_Responsabilildades::Responsabilitats
+core_Questionary_RiesgosOports::Riscos i oportunitats
+core_Questionary_ObjetivosCambios::Objectius i canvis
+core_Questionary_Recursos::Recursos
+core_Questionary_Formacion::Formació
+core_Questionary_Requisitos::Requisits
+core_Questionary_Design::Diseny
+core_Questionary_Compras::Compres y subcontractació
+core_Questionary_Comunicacion::Comunicació
+core_Questionary_Mantenimiento::Manteniment
+core_Questionary_Identificacion::Identificació i traçabilitat
+core_Questionary_InformacionDocumentada::Informació documentada
+core_Questionary_Propiedad::Propietat del client
+core_Questionary_Preservacion::Preservació
+core_Questionary_Incidencias::Gestió de No conformitats
+core_Questionary_Analisis::Anàlisi i avaluació
+core_Questionary_AuditoriaInterna::Auditoria Interna
+core_Questionary_RevisionDireccion::Revisió per la direcció
+core_Questionary_Mejora::Millora
+core_Process_Comercial::Comercial
+core_Process_Compras::Compres
+core_Process_Direccion::Direcció
+core_Process_Design::Disseny
+core_Process_Expediciones::Expedicions
+core_Process_Mantenimiento:Manteniment
+core_Process_Produccion::Producció
+core_Process_Sistema::Sistema de Gestió
+core_question_10_1_a::S'implanten accions de millora per complir amb els requisits de client i augmentar la seva satisfacció
+core_question_10_2_a::S'identifica i es reacciona davant d'una no conformitat, prenent accions per al seu control i correcció
+core_question_10_2_b::Es conserva informació documentada de la naturalesa de les no conformitats i de qualsevol acció presa
+core_question_10_2_c::S'avalua la necessitat de prendre accions per eliminar les causes de la no conformitat
+core_question_10_2_d::Es revisa l'eficàcia de les accions correctives preses
+core_question_10_2_e::Quan sigui necessari, es fan canvis en els riscos i oportunitats, o sobre el sistema de gestió
+core_question_10_2_f::Es conserva informació documentada com evidència dels resultats de les accions correctives
+core_question_10_3_a::Es consideren els resultats de l'anàlisi, avaluació i revisió per la direcció per determinar necessitats o oportunitats per a la millora contínua
+core_question_4_1_a::S'ha determinat les qüestions internes i externes
+core_question_4_1_b::Es realitza seguiment i revisió d'aquestes qüestions
+core_question_4_2_a::S'han determinat les parts interessades
+core_question_4_2_b::S'ha determinat els requisits de les parts interessades
+core_question_4_2_c::Se realiza seguimiento y revisión de la información de las partes interesadas y sus requisitos
+core_question_4_3_a::Se ha determinado el alcance del sistema de gestión. Se mantiene como información documentada
+core_question_4_3_b::Está disponible el alcance y se han justificado posibles no aplicaciones
+core_question_4_4_a::Se han determinado las entradas y salidas de los procesos. Su secuencia e interacción
+core_question_4_4_b::Se determinan y aplican criterios y métodos para asegurar su control 
+core_question_4_4_c::Se determinan los recursos necesarios
+core_question_4_4_d::Se han asignado responsabilidades y autoridades
+core_question_4_4_e::Se abordan los riesgos y oportunidades
+core_question_4_4_f::Se evalúan y se implementan cambios para asegurar los resultados previstos
+core_question_4_4_g::Existe mejora de los procesos. Se mantiene información documentada
+core_question_5_1_a::Se ha establecido una política de calidad y unos objetivos por parte de la Dirección
+core_question_5_1_b::Están disponibles los recursos necesarios
+core_question_5_1_c::Se determinan, comprenden y cumplen todos los requisitos de cliente, los legales y reglamentarios
+core_question_5_1_d::Se determinan y consideran los riesgos y oportunidades
+core_question_5_1_e::Se mantiene un enfoque a la satisfacción del cliente
+core_question_5_2_a::Mantiene la Dirección una política apropiada, referenciada a unos objetivos
+core_question_5_2_b::Incluye el compromiso de cumplir con los objetivos y la mejora continua
+core_question_5_2_c::Política documentada, comunicada, entendida y aplicada, disponible a todas las partes interesadas
+core_question_5_3_a::Las responsabilidades y autoridades están comunicadas y entendidas
+core_question_5_3_a::Aseguran estas responsabilidades la integridad del sistema y el enfoque al cliente
+core_question_6_1_a::Se determina los riesgos y oportunidades en base al contexto y las partes interesadas
+core_question_6_1_b::Se desarrollan acciones y se evalúa su eficacia
+core_question_6_2_a::Existen objetivos de calidad medibles y coherentes con la política
+core_question_6_2_b::Están comunicados y se hace su seguimiento mediante información documentada
+core_question_6_3_a::Los cambios están implementados de manera planificada
+core_question_6_3_b::Durante los cambios se analiza su propósito, consecuencias, disponibilidad de recursos y asignación de responsabilidades
+core_question_7_1_2_a::Se proporciona el personal necesario para un eficaz sistema de gestión
+core_question_7_1_3_a::Se determina, proporciona y mantiene la infraestructura necesaria
+core_question_7_1_4_a::Se determina, proporciona y mantiene el ambiente necesario
+core_question_7_1_5_a::Se conserva información documentada sobre la idoneidad de los recursos de seguimiento y medición
+core_question_7_1_5_b::Se calibran o verifican los equipos de medida esenciales para la validez de los resultados
+core_question_7_1_5_c::Se identifica el estado de los equipos de medida
+core_question_7_1_5_d::Se dispone de información adecuada de la trazabilidad de las mediciones
+core_question_7_1_6_a::Se han determinado los conocimientos internos y externos necesarios
+core_question_7_2_a::Se ha determinado la competencia necesaria del personal
+core_question_7_2_b::Se asegura la competencia en función de la educación, formación o experiencia
+core_question_7_2_c::Cuando sea necesario se evalúa la eficacia de las acciones y se conserva información documentada
+core_question_7_3_a::Se asegura que el personal tome conciencia de la política de calidad, objetivos, contribución a la eficacia e implicaciones de su incumplimiento
+core_question_7_4_a::Se determinan las comunicaciones internas y externas
+core_question_7_5_a::Dispone de toda la información documentada requerida como necesaria por esta norma y por la organización
+core_question_7_5_b::La documentación está disponible y es idónea donde se necesita
+core_question_7_5_c::Se controla su distribución, preservación, conservación y cambios
+core_question_7_5_d::Se identifica y controla la información documentada de origen externo
+core_question_8_1_a::Se planifican, implementan y controlan los procesos necesarios para cumplir con los requisitos de productos o servicios
+core_question_8_2_1_a::Se mantiene comunicación con los clientes incluyendo retroalimentación relativa a productos o servicios
+core_question_8_2_1_b::Se controla la propiedad del cliente
+core_question_8_2_2_a::Se han determinado los requisitos de productos o servicios incluyendo los legales y reglamentarios
+core_question_8_2_3_a::Tiene la organización capacidad para cumplir con los requisitos aplicables
+core_question_8_2_3_b::Se confirman los requisitos del cliente antes de aceptar un contrato o pedido
+core_question_8_2_4_a::Se conserva documentación de los resultados de la revisión de requisitos y de sus cambios
+core_question_8_3_1_a::Se han determinado las etapas del diseño y desarrollo
+core_question_8_3_2_a::Se incluyen en estas etapas la revisión, verificación y validación
+core_question_8_3_2_b::Se incluyen necesidades de recursos, responsabilidades y autoridades
+core_question_8_3_3_a::Se han determinado los requisitos esenciales del producto o servicio
+core_question_8_3_3_b::Se conserva información documentada sobre las entradas del diseño y desarrollo
+core_question_8_3_4_a::Se aplican controles al proceso de diseño
+core_question_8_3_4_b::Se realizan actividades de revisión y validación para comprobar los requisitos de entrada y de su aplicación
+core_question_8_3_4_c::Se toman acciones adecuadas para solucionar los problemas detectados
+core_question_8_3_4_d::Se conserva información documentada de las revisiones efectuadas
+core_question_8_3_5_a::Los requisitos de salida cumplen con los requisitos de entrada
+core_question_8_3_5_b::Se conserva información documentada sobre las salidas del diseño y desarrollo
+core_question_8_3_6_a::Se identifican, revisan y controlan los cambios hechos durante el diseño y desarrollo
+core_question_8_3_6_b::Se mantiene información documentada sobre cambios, resultados y sus autorizaciones
+core_question_8_4_a::Se han determinado y aplicado criterios para la evaluación, selección y seguimiento del desempeño y reevaluación de los proveedores
+core_question_8_4_b::Se asegura que los procesos, productos y servicios suministrados externamente son conformes a los requisitos
+core_question_8_4_c::Se conserva información documentada sobre la idoneidad de los proveedores
+core_question_8_4_d::Se han comunicado a los proveedores los criterios utilizados para su evaluación y seguimiento
+core_question_8_5_1_a::Se implementa la producción y provisión del servicio bajo condiciones controladas
+core_question_8_5_1_b::Se incluyen las actividades de seguimiento y medición y los criterios de aceptación para los productos y servicios
+core_question_8_5_1_c::Se dispone de los recursos necesarios para las actividades de seguimiento y medición
+core_question_8_5_1_d::Se han designado las personas competentes, incluyendo su calificación requerida
+core_question_8_5_2_a::Se utilizan los medios adecuados para identificar las salidas y su estado con respecto a los requisitos
+core_question_8_5_2_b::Cuando la trazabilidad es un requisito, se controla la identificación única
+core_question_8_5_2_c::Se conserva información documentada para permitir la identificación y trazabilidad 
+core_question_8_5_3_a::Se cuida la propiedad de clientes y proveedores
+core_question_8_5_3_b::En caso de perdida o deterioro, se informa a los proveedores o clientes, conservando información documentada
+core_question_8_5_4_a::Se preservan las salidas durante la producción y prestación del servicio
+core_question_8_5_5_a::Se cumplen los requisitos para las actividades posteriores a la entrega
+core_question_8_5_6_a::Se revisan y controlan los cambios para la producción o prestación del servicio, conservando información documentada
+core_question_8_6_a::Se conserva información documentada sobre la liberación de los productos y servicios, incluyendo evidencia de conformidad y trazabilidad
+core_question_8_7_a::Se asegura que las salidas no conformes se identifican y controlan para evitar su uso o entrega no intencionada
+core_question_8_7_b::Se toman acciones adecuadas para corregir, separar, contener, devolver, etc. las salidas no conformes
+core_question_8_7_c::Se mantiene información documentada para la descripción de la no conformidad y sus acciones
+core_question_9_1_1_a::Se han determinado los métodos de seguimiento y análisis
+core_question_9_1_1_b::Se evalúa el desempeño y la eficacia del Sistema de Gestión
+core_question_9_1_1_c::Se conserva información documentada para evidenciar resultados
+core_question_9_1_2_a::Se realiza el seguimiento de la percepción de los clientes
+core_question_9_1_2_b::Se han determinado métodos para obtener, realizar y revisar la percepción de los clientes
+core_question_9_1_3_a::Se analiza la información del seguimiento y medición
+core_question_9_1_3_b::Se utilizan los resultados para evaluar la eficacia del sistema
+core_question_9_2_a::Se planifican auditorías internas para comprobar la conformidad con los requisitos propios y con la norma
+core_question_9_2_b::Se han definido los criterios de auditoría y su alcance
+core_question_9_2_c::Existe una selección de auditores que asegure la objetividad e imparcialidad del proceso de auditoría
+core_question_9_2_d::Se informa a la dirección de los resultados y se realizan correcciones
+core_question_9_2_e::Se conserva información documentada como evidencia de la implementación del programa y de sus resultados
+core_question_9_3_a::La alta dirección revisa el sistema de gestión de calidad a intervalos planificados
+core_question_9_3_b::Se han tratado todas las entradas especificadas para esta norma
+core_question_9_3_c::Se han identificado oportunidades de mejora, necesidad de cambios o de recursos
+core_question_9_3_d::Se conserva información documentada como evidencia de los resultados de la revisión por la dirección
