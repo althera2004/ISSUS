@@ -1467,7 +1467,7 @@ Item_Indicador_PopupDelete_Message2::Aquesta acció no es pot desfer
 Item_Indicador_RecordsReportTitle::Registres d'indicador
 Item_Indicador_StatusLabelMeta::Meta assolida
 Item_Indicador_StatusLabelNoMeta::Meta no assolida
-Item_Indicador_StatusLabelWarning::Alarma!
+Item_Indicador_StatusLabelWarning::Alarma
 Item_Indicador_StatusLabelWithoutMeta::Meta no definida
 Item_Indicador_Tab_Basic::Dades bàsiques
 Item_Indicador_Tab_Graphics::Gràfics
@@ -2006,6 +2006,11 @@ Item_Auditory_ErrorMessage_ValidateCrossDate::La data de validació no pot ser an
 Item_Auditory_ErrorMessage_QuestionairesCrossDate::La data final no pot ser anterior a la data d'inici.
 Item_Auditory_ErrorMessage_ZobieDatesCross::Les dates de les accions no poden ser anteriors a la data final.
 Mail_Message_InivitationAuditProv::Invitació a una auditoria
+Item_Auditory_PDF_Label_date::a data
+Item_Audiotry_PDF_Planned::Planificació
+Item_Auditory_PDF_Closing::Tancament
+Item_Auditory_PDF_Validation::Validació
+Item_Objetivo_Message_PreviewDateOverActions::Hi ha accions amb data prevista posterior a la data prevista de l'objectiu
 core_rule_9001::ISO 9001
 core_Questionary_Contexto::Context, parts interessades i abast
 core_Questionary_Procesos::Processos

@@ -116,10 +116,10 @@
                                                                     <input style="display:inline;width:33%;height:30px;" type="text" id="TxtMeta" placeholder="Meta" class="tooltip-info money-bank" value="0" maxlength="10" onblur="Compute();" />
                                                                     <span class="ErrorMessage" id="CmbMetaErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                                 </div>	
-                                                                <label id="CmbAlarmaLabel" class="col-sm-1 control-label no-padding-right">Alarma</label>
+                                                                <label id="CmbAlarmaLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Indicador_StatusLabelWarning"] %></label>
                                                                 <div class="col-sm-5" id="DivCmbAlarmaComparer" style="height:35px !important;" title="" data-rel="tooltip"><!-- data-placement="top"> -->
-                                                                    <select style="float:left;width:60%;" class="form-control" id="CmbAlarmaComparer" data-placeholder="" onchange="Compute();">
-                                                                        <option value="">Seleccionar</option>
+                                                                    <select style="float:left;width:60%;" class="form-control" id="CmbAlarmaComparer" data-placeholder="<%=this.Dictionary["Common_SelectOne"] %><" onchange="Compute();">
+                                                                        <option value=""><%=this.Dictionary["Common_SelectOne"] %></option>
                                                                         <option value="eq"><%=this.Dictionary["Common_Comparer_eq"] %> (=)</option>
                                                                         <option value="gt"><%=this.Dictionary["Common_Comparer_gt"] %> (&gt;)</option>
                                                                         <option value="eqgt"><%=this.Dictionary["Common_Comparer_eqgt"] %> (=&gt;)</option>
@@ -127,16 +127,16 @@
                                                                         <option value="eqlt"><%=this.Dictionary["Common_Comparer_eqlt"] %> (&lt;=)</option>
                                                                     </select> 
                                                                     &nbsp;                                                                                                                     
-                                                                    <input style="display:inline;width:33%;height:30px;"  type="text" id="TxtAlarma" placeholder="Alarma" class="tooltip-info money-bank nullable" value="0" maxlength="10" onblur="Compute();" />                                                                                       
+                                                                    <input style="display:inline;width:33%;height:30px;"  type="text" id="TxtAlarma" placeholder="<%=this.Dictionary["Item_Indicador_StatusLabelWarning"] %>" class="tooltip-info money-bank nullable" value="0" maxlength="10" onblur="Compute();" />                                                                                       
                                                                 </div>
                                                             </div>
                                                                 <div class="form-group" style="margin-bottom:24px;">
                                                                 <table style="width:100%;">
                                                                     <tr>
                                                                         <td style="width:11%" rowspan="2">&nbsp;</td>
-                                                                        <td style="text-align:center;width:26%;"id="celldangerLabel">Alarma</td>
-                                                                        <td style="text-align:center;width:26%;">Meta no alcanzada</td>
-                                                                        <td style="text-align:center;width:26%;">Meta alcanzada</td>
+                                                                        <td style="text-align:center;width:26%;"id="celldangerLabel"><%=this.Dictionary["Item_Indicador_StatusLabelWarning"] %></td>
+                                                                        <td style="text-align:center;width:26%;"><%=this.Dictionary["Item_Indicador_StatusLabelNoMeta"] %></td>
+                                                                        <td style="text-align:center;width:26%;"><%=this.Dictionary["Item_Indicador_StatusLabelMeta"] %></td>
                                                                         <td style="width:11%" rowspan="2">&nbsp;</td>
                                                                     </tr>
                                                                     <tr style="height:25px;">

@@ -1467,7 +1467,7 @@ Item_Indicador_PopupDelete_Message2::This action cannot be undone
 Item_Indicador_RecordsReportTitle::Indicator registers
 Item_Indicador_StatusLabelMeta::Goal achieved
 Item_Indicador_StatusLabelNoMeta::Goal not achieved
-Item_Indicador_StatusLabelWarning::Alarm!
+Item_Indicador_StatusLabelWarning::Alarm
 Item_Indicador_StatusLabelWithoutMeta::Undefined goal
 Item_Indicador_Tab_Basic::Basic data
 Item_Indicador_Tab_Graphics::Graphics
@@ -2006,6 +2006,11 @@ Item_Auditory_ErrorMessage_ValidateCrossDate::The validation date cannot be earl
 Item_Auditory_ErrorMessage_QuestionairesCrossDate::The end date cannot be earlier than the start date
 Item_Auditory_ErrorMessage_ZobieDatesCross::The dates of the actions cannot be earlier than the end date
 Mail_Message_InivitationAuditProv::Invitation to an auditory
+Item_Auditory_PDF_Label_date::on date
+Item_Audiotry_PDF_Planned::Planification
+Item_Auditory_PDF_Closing::Close
+Item_Auditory_PDF_Validation::Validation
+Item_Objetivo_Message_PreviewDateOverActions::There are actions with a expected date after to the expected date of the objective
 core_rule_9001::ISO 9001
 core_Questionary_Contexto::Context, stakeholders and scope
 core_Questionary_Procesos::Processes

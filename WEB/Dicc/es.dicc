@@ -1467,7 +1467,7 @@ Item_Indicador_PopupDelete_Message2::Esta acción no se puede deshacer
 Item_Indicador_RecordsReportTitle::Registros de indicador
 Item_Indicador_StatusLabelMeta::Meta conseguida
 Item_Indicador_StatusLabelNoMeta::Meta no conseguida
-Item_Indicador_StatusLabelWarning::!Alarma!
+Item_Indicador_StatusLabelWarning::Alarma
 Item_Indicador_StatusLabelWithoutMeta::Meta no definida
 Item_Indicador_Tab_Basic::Datos básicos
 Item_Indicador_Tab_Graphics::Gráficos
@@ -2006,6 +2006,11 @@ Item_Auditory_ErrorMessage_ValidateCrossDate::La fecha de validación no puede s
 Item_Auditory_ErrorMessage_QuestionairesCrossDate::La fecha final no puede ser anterior a la fecha de inicio
 Item_Auditory_ErrorMessage_ZobieDatesCross::Las fechas de las acciones no pueden ser anteriores a la fecha final																															 
 Mail_Message_InivitationAuditProv::Invitación a una auditoria
+Item_Auditory_PDF_Label_date::a fecha
+Item_Audiotry_PDF_Planned::Planificación
+Item_Auditory_PDF_Closing::Cierre
+Item_Auditory_PDF_Validation::Validación
+Item_Objetivo_Message_PreviewDateOverActions::Hay acciones con fecha prevista posterior a la fecha prevista del objetivo
 core_rule_9001::ISO 9001
 core_Questionary_Contexto::Contexto, partes interesadas y alcance
 core_Questionary_Procesos::Procesos
