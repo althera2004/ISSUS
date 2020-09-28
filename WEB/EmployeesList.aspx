@@ -42,9 +42,9 @@
                                             <table class="table table-bordered table-striped" style="margin: 0">
                                                 <thead class="thin-border-bottom">
                                                     <tr id="ListDataHeader">
-                                                        <th id="th0" onclick="Sort(this,'ListDataTable');" class="search sort"><%=this.Dictionary["Item_Employee"] %></th>
-                                                        <th id="th1" class="search" style="width: 300px;"><%=this.Dictionary["Item_JobPosition"] %></th>
-                                                        <th id="th2" class="search" style="width: 300px;"><%=this.Dictionary["Item_Department"] %></th>
+                                                        <th id="th0" onclick="Sort(this,'ListDataTable','link');" class="search sort"><%=this.Dictionary["Item_Employee"] %></th>
+                                                        <th id="th1" onclick="Sort(this,'ListDataTable','link');" class="search sort" style="width: 300px;"><%=this.Dictionary["Item_JobPosition"] %></th>
+                                                        <th id="th2" onclick="Sort(this,'ListDataTable','link');" class="search sort" style="width: 300px;"><%=this.Dictionary["Item_Department"] %></th>
                                                         <th style="width: 107px;">&nbsp;</th>
                                                     </tr>
                                                 </thead>

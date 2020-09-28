@@ -173,7 +173,6 @@ window.onload = function () {
     if (Filter.indexOf("I") !== -1) { document.getElementById("Chk2").checked = true; }
     RenderEmployeeTable();
     $("#th0").click();
-
     if (document.getElementById("Chk1").checked === true && document.getElementById("Chk2").checked === false) {
         $("#Chk1").attr("disabled", "disabled");
     }
@@ -191,9 +190,7 @@ function RenderEmployeeRow(employee) {
         style = " style=\"font-style: italic;\"";
     }
     var res = "<tr>";
-    res += "  <td" + style + ">";
-    res += "    "+ employee.Link;
-    res += "  </td>";
+    res += "  <td" + style + ">"+ employee.Link+ "</td>";
     res += "  <td style=\"width: 300px;\">" + employee.Cargos +"</td>";
     res += "  <td style=\"width: 300px;\">" + employee.Departamentos +"</td>";
     res += "  <td style=\"width: 90px;\">";
