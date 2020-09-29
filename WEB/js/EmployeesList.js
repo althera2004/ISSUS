@@ -173,7 +173,6 @@ window.onload = function () {
     if (Filter.indexOf("I") !== -1) { document.getElementById("Chk2").checked = true; }
     RenderEmployeeTable();
     $("#th0").click();
-
     if (document.getElementById("Chk1").checked === true && document.getElementById("Chk2").checked === false) {
         $("#Chk1").attr("disabled", "disabled");
     }
@@ -190,9 +189,8 @@ function RenderEmployeeRow(employee) {
     if (employee.Baja === true) {
         style = " style=\"font-style: italic;\"";
     }
-    var res = "<tr><td" + style + ">";
-    res += "    "+ employee.Link;
-    res += "  </td><td style=\"width: 300px;\">" + employee.Cargos +"</td><td style=\"width: 300px;\">" + employee.Departamentos +"</td>";
+    var res = "<tr>";
+    res += "  <td" + style + ">"+ employee.Link+ "</td><td style=\"width: 300px;\">" + employee.Cargos +"</td><td style=\"width: 300px;\">" + employee.Departamentos +"</td>";
     res += "  <td style=\"width: 90px;\">";
     res += "    <span title=\"Editar " + employee.FullName + "\" class=\"btn btn-xs btn-info\" onclick=\"EmployeeUpdate(" + employee.Id +", 'Editar'); \">";
     res += "      <i class=\"icon-edit bigger-120\"></i>";

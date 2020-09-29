@@ -159,7 +159,7 @@ public partial class ExportPrintIncidentData : Page
 
         // Actions
         table.AddCell(SeparationRow(4));
-        table.AddCell(TitleCell(dictionary["Item_IncidentAction_Field_Actions"]));
+        table.AddCell(TitleCell(dictionary["Item_Incident_Label_Actions"]));
         table.AddCell(TextAreaCell(Environment.NewLine + incident.Actions, borderSides, alignLeft, 4));
         table.AddCell(BlankRow(4));
         table.AddCell(TextAreaCell(dictionary["Item_IncidentAction_Field_Responsible"] + ": " + incident.ActionsBy.FullName, borderBL, alignLeft, 2));
