@@ -29,6 +29,7 @@ function Reload() {
 }
 
 window.onload = function () {
+    $("#BtnPrint").on("click", PrintData);
     $("#nav-search").hide();
     $("#BtnCancel").on("click", function () { document.location = "/AuditoryList.aspx"; });
     if (Auditory.Id > 0) {
@@ -1886,3 +1887,9 @@ $(".icon-eye-open").each(function (index) {
     var query = $(tda).html().split('?')[1].split("\"")[0];
     $(this).on("click", function () { document.location = "ActionView.aspx?" + query; });
 });
+
+
+function PrintData() {
+    window.open("/export/PrintAuditoryDataExterna.aspx?id=" + Auditory.Id + "&companyId=" + Auditory.CompanyId);
+    return false;
+}

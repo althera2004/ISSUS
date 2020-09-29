@@ -65,7 +65,7 @@ $(document).ready(function () {
     }
 
     console.log("MQTT connect");
-    client = new Messaging.Client("broker.mqttdashboard.com", 8000, "issus_" + parseInt(Math.random() * 100, 10));
+    /*client = new Messaging.Client("broker.mqttdashboard.com", 8000, "issus_" + parseInt(Math.random() * 100, 10));
 
     client.onConnectionLost = function (responseObject) {
         //Depending on your scenario you could implement a reconnect logic here
@@ -80,7 +80,7 @@ $(document).ready(function () {
     };
 
     client.connect(options);
-    console.log("MQTT connect - END");
+    console.log("MQTT connect - END");*/
 
     if (documentId === -1) {
         $("#TxtRevisionDate").attr("disabled", "disabled");

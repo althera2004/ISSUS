@@ -190,12 +190,9 @@ function RenderEmployeeRow(employee) {
     if (employee.Baja === true) {
         style = " style=\"font-style: italic;\"";
     }
-    var res = "<tr>";
-    res += "  <td" + style + ">";
+    var res = "<tr><td" + style + ">";
     res += "    "+ employee.Link;
-    res += "  </td>";
-    res += "  <td style=\"width: 300px;\">" + employee.Cargos +"</td>";
-    res += "  <td style=\"width: 300px;\">" + employee.Departamentos +"</td>";
+    res += "  </td><td style=\"width: 300px;\">" + employee.Cargos +"</td><td style=\"width: 300px;\">" + employee.Departamentos +"</td>";
     res += "  <td style=\"width: 90px;\">";
     res += "    <span title=\"Editar " + employee.FullName + "\" class=\"btn btn-xs btn-info\" onclick=\"EmployeeUpdate(" + employee.Id +", 'Editar'); \">";
     res += "      <i class=\"icon-edit bigger-120\"></i>";

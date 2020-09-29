@@ -1,0 +1,33 @@
+﻿{
+    "CompanyId":0, // si es 0 es para todas las empresas, en caso contrario solo es para la empresa que lo pida.
+    "ItemType":13, // identificador del item, sale de la tabla applicationItem
+    "Icon":"icon-wrench", // icono del mensaje
+    "AlertDescription": "Alert_Short_AuditoryWithoutPlanning",
+    "AlertExplanation": "Alert_Large_AuditoryWithoutPlanning",
+    "ItemUrl": "EquipmentView.aspx?id=", // en esta linea se define la url de la ficha afectada por la alerta
+    Query:"
+	select distinct
+A.Id, A.Description from Auditory A WITH(NOLOCK)
+left join AuditoryPlanning P WITH(NOLOCK)
+ON P.AuditoryId = A.Id
+
+
+WHERE P.Id is null
+and A.Active = 1
+and A.companyid = #CompanyId#",
+    Index:
+    [
+        {Position:0, FieldName:'Id'},
+        {Position:1, FieldName:'Description'}
+    ],
+    Tag: '<li>
+                                    <a href="EquipmentView.aspx?id={0}">
+                                                <div style="width:220px;text-overflow: ellipsis;overflow:hidden;"><strong>#AlertDescription#</div></strong>
+                                        <div class="clearfix">
+                                            <span class="pull-left">
+                                                <i class="btn btn-xs no-hover btn-warning icon-ray"></i>{1}
+                                            </span>
+                                        </div>
+                                    </a>
+                                </li>'
+}

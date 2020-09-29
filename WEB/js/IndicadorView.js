@@ -966,25 +966,6 @@ function DrawGraphics(stop) {
         firstChart = false;
 
         // ---------- BARRAS
-        var barOptions = {
-            "scaleBeginAtZero": true,
-            "scaleShowGridLines": true,
-            "scaleGridLineColor": "rgba(0,0,0,.05)",
-            "scaleGridLineWidth": 1,
-            "barShowStroke": false,
-            "barStrokeWidth": 1,
-            "barValueSpacing": 5,
-            "barDatasetSpacing": 10,
-            "responsive": true,
-            "legendTemplate": "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
-            "legend": {
-                "display": true,
-                "labels": {
-                    "fontColor": "rgb(255, 99, 132)"
-                }
-            }
-        };
-
         var labels = new Array();
         var values = new Array();
         var metas = new Array();
@@ -1043,6 +1024,15 @@ function DrawGraphics(stop) {
                 }
             ]
         };
+		
+		var maxValue = values[0];
+		for(var x=1 ;x< values.length; x++){
+			if (maxValue < values[x]) {maxValue = values[x];}
+		}
+		var minValue = values[0];
+		for(var x=1 ;x< values.length; x++){
+			if (minValue > values[x]) {minValue = values[x];}
+		}
 
         $("#barChartDiv").html("");
         this.div = document.getElementById("barChartDiv");
@@ -1053,12 +1043,40 @@ function DrawGraphics(stop) {
         this.chartCanvas.width = $("#barChartDiv").width();
         this.chartCanvas.height = 500;
         this.chartCanvas.id = "canvas";
+		
+		/*var yScale = d3.scaleLinear()
+                     .domain([0, maxValue])
+                     .range([0, chartHeight]);
+
+		var yAxisScale = d3.scaleLinear()
+                         .domain([minValue, maxValue])
+                         .range([chartHeight - minValue, 0 */
+        var barOptions = {
+            "scaleBeginAtZero": false,
+            "scaleShowGridLines": true,
+            "scaleGridLineColor": "rgba(0,0,0,.05)",
+            "scaleGridLineWidth": 1,
+            "barShowStroke": false,
+            "barStrokeWidth": 1,
+            "barValueSpacing": 5,
+            "barDatasetSpacing": 10,
+            "responsive": true,
+            "legendTemplate": "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
+            "legend": {
+                "display": true,
+                "labels": {
+                    "fontColor": "rgb(255, 99, 132)"
+                }
+            }
+        };
+
 
         this.ctx = this.chartCanvas.getContext("2d");
-        this.chart = new Chart(this.ctx).Overlay(overlayData, {
-            populateSparseData: true,
-            overlayBars: false,
-            datasetFill: true
+        this.chart = new Chart(this.ctx, barOptions).Overlay(overlayData, {
+            "populateSparseData": true,
+            "overlayBars": false,
+            "datasetFill": true,			
+            "scaleBeginAtZero": false,
         });
         this.div.style.display = "none";
 

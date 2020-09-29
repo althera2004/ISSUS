@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="assets/css/ace-skins.min.css" />    
     <link rel="stylesheet" href="assets/css/jquery-ui-1.10.3.full.min.css" />
     <link rel="stylesheet" href="assets/css/chosen.min.css" />
+    <link rel="stylesheet" href="/css/ModalImage.css" />
 
     <!--[if lte IE 8]>
         <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
@@ -434,8 +435,8 @@
     <script type="text/javascript" src="/js/PopupAlerts.js?ac=<%=this.AntiCache %>"></script>
     <script type="text/javascript" src="/js/moment.js"></script>
     <script type="text/javascript" src="/js/FilterList.js?ac=<%=this.AntiCache %>"></script>
-    <script src="/js/mqttws31.js" type="text/javascript"></script>
-    <script src="/js/mqtt.js" type="text/javascript"></script>
+    <!--<script src="/js/mqttws31.js" type="text/javascript"></script>
+    <script src="/js/mqtt.js" type="text/javascript"></script>-->
     <asp:ContentPlaceHolder id="ScriptBodyContentHolder" runat="server">
     </asp:ContentPlaceHolder>
         <script type = "text/javascript">
@@ -517,5 +518,12 @@
             $(".pull-left").css("text-overflow", "ellipsis");
         </script>
         <script type="text/javascript" src="/js/NumberFormat.js"></script>
+        <div id="ModalImage" class="modal-image" style="display: none;">
+            <span class="close-image" onclick="$('#ModalImage').hide();" style="cursor:pointer;" title="Tancar">×</span>
+            <div id="ModalImageDiv" class="modal-image-content" data-zoomed="">
+                <img id="ModalImagePic" src="/images/noimage.jpg" alt="Eugenia Moral Bosco" style="max-height: 367px;" />
+            </div>
+            <div id="caption"></div>
+        </div>
     </body>
 </html>

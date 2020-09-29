@@ -27,10 +27,9 @@
             cont++;
         }
 
-
         var pattern = document.getElementById("nav-search-input").value.toUpperCase();
         var list = document.getElementById(listId);
-        var cont = 0;
+        cont = 0;
         var total = 0;
         for (var x = 0; x < list.childNodes.length; x++) {
             var row = list.childNodes[x];

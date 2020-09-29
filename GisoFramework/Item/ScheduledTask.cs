@@ -328,6 +328,12 @@ namespace GisoFramework.Item
                     tab = string.Empty;
                     labelType = dictionary["Item_IncidentAction"];
                     break;
+                case "AD":
+                    tooltip = dictionary["Item_Auditory"];
+                    link = "AuditoryView";
+                    tab = string.Empty;
+                    labelType = dictionary["Item_Auditory"];
+                    break;
                 case "X":
                     tooltip = dictionary["Item_Indicador"];
                     link = "IndicadorView";

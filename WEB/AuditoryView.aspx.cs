@@ -332,6 +332,8 @@ public partial class AuditoryView : Page
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
 
         this.formFooter = new FormFooter();
+        this.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
+
         if (this.user.HasGrantToWrite(ApplicationGrant.Auditory))
         {
             this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
@@ -493,7 +495,7 @@ public partial class AuditoryView : Page
         validatedList.AppendFormat(CultureInfo.InvariantCulture, @"<option value=""-1"">{0}</option>", this.Dictionary["Common_SelectOne"]);
         foreach (var employee in Employee.ByCompany(this.company.Id))
         {
-            if (employee.Active || this.Auditory.InternalResponsible.Id == employee.Id)
+            if ((employee.Active && employee.DisabledDate == null) || this.Auditory.InternalResponsible.Id == employee.Id)
             {
                 employesList.AppendFormat(
                     CultureInfo.InvariantCulture,

@@ -38,6 +38,16 @@ function documentsModeView(x) {
 }
 
 function ShowPDF(documentName) {
+
+    if (documentName.substr(documentName.length - 4, 4) === ".png" || documentName.substr(documentName.length - 4, 4) === ".jpg") {
+        console.log(documentName);
+
+        $("#ModalImagePic").attr("src", "/DOCS/" + Company.Id + "/" + documentName);
+        $("#ModalImage").show();
+
+        return false;
+    }
+
     //initialize the document viewer
     var viewer = new DocumentViewer({
         $anchor: $('#container'),

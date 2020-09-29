@@ -498,32 +498,22 @@ public partial class EquipmentView : Page
 
             this.formFooterCalibration.ModifiedBy = this.Equipment.ModifiedBy.Description;
             this.formFooterCalibration.ModifiedOn = this.Equipment.ModifiedOn;
-            //this.formFooterCalibration.AddButton(new UIButton { Id = "BtnCalibrationPrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
-            //this.formFooterCalibration.AddButton(new UIButton { Id = "BtnCalibrationSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
             this.formFooterCalibration.AddButton(new UIButton { Id = "BtnCalibrationCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
             this.formFooterVerification.ModifiedBy = this.Equipment.ModifiedBy.Description;
             this.formFooterVerification.ModifiedOn = this.Equipment.ModifiedOn;
-            //this.formFooterVerification.AddButton(new UIButton { Id = "BtnVerificationPrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
-            //this.formFooterVerification.AddButton(new UIButton { Id = "BtnVerificationSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
             this.formFooterVerification.AddButton(new UIButton { Id = "BtnVerificationCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
             this.formFooterMaintenance.ModifiedBy = this.Equipment.ModifiedBy.Description;
             this.formFooterMaintenance.ModifiedOn = this.Equipment.ModifiedOn;
-            //this.formFooterMaintenance.AddButton(new UIButton { Id = "BtnMaintenancePrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
-            //this.formFooterMaintenance.AddButton(new UIButton { Id = "BtnMaintenanceSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
             this.formFooterMaintenance.AddButton(new UIButton { Id = "BtnMaintenanceCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
             this.formFooterRepair.ModifiedBy = this.Equipment.ModifiedBy.Description;
             this.formFooterRepair.ModifiedOn = this.Equipment.ModifiedOn;
-            //this.formFooterRepair.AddButton(new UIButton { Id = "BtnRepairPrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
-            //this.formFooterRepair.AddButton(new UIButton { Id = "BtnRepairSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
             this.formFooterRepair.AddButton(new UIButton { Id = "BtnRepairCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
             this.formFooterRecords.ModifiedBy = this.Equipment.ModifiedBy.Description;
             this.formFooterRecords.ModifiedOn = this.Equipment.ModifiedOn;
-            //this.formFooterRecords.AddButton(new UIButton { Id = "BtnRecordsPrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
-            //this.formFooterRecords.AddButton(new UIButton { Id = "BtnRecordsSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
             this.formFooterRecords.AddButton(new UIButton { Id = "BtnRecordsCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
             this.master.ItemCode = string.Format("{0} - {1}", this.Equipment.Code, this.Equipment.Description);

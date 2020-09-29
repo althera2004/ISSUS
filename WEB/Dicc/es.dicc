@@ -1191,7 +1191,7 @@ Item_Incident_ErrorMessage_ReporterTypeRequired::Especificar quién reporta la i
 Item_Incident_ErrorMessage_WhatHappenedDateRequired::Indicar la fecha de información de qué ha pasado
 Item_Incident_ErrorMessage_WhatHappenedRequired::Informar sobre qué ha pasado
 Item_Incident_ErrorMessage_WhatHappenedResponsibleRequired::Indicar quién registra qué ha pasado
-Item_Incident_Field_Actions::Actuaciones
+Item_Incident_Field_Actions::Acciones de contingencia
 Item_Incident_Field_ActionsDate::Fecha
 Item_Incident_Field_ActionsExecuter::Ejecutor/a
 Item_Incident_Field_ActionsResponsible::Responsable
@@ -1222,7 +1222,7 @@ Item_Incident_Header_Number::Número
 Item_Incident_Header_Open::Apertura
 Item_Incident_Header_Origin::Origen
 Item_Incident_Header_Status::Estado
-Item_Incident_Label_Actions::Actuaciones
+Item_Incident_Label_Actions::Acciones de contingencia
 Item_Incident_Label_Causes::¿Por qué ha pasado?
 Item_Incident_Label_Closing::Cierre
 Item_Incident_Label_Date::Fecha
@@ -1293,7 +1293,7 @@ Item_IncidentAction_ErrorMessage_UntemporalyDates::Las fechas no están ordenada
 Item_IncidentAction_ErrorMessage_WhatHappenedRequired::Indicar qué ha pasado
 Item_IncidentAction_ErrorMessage_WhatHappenedRequiredDate::Indicar la fecha de cuando ha pasado
 Item_IncidentAction_ErrorMessage_WhatHappenedRequiredResponsible::Indicar quien lo ha redactado
-Item_IncidentAction_Field_Actions::Actuaciones
+Item_IncidentAction_Field_Actions::Acciones
 Item_IncidentAction_Field_Anotations::Anotaciones
 Item_IncidentAction_Field_Causes::¿Por qué ha pasado?
 Item_IncidentAction_Field_Close::Cierre
@@ -2005,4 +2005,8 @@ ZZZZZ::Las nuevas claves a partir de aquí hacia abajo
 Item_Auditory_ErrorMessage_ValidateCrossDate::La fecha de validación no puede ser anterior a la fecha de cierre de cuestionarios
 Item_Auditory_ErrorMessage_QuestionairesCrossDate::La fecha final no puede ser anterior a la fecha de inicio
 Item_Auditory_ErrorMessage_ZobieDatesCross::Las fechas de las acciones no pueden ser anteriores a la fecha final																															 
-Mail_Message_InivitationAuditProv::Invitación a una auditoria																														 																							 
+Mail_Message_InivitationAuditProv::Invitación a una auditoria
+Item_Auditory_PDF_Label_date::a fecha
+Item_Audiotry_PDF_Planned::Planificación
+Item_Auditory_PDF_Closing::Cierre
+Item_Auditory_PDF_Validation::Validación

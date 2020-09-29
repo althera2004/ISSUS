@@ -51,6 +51,7 @@ function Reload() {
 }
 
 window.onload = function () {
+    $("#BtnPrint").on("click", PrintData);
     $("#nav-search").hide();
     $("#BtnCancel").on("click", function () { document.location = "/AuditoryList.aspx"; });
     if (Auditory.Id > 0) {
@@ -958,8 +959,8 @@ function QuestionaryPlay(cuestionarioId, editable) {
     AppWindow = window.open("/QuestionaryPlay.aspx?a=" + Auditory.Id + "&c=" + cuestionarioId + "&e=" + (editable === true ? "1" : "0"));
 }
 
-function ToggleFound(sender) {
-    var id = sender.id.split('_')[1];
+function ToggleFound(id) {
+    if (Auditory.Status > AuditoryStatus.Pendiente) { return false; }
     var status = $("#F_" + id).data("status");
     foundSelectedId = id * 1;
 
@@ -998,8 +999,8 @@ function ToggleFound(sender) {
     });
 }
 
-function ImprovementToogle(sender) {
-    var id = sender.id.split('_')[1];
+function ImprovementToogle(id) {
+    if (Auditory.Status > AuditoryStatus.Pendiente) { return false; }
     var status = $("#I_" + id).data("status");
     improvementSelected = id * 1;
 
@@ -1025,7 +1026,7 @@ function ImprovementToogle(sender) {
                         Improvements[x].Action = result[1] === "1";
                     }
 
-                    temp.push(Founds[x]);
+                    temp.push(Improvements[x]);
                 }
 
                 Improvements = temp;
@@ -1051,7 +1052,12 @@ function RenderFounds() {
             res += "<td style=\"width:200px;\">" + found.Unconformity.split("\\n").join("<br />") + "</td>";
             res += "<td style=\"width:80px;text-align:center\">";
             //res += found.Action === true ? Dictionary.Common_Yes : Dictionary.Common_No;
-            res += "<span id=\"F_" + found.Id + "\" style=\"cursor:pointer;\" onclick=\"ToggleFound(this);\" data-status=\"" + (found.Action === true ? "1" : "0") +"\">";
+            res += "<span id=\"F_" + found.Id + "\" ";
+            if (Auditory.Status <= AuditoryStatus.Pendiente) {
+                res += "style =\"cursor:pointer;\" onclick=\"ToggleFound(" + found.Id+");\" ";
+            }
+
+            res += "data-status=\"" + (found.Action === true ? "1" : "0") + "\">";
             res += found.Action === true ? Dictionary.Common_Yes : Dictionary.Common_No;
             res += "</span > ";
             res += "</td>";
@@ -1096,8 +1102,12 @@ function RenderImprovements() {
             res += "<tr id=\"" + improvement.Id + "\" style=\"border-left:none;\">";
             res += "<td>" + improvement.Text.split("\\n").join("<br />") + "</td>";
             res += "<td style=\"width:80px;text-align:center\">";
-            //res += improvement.Action === true ? Dictionary.Common_Yes : Dictionary.Common_No;
-            res += "<span id=\"I_" + improvement.Id + "\" style=\"cursor:pointer;\" onclick=\"ImprovementToogle(this);\" data-status=\"" + (improvement.Action === true ? "1" : "0") + "\">";
+            res += "<span id=\"I_" + improvement.Id + "\" ";
+            if (Auditory.Status <= AuditoryStatus.Pendiente) {
+                res += "style =\"cursor:pointer;\" onclick=\"ImprovementToogle(" + improvement.Id + ");\" ";
+            }
+
+            res += " data-status=\"" + (improvement.Action === true ? "1" : "0") + "\">";
             res += improvement.Action === true ? Dictionary.Common_Yes : Dictionary.Common_No;
             res += "</span > ";
             res += "</td>";
@@ -2988,3 +2998,10 @@ function FillCmbProvider() {
     $("#CmbProvider").html(res);
 }
 // ---------------------------------------------------------------
+
+
+
+function PrintData() {
+    window.open("/export/PrintAuditoryData.aspx?id=" + Auditory.Id + "&companyId=" + Auditory.CompanyId);
+    return false;
+}
