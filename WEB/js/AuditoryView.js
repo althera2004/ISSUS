@@ -1044,9 +1044,9 @@ function RenderFounds() {
         if (found.Active === true) {
             count++;
             res += "<tr id=\"" + found.Id + "\" style=\"border-left:none;\">";
-            res += "<td>" + found.Text.split("\\n").join("<br />") + "</td>";
+            res += "<td>" + found.Unconformity.split("\\n").join("<br />") + "</td>";
             res += "<td style=\"width:200px;\">" + found.Requeriment.split("\\n").join("<br />") + "</td>";
-            res += "<td style=\"width:200px;\">" + found.Unconformity.split("\\n").join("<br />") + "</td>";
+            res += "<td style=\"width:200px;\">" + found.Text.split("\\n").join("<br />") + "</td>";
             res += "<td style=\"width:80px;text-align:center\">";
             //res += found.Action === true ? Dictionary.Common_Yes : Dictionary.Common_No;
             res += "<span id=\"F_" + found.Id + "\" ";

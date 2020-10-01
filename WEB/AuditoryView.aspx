@@ -445,9 +445,9 @@
                                                     <table class="table table-bordered table-striped" style="margin: 0">
                                                         <thead class="thin-border-bottom">
                                                             <tr id="ListDataHeaderHallazgos">
-			                                                    <th><%=this.Dictionary["Item_Auditory_Header_Found"] %></th>
+			                                                    <th><%=this.Dictionary["Item_Auditory_Header_Result"] %></th>
 			                                                    <th style="width:200px;"><%=this.Dictionary["Item_Auditory_Header_Requirement"] %></th>
-			                                                    <th style="width:200px;"><%=this.Dictionary["Item_Auditory_Header_Result"] %></th>
+			                                                    <th style="width:200px;"><%=this.Dictionary["Item_Auditory_Header_Found"] %></th>
 			                                                    <th style="width:80px;"><%=this.Dictionary["Item_Auditory_Header_Action"] %></th>
 			                                                    <th style="width:107px;">&nbsp;</th>
 		                                                    </tr>
