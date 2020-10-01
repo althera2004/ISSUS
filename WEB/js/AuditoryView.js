@@ -230,8 +230,7 @@ window.onload = function () {
     }
 };
 
-function RenderPlanningTable()
-{
+function RenderPlanningTable() {
     $("#scrollTableDiv").show();
     $("#ListDataDiv").hide();
     $("#NoData").hide();
@@ -339,19 +338,19 @@ function ShowPopupPlanningDialog(id) {
     }
     else {
         if (typeof auditoryPlanningSelected.Date === "object") {
-            $("#TxtPlanningDate").val(FormatDate(auditoryPlanningSelected.Date,"/"));
+            $("#TxtPlanningDate").val(FormatDate(auditoryPlanningSelected.Date, "/"));
         }
         else {
             $("#TxtPlanningDate").val(auditoryPlanningSelected.Date);
         }
-        
+
         $("#TxtHour").val(MinutesToHour(auditoryPlanningSelected.Hour));
         $("#TxtDuration").val(ToMoneyFormat(auditoryPlanningSelected.Duration));
         $("#CmbProcess").val(auditoryPlanningSelected.Process.Id);
         $("#CmbAuditor").val(auditoryPlanningSelected.Auditor.Id);
         $("#CmbAudited").val(auditoryPlanningSelected.Audited.Id);
 
-        if (auditoryPlanningSelected.SendMail === true && (Auditory.Type !== AuditoryTypes.Externa || Auditory.Type ===  AuditoryTypes.Proveedor)) {
+        if (auditoryPlanningSelected.SendMail === true && (Auditory.Type !== AuditoryTypes.Externa || Auditory.Type === AuditoryTypes.Proveedor)) {
             $("#ChkSendMail").prop("checked", true);
             $("#TxtProviderEmailRow").show();
         }
@@ -642,11 +641,11 @@ function AuditoryPlanningDeleteConfirmed() {
         "success": function (msg) {
             console.log("msg", msg);
             var temp = [];
-                for (var x = 0; x < AuditoryPlanning.length; x++) {
-                    if (AuditoryPlanning[x].Id !== auditoryPlanningSelectedId) {
-                        temp.push(AuditoryPlanning[x]);
-                    }
+            for (var x = 0; x < AuditoryPlanning.length; x++) {
+                if (AuditoryPlanning[x].Id !== auditoryPlanningSelectedId) {
+                    temp.push(AuditoryPlanning[x]);
                 }
+            }
 
             AuditoryPlanning = temp;
             $("#AuditoryPlanningDeleteDialog").dialog("close");
@@ -816,11 +815,9 @@ function SaveAuditory() {
         case AuditoryTypes.Externa:
             companyAddress = $("#CmbAddress").val();
             enterpriseAddress = $("#CmbAddress option:selected").text();
-            if (document.getElementById("RBProvider").checked===true)
-            {
+            if (document.getElementById("RBProvider").checked === true) {
                 provider = { "Id": $("#CmbProvider").val() * 1 };
-            } else
-            {
+            } else {
                 customer = { "Id": $("#CmbCustomer").val() * 1 };
             }
             previewDate = GetDate($("#TxtPreviewDate").val(), "/", false);
@@ -878,7 +875,7 @@ function SaveAuditory() {
     var finishQuestions = false;
     if (toPlanned === true && Auditory.Type === AuditoryTypes.Externa) {
         finishQuestions = true;
-        auditoryData.Status = AuditoryStatus.EnCurso;        
+        auditoryData.Status = AuditoryStatus.EnCurso;
     }
     else if (Auditory.Status > AuditoryStatus.Planificando) {
         if ((typeof Auditory.ReportEnd === "undefined" || Auditory.ReportEnd === null || Auditory.ReportEnd === "") && $("#TxtCloseQuestionsOn").val() !== "") {
@@ -1054,7 +1051,7 @@ function RenderFounds() {
             //res += found.Action === true ? Dictionary.Common_Yes : Dictionary.Common_No;
             res += "<span id=\"F_" + found.Id + "\" ";
             if (Auditory.Status <= AuditoryStatus.Pendiente) {
-                res += "style =\"cursor:pointer;\" onclick=\"ToggleFound(" + found.Id+");\" ";
+                res += "style =\"cursor:pointer;\" onclick=\"ToggleFound(" + found.Id + ");\" ";
             }
 
             res += "data-status=\"" + (found.Action === true ? "1" : "0") + "\">";
@@ -1745,7 +1742,7 @@ function CloseConfirmed() {
         "closedBy": $("#CmbClosedBy").val() * 1,
         "closedOn": GetDate($("#TxtClosedOn").val(), "/", false),
         "notes": $("#TxtNotes").val(),
-        "puntosFuertes": $("#TxtPuntosFuertes").val(), 
+        "puntosFuertes": $("#TxtPuntosFuertes").val(),
         "applicationUserId": ApplicationUser.Id,
         "companyId": Company.Id
     };
@@ -1926,37 +1923,6 @@ function IncidentActionShowPopup(id) {
     });
 }
 
-function IncidentActionDeletePopup(id) {
-    zombieSelectedId = sender.parentNode.parentNode.id * 1;
-    zombieSelected = IncidentActiongetById(IncidentActionSelectedId);
-    console.log("IncidentActionDelete", IncidentActionSelectedId);
-    if (IncidentActionSelected === null) { return false; }
-    $("#IncidentActionDeleteName").html(IncidentActionSelected.Description);
-    $("#IncidentActionDeleteDialog").removeClass("hide").dialog({
-        "resizable": false,
-        "modal": true,
-        "title": "<h4 class=\"smaller\">" + Dictionary.Common_Delete + "</h4>",
-        "title_html": true,
-        "buttons":
-        [
-            {
-                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
-                "class": "btn btn-danger btn-xs",
-                "click": function () {
-                    IncidentActionDeleteConfirmed();
-                }
-            },
-            {
-                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
-                "class": "btn btn-xs",
-                "click": function () {
-                    $(this).dialog("close");
-                }
-            }
-        ]
-    });
-}
-
 function ZombieResetValidationForm() {
     $("#TxtIncidentActionTypeLabel").css("color", "#333");
     $("#TxtIncidentActionDescriptionLabel").css("color", "#333");
@@ -2109,7 +2075,7 @@ function RenderZombies() {
             res += "<td style=\"width:90px;\">";
             res += "  <span class=\"btn btn-xs btn-info\" id=\"" + Zombies[x].Id + "\" onclick=\"IncidentActionShowPopup(this.id)\">";
             res += "    <i class=\"icon-edit bigger-120\"></i></span>";
-            res += "  <span class=\"btn btn-xs btn-danger\" id=\"" + Zombies[x].Id + " onclick=\"IncidentActionDeletePopup(this.id)\">";
+            res += "  <span class=\"btn btn-xs btn-danger\" id=\"" + Zombies[x].Id + "\">";
             res += "    <i class=\"icon-trash bigger-120\"></i></span>";
             res += "</td>";
             res += "</tr>";
