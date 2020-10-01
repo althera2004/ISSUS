@@ -608,6 +608,11 @@
                             <!-- Popups BAR -->                                
                             <%=this.ProviderBarPopups.Render %>                
                             <%=this.CustomerBarPopups.Render %>
+
+    
+                            <div id="IncidentActionDeleteDialog" class="hide" style="width:500px;">
+                                <p>&nbsp;<strong><span id="IncidentActionDeleteName"></span></strong>?</p>
+                            </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">
         <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>

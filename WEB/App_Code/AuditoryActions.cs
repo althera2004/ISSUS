@@ -45,6 +45,20 @@ public class AuditoryActions : WebService
 
     [WebMethod(EnableSession = true)]
     [ScriptMethod]
+    public ActionResult DeleteZombie(long zombieId, long auditoryId, int companyId)
+    {
+        var zombie = new IncidentActionZombie
+        {
+            Id = zombieId,
+            AuditoryId = auditoryId,
+            CompanyId = companyId
+        };
+
+        return zombie.Delete();
+    }
+
+    [WebMethod(EnableSession = true)]
+    [ScriptMethod]
     public ActionResult Insert(Auditory auditory, bool toPlanned, string rules, int applicationUserId)
     {
         foreach (var ruleId in rules.Split('|'))

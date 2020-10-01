@@ -1926,6 +1926,37 @@ function IncidentActionShowPopup(id) {
     });
 }
 
+function IncidentActionDeletePopup(id) {
+    zombieSelectedId = sender.parentNode.parentNode.id * 1;
+    zombieSelected = IncidentActiongetById(IncidentActionSelectedId);
+    console.log("IncidentActionDelete", IncidentActionSelectedId);
+    if (IncidentActionSelected === null) { return false; }
+    $("#IncidentActionDeleteName").html(IncidentActionSelected.Description);
+    $("#IncidentActionDeleteDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Common_Delete + "</h4>",
+        "title_html": true,
+        "buttons":
+        [
+            {
+                "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
+                "class": "btn btn-danger btn-xs",
+                "click": function () {
+                    IncidentActionDeleteConfirmed();
+                }
+            },
+            {
+                "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
+                "class": "btn btn-xs",
+                "click": function () {
+                    $(this).dialog("close");
+                }
+            }
+        ]
+    });
+}
+
 function ZombieResetValidationForm() {
     $("#TxtIncidentActionTypeLabel").css("color", "#333");
     $("#TxtIncidentActionDescriptionLabel").css("color", "#333");
@@ -2078,7 +2109,7 @@ function RenderZombies() {
             res += "<td style=\"width:90px;\">";
             res += "  <span class=\"btn btn-xs btn-info\" id=\"" + Zombies[x].Id + "\" onclick=\"IncidentActionShowPopup(this.id)\">";
             res += "    <i class=\"icon-edit bigger-120\"></i></span>";
-            res += "  <span class=\"btn btn-xs btn-danger\" id=\"" + Zombies[x].Id + "\">";
+            res += "  <span class=\"btn btn-xs btn-danger\" id=\"" + Zombies[x].Id + " onclick=\"IncidentActionDeletePopup(this.id)\">";
             res += "    <i class=\"icon-trash bigger-120\"></i></span>";
             res += "</td>";
             res += "</tr>";

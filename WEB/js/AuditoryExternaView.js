@@ -822,6 +822,69 @@ function IncidentActionShowPopup(id) {
     });
 }
 
+function IncidentActionDeletePopup(id) {
+    zombieSelectedId = id * 1;
+    zombieSelected = ZombieById(zombieSelectedId);
+    console.log("IncidentActionDelete", zombieSelectedId);
+    if (zombieSelected === null) { return false; }
+    $("#IncidentActionDeleteName").html(zombieSelected.Description);
+    $("#IncidentActionDeleteDialog").removeClass("hide").dialog({
+        "resizable": false,
+        "modal": true,
+        "title": "<h4 class=\"smaller\">" + Dictionary.Common_Delete + "</h4>",
+        "title_html": true,
+        "buttons":
+            [
+                {
+                    "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Yes,
+                    "class": "btn btn-danger btn-xs",
+                    "click": function () {
+                        IncidentActionDeleteConfirmed();
+                    }
+                },
+                {
+                    "html": "<i class=\"icon-remove bigger-110\"></i>&nbsp;" + Dictionary.Common_No,
+                    "class": "btn btn-xs",
+                    "click": function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ]
+    });
+}
+
+function IncidentActionDeleteConfirmed() {
+    var data = {
+        "zombieId": zombieSelectedId,
+        "auditoryId": Auditory.Id,
+        "companyId": Company.Id
+    };
+    $("#IncidentActionDeleteDialog").dialog("close");
+    LoadingShow(Dictionary.Common_Message_Saving);
+    $.ajax({
+        "type": "POST",
+        "url": "/Async/AuditoryActions.asmx/DeleteZombie",
+        "contentType": "application/json; charset=utf-8",
+        "dataType": "json",
+        "data": JSON.stringify(data, null, 2),
+        "success": function (msg) {
+            var temp = [];
+            for (var x = 0; x < Zombies.length; x++) {
+                if (Zombies[x].Id !== zombieSelectedId) {
+                    temp.push(Zombies[x]);
+                }
+            }
+
+            Zombies = temp;
+            RenderZombies();
+        },
+        "error": function (msg) {
+            LoadingHide();
+            alertUI(msg.responseText);
+        }
+    });
+}
+
 function ZombieResetValidationForm() {
     $("#TxtIncidentActionTypeLabel").css("color", "#333");
     $("#TxtIncidentActionDescriptionLabel").css("color", "#333");
@@ -960,14 +1023,14 @@ function RenderZombies() {
 
     if (Zombies.length > 0) {
         for (var x = 0; x < Zombies.length; x++) {
-            res += "<tr>";
+            res += "<tr id=\"Z_" + Zombies[x].Id + "\">";
             res += "<td style=\"width:120px;\">" + (Zombies[x].ActionType === 1 ? Dictionary.Item_IncidentAction_Type1 : Dictionary.Item_IncidentAction_Type2) + "</td>";
             res += "<td>" + Zombies[x].Description + "</td>";
             res += "<td style=\"width:120px;\">" + Zombies[x].WhatHappendOn + "</td>";
             res += "<td style=\"width:90px;\">";
             res += "  <span class=\"btn btn-xs btn-info\" id=\"" + Zombies[x].Id + "\" onclick=\"IncidentActionShowPopup(this.id)\">";
             res += "    <i class=\"icon-edit bigger-120\"></i></span>";
-            res += "  <span class=\"btn btn-xs btn-danger\" id=\"" + Zombies[x].Id + "\">";
+            res += "  <span class=\"btn btn-xs btn-danger\" id=\"" + Zombies[x].Id + "\" onclick=\"IncidentActionDeletePopup(this.id)\">";
             res += "    <i class=\"icon-trash bigger-120\"></i></span>";
             res += "</td>";
             res += "</tr>";
