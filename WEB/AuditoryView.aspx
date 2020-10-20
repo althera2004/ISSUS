@@ -196,6 +196,9 @@
                                                 <a data-toggle="tab" href="#trazas"><%=this.Dictionary["Item_Auditory_Tab_Traces"]%></a>
                                             </li>
                                             <% } %>-->
+                                            <li style="float:right;">
+                                                <button class="btn btn-success btn-filter" type="button" id="BtnPrintPDF" title="Imprimir" onclick="$('#BtnPrint').click();"><i class="icon-file-pdf"></i>&nbsp;PDF</button> 
+                                            </li>
                                         </ul>
                                         <% } %>
                                         <div class="tab-content no-border padding-24">
@@ -535,6 +538,7 @@
                                                             <%=this.Dictionary["Item_Auditory_Label_ValidatedBy"] %>:&nbsp;<span id="SpanValidatedBy" style="font-weight:bold;"><%=this.Auditory.ValidatedBy.FullName %></span>
                                                         </p>
                                                 </div>
+                                                <br /><br /><br /><br />
                                             </div>
                                             <div id="actions" class="tab-pane">
                                                 <div class="row">

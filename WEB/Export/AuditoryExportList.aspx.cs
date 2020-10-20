@@ -109,14 +109,6 @@ namespace Issus.Export
             #region texts
 
             string criteriaProccess = Dictionary["Common_All_Male_Plural"];
-            //if (processId > 0)
-            //{
-            //    var process = new Process(processId, companyId);
-            //    if (!string.IsNullOrEmpty(process.Description))
-            //    {
-            //        criteriaProccess = process.Description;
-            //    }
-            //}
 
             string periode = string.Empty;
             if (!string.IsNullOrEmpty(from) && string.IsNullOrEmpty(to))
@@ -360,12 +352,15 @@ namespace Issus.Export
                 }
                 cont++;
                 string statustextCell = string.Empty;
-                if (status0) { statustextCell = Dictionary["Item_Adutory_Status_Label_0"]; }
-                else if (status1) { statustextCell = Dictionary["Item_Adutory_Status_Label_1"]; }
-                else if (status2) { statustextCell = Dictionary["Item_Adutory_Status_Label_2"]; }
-                else if (status3) { statustextCell = Dictionary["Item_Adutory_Status_Label_3"]; }
-                else if (status4) { statustextCell = Dictionary["Item_Adutory_Status_Label_4"]; }
-                else if (status5) { statustextCell = Dictionary["Item_Adutory_Status_Label_5"]; }
+                switch (auditory.Status)
+                {
+                    case 0: statustextCell = Dictionary["Item_Adutory_Status_Label_0"]; break;
+                    case 1: statustextCell = Dictionary["Item_Adutory_Status_Label_1"]; break;
+                    case 2: statustextCell = Dictionary["Item_Adutory_Status_Label_2"]; break;
+                    case 3: statustextCell = Dictionary["Item_Adutory_Status_Label_3"]; break;
+                    case 4: statustextCell = Dictionary["Item_Adutory_Status_Label_4"]; break;
+                    case 5: statustextCell = Dictionary["Item_Adutory_Status_Label_5"]; break;
+                }
 
                 string typetextCell = string.Empty;
                 switch (auditory.Type)

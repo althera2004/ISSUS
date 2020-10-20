@@ -52,6 +52,7 @@ function Reload() {
 
 window.onload = function () {
     $("#BtnPrint").on("click", PrintData);
+    $("#BtnPrint").hide();
     $("#nav-search").hide();
     $("#BtnCancel").on("click", function () { document.location = "/AuditoryList.aspx"; });
     if (Auditory.Id > 0) {
@@ -125,8 +126,6 @@ window.onload = function () {
     else if (Auditory.Status === AuditoryStatus.EnCurso) {
         $("#TxtStartQuestionsOn").removeAttr("disabled");
         $("#TxtStartQuestionsOn").css("background", "transparent");
-        //$("#TxtCloseQuestionsOn").removeAttr("disabled");
-        //$("#TxtCloseQuestionsOn").css("background", "transparent");
         $("#BtnCloseCuestionarios").show();
     }
 
