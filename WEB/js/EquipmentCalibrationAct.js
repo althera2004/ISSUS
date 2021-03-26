@@ -525,8 +525,8 @@ function REquipmentCalibrationActTypeChanged() {
 }
 
 function ShowDialogNewCalibrationPopup(actionSelected) {
-    if (ToMoneyFormat(Equipment.InternalCalibration.Cost, 2) !== $("#TxtCalibrationInternalCost").val() ||
-        ToMoneyFormat(Equipment.ExternalCalibration.Cost, 2) !== $("#TxtCalibrationExternalCost").val()) {
+    if (Equipment.InternalCalibration.Cost * 1 !== StringToNumber($("#TxtCalibrationInternalCost").val()) ||
+        Equipment.ExternalCalibration.Cost * 1 !== StringToNumber($("#TxtCalibrationExternalCost").val())) {
         alertUI(Dictionary.Item_Equipment_Message_CalibrationChanged);
         return false;
     }

@@ -41,7 +41,6 @@ function ObservationsChanged() {
     Observations.CreatedOn = new Date();
     Observations.ModifiedOn = new Date();
 
-
     var data = {
         "observations": Observations,
         "applicationUserId": ApplicationUser.Id

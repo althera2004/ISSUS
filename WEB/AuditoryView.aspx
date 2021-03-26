@@ -420,6 +420,8 @@
                                                                     <i class="icon-calendar bigger-110"></i>
                                                                 </span>
                                                             </div>
+                                                            <span style="color:#f00;display:none" id="TxtStartQuestionsOnErrorDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"] %></span>
+                                                            <span style="color:#f00;display:none" id="TxtStartQuestionsOnErrorCrossDate"><%=this.Dictionary["Auditory_Error_QuestionaryIni_CrossDate"] %></span>
                                                         </div>
                                                         <label class="col col-sm-1"><%=this.Dictionary["Item_Auditory_Report_EndLabel"] %></label>
                                                         <div class="col-sm-2">

@@ -123,7 +123,19 @@ public class AuditoryActions : WebService
             return res;
         }
 
-        if (auditory.Type == 1 && auditory.ReportStart != null)
+        var setReportStart = false;
+
+        /*if (auditory.Type == 1 && auditory.ReportStart != null)
+        {
+            setReportStart = true;
+        }
+
+        if(auditory.Status == 1 && auditory.ReportStart != null)
+        {
+            setReportStart = true;
+        }*/
+
+        if(setReportStart)
         {
             /* CREATE PROCEDURE [dbo].[Auditory_SetReportStart]
              *   @AuditoryId bigint,
@@ -152,7 +164,6 @@ public class AuditoryActions : WebService
                     }
                 }
             }
-
         }
 
         return res;
@@ -266,7 +277,7 @@ public class AuditoryActions : WebService
             using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
             {
                 cmd.Connection = cnn;
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(DataParameter.Input("@PreguntaId", questionId));
                 if (status == 0)
                 {
@@ -289,7 +300,7 @@ public class AuditoryActions : WebService
                 }
                 finally
                 {
-                    if (cmd.Connection.State != System.Data.ConnectionState.Closed)
+                    if (cmd.Connection.State != ConnectionState.Closed)
                     {
                         cmd.Connection.Close();
                     }

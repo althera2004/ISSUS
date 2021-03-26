@@ -1315,10 +1315,22 @@ function SetLayout(type) {
 }
 
 $(document).mousemove(function (event) {
+
+    var graphicName = "svggraficBusinessRisk";
+
+    if ($("#RO").prop("checked") === true) {
+        graphicName = "svggraficoportunity";
+    }
+
     currentMousePos.x = event.pageX;
     currentMousePos.y = event.pageY;
-    var position = $("#svggraficBusinessRisk").offset();
+
+    var position = $("#" + graphicName).offset();
+
+    var positionB = $("#svggraficBusinessRisk").offset();
+    var positionO = $("#svggraficoportunity").offset();
     $(".xy-tooltip").css({ top: currentMousePos.y - position.top - 30, left: currentMousePos.x - position.left + 10 });
+    console.log(positionB, positionO);
 });
 
 function FilterListSpecial() {

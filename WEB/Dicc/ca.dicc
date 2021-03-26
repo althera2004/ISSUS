@@ -2159,3 +2159,5 @@ Item_Auditory_PDF_Label_date::a data
 Item_Audiotry_PDF_Planned::Planificació
 Item_Auditory_PDF_Closing::Tancament
 Item_Auditory_PDF_Validation::Validació
+Auditory_Error_QuestionaryIni_CrossDate::No pot ser anterior al inici de la planificació
+Page_DashboarReports::Panell de comandament

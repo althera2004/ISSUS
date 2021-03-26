@@ -517,8 +517,8 @@ function REquipmentVerificationActTypeChanged() {
 }
 
 function ShowDialogEquipmentVerificacionPopup(actionSelected) {
-    if (ToMoneyFormat(Equipment.InternalVerification.Cost, 2) !== $("#TxtVerificationInternalCost").val() ||
-        ToMoneyFormat(Equipment.ExternalVerification.Cost, 2) !== $("#TxtVerificationExternalCost").val()) {
+    if (Equipment.InternalVerification.Cost * 1 !== StringToNumber($("#TxtVerificationInternalCost").val()) ||
+        Equipment.ExternalVerification.Cost * 1 !== StringToNumber($("#TxtVerificationExternalCost").val())) {
         alertUI(Dictionary.Item_Equipment_Message_VerificationChanged);
         return false;
     }

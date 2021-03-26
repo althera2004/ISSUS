@@ -111,18 +111,19 @@ window.onload = function () {
     $("#TabCostList").on("click", function () { $("#BtnNewItem").css("visibility", "hidden"); $("#BtnExportList").hide(); $("#BtnExportCosts").show(); });
 
     SetFilterCostLayout();
+    SetFilterCosts();
 };
 
 function SetFilterCostLayout() {
     // Set costs filter
-    document.getElementById("RBCI").checked = false;
-    document.getElementById("RBCE").checked = false;
-    document.getElementById("RBVI").checked = false;
-    document.getElementById("RBVE").checked = false;
-    document.getElementById("RBMI").checked = false;
-    document.getElementById("RBME").checked = false;
-    document.getElementById("RBRI").checked = false;
-    document.getElementById("RBRE").checked = false;
+    $("#RBCI").prop("checked", false);
+    $("#RBCE").prop("checked", false);
+    $("#RBVI").prop("checked", false);
+    $("#RBVE").prop("checked", false);
+    $("#RBMI").prop("checked", false);
+    $("#RBME").prop("checked", false);
+    $("#RBRI").prop("checked", false);
+    $("#RBRE").prop("checked", false);
 
     console.log("FilterCosts", FilterCosts);
     var filterCostsPart = FilterCosts.split("|");
@@ -136,14 +137,14 @@ function SetFilterCostLayout() {
         $("#TxtDateTo").val(FormatYYYYMMDD(to, '/'));
     }
 
-    if (FilterCosts.indexOf("|CI") !== -1) { document.getElementById("RBCI").checked = true; }
-    if (FilterCosts.indexOf("|CE") !== -1) { document.getElementById("RBCE").checked = true; }
-    if (FilterCosts.indexOf("|VI") !== -1) { document.getElementById("RBVI").checked = true; }
-    if (FilterCosts.indexOf("|VE") !== -1) { document.getElementById("RBVE").checked = true; }
-    if (FilterCosts.indexOf("|MI") !== -1) { document.getElementById("RBMI").checked = true; }
-    if (FilterCosts.indexOf("|ME") !== -1) { document.getElementById("RBME").checked = true; }
-    if (FilterCosts.indexOf("|RI") !== -1) { document.getElementById("RBRI").checked = true; }
-    if (FilterCosts.indexOf("|RE") !== -1) { document.getElementById("RBRE").checked = true; }
+    if (FilterCosts.indexOf("|CI") !== -1) { $("#RBCI").prop("checked", true); }
+    if (FilterCosts.indexOf("|CE") !== -1) { $("#RBCE").prop("checked", true); }
+    if (FilterCosts.indexOf("|VI") !== -1) { $("#RBVI").prop("checked", true); }
+    if (FilterCosts.indexOf("|VE") !== -1) { $("#RBVE").prop("checked", true); }
+    if (FilterCosts.indexOf("|MI") !== -1) { $("#RBMI").prop("checked", true); }
+    if (FilterCosts.indexOf("|ME") !== -1) { $("#RBME").prop("checked", true); }
+    if (FilterCosts.indexOf("|RI") !== -1) { $("#RBRI").prop("checked", true); }
+    if (FilterCosts.indexOf("|RE") !== -1) { $("#RBRE").prop("checked", true); }
 };
 
 window.onresize = function () { Resize(); };
@@ -322,9 +323,9 @@ function RenderRow(equipment) {
     for (var c = 0; c < Costs.length; c++) {
         if (Costs[c].E === equipment.Id) {
             if (Costs[c].T === "R") { rowCost += Costs[c].A; }
-            if (Costs[c].T === "C" && document.getElementById("RBOperation1").checked === true) { rowCost += Costs[c].A; }
-            if (Costs[c].T === "V" && document.getElementById("RBOperation2").checked === true) { rowCost += Costs[c].A; }
-            if (Costs[c].T === "M" && document.getElementById("RBOperation3").checked === true) { rowCost += Costs[c].A; }
+            if (Costs[c].T === "C" && $("#RBOperation1").prop("checked") === true) { rowCost += Costs[c].A; }
+            if (Costs[c].T === "V" && $("#RBOperation2").prop("checked") === true) { rowCost += Costs[c].A; }
+            if (Costs[c].T === "M" && $("#RBOperation3").prop("checked") === true) { rowCost += Costs[c].A; }
         }
     }
 
@@ -372,11 +373,9 @@ function RenderRow(equipment) {
 
     }
 
-    //tr.appendChild(tdCodigo);
     tr.appendChild(tdDescripcion);
     tr.appendChild(tdUbicacion);
     tr.appendChild(tdResponsable);
-    //tr.appendChild(tdCoste);
     tr.appendChild(tdAdjuntos);
     tr.appendChild(tdAcciones);
 
@@ -414,14 +413,14 @@ function SetFilter() {
 
 function SetFilterCosts() {
     var Filter = "";
-    if (document.getElementById("RBCE").checked === true) { Filter += "|CE"; }
-    if (document.getElementById("RBVE").checked === true) { Filter += "|VE"; }
-    if (document.getElementById("RBME").checked === true) { Filter += "|ME"; }
-    if (document.getElementById("RBRE").checked === true) { Filter += "|RE"; }
-    if (document.getElementById("RBCI").checked === true) { Filter += "|CI"; }
-    if (document.getElementById("RBVI").checked === true) { Filter += "|VI"; }
-    if (document.getElementById("RBMI").checked === true) { Filter += "|MI"; }
-    if (document.getElementById("RBRI").checked === true) { Filter += "|RI"; }
+    if ($("#RBCE").prop("checked") === true) { Filter += "|CE"; }
+    if ($("#RBVE").prop("checked") === true) { Filter += "|VE"; }
+    if ($("#RBME").prop("checked") === true) { Filter += "|ME"; }
+    if ($("#RBRE").prop("checked") === true) { Filter += "|RE"; }
+    if ($("#RBCI").prop("checked") === true) { Filter += "|CI"; }
+    if ($("#RBVI").prop("checked") === true) { Filter += "|VI"; }
+    if ($("#RBMI").prop("checked") === true) { Filter += "|MI"; }
+    if ($("#RBRI").prop("checked") === true) { Filter += "|RI"; }
 
     var from = GetDate($("#TxtDateFrom").val(), "/", true);
     var to = GetDate($("#TxtDateTo").val(), "/", true);
@@ -460,23 +459,14 @@ function RenderTableCosts(data) {
     console.log("RenderTableCosts");
     $("#ListDataTableCosts").html("");
     var temp = [];
-    var CI = document.getElementById("RBCI").checked === true;
-    var CE = document.getElementById("RBCE").checked === true;
-    var VI = document.getElementById("RBVI").checked === true;
-    var VE = document.getElementById("RBVE").checked === true;
-    var MI = document.getElementById("RBMI").checked === true;
-    var ME = document.getElementById("RBME").checked === true;
-    var RI = document.getElementById("RBRI").checked === true;
-    var RE = document.getElementById("RBRE").checked === true;
-    /*var from = GetDate($("#TxtDateFrom").val(), "/", true);
-    var to = GetDate($("#TxtDateTo").val(), "/", true);
-
-    if (from.getFullYear() === 1970) { from = null; } else {
-        from = GetDateYYYYMMDDToText(from, false);
-    }
-    if (to.getFullYear() === 1970) { to = null; } else {
-        to = GetDateYYYYMMDDToText(to, false);
-    }*/
+    var CI = $("#RBCI").prop("checked") === true;
+    var CE = $("#RBCE").prop("checked") === true;
+    var VI = $("#RBVI").prop("checked") === true;
+    var VE = $("#RBVE").prop("checked") === true;
+    var MI = $("#RBMI").prop("checked") === true;
+    var ME = $("#RBME").prop("checked") === true;
+    var RI = $("#RBRI").prop("checked") === true;
+    var RE = $("#RBRE").prop("checked") === true;
 
     // Redraw Header
     if (CI === true) { $("#HCI").show(); $("#TCI").show(); } else { $("#HCI").hide(); $("#TCI").hide(); }
@@ -545,14 +535,14 @@ function RenderTableCosts(data) {
 }
 
 function RenderRowCosts(data) {
-    var CI = document.getElementById("RBCI").checked === true;
-    var CE = document.getElementById("RBCE").checked === true;
-    var VI = document.getElementById("RBVI").checked === true;
-    var VE = document.getElementById("RBVE").checked === true;
-    var MI = document.getElementById("RBMI").checked === true;
-    var ME = document.getElementById("RBME").checked === true;
-    var RI = document.getElementById("RBRI").checked === true;
-    var RE = document.getElementById("RBRE").checked === true;
+    var CI = $("#RBCI").prop("checked") === true;
+    var CE = $("#RBCE").prop("checked") === true;
+    var VI = $("#RBVI").prop("checked") === true;
+    var VE = $("#RBVE").prop("checked") === true;
+    var MI = $("#RBMI").prop("checked") === true;
+    var ME = $("#RBME").prop("checked") === true;
+    var RI = $("#RBRI").prop("checked") === true;
+    var RE = $("#RBRE").prop("checked") === true;
     var tr = document.createElement("tr");
     var tdDescripcion = document.createElement("td");
 
@@ -569,6 +559,7 @@ function RenderRowCosts(data) {
 
     if (CI === true) {
         var tdCI = document.createElement("TD");
+        tdCI.style.maxWidth = "100px";
         tdCI.style.textAlign = "right";
         tdCI.appendChild(document.createTextNode(ToMoneyFormat(data.CI, 2)));
         totalFila += data.CI;
@@ -577,6 +568,7 @@ function RenderRowCosts(data) {
 
     if (CE === true) {
         var tdCE = document.createElement("TD");
+        tdCE.style.maxWidth = "100px";
         tdCE.style.textAlign = "right";
         tdCE.appendChild(document.createTextNode(ToMoneyFormat(data.CE, 2)));
         totalFila += data.CE;
@@ -585,6 +577,7 @@ function RenderRowCosts(data) {
 
     if (VI === true) {
         var tdVI = document.createElement("TD");
+        tdVI.style.maxWidth = "100px";
         tdVI.style.textAlign = "right";
         tdVI.appendChild(document.createTextNode(ToMoneyFormat(data.VI, 2)));
         totalFila += data.VI;
@@ -593,6 +586,7 @@ function RenderRowCosts(data) {
 
     if (VE === true) {
         var tdVE = document.createElement("TD");
+        tdVE.style.maxWidth = "100px";
         tdVE.style.textAlign = "right";
         tdVE.appendChild(document.createTextNode(ToMoneyFormat(data.VE, 2)));
         totalFila += data.VE;
@@ -601,6 +595,7 @@ function RenderRowCosts(data) {
 
     if (MI === true) {
         var tdMI = document.createElement("TD");
+        tdMI.style.maxWidth = "100px";
         tdMI.style.textAlign = "right";
         tdMI.appendChild(document.createTextNode(ToMoneyFormat(data.MI, 2)));
         totalFila += data.MI;
@@ -609,6 +604,7 @@ function RenderRowCosts(data) {
 
     if (ME === true) {
         var tdME = document.createElement("TD");
+        tdME.style.maxWidth = "100px";
         tdME.style.textAlign = "right";
         tdME.appendChild(document.createTextNode(ToMoneyFormat(data.ME, 2)));
         totalFila += data.ME;
@@ -617,6 +613,7 @@ function RenderRowCosts(data) {
 
     if (RI === true) {
         var tdRI = document.createElement("TD");
+        tdRI.style.maxWidth = "100px";
         tdRI.style.textAlign = "right";
         tdRI.appendChild(document.createTextNode(ToMoneyFormat(data.RI, 2)));
         totalFila += data.RI;
@@ -625,6 +622,7 @@ function RenderRowCosts(data) {
 
     if (RE === true) {
         var tdRE = document.createElement("TD");
+        tdRE.style.maxWidth = "100px";
         tdRE.style.textAlign = "right";
         tdRE.appendChild(document.createTextNode(ToMoneyFormat(data.RE, 2)));
         totalFila += data.RE;
@@ -647,14 +645,14 @@ function RenderRowCosts(data) {
 function ExportCosts() {
     console.log("ExportCosts");
     var filter = "";
-    var CI = document.getElementById("RBCI").checked === true;
-    var CE = document.getElementById("RBCE").checked === true;
-    var VI = document.getElementById("RBVI").checked === true;
-    var VE = document.getElementById("RBVE").checked === true;
-    var MI = document.getElementById("RBMI").checked === true;
-    var ME = document.getElementById("RBME").checked === true;
-    var RI = document.getElementById("RBRI").checked === true;
-    var RE = document.getElementById("RBRE").checked === true;
+    var CI = $("#RBCI").prop("checked") === true;
+    var CE = $("#RBCE").prop("checked") === true;
+    var VI = $("#RBVI").prop("checked") === true;
+    var VE = $("#RBVE").prop("checked") === true;
+    var MI = $("#RBMI").prop("checked") === true;
+    var ME = $("#RBME").prop("checked") === true;
+    var RI = $("#RBRI").prop("checked") === true;
+    var RE = $("#RBRE").prop("checked") === true;
 
     // Redraw Header
     if (CI === true) { filter += "|CI"; }

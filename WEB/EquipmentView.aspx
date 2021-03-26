@@ -839,7 +839,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label id="TxtNewMaintainmentFirstDateLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_EquipmentMaintenance_Popup_Register_FieldLabel_FirstDate"] %><span class="required">*</span></label>
+                                        <label id="TxtNewMaintainmentFirstDateLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_EquipmentMaintenance_Popup_Register_FieldLabel_FirstDate"] %></label>
                                         <div class="col-sm-9">
                                             <div class="row">
                                                 <div class="col-xs-12 col-sm-12 tooltip-info" id="TxtNewMaintainmentFirstDateDiv">

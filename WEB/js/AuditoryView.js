@@ -128,6 +128,12 @@ window.onload = function () {
         $("#TxtStartQuestionsOn").css("background", "transparent");
         $("#BtnCloseCuestionarios").show();
     }
+    else {
+        if (Auditory.Status === AuditoryStatus.Planificada) {
+            $("#TxtStartQuestionsOn").removeAttr("disabled");
+            $("#TxtStartQuestionsOn").css("background", "transparent");
+        }
+    }
 
     if (Auditory.Status >= AuditoryStatus.Pendiente) {
         $("#HallazgosDataTable .btn").hide();
@@ -787,6 +793,33 @@ function AuditoryValidate() {
         }
     }
 
+    // comprobar que el inicio de cuestionarios no es anterior a la primera planificacion
+    if (Auditory.Type === AuditoryTypes.Interna || Auditory.Type === AuditoryTypes.Proveedor) {
+        if ($("#TxtStartQuestionsOn").val() !== "") {
+            if (validateDate($("#TxtStartQuestionsOn").val()) === false) {
+                ok = false;
+                $("#TxtStartQuestionsOn").css("color", Color.Error);
+                $("#TxtStartQuestionsOnErrorDateMalformed").show();
+            }
+            else {
+                var qIni = GetDate($("#TxtStartQuestionsOn").val(), "/", false);
+                var minPlanning = new Date();
+                for (var p = 0; p < AuditoryPlanning.length; p++) {
+                    var candidate = GetDate(AuditoryPlanning[p].Date, "/", false);
+                    if (candidate < minPlanning) {
+                        minPlanning = candidate;
+                    }
+                }
+
+                if (qIni < minPlanning) {
+                    $("#TxtStartQuestionsOn").css("color", Color.Error);
+                    $("#TxtStartQuestionsOnErrorCrossDate").show();
+                }
+            }
+
+        }
+    }
+
     if ($("#CmbPlanningResponsible").val() * 1 > 0) {
         if ($("#TxtAuditoryPlanningDate").val() === "") {
             ok = false;
@@ -857,7 +890,8 @@ function SaveAuditory() {
         "ModifiedBy": { "Id": -1 },
         "Customer": customer,
         "Provider": provider,
-        "PreviewDate": previewDate
+        "PreviewDate": previewDate,
+        "ReportStart": GetDate($("#TxtStartQuestionsOn").val(), "/", false)
     };
 
     var toPlanned = false;
@@ -2193,12 +2227,13 @@ function RenderCuestionarios() {
         res += "</tr>";
     }
 
+    // La fecha de inicio de cuestinario la introduce el usuario
     // Si los cuestionarios tienen respuestas y no hay fecha de inicio de cuestionarios
-    if (cuestionariosHasResponses === true) {
+    /*if (cuestionariosHasResponses === true) {
         if ($("#TxtStartQuestionsOn").val() === "") {
             $("#TxtStartQuestionsOn").val(FormatDate(new Date(), "/"));
         }
-    }
+    }*/
 
     if (cuestionariosCerrables === true) {
         // Comprobar que no estén ya cerrados

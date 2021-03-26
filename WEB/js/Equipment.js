@@ -306,6 +306,11 @@ window.onload = function () {
     if (Equipment.InternalVerification !== null && Equipment.InternalVerification.FirstDate !== null) { $("#TxtIVDFirstDate").val(GetDateYYYYMMDDText(Equipment.InternalVerification.FirstDate, "/", false)); }
     if (Equipment.ExternalVerification !== null && Equipment.ExternalVerification.FirstDate !== null) { $("#TxtEVDFirstDate").val(GetDateYYYYMMDDText(Equipment.ExternalVerification.FirstDate, "/", false)); }
     // -----------------------------------------------------------
+
+    if ($("#TxtICDFirstDate").val().indexOf("/1970") !== -1) { $("#TxtICDFirstDate").val(""); }
+    if ($("#TxtECDFirstDate").val().indexOf("/1970") !== -1) { $("#TxtECDFirstDate").val(""); }
+    if ($("#TxtIVDFirstDate").val().indexOf("/1970") !== -1) { $("#TxtIVDFirstDate").val(""); }
+    if ($("#TxtEVDFirstDate").val().indexOf("/1970") !== -1) { $("#TxtEVDFirstDate").val(""); }
 };
 
 function ValidateForm(form) {

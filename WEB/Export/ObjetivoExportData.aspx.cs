@@ -200,7 +200,7 @@ public partial class ExportObjetivoExportData : Page
 
                 tableRegistros.SetWidths(new float[] { 20f, 20f, 120f, 40f, 50f });
                 ToolsPdf.AddTableTitle(tableRegistros, dictionary["Item_Objetivo_RecordsReportTitle"]);
-                tableRegistros.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Value"]));
+                tableRegistros.AddCell(ToolsPdf.HeaderCell("*"+dictionary["Item_Indicador_TableRecords_Header_Value"]));
                 tableRegistros.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Date"]));
                 tableRegistros.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Comments"]));
                 tableRegistros.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Indicador_TableRecords_Header_Meta"]));
@@ -277,7 +277,7 @@ public partial class ExportObjetivoExportData : Page
                 {
                     string meta = dictionary["Common_Comparer_" + registro.MetaComparer] + " " + registro.Meta.ToString();
                     tableRegistros.AddCell(ToolsPdf.DataCell(registro.Value));
-                    tableRegistros.AddCell(ToolsPdf.DataCell(registro.Date));
+                    tableRegistros.AddCell(ToolsPdf.DataCellCenter(registro.Date));
                     tableRegistros.AddCell(ToolsPdf.DataCell(registro.Comments));
                     tableRegistros.AddCell(ToolsPdf.DataCell(meta));
                     tableRegistros.AddCell(ToolsPdf.DataCell(registro.Responsible.FullName));

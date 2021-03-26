@@ -2159,3 +2159,5 @@ Item_Auditory_PDF_Label_date::a fecha
 Item_Audiotry_PDF_Planned::Planificación
 Item_Auditory_PDF_Closing::Cierre
 Item_Auditory_PDF_Validation::Validación
+Auditory_Error_QuestionaryIni_CrossDate::No puede ser anterior al inicio de la planificación
+Page_DashboarReports::Panel de mando

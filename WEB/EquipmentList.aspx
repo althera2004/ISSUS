@@ -178,15 +178,15 @@
                                                             <thead class="thin-border-bottom">
                                                                 <tr id="ListDataHeaderCosts">
 														            <th id="TrCost"><%=this.Dictionary["Item_Equipment_Header_Code"] %> - <%=this.Dictionary["Item_Equipment_Header_Description"] %></th>
-                                                                    <th id="HCI" style="display:none;"><%=this.Dictionary["Item_Equipment_FilterLabel_Calibration_Int"] %></th>
-                                                                    <th id="HCE" style="display:none;"><%=this.Dictionary["Item_Equipment_FilterLabel_Calibration_Ext"] %></th>
-                                                                    <th id="HVI" style="display:none;"><%=this.Dictionary["Item_Equipment_FilterLabel_Verification_Int"] %></th>
-                                                                    <th id="HVE" style="display:none;"><%=this.Dictionary["Item_Equipment_FilterLabel_Verification_Ext"] %></th>
-                                                                    <th id="HMI" style="display:none;"><%=this.Dictionary["Item_Equipment_FilterLabel_Maintenance_Int"] %></th>
-                                                                    <th id="HME" style="display:none;"><%=this.Dictionary["Item_Equipment_FilterLabel_Maintenance_Ext"] %></th>
-                                                                    <th id="HRI" style="display:none;"><%=this.Dictionary["Item_Equipment_FilterLabel_Repair_Int"] %></th>
-                                                                    <th id="HRE" style="display:none;"><%=this.Dictionary["Item_Equipment_FilterLabel_Repair_Ext"] %></th>
-                                                                    <th id="HT" style="display:none;"><%=this.Dictionary["Common_Total"] %></th>
+                                                                    <th id="HCI" style="max-width:100px;display:none;"><%=this.Dictionary["Item_Equipment_FilterLabel_Calibration_Int"] %></th>
+                                                                    <th id="HCE" style="max-width:100px;display:none;"><%=this.Dictionary["Item_Equipment_FilterLabel_Calibration_Ext"] %></th>
+                                                                    <th id="HVI" style="max-width:100px;display:none;"><%=this.Dictionary["Item_Equipment_FilterLabel_Verification_Int"] %></th>
+                                                                    <th id="HVE" style="max-width:100px;display:none;"><%=this.Dictionary["Item_Equipment_FilterLabel_Verification_Ext"] %></th>
+                                                                    <th id="HMI" style="max-width:100px;display:none;"><%=this.Dictionary["Item_Equipment_FilterLabel_Maintenance_Int"] %></th>
+                                                                    <th id="HME" style="max-width:100px;display:none;"><%=this.Dictionary["Item_Equipment_FilterLabel_Maintenance_Ext"] %></th>
+                                                                    <th id="HRI" style="max-width:100px;display:none;"><%=this.Dictionary["Item_Equipment_FilterLabel_Repair_Int"] %></th>
+                                                                    <th id="HRE" style="max-width:100px;display:none;"><%=this.Dictionary["Item_Equipment_FilterLabel_Repair_Ext"] %></th>
+                                                                    <th id="HT" style="max-width:100px;display:none;"><%=this.Dictionary["Common_Total"] %></th>
                                                                     <th style="width:17px;"></th>
 		                                                        </tr>
                                                             </thead>
