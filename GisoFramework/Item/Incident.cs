@@ -290,7 +290,7 @@ namespace GisoFramework.Item
                                 {
                                     Id = rdr.GetInt64(ColumnsIncidentFilterGet.IncidentId),
                                     Description = rdr.GetString(ColumnsIncidentFilterGet.IncidentDescription),
-                                    Code = string.Format(CultureInfo.GetCultureInfo("en-us"), "{0:00000}", rdr.GetInt64(ColumnsIncidentFilterGet.Code)),
+                                    Code = string.Format(CultureInfo.InvariantCulture, "{0}", rdr.GetInt64(ColumnsIncidentFilterGet.Code)),
                                     Action = new IncidentAction
                                     {
                                         Id = incidentActionId,

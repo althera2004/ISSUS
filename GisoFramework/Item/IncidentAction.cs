@@ -211,7 +211,6 @@ namespace GisoFramework.Item
             {
                 return string.Format(
                     CultureInfo.InvariantCulture,
-                    // @"<a href=""ActionView.aspx?id={0}"">{1:00000} - {2}</a>",
                     @"<a href=""ActionView.aspx?id={0}"">{2}</a>",
                     this.Id,
                     this.Number,
@@ -1391,7 +1390,7 @@ namespace GisoFramework.Item
                                     Description = rdr.GetString(IndicentActionFilterGet.Description),
                                     Origin = rdr.GetInt32(IndicentActionFilterGet.Origin),
                                     ActionType = rdr.GetInt32(IndicentActionFilterGet.ActionType),
-                                    Number = string.Format(CultureInfo.InvariantCulture, "{0:00000}", rdr.GetInt64(IndicentActionFilterGet.Number)),
+                                    Number = string.Format(CultureInfo.InvariantCulture, "{0}", rdr.GetInt64(IndicentActionFilterGet.Number)),
                                     ReporterType = rdr.GetInt32(IndicentActionFilterGet.ReporterType),
                                     Incident = new Incident
                                     {

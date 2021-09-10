@@ -66,11 +66,12 @@
                                                     <div>
                                                         <form class="form-horizontal" role="form">
                                                             <div class="form-group">
+                                                                <label id="CodeLabel" class="col-sm-1"><%=this.Dictionary["Item_IncidentAction_Label_Number"] %>:&nbsp;<strong style="background-color: transparent;padding: 4px 6px 4px 6px;color: #848484;border: none;"><%=this.Code %></strong></label>
                                                                 <%=this.TxtDescription.Render %>
                                                             </div>
                                                             <div class="form-group" id="OriginDiv">
-                                                                <label class="col-sm-1 control-label no-padding-right"><strong><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %></strong></label>
-                                                                <label class="col-sm-11"><%= this.OriginItemLink %></label>
+                                                                <label class="col-sm-1"><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %></label>
+                                                                <label class="col-sm-11"><strong><%= this.OriginItemLink %></strong></label>
                                                             </div>
                                                             <div class="form-group" id="RTypeDiv" style="display: none;">
                                                                 <label id="RTypeLabel" class="col-sm-1"><%=this.Dictionary["Item_IncidentAction_Label_Type"] %><span style="color: #f00;">*</span></label>
@@ -151,7 +152,8 @@
                                                         </form>
                                                     </div> 
                                                     <%=this.FormFooter %>
-                                                </div>
+													</br>
+                                                </div>			
                                                 <div id="costes" class="tab-pane">
                                                     <div class="col-sm-12">
                                                         <div class="col-sm-8">

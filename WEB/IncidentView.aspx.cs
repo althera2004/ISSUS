@@ -40,6 +40,34 @@ public partial class IncidentView : Page
         }
     }
 
+    public string Code
+    {
+        get
+        {
+            return this.Incident.Code.ToString();
+            /*var res = "00000" + this.Incident.Code;
+            return res.Substring(res.Length - 5);*/
+        }
+    }
+
+    public string ActionCode
+    {
+        get
+        {
+            if(this.IncidentAction != null)
+            {
+                if(this.IncidentAction.Id > 0)
+                {
+                    return this.IncidentAction.Number.ToString();
+                }
+            }
+
+            return string.Empty;
+            /*var res = "00000" + this.Incident.Code;
+            return res.Substring(res.Length - 5);*/
+        }
+    }
+
     public long IncidentId { get; set; }
 
     public Incident Incident { get; set; }
@@ -347,7 +375,7 @@ public partial class IncidentView : Page
             }
 
             this.master.TitleInvariant = true;
-            this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.Dictionary["Item_Incident"], this.Incident.Description);
+            this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{2} - {1}</strong>", this.Dictionary["Item_Incident"], this.Incident.Description, this.Incident.Code.ToString());
 
             this.formFooter.ModifiedBy = this.Incident.ModifiedBy.Description;
             this.formFooter.ModifiedOn = this.Incident.ModifiedOn;
@@ -592,7 +620,7 @@ public partial class IncidentView : Page
 
         this.TxtDescription = new FormText
         {
-            ColumnSpan = 11,
+            ColumnSpan = 10,
             ColumnSpanLabel = 1,
             GrantToWrite = this.grantToWrite,
             Label = this.Dictionary["Item_Incident_Field_Description"],
@@ -786,7 +814,7 @@ public partial class IncidentView : Page
 
         this.TxtActionDescription = new FormText
         {
-            ColumnSpan = 10,
+            ColumnSpan = 8,
             ColumnSpanLabel = 2,
             GrantToWrite = this.grantToWrite,
             Label = this.Dictionary["Item_IncidentAction_Label_Description"],

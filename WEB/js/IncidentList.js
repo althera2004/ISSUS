@@ -389,7 +389,7 @@ function ItemRenderTable(list) {
 
         var incidentLinkDescription = document.createElement("A");
         incidentLinkDescription.href = "IncidentView.aspx?id=" + item.IncidentId;
-        incidentLinkDescription.appendChild(document.createTextNode(item.Description));
+        incidentLinkDescription.appendChild(document.createTextNode(item.Code + " - " + item.Description));
         tdDescription.appendChild(incidentLinkDescription);
 
         tdAmount.appendChild(document.createTextNode(ToMoneyFormat(item.Amount, 2)));

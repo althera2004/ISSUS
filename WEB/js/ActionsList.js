@@ -260,7 +260,7 @@ function ItemRenderTable(list) {
         tdOrigin.appendChild(origin);
 
         var actionLinkDescription = document.createElement("A");
-        actionLinkDescription.appendChild(document.createTextNode(item.Description));
+        actionLinkDescription.appendChild(document.createTextNode(item.Number + " - " + item.Description));
         actionLinkDescription.href = "ActionView.aspx?id=" + item.Id;
         tdDescription.appendChild(actionLinkDescription);
 

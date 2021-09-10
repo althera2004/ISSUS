@@ -7466,7 +7466,7 @@ function getViewerConfiguration() {
                 'creationDate': document.getElementById('creationDateField'),
                 'modificationDate': document.getElementById('modificationDateField'),
                 'creator': document.getElementById('creatorField'),
-                'producer': document.getElementById('producerField'),
+                //'producer': document.getElementById('producerField'),
                 'version': document.getElementById('versionField'),
                 'pageCount': document.getElementById('pageCountField')
             }

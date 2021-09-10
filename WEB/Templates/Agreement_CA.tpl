@@ -62,7 +62,7 @@ Condicions d’Utilizació del Software<br />
 
 <p class="gtkright">Rev. 1.0.</p>
 <p class="gtkcenter"> <img src="http://issus.scrambotika.com/issus_agreement.jpg" alt="ISSUS" style="max-width:60%" /><br /></p>
-<p class="gtkright">Sabadell, 6 de març de 2018</p>
+<p class="gtkright">#DATE#</p>
 
 <h2>Gràcies per formar part del projecte ISSUS!<br /></h2>
 

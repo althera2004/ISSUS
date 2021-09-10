@@ -67,10 +67,11 @@
                                             <div class="tab-content no-border padding-24" style="height:500px;">
                                                 <div id="home" class="tab-pane active">       
                                                     <div>
-                                                        <form class="form-horizontal" role="form">   
-                                                            <div class="form-group">
+                                                        <form class="form-horizontal" role="form">
+															<div class="form-group">
+                                                                <label id="CodeLabel" class="col-sm-1"><%=this.Dictionary["Item_IncidentAction_Label_Number"] %>:&nbsp;<strong style="background-color: transparent;padding: 4px 6px 4px 6px;color: #848484;border: none;"><%=this.Code %></strong></label>
                                                                 <%=this.TxtDescription.Render %>
-                                                            </div> 
+                                                            </div>
                                                             <span class="ErrorMessage" id="RTypeErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                                             <div class="form-group">
                                                                 <label id="RReporterTypeLabel" class="col-sm-1"><%=this.Dictionary["Item_IncidentAction_Label_Reporter"] %></label>
@@ -151,11 +152,13 @@
                                                         </form>
                                                     </div>
                                                     <%=this.FormFooter %>
+													<br />
                                                 </div>
                                                 <div id="accion" class="tab-pane">       
                                                     <div>
                                                         <form class="form-horizontal" role="form">   
                                                             <div class="form-group">
+                                                                <label id="CodeActionLabel" class="col-sm-1"><%=this.Dictionary["Item_IncidentAction_Label_Number"] %>:&nbsp;<strong style="background-color: transparent;padding: 4px 6px 4px 6px;color: #848484;border: none;"><%=this.ActionCode %></strong></label>                                                                
                                                                 <%=this.TxtActionDescription.Render %>
                                                             </div>
                                                             <div class="form-group">
@@ -188,6 +191,7 @@
                                                     </div>
                                                     <div id="AccionAnulada"></div>
                                                     <%=this.FormFooterAction %>
+													<br /><br />
                                                 </div>
                                                 <div id="costes" class="tab-pane">
                                                     <div class="col-sm-12">                                                        
@@ -558,15 +562,15 @@
                 });
 
                 // Control wizard de la incidencia
-                $("#TxtCauses").on("keyup", function (e) { e.preventDefault(); TxtCausesChanged(); });
-                $("#TxtActions").on("keyup", function (e) { e.preventDefault(); TxtActionsChanged(); });
-                $("#CmbClosedResponsible").on("change",function(e){e.preventDefault(); CmbClosedResponsibleChanged();});
+                $('#TxtCauses').on('keyup', function (e) { e.preventDefault(); TxtCausesChanged(); });
+                $('#TxtActions').on('keyup', function (e) { e.preventDefault(); TxtActionsChanged(); });
+                $('#CmbClosedResponsible').on('change',function(e){e.preventDefault(); CmbClosedResponsibleChanged();});
 
                 // Control wizard de la acción
-                $("#TxtActionCauses").on("keyup", function (e) { e.preventDefault(); TxtActionCausesChanged(); });
-                $("#TxtActionActions").on("keyup", function (e) { e.preventDefault(); TxtActionActionsChanged(); });
-                $("#CmbActionClosedResponsible").on("change", function(e) { e.preventDefault(); SetCloseRequired(); });
-                $("#TxtActionClosedDate").on("change", function(e) { e.preventDefault(); SetCloseRequired(); });
+                $('#TxtActionCauses').on('keyup', function (e) { e.preventDefault(); TxtActionCausesChanged(); });
+                $('#TxtActionActions').on('keyup', function (e) { e.preventDefault(); TxtActionActionsChanged(); });
+                $('#CmbActionClosedResponsible').on('change', function(e) { e.preventDefault(); SetCloseRequired(); });
+                $('#TxtActionClosedDate').on('change', function(e) { e.preventDefault(); SetCloseRequired(); });
 
 
                 //                <%if(this.ApplicationUser.ShowHelp) { %>

@@ -179,9 +179,9 @@ public partial class ExportPrintActionData : Page
         var labelFont = new Font(this.arial, 10, Font.NORMAL, BaseColor.DARK_GRAY);
         var valueFont = new Font(this.arial, 10, Font.NORMAL, BaseColor.BLACK);
 
-        // Descripción
-        table.AddCell(LabelCell(dictionary["Item_IncidentAction_Label_Description"], Rectangle.NO_BORDER));
-        table.AddCell(ValueCell(action.Description, ToolsPdf.BorderNone, alignLeft, 1));
+		// Descripción
+        table.AddCell(LabelCell(dictionary["Item_IncidentAction"], Rectangle.NO_BORDER));
+        table.AddCell(ValueCell(action.Number.ToString() + " - " + action.Description, ToolsPdf.BorderNone, alignLeft, 3));
 
         // Tipo
         table.AddCell(LabelCell(dictionary["Item_IncidentAction_Label_Type"], Rectangle.NO_BORDER));

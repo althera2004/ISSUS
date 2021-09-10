@@ -131,8 +131,8 @@ public partial class ExportPrintIncidentData : Page
         var valueFont = new Font(this.arial, 10, Font.NORMAL, BaseColor.BLACK);
 
         // Descripción
-        table.AddCell(LabelCell(dictionary["Item_IncidentAction_Label_Description"], Rectangle.NO_BORDER));
-        table.AddCell(ValueCell(incident.Description, borderNone, alignLeft, 3));
+        table.AddCell(LabelCell(dictionary["Item_Incident"], Rectangle.NO_BORDER));
+        table.AddCell(ValueCell(incident.Code.ToString()+" - " + incident.Description, borderNone, alignLeft, 3));
 
         // Reportador
         if (incident.Origin != 4)

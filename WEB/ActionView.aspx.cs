@@ -78,6 +78,16 @@ public partial class ActionView : Page
         }
     }
 
+    public string Code
+    {
+        get
+        {
+            return this.IncidentAction.Number.ToString();
+            //var res = "00000" + this.IncidentAction.Number;
+            //return res.Substring(res.Length - 5);
+        }
+    }
+
     #region Form
     public FormText TxtDescription { get; set; }
     public FormTextArea TxtWhatHappened { get; set; }
@@ -286,7 +296,7 @@ public partial class ActionView : Page
             }
 
             this.master.TitleInvariant = true;
-            this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.Dictionary["Item_IncidentAction"], this.IncidentAction.Description);
+            this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{2} - {1}</strong>", this.Dictionary["Item_IncidentAction"], this.IncidentAction.Description, this.IncidentAction.Number.ToString());
 
             this.formFooter = new FormFooter
             {
@@ -593,7 +603,6 @@ public partial class ActionView : Page
             Required = true,
             RequiredMessage = this.Dictionary["Common_Required"],
             Value = this.IncidentAction.Description
-
         };
 
         this.WhatHappenedDate = new FormDatePicker

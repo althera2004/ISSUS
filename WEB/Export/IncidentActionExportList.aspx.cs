@@ -215,7 +215,7 @@ public partial class ExportIncidentActionExportList : Page
         pdfDoc.Add(criteriatable);
         #endregion
 
-        var table = new iTSpdf.PdfPTable(8)
+        var table = new iTSpdf.PdfPTable(9)
         {
             WidthPercentage = 100,
             HorizontalAlignment = 1,
@@ -223,7 +223,8 @@ public partial class ExportIncidentActionExportList : Page
             SpacingAfter = 30f
         };
 
-        table.SetWidths(new float[] { 30f, 10f, 10f, 10f, 10f, 10f, 10f, 10f });
+        table.SetWidths(new float[] { 2f, 30f, 10f, 10f, 10f, 10f, 10f, 10f, 10f });
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Incident_Label_Number"]));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Description"]));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Type"]));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Open"]));

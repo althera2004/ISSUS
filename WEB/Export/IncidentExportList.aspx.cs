@@ -235,11 +235,11 @@ public partial class ExportIncidentExportList : Page
         #endregion
 
         ToolsPdf.AddCriteria(criteriatable, dictionary["Common_Period"], periode);
-        if (string.IsNullOrEmpty(filterText))
-        {
-            ToolsPdf.AddCriteria(criteriatable, string.Empty, string.Empty);
-        }
-        else
+        if (!string.IsNullOrEmpty(filterText))
+        //{
+        //    ToolsPdf.AddCriteria(criteriatable, string.Empty, string.Empty);
+        //}
+        //else
         {
             ToolsPdf.AddCriteria(criteriatable, dictionary["Common_PDF_Filter_Contains"], filterText);
         }
@@ -249,7 +249,7 @@ public partial class ExportIncidentExportList : Page
         pdfDoc.Add(criteriatable);
         #endregion
 
-        var table = new iTSpdf.PdfPTable(7)
+        var table = new iTSpdf.PdfPTable(8)
         {
             WidthPercentage = 100,
             HorizontalAlignment = 1,
@@ -257,8 +257,9 @@ public partial class ExportIncidentExportList : Page
             SpacingAfter = 30f
         };
 
-        table.SetWidths(new float[] { 35f, 10f, 10f, 20f, 8f, 10f, 10f });
+        table.SetWidths(new float[] { 5f, 35f, 10f, 10f, 20f, 8f, 10f, 10f });
 
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Label_Number"]));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Incident_Header_Description"]));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Incident_Header_Open"]));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_Incident_Header_Status"]));
@@ -337,6 +338,7 @@ public partial class ExportIncidentExportList : Page
             if (!string.IsNullOrEmpty(filterText))
             {
                 var match = incidentFilter.Description;
+                match += "|" + incidentFilter.Code;
                 match += "|" + incidentFilter.Customer.Description;
                 match += "|" + incidentFilter.Provider.Description;
                 match += "|" + incidentFilter.Department.Description;
@@ -382,11 +384,12 @@ public partial class ExportIncidentExportList : Page
                 default: originText = string.Empty; break;
             }
 
+            table.AddCell(ToolsPdf.DataCellCenter(incidentFilter.Code, ToolsPdf.LayoutFonts.Times));
             table.AddCell(ToolsPdf.DataCell(incidentFilter.Description, ToolsPdf.LayoutFonts.Times));
             table.AddCell(ToolsPdf.DataCellCenter(incidentFilter.Open, ToolsPdf.LayoutFonts.Times));
-            table.AddCell(ToolsPdf.DataCell(statustext, ToolsPdf.LayoutFonts.Times));
+            table.AddCell(ToolsPdf.DataCellCenter(statustext, ToolsPdf.LayoutFonts.Times));
             table.AddCell(ToolsPdf.DataCell(incidentFilter.OriginText, ToolsPdf.LayoutFonts.Times));
-            table.AddCell(ToolsPdf.DataCell(actionDescription, ToolsPdf.LayoutFonts.Times));
+            table.AddCell(ToolsPdf.DataCellCenter(actionDescription, ToolsPdf.LayoutFonts.Times));
             table.AddCell(ToolsPdf.DataCellMoney(incidentFilter.Amount, ToolsPdf.LayoutFonts.Times));
             table.AddCell(ToolsPdf.DataCellCenter(incidentFilter.Close, ToolsPdf.LayoutFonts.Times));
         }

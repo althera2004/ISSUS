@@ -1222,6 +1222,7 @@ Item_Incident_Header_Number::Número
 Item_Incident_Header_Open::Obertura
 Item_Incident_Header_Origin::Origen
 Item_Incident_Header_Status::Estat
+Item_Incident_Label_Number::Nº
 Item_Incident_Label_Actions::Accions de contingència
 Item_Incident_Label_Causes::Per què ha passat?
 Item_Incident_Label_Closing::Tancament
@@ -1327,6 +1328,7 @@ Item_IncidentAction_Header_Type::Tipus
 Item_IncidentAction_Label_ApplyAction::Aplicar acció correctiva?
 Item_IncidentAction_Label_Auditory::Auditoria
 Item_IncidentAction_Label_BusinessRisk::Anàlisi de risc
+Item_IncidentAction_Label_Number::Nº
 Item_IncidentAction_Label_Description::Descripció
 Item_IncidentAction_Label_EndDate::Data
 Item_IncidentAction_Label_EndResponsible::Responsable

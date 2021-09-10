@@ -28,9 +28,6 @@ public class IncidentActionExportList : System.Web.Services.WebService
 
     public IncidentActionExportList()
     {
-
-        //Elimine la marca de comentario de la línea siguiente si utiliza los componentes diseñados 
-        //InitializeComponent(); 
     }
 
     public Dictionary<string, string> dictionary;
@@ -64,7 +61,7 @@ public class IncidentActionExportList : System.Web.Services.WebService
             path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
         }
 
-        var formatedDescription = ToolsPdf.NormalizeFileName(company.Headquarters);
+        var formatedDescription = ToolsPdf.NormalizeFileName(company.Name);
 
         string fileName = string.Format(
             CultureInfo.InvariantCulture,
@@ -296,7 +293,6 @@ public class IncidentActionExportList : System.Web.Services.WebService
         }
         else
         {
-
             criteriatable.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(dictionary["Common_PDF_Filter_Contains"] + " :", ToolsPdf.LayoutFonts.TimesBold))
             {
                 Border = ToolsPdf.BorderNone,
@@ -317,7 +313,7 @@ public class IncidentActionExportList : System.Web.Services.WebService
         pdfDoc.Add(criteriatable);
         //---------------------------
 
-        var table = new iTSpdf.PdfPTable(7)
+        var table = new iTSpdf.PdfPTable(8)
         {
             WidthPercentage = 100,
             HorizontalAlignment = 1,
@@ -325,7 +321,8 @@ public class IncidentActionExportList : System.Web.Services.WebService
             SpacingAfter = 30f
         };
 
-        table.SetWidths(new float[] { 10f, 10f, 30f, 10f, 10f, 10f, 10f });
+        table.SetWidths(new float[] { 3f, 10f, 10f, 30f, 10f, 10f, 10f, 10f });
+        table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Label_Number"]));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Status"]));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Open"]));
         table.AddCell(ToolsPdf.HeaderCell(dictionary["Item_IncidentAction_Header_Description"]));
@@ -410,7 +407,8 @@ public class IncidentActionExportList : System.Web.Services.WebService
         {
             if (!string.IsNullOrEmpty(filterText))
             {
-                if(action.Description.IndexOf(filterText,StringComparison.OrdinalIgnoreCase)== -1)
+                if (action.Description.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) == -1 &&
+                    action.Number.IndexOf(filterText, StringComparison.OrdinalIgnoreCase) == -1)
                 {
                     continue;
                 }
@@ -418,6 +416,15 @@ public class IncidentActionExportList : System.Web.Services.WebService
 
             int border = 0;
             totalCost += action.Amount;
+
+            table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(action.Number, ToolsPdf.LayoutFonts.Times))
+            {
+                Border = border,
+                BackgroundColor = ToolsPdf.LineBackgroundColor,
+                Padding = 6f,
+                PaddingTop = 4f,
+                HorizontalAlignment = Rectangle.ALIGN_CENTER
+            });
 
             string actionTypeText = string.Empty;
             switch (action.ActionType)
@@ -452,7 +459,7 @@ public class IncidentActionExportList : System.Web.Services.WebService
                 HorizontalAlignment = Rectangle.ALIGN_CENTER
             });
 
-            table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(action.Description, ToolsPdf.LayoutFonts.Times))
+            table.AddCell(new iTSpdf.PdfPCell(new iTS.Phrase(string.Format(CultureInfo.InvariantCulture,"{0} - {1}",action.Number, action.Description), ToolsPdf.LayoutFonts.Times))
             {
                 Border = border,
                 BackgroundColor = ToolsPdf.LineBackgroundColor,

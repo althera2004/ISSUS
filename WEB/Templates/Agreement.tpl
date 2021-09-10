@@ -23,11 +23,17 @@ img {
 	text-align:center;
 	max-width:90%;
 }
+
 a {
 	text-decoration:none;
 }
 a.hover, a.visited, a.link {
 	text-decoration:none;
+}
+
+li {
+	font-family:Calibri;
+	color:#3d464d;
 }
 
 -->

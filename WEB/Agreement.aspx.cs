@@ -70,7 +70,6 @@ public partial class Agreement : Page
             return this.Company.Language;
         }
     }
-
     /// <summary>Creates agreement document</summary>
     /// <param name="companyId">Company identifier</param>
     /// <param name="userId">User identifier</param>
@@ -81,94 +80,89 @@ public partial class Agreement : Page
     public static ActionResult CreateDocument(int companyId, int userId, string language)
     {
         var res = ActionResult.NoAction;
-        var dictionary = HttpContext.Current.Session["Dictionary"] as Dictionary<string, string>;
-        var user = HttpContext.Current.Session["User"] as ApplicationUser;
-        var company = HttpContext.Current.Session["Company"] as Company;
 
-        string path = HttpContext.Current.Request.PhysicalApplicationPath;
+        var fileNameNew = string.Empty;
 
-        if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
+        try
         {
-            path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
-        }
-
-        string fileName = string.Format(CultureInfo.InvariantCulture, @"Agreement\{0}_{1}.pdf", "Agreement", company.Id);
-        if (!path.EndsWith("\\", StringComparison.OrdinalIgnoreCase))
-        {
-            path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
-        }
-
-        // Se genera el path completo de la plantilla del idioma en concreto
-        var templatepath = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement_{1}.tpl", path, language);
-
-        // Si no existiera la plantilla se genera el path completo de la plantilla sin traducir
-        if (!File.Exists(templatepath))
-        {
-            templatepath = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Agreement.tpl", path);
-        }
-
-        string text = string.Empty;
-        using (var rdr = new StreamReader(templatepath))
-        {
-            text = rdr.ReadToEnd();
-        }
-
-        text = text.Replace("#COMPANY_NAME#", company.Name);
-        text = text.Replace("#USER_NAME#", user.UserName);
-        text = text.Replace("#EMAIL#", user.Email);
-        text = text.Replace("\r", string.Empty);
-        text = text.Replace("#DATE#", Constant.NowText);
-
-        var paragraphs = text.Split('\n');
-        CreatePDFFromHTMLFile(text, string.Format(CultureInfo.InvariantCulture, @"{0}{1}", path, fileName));
-        using (var cmd = new SqlCommand(string.Format(CultureInfo.InvariantCulture, "UPDATE Company SET Agreement = 1 WHERE Id = {0}", company.Id)))
-        {
-            cmd.CommandType = CommandType.Text;
-            using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+            // Se preparan los objetos para el PDF
+            var fontName = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath + @"Fonts", "calibri.ttf");
+            var baseFont = BaseFont.CreateFont(fontName, BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
+            var path = HttpContext.Current.Request.PhysicalApplicationPath;
+            if (!path.EndsWith(@"\", StringComparison.OrdinalIgnoreCase))
             {
-                cmd.Connection = cnn;
-                try
+                path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
+            }
+
+            if (!path.EndsWith("\\", StringComparison.OrdinalIgnoreCase))
+            {
+                path = string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
+            }
+
+            fileNameNew = string.Format(CultureInfo.InvariantCulture, @"{0}Agreement\{1}_{2}.pdf", path, "Agreement", companyId);
+
+            // Se genera el path completo de la plantilla del idioma en concreto
+            var templatepath = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Contrato_ISSUS_1_{1}.pdf", path, language);
+
+            // Si no existiera la plantilla se genera el path completo de la plantilla sin traducir
+            if (!File.Exists(templatepath))
+            {
+                templatepath = string.Format(CultureInfo.InvariantCulture, @"{0}\Templates\Contrato_ISSUS_1_CA.pdf", path);
+            }
+
+            // ---------------------------------------
+            using (var existingFileStream = new FileStream(templatepath, FileMode.Open))
+            {
+                using (var newFileStream = new FileStream(fileNameNew, FileMode.Create))
                 {
-                    cmd.Connection.Open();
-                    cmd.ExecuteNonQuery();
-                    res.SetSuccess();
-                }
-                catch (Exception ex)
-                {
-                    res.SetFail(ex);
-                }
-                finally
-                {
-                    if (cmd.Connection.State != ConnectionState.Closed)
+                    var pdfReader = new PdfReader(existingFileStream);
+                    var stamper = new PdfStamper(pdfReader, newFileStream);
+                    var form = stamper.AcroFields;
+                    var fieldKeys = form.Fields.Keys;
+
+                    Dictionary<string, string> info = pdfReader.Info;
+                    info["Title"] = "Agreement";
+                    info["Subject"] = "Agreemen";
+                    info["Keywords"] = string.Empty;
+                    info["Creator"] = "OpenFramework";
+                    info["Author"] = "ISSUS";
+                    stamper.MoreInfo = info;
+
+                    // Se recorren todos los campos del pdf y a cada uno se pone el contenido
+
+                    var fechaDocumento = DateTime.Now;
+                    string mes = MonthName(fechaDocumento.Month, language);
+                    string fechaLarga = string.Format(CultureInfo.InvariantCulture, "{0} de {1} de {2}", fechaDocumento.Day, mes, fechaDocumento.Year);
+                    form.SetField("FechaLarga", fechaLarga);
+                    form.SetFieldProperty("FechaLarga", "textsize", 11, null);
+                    form.SetFieldProperty("FechaLarga", "textfont", baseFont, null);
+                    form.RegenerateField("FechaLarga");
+                    try
                     {
-                        cmd.Connection.Close();
+                        stamper.FormFlattening = true;
+                        
+                        stamper.Close();
+                        pdfReader.Close();
+                        res.SetSuccess(fileNameNew);
+                    }
+                    catch (Exception ex)
+                    {
+                        //ExceptionManager.Trace(ex, "Agreement");
+                        res.SetFail(ex);
                     }
                 }
             }
+            // ---------------------------------------
+        }
+        catch (Exception ex)
+        {
+            //ExceptionManager.Trace(ex, string.Format(CultureInfo.InvariantCulture, @"Agreemen({0}, {1})", companyId, language));
+            res.SetFail(ex);
         }
 
         return res;
     }
 
-    /// <summary>Creates a PDF file from an HTML source</summary>
-    /// <param name="html">HTML source</param>
-    /// <param name="fileName">Name of PDF file</param>
-    public static void CreatePDFFromHTMLFile(string html, string fileName)
-    {
-        try
-        {
-            var document = new iTS.Document();
-            PdfWriter.GetInstance(document, new FileStream(fileName, FileMode.Create));
-            document.Open();
-            var hw = new iTextSharp.text.html.simpleparser.HTMLWorker(document);
-            hw.Parse(new StringReader(html));
-            document.Close();
-        }
-        catch (Exception ex)
-        {
-            throw ex;
-        }
-    }
 
     /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
@@ -247,5 +241,30 @@ public partial class Agreement : Page
         textCa = textCa.Replace("\n", string.Empty);
         textCa = textCa.Replace("#DATE#", Constant.NowText);
         this.LTCa.Text = "<p>" + textCa;
+    }
+
+    /// <summary>Gets name of month</summary>
+    /// <param name="index">Index of month</param>
+    /// <param name="languageCode">Code on laguange to translate</param>
+    /// <returns>Name of month</returns>
+    private static string MonthName(int index, string languageCode)
+    {
+        var dictionary = ApplicationDictionary.Load(languageCode);
+        switch (index)
+        {
+            case 1: return dictionary["Common_MonthName_January"];
+            case 2: return dictionary["Common_MonthName_February"];
+            case 3: return dictionary["Common_MonthName_March"];
+            case 4: return dictionary["Common_MonthName_April"];
+            case 5: return dictionary["Common_MonthName_May"];
+            case 6: return dictionary["Common_MonthName_June"];
+            case 7: return dictionary["Common_MonthName_July"];
+            case 8: return dictionary["Common_MonthName_August"];
+            case 9: return dictionary["Common_MonthName_September"];
+            case 10: return dictionary["Common_MonthName_October"];
+            case 11: return dictionary["Common_MonthName_November"];
+            case 12: return dictionary["Common_MonthName_December"];
+            default: return string.Empty;
+        }
     }
 }
