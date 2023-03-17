@@ -56,7 +56,7 @@ function FillCmbEquipmentScaleDivision() {
     VoidTable('CmbEquipmentScaleDivision');
     var optionDefault = document.createElement('option');
     optionDefault.value = 0;
-    optionDefault.appendChild(document.createTextNode(Dictionary.Common_SelectAll));
+    optionDefault.appendChild(document.createTextNode(Dictionary.Common_SelectOne));
     document.getElementById('CmbEquipmentScaleDivision').appendChild(optionDefault);
 
     for (var x = 0; x < EquipmentScaleDivision.length; x++) {

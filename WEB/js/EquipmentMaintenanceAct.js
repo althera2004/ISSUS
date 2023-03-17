@@ -269,7 +269,7 @@ function FillCmbEquipmentMaintainmentType() {
     VoidTable("CmbEquipmentMaintenanceType");
     var optionDefault = document.createElement("option");
     optionDefault.value = 0;
-    optionDefault.appendChild(document.createTextNode(Dictionary.Common_SelectAll));
+    optionDefault.appendChild(document.createTextNode(Dictionary.Common_SelectOne));
     document.getElementById("CmbEquipmentMaintenanceType").appendChild(optionDefault);
     for (var x = 0; x < EquipmentMaintenanceDefinitionList.length; x++) {
         var option = document.createElement("option");
@@ -449,7 +449,7 @@ function EquipmentMaintenanceDefinitionRegister(sender) {
         $("#dialogNewEquipmentMaintenanceActOperation").html(SelectedEquipmentMaintenanceDefinition.Description + "&nbsp;<i>(" + (SelectedEquipmentMaintenanceDefinition.MaintenanceType === 0 ? Dictionary.Common_Internal : Dictionary.Common_External) + ")</i>");
     }
 
-    var dialog = $("#dialogNewEquipmentMaintenanceAct").removeClass("hide").dialog({
+    $("#dialogNewEquipmentMaintenanceAct").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Item_EquipmentMaintenance_PopupIntervention,

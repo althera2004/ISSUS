@@ -116,9 +116,21 @@ function IndicadorGetFilter(exportType) {
     }
 
     var status = 0;
-    if (document.getElementById("RBStatus1").checked === true) { status = 1; }
-    if (document.getElementById("RBStatus2").checked === true) { status = 2; }
-
+    $("#RBStatus1").removeAttr("disabled");
+    $("#RBStatus2").removeAttr("disabled");
+    if (document.getElementById("RBStatus1").checked === true &&
+        document.getElementById("RBStatus2").checked === true) { status = 0; }
+    else {
+        if (document.getElementById("RBStatus1").checked === true) {
+            status = 1;
+            $("#RBStatus1").attr("disabled", "disabled");
+        }
+        if (document.getElementById("RBStatus2").checked === true) {
+            status = 2;
+            $("#RBStatus2").attr("disabled", "disabled");
+        }
+    }
+     
     filterData =
     {
         "companyId": Company.Id,
@@ -432,9 +444,25 @@ window.onload = function () {
         $("#TxtDateFrom").val(GetDateYYYYMMDDText(Filter.from, "/", false));
         $("#TxtDateTo").val(GetDateYYYYMMDDText(Filter.to, "/", false));
         $("#CmbTipusIndicador").val(Filter.indicatorType);
-        if (Filter.status === 0) { document.getElementById("RBStatus0").checked = true; }
-        if (Filter.status === 1) { document.getElementById("RBStatus1").checked = true; }
-        if (Filter.status === 2) { document.getElementById("RBStatus2").checked = true; }
+
+        switch (Filter.status) {
+            case 0:
+                document.getElementById("RBStatus1").checked = true;
+                document.getElementById("RBStatus2").checked = true;
+                break;
+            case 1:
+                document.getElementById("RBStatus1").checked = true;
+                $("#RBStatus1").attr("disabled", "disabled");
+                break;
+            case 2:
+                document.getElementById("RBStatus2").checked = true;
+                $("#RBStatus2").attr("disabled", "disabled");
+                break;
+        }
+
+        //if (Filter.status === 0) { document.getElementById("RBStatus0").checked = true; }
+        //if (Filter.status === 1) { document.getElementById("RBStatus1").checked = true; }
+        //if (Filter.status === 2) { document.getElementById("RBStatus2").checked = true; }
         $("#CmbProcess").val(Filter.process);
         if (Filter.process > 0) {
             CmbProcessChanged();

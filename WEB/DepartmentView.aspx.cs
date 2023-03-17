@@ -22,7 +22,6 @@ public partial class DepartmentView : Page
 
     private long departmentId;
     private Department department;
-    private FormFooter formFooter;
 
     private TabBar tabBar = new TabBar { Id = "DepartmentTabBar" };
 
@@ -60,14 +59,6 @@ public partial class DepartmentView : Page
         get
         {
             return this.tabBar.Render;
-        }
-    }
-
-    public string FormFooter
-    {
-        get
-        {
-            return this.formFooter.Render(this.Dictionary);
         }
     }
 
@@ -208,9 +199,9 @@ public partial class DepartmentView : Page
             this.LtTrazas.Text = ActivityTrace.RenderTraceTableForItem(this.departmentId, TargetType.Department);
         }
 
-        this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+        this.master.formFooter = new FormFooter();
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         if (this.departmentId != -1)
         {
@@ -222,8 +213,11 @@ public partial class DepartmentView : Page
                 this.department = Department.Empty;
             }
 
-            this.formFooter.ModifiedBy = this.department.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.department.ModifiedOn;
+            //this.formFooter.ModifiedBy = this.department.ModifiedBy.Description;
+            //this.formFooter.ModifiedOn = this.department.ModifiedOn;
+            this.master.ModifiedBy = this.department.ModifiedBy.Description;
+            this.master.ModifiedOn = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.department.ModifiedOn);
+
             var tableEmployees = new StringBuilder();
             foreach (var employee in this.department.Employees)
             {
@@ -247,7 +241,10 @@ public partial class DepartmentView : Page
         {
             this.department = Department.Empty;
             this.TableEmployees.Text = string.Empty;
-            this.TableJobPosition.Text = string.Empty;
+            this.TableJobPosition.Text = string.Empty; 
+            this.master.ModifiedBy = Dictionary["Common_New"];
+            this.master.ModifiedOn = "-";
+
         }
 
         this.tabBar.AddTab(new Tab { Id = "home", Available = true, Active = true, Selected = true, Label = this.Dictionary["Item_Department_Tab_Principal"] });

@@ -48,16 +48,6 @@ public partial class CargosView : Page
         }
     }
 
-    private FormFooter formFooter;
-
-    public string FormFooter
-    {
-        get
-        {
-            return this.formFooter.Render(this.Dictionary);
-        }
-    }
-
     public JobPosition Cargo { get; private set; }
 
     public string TxtName
@@ -172,6 +162,21 @@ public partial class CargosView : Page
         }
     }
 
+    public string AprovedByText { get; private set;}
+
+    public string AprovedOnText
+    {
+        get
+        {
+            if(this.Cargo.AprovedOn != null && this.Cargo.AprovedOn.Year > 1)
+            {
+                return string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Cargo.AprovedOn);
+            }
+
+            return string.Empty;
+        }
+    }
+
     /// <summary>Gets the dictionary for interface texts</summary>
     public Dictionary<string, string> Dictionary { get; private set; }
 
@@ -234,13 +239,13 @@ public partial class CargosView : Page
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
         
-        this.formFooter = new FormFooter();
+        this.master.formFooter = new FormFooter();
         if (this.user.HasGrantToWrite(ApplicationGrant.JobPosition))
         {
-            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
         }
 
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         if (jobPositionId > 0)
         {
@@ -251,8 +256,10 @@ public partial class CargosView : Page
                 Context.ApplicationInstance.CompleteRequest();
             }
 
-            this.formFooter.ModifiedBy = this.Cargo.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.Cargo.ModifiedOn;
+            //this.formFooter.ModifiedBy = this.Cargo.ModifiedBy.Description;
+            //this.formFooter.ModifiedOn = this.Cargo.ModifiedOn;
+            this.master.ModifiedBy = this.Cargo.ModifiedBy.Description;
+            this.master.ModifiedOn = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Cargo.ModifiedOn);
 
             this.RenderEmployees();
             this.master.TitleInvariant = true;
@@ -262,6 +269,9 @@ public partial class CargosView : Page
         {
             this.Cargo = JobPosition.Empty;
             this.TableEmployees.Text = string.Empty;
+            this.master.ModifiedBy = Dictionary["Common_New"];
+            this.master.ModifiedOn = "-";
+
         }
 
         if (!IsPostBack)
@@ -276,6 +286,7 @@ public partial class CargosView : Page
         this.master.AddBreadCrumb("Item_JobPositions", "CargosList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb("Item_JobPosition_BreadCrumb_Edit");
         this.master.Titulo = label;
+        ComboAprovedBy();
     }
 
     private void RenderEmployees()
@@ -321,6 +332,45 @@ public partial class CargosView : Page
         }
 
         return null;
+    }
+
+    private void ComboAprovedBy()
+    {
+        var employesList = new StringBuilder();
+        var employes = Employee.ByCompany(this.company.Id);
+        long aprovedByActual = 0;
+
+        if(this.Cargo.AprovedBy != null)
+        {
+            aprovedByActual = this.Cargo.AprovedBy.Id;
+        }
+
+        this.AprovedByText = aprovedByActual.ToString();
+
+        if(aprovedByActual < 1)
+        {
+            employesList.AppendFormat(
+                       CultureInfo.InvariantCulture,
+                       @"<option value=""{0}""{2}>{1}</option>",
+                       -1,
+                       this.Dictionary["Common_SelectOne"],
+                       " selected=\"selected\"");
+        }
+
+        foreach (var employee in employes)
+        {
+            if ((employee.Active && employee.DisabledDate == null) || aprovedByActual == employee.Id)
+            {
+                employesList.AppendFormat(
+                    CultureInfo.InvariantCulture,
+                    @"<option value=""{0}""{2}>{1}</option>",
+                    employee.Id,
+                    employee.FullName,
+                    aprovedByActual == employee.Id ? " selected=\"selected\"" : string.Empty);
+            }
+        }
+
+        this.LtCmbAprovedBy.Text = employesList.ToString();
     }
 
     private void RenderDocuments()

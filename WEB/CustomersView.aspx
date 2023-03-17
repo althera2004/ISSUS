@@ -10,12 +10,12 @@
         var userId = <%=this.User.Id %>;
         pageItems = [<%=this.Customers %>];
         var customer = <%=this.CustomerItem.Json %>;
+        var pageType = "form";
     </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
-
                             <div>
                                 <div>
                                     <div id="user-profile-2" class="user-profile">
@@ -28,42 +28,7 @@
                                                             <label id="TxtNameLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Customer"]%><span style="color:#f00">*</span></label>
                                                             <%=this.TxtName %>
                                                         </div>
-
-                                                        <% if (this.CustomerId != -1 && this.CustomerId == -1)
-                                                           { %>
-                                                        <h4><%=this.Dictionary["Item_Customer_Section_Incidents"]%></h4>											
-                                                        <table class="table table-bordered table-striped">
-                                                            <thead class="thin-border-bottom">
-                                                                <tr>
-                                                                    <th style="width:100px;"><%=this.Dictionary["Item_Customer_Header_Type"]%></th>
-                                                                    <th><%=this.Dictionary["Item_Customer_Header_Description"]%></th>
-                                                                    <th style="width:90px;"><%=this.Dictionary["Item_Customer_Header_Status"]%></th>
-                                                                    <th><%=this.Dictionary["Item_Customer_Header_Associated"]%></th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody id="TableJobPositionDataTable">
-                                                                <asp:Literal runat="server" ID="TableActions"></asp:Literal>
-                                                            </tbody>
-                                                        </table>
-                                                        <% } %>
-                                                        <%=this.FormFooter %>
                                                     </form>
-                                                </div>
-                                                <div id="trazas" class="tab-pane">													
-                                                        <table class="table table-bordered table-striped">
-                                                            <thead class="thin-border-bottom">
-                                                                <tr>
-                                                                    <th style="width:150px;"><%=this.Dictionary["Item_Tace_ListHeader_Date"]%></th>
-                                                                    <th><%=this.Dictionary["Item_Tace_ListHeader_Reason"]%></th>
-                                                                    <th><%=this.Dictionary["Item_Tace_ListHeader_Trace"]%></th>
-                                                                    <th style="width:250px;"><%= this.Dictionary["Item_Tace_ListHeader_User"]%></th>													
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <asp:Literal runat="server" ID="LtTrazas"></asp:Literal>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
                                                 </div>
                                         </div>
                                     </div>
@@ -165,7 +130,7 @@
                             document.location = referrer;
                         }
                     },
-                    "error": function (jqXHR, textStatus, errorThrown) {
+                    "error": function (jqXHR) {
                         LoadingHide();
                         alertUI(jqXHR.responseText);
                     }
@@ -175,9 +140,8 @@
 
         jQuery(function ($) {
 
-            $('#BtnSave').click(Save);
-            $('#BtnCancel').click(function (e) { 
-                        document.location = referrer; });
+            $("#BtnSave").on("click", Save);
+            $("#BtnCancel").on("click", function () { document.location = referrer; });
 
             //override dialog's title function to allow for HTML titles
             $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
@@ -191,8 +155,8 @@
                 
 
             <%if(this.ShowHelp) { %>
-            SetToolTip('TxtName',"<%=this.Dictionary["Item_Customer_Help_Name"] %>");
-            $('[data-rel=tooltip]').tooltip();
+            SetToolTip("TxtName","<%=this.Dictionary["Item_Customer_Help_Name"] %>");
+            $("[data-rel=tooltip]").tooltip();
             <% } %>
         });
 
@@ -202,8 +166,7 @@
         }
         else{            
             // ISSUS-190
-            document.getElementById('TxtName').focus();
+            document.getElementById("TxtName").focus();
         }
     </script>
 </asp:Content>
-

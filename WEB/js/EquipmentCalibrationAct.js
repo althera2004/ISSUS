@@ -557,7 +557,7 @@ function ShowDialogNewCalibrationPopup(actionSelected) {
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentCalibrationAct_PopupNew_Title + "</h4>",
         "title_html": true,
-        "width": 400,
+        "width": 550,
         "buttons":
         [
             {
@@ -612,6 +612,7 @@ function EquipmentCalibrationSave() {
         "Expiration": expiration,
         "Active": true,
         "Cost": cost,
+        "Observations": $("#TxtEquipmentCalibrationActObservations").val(),
         "Provider": { "Id": $("#CmbEquipmentCalibrationActProvider").val() },
         "Responsible": {
             "Id": $("#CmbEquipmentCalibrationActResponsible").val(),

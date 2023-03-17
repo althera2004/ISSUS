@@ -163,20 +163,6 @@ public partial class IndicadorView : Page
     }
 
     private string returnScript;
-    private FormFooter formFooter;
-
-    public string FormFooter
-    {
-        get
-        {
-            if (this.formFooter == null)
-            {
-                return string.Empty;
-            }
-
-            return this.formFooter.Render(this.dictionary);
-        }
-    }
 
     public string ReturnScript
     {
@@ -271,12 +257,12 @@ public partial class IndicadorView : Page
             this.returnScript = "document.location = referrer;";
         }
 
-        this.formFooter = new FormFooter();
 
         this.user = (ApplicationUser)Session["User"];
         this.company = (Company)Session["company"];
         this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
         this.master = this.Master as Giso;
+        this.master.formFooter = new FormFooter();
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
 
@@ -306,13 +292,15 @@ public partial class IndicadorView : Page
             this.master.TitleInvariant = true;
             this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_Indicador_Header_Description"], this.Indicador.Description);
 
-            this.formFooter.ModifiedBy = this.Indicador.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.Indicador.ModifiedOn;
-            this.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success" });
-            this.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.dictionary["Item_Objetivo_Btn_Restaurar"], Action = "primary" });
-            this.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.dictionary["Item_Indicador_Btn_Anular"], Action = "danger" });
-            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
-            this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+            //this.formFooter.ModifiedBy = this.Indicador.ModifiedBy.Description;
+            //this.formFooter.ModifiedOn = this.Indicador.ModifiedOn;
+            this.master.ModifiedBy = this.Indicador.ModifiedBy.Description;
+            this.master.ModifiedOn = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Indicador.ModifiedOn);
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-print", Text = this.Dictionary["Common_Print"], Action = "info" });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.dictionary["Item_Objetivo_Btn_Restaurar"], Action = "primary" });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.dictionary["Item_Indicador_Btn_Anular"], Action = "danger" });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
             this.master.ItemCode = this.Indicador.Description;
         }
         else
@@ -320,10 +308,12 @@ public partial class IndicadorView : Page
             this.master.AddBreadCrumb("Item_Indicador_Detail");
             this.master.Titulo = "Item_Indicador_Detail";
             this.Indicador = Indicador.Empty;
-            this.formFooter.ModifiedBy = this.dictionary["Common_New"];
-            this.formFooter.ModifiedOn = DateTime.Now;
-            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
-            this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+            //this.formFooter.ModifiedBy = this.dictionary["Common_New"];
+            //this.formFooter.ModifiedOn = DateTime.Now;
+            this.master.ModifiedBy = Dictionary["Common_New"];
+            this.master.ModifiedOn = "-";
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
         }
 
         this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.dictionary["Item_Indicador_Tab_Basic"], Available = true });

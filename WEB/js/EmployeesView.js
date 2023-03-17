@@ -1,5 +1,20 @@
 ﻿function SaveSkill()
 {
+    var aprovedBy = { "Id": -1, "CompanyId": Company.Id };
+    if ($("#CmbAprovedByValue").val() !== "") {
+        aprovedBy.Id = $("#CmbAprovedByValue").val() * 1;
+    }
+
+    var aprovedOn = GetDate("01/01/1970", "/", false);;
+    if ($("#TxtAprovedOn").val() !== "") {
+        aprovedOn = GetDate($("#TxtAprovedOn").val(), "/", false);
+    }
+
+    var lastChange = GetDate("01/01/1970", "/", false);;
+    if ($("#TxtLastChange").val() !== "") {
+        lastChange = GetDate($("#TxtLastChange").val(), "/", false);
+    }
+
     var data = { 
         "skills": {
             "Id": 0,
@@ -8,10 +23,14 @@
             "Specific": $("#TxtSpecific").val().trim(),
             "WorkExperience": $("#TxtWorkExperience").val().trim(),
             "Ability": $("#TxtHability").val().trim(),
-            "AcademicValid": document.getElementById('AcademicValidYes').checked ? true : (document.getElementById('AcademicValidNo').checked ? false : null),
-            "SpecificValid": document.getElementById('SpecificValidYes').checked ? true : (document.getElementById('SpecificValidNo').checked ? false : null),
-            "WorkExperienceValid": document.getElementById('WorkExperienceValidYes').checked ? true : (document.getElementById('WorkExperienceValidNo').checked ? false : null),
-            "AbilityValid": document.getElementById('HabilityValidYes').checked ? true : (document.getElementById('HabilityValidNo').checked ? false : null)
+            "AcademicValid": document.getElementById("AcademicValidYes").checked ? true : (document.getElementById("AcademicValidNo").checked ? false : null),
+            "SpecificValid": document.getElementById("SpecificValidYes").checked ? true : (document.getElementById("SpecificValidNo").checked ? false : null),
+            "WorkExperienceValid": document.getElementById("WorkExperienceValidYes").checked ? true : (document.getElementById("WorkExperienceValidNo").checked ? false : null),
+            "AbilityValid": document.getElementById("HabilityValidYes").checked ? true : (document.getElementById("HabilityValidNo").checked ? false : null),
+            "AprovedBy": aprovedBy,
+            "AprovedOn": aprovedOn,
+            "Notes": $("#TxtNotes").val(),
+            "LastChange": lastChange
         },
         "userId": user.Id
     };
@@ -35,7 +54,22 @@
 
 function UpdateSkill()
 {
-    var data = { 
+    var aprovedBy = { "Id": -1, "CompanyId": Company.Id };
+    if ($("#CmbAprovedBy").val() !== "") {
+        aprovedBy.Id = $("#CmbAprovedBy").val() * 1;
+    }
+
+    var aprovedOn = GetDate("01/01/1970", "/", false);;
+    if ($("#TxtAprovedOn").val() !== "") {
+        aprovedOn = GetDate($("#TxtAprovedOn").val(), "/", false);
+    }
+
+    var lastChange = GetDate("01/01/1970", "/", false);;
+    if ($("#LastChange").val() !== "") {
+        lastChange = GetDate($("#LastChange").val(), "/", false);
+    }
+
+    var data = {
         "oldSkills": employeeSkills,
         "newSkills": {
             "Id": 0,
@@ -47,7 +81,11 @@ function UpdateSkill()
             "AcademicValid": document.getElementById('AcademicValidYes').checked ? true : (document.getElementById('AcademicValidNo').checked ? false : null),
             "SpecificValid": document.getElementById('SpecificValidYes').checked ? true : (document.getElementById('SpecificValidNo').checked ? false : null),
             "WorkExperienceValid": document.getElementById('WorkExperienceValidYes').checked ? true : (document.getElementById('WorkExperienceValidNo').checked ? false : null),
-            "AbilityValid": document.getElementById('HabilityValidYes').checked ? true : (document.getElementById('HabilityValidNo').checked ? false : null)
+            "AbilityValid": document.getElementById('HabilityValidYes').checked ? true : (document.getElementById('HabilityValidNo').checked ? false : null),
+            "AprovedBy": aprovedBy,
+            "AprovedOn": aprovedOn,
+            "Notes": $("#TxtNotes").val(),
+            "LastChange": lastChange
         },
         "userId": user.Id
     };
@@ -76,6 +114,14 @@ function ValidateForm()
     $("#TxtNombreErrorDuplicated").hide();
     $("#TxtApellido1ErrorDuplicated").hide();
     $("#TxtEmailErrorDuplicated").hide();
+
+
+    $("#CmbAprovedByLabel").css("color", Color.Label);
+    $("#TxtAprovedOnLabel").css("color", Color.Label);
+    $("#TxtNotesLabel").css("color", Color.Label);
+    $("#TxtAprovedOnErrorRequired").hide();
+    $("#CmbAprovedByErrorRequired").hide();
+    $("#TxtNotesErrorRequired").hide();
 
     if(RequiredFieldText("TxtNombre") === false) { ok = false; }
     if(RequiredFieldText("TxtApellido1") === false) { ok = false; }
@@ -158,6 +204,34 @@ function ValidateForm()
     {
         if(MalFormedEmail("TxtEmail") === false) { ok = false; }
     }
+
+
+
+    // Validar aprovedBy
+    // ----------------------------------
+    if (aprovedByActual > 0 || $("#CmbAprovedBy").val() !== "-1" || $("#TxtAprovedOn").val() !== "" || $("#TxtNotes").val() !== "") {
+        if ($("#CmbAprovedBy").val() === "-1") {
+            ok = false;
+            $("#CmbAprovedByLabel").css("color", Color.Error);
+            $("#CmbAprovedByErrorRequired").show();
+        }
+
+        if ($("#TxtAprovedOn").val() === "") {
+            ok = false;
+            $("#TxtAprovedOnLabel").css("color", Color.Error);
+            $("#TxtAprovedOnErrorRequired").show();
+        }
+
+        if ($("#TxtNotes").val() === "") {
+            ok = false;
+            $("#TxtNotesLabel").css("color", Color.Error);
+            $("#TxtNotesErrorRequired").show();
+        }
+    }
+
+
+    // ----------------------------------
+
     return ok;
 }
 
@@ -193,6 +267,7 @@ function Restore()
 }
 
 jQuery(function ($) {
+	EMPLOYEE_AprovedLayout();
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         _title: function (title) {
             var $title = this.options.title || '&nbsp;';
@@ -354,6 +429,7 @@ jQuery(function ($) {
         var webMethod = "/Async/EmployeeActions.asmx/Update";
         var ddData = $("#CmbPais").data("ddslick");
         var country = ddData.selectedData.value * 1;
+
         var data = {
             "oldEmployee": employee,
             "newEmployee":
@@ -571,23 +647,51 @@ function UpdateSkillProfile() {
     var specified = "";
     var experience = "";
     var habilities = "";
-
+	$("#TxtJobPositionAcademic").html("");
+    $("#TxtJobPositionSpecific").html("");
+    $("#TxtJobPositionWorkExperience").html("");
+    $("#TxtJobPositionHability").html("");
     for (var x = 0; x < jobPositionEmployee.length; x++) {
         if (jobPositionEmployee[x].EndDate !== true) {
             var jobPosition = GetJobPositionById(jobPositionEmployee[x].Id);
             if (jobPosition !== null) {
-                academic += jobPosition.AcademicSkills + "\n";
-                specified += jobPosition.SpecificSkills + "\n";
-                experience += jobPosition.WorkExperience + "\n";
-                habilities += jobPosition.Abilities + "\n";
+				
+				var text = jobPosition.AcademicSkills.split('\\n');
+				for(var t =0; t < text.length; t++) {				
+					document.getElementById("TxtJobPositionAcademic").appendChild(document.createTextNode(text[t]));
+					document.getElementById("TxtJobPositionAcademic").appendChild(document.createTextNode('\n'));
+				}
+				
+				text = jobPosition.SpecificSkills.split('\\n');
+				for(var t =0; t < text.length; t++) {				
+					document.getElementById("TxtJobPositionSpecific").appendChild(document.createTextNode(text[t]));
+					document.getElementById("TxtJobPositionSpecific").appendChild(document.createTextNode('\n'));
+				}
+				
+				text = jobPosition.WorkExperience.split('\\n');
+				for(var t =0; t < text.length; t++) {				
+					document.getElementById("TxtJobPositionWorkExperience").appendChild(document.createTextNode(text[t]));
+					document.getElementById("TxtJobPositionWorkExperience").appendChild(document.createTextNode('\n'));
+				}
+				
+				text = jobPosition.Abilities.split('\\n');
+				for(var t =0; t < text.length; t++) {				
+					document.getElementById("TxtJobPositionHability").appendChild(document.createTextNode(text[t]));
+					document.getElementById("TxtJobPositionHability").appendChild(document.createTextNode('\n'));
+				}
+				
+                // academic += jobPosition.AcademicSkills + "\\n";
+                // specified += jobPosition.SpecificSkills + "\\n";
+                // experience += jobPosition.WorkExperience + "\\n";
+                // habilities += jobPosition.Abilities + "\\n";
             }
         }
     }
 
-    $("#TxtJobPositionAcademic").html(academic);
-    $("#TxtJobPositionSpecific").html(specified);
-    $("#TxtJobPositionWorkExperience").html(experience);
-    $("#TxtJobPositionHability").html(habilities);
+    // $("#TxtJobPositionAcademic").html(academic);
+    // $("#TxtJobPositionSpecific").html(specified);
+    // $("#TxtJobPositionWorkExperience").html(experience);
+    // $("#TxtJobPositionHability").html(habilities);
 }
 
 var JobPositionSelected;
@@ -827,4 +931,63 @@ function EmployeeDeleteAlert(id, description) {
     EmployeeDeleteId = id;
     promptInfoUI(Dictionary.Item_Employee_Message_InactivateWarning, 300, EmployeeDeleteAlertYes, null);
     return false;
+}
+
+
+
+function EMPLOYEE_AprovedLayout() {
+    $("#aprovedByRequired").hide();
+    $("#aprovedOnRequired").hide();
+    $("#notesRequired").hide();
+
+    if (aprovedByActual > 0) {
+		console.log("aproved", 0);
+        $("#aprovedByRequired").show();
+        $("#aprovedOnRequired").show();
+        $("#notesRequired").show();
+    }
+
+    if ($("#CmbAprovedBy").val() !== "-1") {
+		console.log("aproved", 1);
+        $("#aprovedByRequired").show();
+        $("#aprovedOnRequired").show();
+		$("#notesRequired").show();
+    }
+
+    if ($("#TxtAprovedOn").val() !== "") {
+		console.log("aproved", 2);
+        $("#aprovedByRequired").show();
+        $("#aprovedOnRequired").show();
+		$("#notesRequired").show();
+    }
+	
+	if ($("#TxtNotes").val() !== "") {
+		console.log("aproved", 3);
+        $("#aprovedByRequired").show();
+        $("#aprovedOnRequired").show();
+		$("#notesRequired").show();
+	}
+}
+
+function AprovedByChanged() {
+    // $("#CmbAprovedByValue").val($("#CmbAprovedBy").val());
+    // if ($("#CmbAprovedBy").val() === "-1") {
+        // $("#CmbAprovedBy").val("");
+    // }
+    EMPLOYEE_AprovedLayout();
+}
+
+function AprovedOnChanged() {
+    EMPLOYEE_AprovedLayout();
+}
+
+if (active === false) {
+    $("#TxtAprovedOnBtn").attr("disabled", "disabled");
+    $("#TxtAprovedOn").attr("disabled", "disabled");
+    $("#CmbAprovedBy").attr("disabled", "disabled");
+}
+else {
+    var options = $.extend({}, $.datepicker.regional[ApplicationUser.Language], { "dateFormat": "dd/mm/yy", "autoclose": true, "todayHighlight": true });
+    $(".date-picker").datepicker(options);
+    $(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });
 }

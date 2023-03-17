@@ -112,6 +112,16 @@ window.onload = function () {
 
     SetFilterCostLayout();
     SetFilterCosts();
+
+    $("#RBCI").on("change", SetFilterCosts);
+    $("#RBCE").on("change", SetFilterCosts);
+    $("#RBVI").on("change", SetFilterCosts);
+    $("#RBVE").on("change", SetFilterCosts);
+    $("#RBMI").on("change", SetFilterCosts);
+    $("#RBME").on("change", SetFilterCosts);
+    $("#RBRI").on("change", SetFilterCosts);
+    $("#RBRE").on("change", SetFilterCosts);
+    $("#TabCostList").on("click", SetFilterCosts);
 };
 
 function SetFilterCostLayout() {
@@ -413,6 +423,7 @@ function SetFilter() {
 
 function SetFilterCosts() {
     var Filter = "";
+    $(".RBCost").removeAttr("disabled");
     if ($("#RBCE").prop("checked") === true) { Filter += "|CE"; }
     if ($("#RBVE").prop("checked") === true) { Filter += "|VE"; }
     if ($("#RBME").prop("checked") === true) { Filter += "|ME"; }
@@ -421,6 +432,10 @@ function SetFilterCosts() {
     if ($("#RBVI").prop("checked") === true) { Filter += "|VI"; }
     if ($("#RBMI").prop("checked") === true) { Filter += "|MI"; }
     if ($("#RBRI").prop("checked") === true) { Filter += "|RI"; }
+
+    if ($(".RBCost:checked").length < 2) {
+        $(".RBCost:checked").attr("disabled", "disabled");
+    }
 
     var from = GetDate($("#TxtDateFrom").val(), "/", true);
     var to = GetDate($("#TxtDateTo").val(), "/", true);

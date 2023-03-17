@@ -3,6 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="PageStyles" runat="server">
     <link rel="stylesheet" href="assets/css/jquery-ui-1.10.3.full.min.css" />
     <style type="text/css">
+        #FooterStatus{visibility:hidden;}
         #scrollTableDiv{
             background-color:#fafaff;
             border:1px solid #e0e0e0;
@@ -21,6 +22,7 @@
         TR:first-child{border-left:none;}
     </style>
 	<script>
+	    var pageType = "list";
 		var userLanguage = "<%=this.UserLanguage %>";
 		var dateFrom = "<%=this.DateFrom%>";
         var dateTo = "<%=this.DateTo%>";
@@ -67,7 +69,7 @@
                                         <td><strong><%=this.Dictionary["Item_Learning_FieldLabel_Status"] %>:</strong></td>
                                         <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="status0" onclick="Go();" /><%=this.Dictionary["Item_Learning_Status_InProgress"] %></td>
                                         <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="status1" onclick="Go();" /><%=this.Dictionary["Item_Learning_Status_Started"] %></td>
-                                        <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="status2" onclick="Go();" /><%=this.Dictionary["Item_Learning_Status_Finished"] %></td>
+                                        <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="status2" onclick="Go();" /><%=this.Dictionary["Item_Learning_Status_Done"] %></td>
                                         <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" id="status3" onclick="Go();" /><%=this.Dictionary["Item_Learning_Status_Evaluated"] %></td>
                                         <!--<td>&nbsp;&nbsp;&nbsp;<input runat="server" type="checkbox" id="status4" name="status" value="-1" onclick="Go();" /><%=this.Dictionary["Common_All_Female_Plural"] %></td>-->
                                     </tr>

@@ -1222,7 +1222,7 @@ namespace GisoFramework.Item
              *   @Amount decimal(18,3),
              *   @InternalResponsible int,
              *   @Description nvarchar(2000),
-             *   @Scope nvarchar(150),
+             *   @Scope nvarchar(2000),
              *   @CompanyAddressId int,
              *   @EnterpriseAddress nvarchar(500),
              *   @Notes nvarchar(2000),
@@ -1254,7 +1254,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@Amount", this.Amount));
                     cmd.Parameters.Add(DataParameter.Input("@InternalResponsible", this.InternalResponsible.Id));
                     cmd.Parameters.Add(DataParameter.Input("@Description", this.Descripcion, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@Scope", this.Scope, 150));
+                    cmd.Parameters.Add(DataParameter.Input("@Scope", this.Scope, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@CompanyAddressId", this.CompanyAddressId));
                     cmd.Parameters.Add(DataParameter.Input("@EnterpriseAddress", this.EnterpriseAddress, 500));
                     cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 2000));
@@ -1311,7 +1311,7 @@ namespace GisoFramework.Item
              *   @InternalResponsible int,
              *   @Description nvarchar(2000),
              *   @PuntosFuertes nvarchar(2000),
-             *   @Scope nvarchar(150),
+             *   @Scope nvarchar(2000),
              *   @CompanyAddressId int,
              *   @EnterpriseAddress nvarchar(500),
              *   @Notes nvarchar(2000),
@@ -1344,7 +1344,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@InternalResponsible", this.InternalResponsible.Id));
                     cmd.Parameters.Add(DataParameter.Input("@Description", this.Descripcion, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@PuntosFuertes", this.PuntosFuertes, 2000));
-                    cmd.Parameters.Add(DataParameter.Input("@Scope", this.Scope, 150));
+                    cmd.Parameters.Add(DataParameter.Input("@Scope", this.Scope, 2000));
                     cmd.Parameters.Add(DataParameter.Input("@CompanyAddressId", this.CompanyAddressId));
                     cmd.Parameters.Add(DataParameter.Input("@EnterpriseAddress", this.EnterpriseAddress, 500));
                     cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes, 2000));

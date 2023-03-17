@@ -84,11 +84,11 @@ public partial class ExportIndicadorExportData : Page
         ToolsPdf.AddDataLabel(table, dictionary["Item_Indicador_Field_Process"], indicador.Proceso.Description);
         ToolsPdf.AddDataLabel(table, dictionary["Item_Indicador_Field_Unidad"], indicador.Unidad.Description);
 
-        string meta = dictionary["Common_Comparer_" + indicador.MetaComparer] + " " + indicador.Meta.ToString();
+        string meta = dictionary["Common_Comparer_" + indicador.MetaComparer] + " " + string.Format(CultureInfo.InvariantCulture, "{0:##0.00}",  indicador.Meta);
         string alarma = string.Empty;
         if (!string.IsNullOrEmpty(indicador.AlarmaComparer))
         {
-            alarma = dictionary["Common_Comparer_" + indicador.AlarmaComparer] + " " + indicador.Meta.ToString();
+            alarma = dictionary["Common_Comparer_" + indicador.AlarmaComparer] + " " + string.Format(CultureInfo.InvariantCulture, "{0:##0.00}", indicador.Alarma);
         }
 
         ToolsPdf.AddDataLabel(table, dictionary["Item_Indicador_Field_Meta"], meta);

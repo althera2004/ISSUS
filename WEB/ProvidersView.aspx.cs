@@ -1,13 +1,12 @@
-﻿using GisoFramework;
-using GisoFramework.Item;
-using SbrinnaCoreFramework;
-using SbrinnaCoreFramework.UI;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
 using System.Web.UI;
+using GisoFramework;
+using GisoFramework.Item;
+using SbrinnaCoreFramework;
+using SbrinnaCoreFramework.UI;
 
 public partial class ProvidersView : Page
 {
@@ -16,7 +15,6 @@ public partial class ProvidersView : Page
 
     private int providerId;
     private Provider provider;
-    private FormFooter formFooter;
 
     private TabBar tabBar = new TabBar() { Id = "ProviderTabBar" };
 
@@ -70,14 +68,6 @@ public partial class ProvidersView : Page
         get
         {
             return this.tabBar.Render;
-        }
-    }
-
-    public string FormFooter
-    {
-        get
-        {
-            return this.formFooter.Render(this.Dictionary);
         }
     }
 
@@ -205,9 +195,9 @@ public partial class ProvidersView : Page
         this.master.Titulo = label;
 
 
-        this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+        this.master.formFooter = new FormFooter();
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         if (this.providerId != -1)
         {
@@ -218,82 +208,21 @@ public partial class ProvidersView : Page
                 Context.ApplicationInstance.CompleteRequest();
                 this.provider = Provider.Empty;
             }
-            this.formFooter.ModifiedBy = this.ProviderItem.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.ProviderItem.ModifiedOn;
+
+            this.master.ModifiedBy = this.ProviderItem.ModifiedBy.Description;
+            this.master.ModifiedOn = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.ProviderItem.ModifiedOn);
 
             label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.Dictionary["Item_Provider"], this.provider.Description);
             this.master.TitleInvariant = true;
-            this.master.Titulo = label;
-
-            this.RenderTableDefinitions();
-            this.RenderTableCost();
-            this.RenderTableActions();            
+            this.master.Titulo = label;            
         }
         else
         {
             this.provider = Provider.Empty;
-            //this.TableDefinitions.Text = string.Empty;
-            this.TableCosts.Text = string.Empty;
-            this.TableActions.Text = string.Empty;
+            this.master.ModifiedBy = Dictionary["Common_New"];
+            this.master.ModifiedOn = "-";
         }
 
         this.tabBar.AddTab(new Tab { Id = "home", Available = true, Active = true, Selected = true, Label = this.Dictionary["Item_Provider_Tab_Principal"] });
-        //// this.tabBar.AddTab(new Tab() { Id = "trazas", Label = this.dictionary["Item_Provider_Tab_Traces"], Active = this.ProviderId > 0, Available = this.user.HasTraceGrant() });
-    }
-
-    public void RenderTableCost()
-    {
-        var tableCosts = new StringBuilder();
-        var costs = ProviderCost.GetByProvider(this.provider);
-        decimal total = 0;
-        foreach (var cost in costs)
-        {
-            tableCosts.Append(cost.Row(this.Dictionary, this.user.Grants));
-            if (cost.Calibration != null)
-            {
-                total += cost.Calibration.Cost.HasValue ? cost.Calibration.Cost.Value : 0;
-            }
-            else if (cost.Maintenance != null)
-            {
-                total += cost.Maintenance.Cost.HasValue ? cost.Maintenance.Cost.Value : 0;
-            }
-            else if (cost.Verification != null)
-            {
-                total += cost.Verification.Cost.HasValue ? cost.Verification.Cost.Value : 0;
-            }
-            else
-            {
-                total += cost.Repair.Cost.HasValue ? cost.Repair.Cost.Value : 0;
-            }
-        }
-
-        tableCosts.Append("<tr><td colspan=\"5\" align=\"right\">").Append(this.Dictionary["Common_Total"]).Append("</td>");
-        tableCosts.Append("<td align=\"right\"><strong>").Append(string.Format(CultureInfo.GetCultureInfo("es-es"), "{0:#,##0.00}", total)).Append("</td></tr>");
-
-        this.TableCosts.Text = tableCosts.ToString();
-    }
-
-    public void RenderTableActions()
-    {
-        var tableActions = new StringBuilder();
-        var actions = ProviderIncidentActions.ByProvider(this.provider);
-        foreach (var action in actions)
-        {
-            tableActions.Append(action.Row(this.Dictionary, this.user.Grants));
-        }
-
-        this.TableActions.Text = tableActions.ToString();
-    }
-
-    public void RenderTableDefinitions()
-    {
-        /*StringBuilder tableDefinitions = new StringBuilder();
-        ReadOnlyCollection<ProviderDefinition> definitions = ProviderDefinition.GetByProvider(this.provider);
-        foreach (ProviderDefinition definition in definitions)
-        {
-            tableDefinitions.Append(definition.Row(this.dictionary, this.user.Grants));
-        }
-
-        this.TableDefinitions.Text = tableDefinitions.ToString();*/
     }
 }

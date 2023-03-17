@@ -149,6 +149,8 @@ function SaveEmployee() {
         return false;
     }
 
+    return false;
+
     var webMethod = "/Async/EmployeeActions.asmx/Substitute";
     var data = {
         "endDate": GetDate($("#TxtEndDate").val(), "/", false),

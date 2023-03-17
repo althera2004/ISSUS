@@ -28,6 +28,7 @@
         var lastNewAssistantId = 0;   
         var typeItemId = 10;
         var itemId = formacion.Id;
+        var pageType = "form";
     </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
@@ -50,7 +51,7 @@
                                                             </div>           
                                                             <label class="col-sm-1 no-padding-right" for="form-input-readonly"><%=this.Dictionary["Item_Learning_Status_InProgress"] %></label>
                                                             <div class="col-sm-1 control-label"><input value="1" type="radio" id="RBStatus2" name="RBStatus" class="col-xs-12 col-sm-12" /></div> 
-                                                            <label class="col-sm-1 no-padding-right" for="form-input-readonly"><%=this.Dictionary["Item_Learning_Status_Finished"] %></label>
+                                                            <label class="col-sm-1 no-padding-right" for="form-input-readonly"><%=this.Dictionary["Item_Learning_Status_Done"] %></label>
                                                             <div class="col-sm-1 control-label"><input value="2" type="radio" id="RBStatus3" name="RBStatus" class="col-xs-12 col-sm-12" /></div> 
                                                             <label class="col-sm-1 no-padding-right" for="form-input-readonly"><%=this.Dictionary["Item_Learning_Status_Evaluated"] %></label>                                                        
                                                             <div class="col-sm-7">&nbsp;</div>
@@ -261,7 +262,6 @@
                                                         <div class="form-group">
                                                             <div class="col-sm-12"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtNotes"></textarea></div>
                                                         </div>
-                                                        <%=this.FormFooter %>
                                                     </form>
                                                 </div>  
 

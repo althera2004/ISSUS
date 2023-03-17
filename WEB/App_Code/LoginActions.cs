@@ -304,14 +304,14 @@ namespace GISOWeb
 
                         var selectedUser = new ApplicationUser(userId);
 
-                        var key = GisoFramework.Tools.DecryptString(ConfigurationManager.AppSettings["mailpass"] as string);
-                        if (key.StartsWith("Error::", StringComparison.OrdinalIgnoreCase))
-                        {
-                            res.SetFail(key);
-                        }
+                        //var key = GisoFramework.Tools.DecryptString(ConfigurationManager.AppSettings["mailpass"] as string);
+                        //if (key.StartsWith("Error::", StringComparison.OrdinalIgnoreCase))
+                        //{
+                        //    res.SetFail(key);
+                        //}
 
                         string sender = ConfigurationManager.AppSettings["mailaddress"];
-                        string pass = key;
+                        string pass = ConfigurationManager.AppSettings["mailpass"];// key;
 						int port = Convert.ToInt32(ConfigurationManager.AppSettings["mailport"]);
                         string server = ConfigurationManager.AppSettings["mailserver"];
 

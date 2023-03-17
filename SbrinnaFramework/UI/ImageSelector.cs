@@ -9,6 +9,7 @@ namespace SbrinnaCoreFramework.UI
     using System;
     using System.Drawing;
     using System.Globalization;
+    using System.IO;
     using System.Web;
 
     /// <summary>
@@ -90,34 +91,38 @@ namespace SbrinnaCoreFramework.UI
                     path = string.Format(CultureInfo.CurrentCulture, @"{0}{1}", path, this.ImageName);
                 }
 
-                Size size = ImageHelper.GetDimensions(path);
-                decimal fileWidth = Convert.ToDecimal(size.Width);
-                decimal fileHeight = Convert.ToDecimal(size.Height);
-                decimal fileRatio = fileWidth / fileHeight;
-                decimal imageWidth = Convert.ToDecimal(this.Width);
-                decimal imageHeight = Convert.ToDecimal(this.Height);
+                if (File.Exists(path))
+                {
 
-                if (imageWidth > imageHeight)
-                {
-                    if (imageWidth > fileWidth) { fileWidth = imageWidth; }
-                    else { imageWidth = fileWidth; }
-                }
-                else
-                {
-                    if (imageHeight > fileHeight) { }
-                }
+                    Size size = ImageHelper.GetDimensions(path);
+                    decimal fileWidth = Convert.ToDecimal(size.Width);
+                    decimal fileHeight = Convert.ToDecimal(size.Height);
+                    decimal fileRatio = fileWidth / fileHeight;
+                    decimal imageWidth = Convert.ToDecimal(this.Width);
+                    decimal imageHeight = Convert.ToDecimal(this.Height);
 
-                if (fileRatio > 0)
-                {
-                    imageHeight = imageHeight / fileRatio;
-                }
-                else
-                {
-                    imageWidth = imageWidth / fileRatio;
-                }
+                    if (imageWidth > imageHeight)
+                    {
+                        if (imageWidth > fileWidth) { fileWidth = imageWidth; }
+                        else { imageWidth = fileWidth; }
+                    }
+                    else
+                    {
+                        if (imageHeight > fileHeight) { }
+                    }
 
-                this.Width = Convert.ToInt32(imageWidth);
-                this.Height = Convert.ToInt32(imageHeight);
+                    if (fileRatio > 0)
+                    {
+                        imageHeight = imageHeight / fileRatio;
+                    }
+                    else
+                    {
+                        imageWidth = imageWidth / fileRatio;
+                    }
+
+                    this.Width = Convert.ToInt32(imageWidth);
+                    this.Height = Convert.ToInt32(imageHeight);
+                }
 
                 return string.Format(
                     CultureInfo.CurrentCulture,

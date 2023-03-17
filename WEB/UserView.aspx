@@ -5,6 +5,7 @@
     <style type="text/css">
         .employeeProfile{display:none;}
         .emailed{visibility:hidden;}
+        #ItemStatus{display:none;}
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
@@ -16,6 +17,7 @@
         var ddData = [<%=this.CountryData %>];
         var userEmails = <%=this.Emails %>;
         var debug = "<%=this.Debug %>";
+        var pageType = "form";
     </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
@@ -181,7 +183,6 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                                <%=this.FormFooter %>
                                             </div>
                                         </div>
                                     </div>

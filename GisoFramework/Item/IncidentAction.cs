@@ -2068,7 +2068,7 @@ namespace GisoFramework.Item
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Add(DataParameter.Input("@FoundId", found.Id));
                         cmd.Parameters.Add(DataParameter.Input("@AuditoryId", found.AuditoryId));
-                        cmd.Parameters.Add(DataParameter.Input("@Title", found.Text, 100));
+                        cmd.Parameters.Add(DataParameter.Input("@Title", found.Unconformity, 100));
                         cmd.Parameters.Add(DataParameter.Input("@CompanyId", companyId));
                         cmd.Parameters.Add(DataParameter.Input("@EmployeeId", employeeId));
                         cmd.Parameters.Add(DataParameter.Input("@ApplicationUserId", applicationUserId));

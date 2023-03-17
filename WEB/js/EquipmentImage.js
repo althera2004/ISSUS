@@ -71,6 +71,9 @@ function EquipmentChangeImageConfirmed() {
             fd.append("_file", file.files[i]);
         }
 
+        fd.append("equipmentId", Equipment.Id);
+        fd.append("companyId", Company.Id);
+
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "/ChangeEquipmentImage.aspx", true);
         xhr.onreadystatechange = function () {

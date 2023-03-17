@@ -4159,6 +4159,14 @@ textarea.input-group-sm>.input-group-btn>.btn {
     background-color: #999;
     border-radius: 10px
 }
+
+    .badge.badge-alert {
+        padding-top: 3px;
+        padding-bottom: 3px;
+        padding-left: 4px;
+        padding-right: 5px;
+        background-color: #d15b47 !important
+    }
 .badge:empty {
     display: none
 }

@@ -65,5 +65,8 @@ namespace GisoFramework.Item.Binding
 
         /// <summary> Index of ModifiedOn column</summary> 
         public static readonly int ModifiedOn = 18;
+
+        /// <summary> Index of Observations column</summary> 
+        public static readonly int Observations = 19;
     }
 }

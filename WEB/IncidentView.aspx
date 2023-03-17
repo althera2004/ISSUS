@@ -56,6 +56,7 @@
         var Costs = <%=this.CostsJson %>;
         var typeItemId = 12;
         var itemId = IncidentId;
+        var pageType = "form";
     </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
@@ -151,8 +152,7 @@
                                                             </div>																					  
                                                         </form>
                                                     </div>
-                                                    <%=this.FormFooter %>
-													<br />
+                                                    <div id="ClosePlaceHolder"></div>
                                                 </div>
                                                 <div id="accion" class="tab-pane">       
                                                     <div>
@@ -190,8 +190,6 @@
                                                         </form>
                                                     </div>
                                                     <div id="AccionAnulada"></div>
-                                                    <%=this.FormFooterAction %>
-													<br /><br />
                                                 </div>
                                                 <div id="costes" class="tab-pane">
                                                     <div class="col-sm-12">                                                        

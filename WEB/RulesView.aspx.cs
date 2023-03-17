@@ -31,8 +31,6 @@ public partial class RulesView : Page
     /// <summary>Dictionary for fixed labels</summary>
     private Dictionary<string, string> dictionary;
 
-    private FormFooter formFooter;
-
     /// <summary>Company of session</summary>
     public Company company { get; set; }
 
@@ -71,14 +69,6 @@ public partial class RulesView : Page
         get
         {
             return this.dictionary;
-        }
-    }
-
-    public string FormFooter
-    {
-        get
-        {
-            return this.formFooter.Render(this.dictionary);
         }
     }
 
@@ -149,13 +139,13 @@ public partial class RulesView : Page
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
 
-        this.formFooter = new FormFooter();
+        this.master.formFooter = new FormFooter();
         if (this.user.HasGrantToWrite(ApplicationGrant.Rule))
         {
-            this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
+            this.master.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
         }
 
-        this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.master.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
 
         if (this.RuleId > 0)
         {
@@ -166,14 +156,19 @@ public partial class RulesView : Page
                 Context.ApplicationInstance.CompleteRequest();
             }
 
-            this.formFooter.ModifiedBy = this.Rule.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.Rule.ModifiedOn;
+            //this.formFooter.ModifiedBy = this.Rule.ModifiedBy.Description;
+            //this.formFooter.ModifiedOn = this.Rule.ModifiedOn;
+            this.master.ModifiedBy = this.Rule.ModifiedBy.Description;
+            this.master.ModifiedOn = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Rule.ModifiedOn);
+
             this.master.TitleInvariant = true;
             this.RenderHistoryTable();
         }
         else
         {
             this.Rule = Rules.Empty;
+            this.master.ModifiedBy = Dictionary["Common_New"];
+            this.master.ModifiedOn = "-";
         }
 
         if (!IsPostBack)

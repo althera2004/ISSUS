@@ -16,7 +16,6 @@ public partial class UnidadView : Page
 
     private int unidadId;
     private Unidad unidad;
-    private FormFooter formFooter;
 
     /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
@@ -70,14 +69,6 @@ public partial class UnidadView : Page
         get
         {
             return this.tabBar.Render;
-        }
-    }
-
-    public string FormFooter
-    {
-        get
-        {
-            return this.formFooter.Render(this.dictionary);
         }
     }
 
@@ -221,9 +212,9 @@ public partial class UnidadView : Page
         this.master.Titulo = "Item_Unidad_Title";
 
 
-        this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.master.formFooter = new FormFooter();
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
 
         if (this.unidadId != -1)
         {
@@ -234,8 +225,11 @@ public partial class UnidadView : Page
                 Context.ApplicationInstance.CompleteRequest();
                 this.unidad = Unidad.Empty;
             }
-            this.formFooter.ModifiedBy = this.UnidadItem.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.UnidadItem.ModifiedOn;
+
+            //this.formFooter.ModifiedBy = this.UnidadItem.ModifiedBy.Description;
+            //this.formFooter.ModifiedOn = this.UnidadItem.ModifiedOn;
+            this.master.ModifiedBy = this.UnidadItem.ModifiedBy.Description;
+            this.master.ModifiedOn = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.UnidadItem.ModifiedOn);
 
             label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_Unidad"], this.unidad.Description);
             this.master.TitleInvariant = true;
@@ -244,9 +238,10 @@ public partial class UnidadView : Page
         else
         {
             this.unidad = Unidad.Empty;
+            this.master.ModifiedBy = Dictionary["Common_New"];
+            this.master.ModifiedOn = "-";
         }
 
-        this.tabBar.AddTab(new Tab { Id = "home", Available = true, Active = true, Selected = true, Label = this.dictionary["Item_Unidad_Tab_Principal"] });
-        //// this.tabBar.AddTab(new Tab() { Id = "trazas", Label = this.dictionary["Item_Provider_Tab_Traces"], Active = this.ProviderId > 0, Available = this.user.HasTraceGrant() });
+        this.tabBar.AddTab(new Tab { Id = "home", Available = true, Active = true, Selected = true, Label = this.dictionary["Item_Unidad_Tab_Principal"] });        
     }    
 }

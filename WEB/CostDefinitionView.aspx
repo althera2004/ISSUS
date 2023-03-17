@@ -9,6 +9,7 @@
         var CostDefinitions = [<%= CostDefinitions %>];
         var CostDefinitionId = <%=this.CostDefinitionId %>;
         userId = <%=this.User.Id %>;
+        var pageType = "form";
     </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
@@ -20,20 +21,19 @@
                                         <div class="tabbable">
                                             <%=this.TabBar %>
                                             <div class="tab-content no-border padding-24">
-                                                <div id="home" class="tab-pane active">                                                
+                                                <div id="home" class="tab-pane active">
                                                     <form class="form-horizontal" role="form">
                                                         <div class="form-group">
-                                                            <label id="TxtNameLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Cost"]%><span style="color:#f00">*</span></label>
+                                                            <label id="TxtNameLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Cost"]%><span style="color: #f00">*</span></label>
                                                             <%=this.TxtName %>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label id="TxtAmountLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_CostDefinition_Field_Amount"]%></label>                                                            
-                                                            <div class="col-sm-2">                                                                                                                            
+                                                            <label id="TxtAmountLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_CostDefinition_Field_Amount"]%></label>
+                                                            <div class="col-sm-2">
                                                                 <input type="text" id="TxtAmount" placeholder="<%=this.Dictionary["Item_CostDefinition_Field_Amount"]%>" class="col-xs-12 col-sm-12 tooltip-info money-bank" value="" maxlength="12" onblur="this.value=$.trim(this.value);" />
                                                                 <span class="ErrorMessage" id="TxtAmountErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
-                                                            </div>	
+                                                            </div>
                                                         </div>
-                                                        <%=this.FormFooter %>
                                                     </form>
                                                 </div>
                                                 <div id="trazas" class="tab-pane">
@@ -51,7 +51,7 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

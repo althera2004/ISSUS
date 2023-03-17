@@ -734,7 +734,7 @@ namespace GisoFramework.Item
         /// <param name="objetivoId"></param>
         /// <param name="companyId"></param>
         /// <returns></returns>
-        public static Objetivo ById(int objetivoId, int companyId)
+        public static Objetivo ById(long objetivoId, int companyId)
         {
             /* CREATE PROCEDURE Provider_GetByCompany
              *   @CompanyId int */

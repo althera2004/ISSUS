@@ -45,6 +45,7 @@
         var IndicadoresObjetivo = <%=this.IndicadoresObjetivo %>;
         var Employees = <%= this.Employees %>;
         var Historic = <%=this.Historic %>;
+        var pageType = "form";
     </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
@@ -159,7 +160,6 @@
                                                             </div>
                                                         </form>
                                                     </div> 
-                                                    <%=this.FormFooter %>
                                                 </div>
                                                 <div id="records" class="tab-pane">
                                                     

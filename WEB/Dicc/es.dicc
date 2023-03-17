@@ -13,9 +13,9 @@ Alert_Large_EquipmentIncomplete::Equipo incompleto
 Alert_Large_EquipmentMaintenance::Falta realizar al menos un mantenimiento
 Alert_Large_EquipmentVerification::Falta realizar al menos una verificación
 Alert_Large_ExpiredTasks::La fecha propuesta para la tarea ha vencido
-Alert_Large_IncidentEvaluatedWithoutAction::Falta rellenar el campo 'Actuaciones' de la incidencia
-Alert_Large_IncidentIdentifiedNotEvaluated::Falta rellenar el campo 'Por qué ha pasado' de la incidencia
-Alert_Large_IncidentLastWeek::La fecha prevista para el cierre de la incidencia ha vencido
+Alert_Large_IncidentEvaluatedWithoutAction::Falta rellenar el campo 'Actuaciones' de la no conformidad
+Alert_Large_IncidentIdentifiedNotEvaluated::Falta rellenar el campo 'Por qué ha pasado' de la no conformidad
+Alert_Large_IncidentLastWeek::La fecha prevista para el cierre de la no conformidad ha vencido
 Alert_Large_LearningExpired::La fecha de inicio prevista del cusro ya ha pasado
 Alert_Large_LearningFinishedWithoutEvaluation::Curso finalizado pendiente de evaluación
 Alert_Large_LearningStartedWithoutAssistants::Curso iniciado sin alumnos inscritos
@@ -30,9 +30,9 @@ Alert_Short_EquipmentIncomplete::Equipo incompleto
 Alert_Short_EquipmentMaintenance::Falta realizar mantenimiento
 Alert_Short_EquipmentVerification::Falta realizar verificación
 Alert_Short_ExpiredTasks::Tarea vencida
-Alert_Short_IncidentEvaluatedWithoutAction::Incidencia sin actuaciones
-Alert_Short_IncidentIdentifiedNotEvaluated::Incidencia no analizada
-Alert_Short_IncidentLastWeek::Incidencia vencida
+Alert_Short_IncidentEvaluatedWithoutAction::No conformidad sin actuaciones
+Alert_Short_IncidentIdentifiedNotEvaluated::No conformidad no analizada
+Alert_Short_IncidentLastWeek::No conformidad vencida
 Alert_Short_LearningExpired::Curso no iniciado
 Alert_Short_LearningFinishedWithoutEvaluation::Curso sin evaluar
 Alert_Short_LearningStartedWithoutAssistants::Curso sin alumnos
@@ -143,6 +143,7 @@ Common_Message_ItemNoAccess::No tiene acceso a este elemento, contacte con el ad
 Common_Message_Saving::Guardando...
 Common_MessageMailMalformed::El correo no es válido
 Common_ModifiedBy::Modificado por
+Common_ModifiedOn::Modificado el
 Common_Modify::Modificar
 Common_Month::Mes
 Common_MonthName_April::Abril
@@ -177,6 +178,7 @@ Common_PeriodAll::Todo el periodo
 Common_Previous::Anterior
 Common_PrintExcel::Imprimir en Excel
 Common_PrintPdf::PDF
+Common_Print::Imprimir 
 Common_RegisterCount::Nº registros
 Common_Report_Rendering::Generando informe...
 Common_Required::Obligatorio
@@ -327,7 +329,7 @@ Item_Auditory_Label_Provider::Proveedor
 Item_Auditory_Label_PuntosFuertes::Puntos fuertes
 Item_Auditory_Label_Requeriment::Requisito
 Item_Auditory_Label_Rules::Normas
-Item_Auditory_Label_Scope::Ámbito
+Item_Auditory_Label_Scope::Alcance
 Item_Auditory_Label_Type::Tipo
 Item_Auditory_Label_Unconformity::No conformidad
 Item_Auditory_Label_ValidatedBy::Validada por
@@ -384,7 +386,7 @@ Item_AuditoryPlanning_Header_Audited::Auditado/a
 Item_AuditoryPlanning_Header_Auditor::Auditor/a
 Item_AuditoryPlanning_Header_Date::Fecha
 Item_AuditoryPlanning_Header_Duration::Horas
-Item_AuditoryPlanning_Header_Hour::Hora
+Item_AuditoryPlanning_Header_Hour::Inicio
 Item_AuditoryPlanning_Header_Process::Proceso
 Item_AuditoryPlanning_Label_Audited::Auditado/a
 Item_AuditoryPlanning_Label_Auditor::Auditor
@@ -602,7 +604,7 @@ Item_Customer_Label_Costs::Calibraciones / Mantenimientos / Reparaciones
 Item_Customer_ListHeader_Name::Cliente
 Item_Customer_Popup_Delete_Question::¿Eliminar el cliente?
 Item_Customer_Popup_Delete_Title::Eliminar el cliente
-Item_Customer_Section_Incidents::Incidencias y acciones
+Item_Customer_Section_Incidents::No conformidades y acciones
 Item_Customers::Clientes
 Item_Customers_Tab_Principal::Datos básicos
 Item_Customers_Tab_Traces::Trazas
@@ -742,7 +744,7 @@ Item_Employee_Button_Unlink::Desvincular
 Item_Employee_Delete_Item_CalibrationExternal::Calibración externa
 Item_Employee_Delete_Item_CalibrationInternal::Calibración interna
 Item_Employee_Delete_Item_Equipment::Equipo
-Item_Employee_Delete_Item_IncidentActionExecutor::Quien hará la acción de la incidencia
+Item_Employee_Delete_Item_IncidentActionExecutor::Quien hará la acción de la no conformidad
 Item_Employee_Delete_Item_MaintenanceExternal::Mantenimiento externo
 Item_Employee_Delete_Item_MaintenanceInternal::Mantenimiento interno
 Item_Employee_Delete_Item_VerificationExternal::Verificación externa
@@ -1149,8 +1151,8 @@ Item_EquipmentVerification_PopupUpdate_Title::Modificar una verificación
 Item_EquipmentVerification_Reg::Registro de Verificaciones
 Item_EquipmentVerificationAct::Verificaciones realizadas
 Item_EquipmentVerificationDefinition::Definición de verificaciones
-Item_Incident::Incidencia
-Item_Incident_AnulateMessageTile::Incidencia cerrada
+Item_Incident::No conformidad
+Item_Incident_AnulateMessageTile::No conformidad cerrada
 Item_Incident_Btn_Anular::Cerrar
 Item_Incident_Btn_AnularAction::Cerrar acción
 Item_Incident_Btn_Restaurar::Reabrir
@@ -1159,11 +1161,11 @@ Item_Incident_Button_New::Añadir
 Item_Incident_Button_Print::Imprimir
 Item_Incident_Cost_Error_Range::No puede ser anterior a 
 Item_Incident_Cost_IncidentActionCheck::Costes propios de la acción
-Item_Incident_Cost_IncidentCheck::Costes propios de la incidencia
-Item_Incident_Detail::Ficha de la incidencia
+Item_Incident_Cost_IncidentCheck::Costes propios de la no conformidad
+Item_Incident_Detail::Ficha de la no conformidad
 Item_Incident_Detail_Dates::Las fechas no están ordenadas cronológicamente
-Item_Incident_Detail_Description::Indicar una descripción de la incidencia
-Item_Incident_Detail_Origin::Seleccionar el origen de la incidencia
+Item_Incident_Detail_Description::Indicar una descripción de la no conformidad
+Item_Incident_Detail_Origin::Seleccionar el origen de la no conformidad
 Item_Incident_Detail_Title::Revisar los datos de la ficha
 Item_Incident_Detail_WhatHappened::Informar sobre qué ha pasado
 Item_Incident_Detail_WhatHappenedResponsible::Seleccionar quien identifica qué ha pasado
@@ -1184,10 +1186,10 @@ Item_Incident_ErrorMessage_ClosedDateRequired::Especificar la fecha de cierre
 Item_Incident_ErrorMessage_ClosedResponsibleRequired::Especificar responsable del cierre
 Item_Incident_ErrorMessage_DatesUntemporality::Las fechas no están ordenadas cronológicamente
 Item_Incident_ErrorMessage_DescriptionRequired::Introducir una descripción
-Item_Incident_ErrorMessage_ReporterCustomerRequired::Especificar el cliente relacionado con la incidencia
-Item_Incident_ErrorMessage_ReporterDepartmentRequired::Especificar el departamento relacionado con la incidencia
-Item_Incident_ErrorMessage_ReporterProviderRequired::Especificar el proveedor relacionado con la incidencia
-Item_Incident_ErrorMessage_ReporterTypeRequired::Especificar quién reporta la incidencia
+Item_Incident_ErrorMessage_ReporterCustomerRequired::Especificar el cliente relacionado con la no conformidad
+Item_Incident_ErrorMessage_ReporterDepartmentRequired::Especificar el departamento relacionado con la no conformidad
+Item_Incident_ErrorMessage_ReporterProviderRequired::Especificar el proveedor relacionado con la no conformidad
+Item_Incident_ErrorMessage_ReporterTypeRequired::Especificar quién reporta la no conformidad
 Item_Incident_ErrorMessage_WhatHappenedDateRequired::Indicar la fecha de información de qué ha pasado
 Item_Incident_ErrorMessage_WhatHappenedRequired::Informar sobre qué ha pasado
 Item_Incident_ErrorMessage_WhatHappenedResponsibleRequired::Indicar quién registra qué ha pasado
@@ -1202,8 +1204,8 @@ Item_Incident_Field_CausesDate::Fecha
 Item_Incident_Field_CausesResponsible::Redactado
 Item_Incident_Field_CloseDate::Fecha
 Item_Incident_Field_CloseResponsible::Responsable
-Item_Incident_Field_Description::Descripción
-Item_Incident_Field_Notes::Notas / Relación con riesgos y oportunidades (si procede)
+Item_Incident_Field_Description::Título
+Item_Incident_Field_Notes::Notas / Relación con riesgos y oportunidades (si procede) / Incidencias (producto sanitario)
 Item_Incident_Field_WhatHappened::¿Qué ha pasado?
 Item_Incident_Field_WhatHappenedDate::Fecha
 Item_Incident_Field_WhatHappenedResponsible::Registrado por
@@ -1217,7 +1219,7 @@ Item_Incident_FilterError_Title::Revisar los datos de la consulta
 Item_Incident_Header_ActionNumber::Acción
 Item_Incident_Header_Close::Cierre
 Item_Incident_Header_Cost::Coste
-Item_Incident_Header_Description::Incidencia
+Item_Incident_Header_Description::No conformidad
 Item_Incident_Header_Number::Número
 Item_Incident_Header_Open::Apertura
 Item_Incident_Header_Origin::Origen
@@ -1235,17 +1237,17 @@ Item_Incident_List_Filter_Periode1::Período
 Item_Incident_List_Filter_Periode2::-
 Item_Incident_List_Filter_Status::Estado
 Item_Incident_List_Filter_To::Hasta
-Item_Incident_Message_DeleteAction::Se eliminará la acción vinculada a esta incidencia
-Item_Incident_New_Label::Nueva incidencia
+Item_Incident_Message_DeleteAction::Se eliminará la acción vinculada a esta no conformidad
+Item_Incident_New_Label::Nueva no conformidad
 Item_Incident_Origin0::Todos
 Item_Incident_Origin1::Interno
 Item_Incident_Origin2::Proveedor
 Item_Incident_Origin3::Cliente
 Item_Incident_PDF_ActionPageTitle::Datos de la acción vinculada
-Item_Incident_Plural::Incidencias
-Item_Incident_Popup_Delete_Title::Eliminar la incidencia
-Item_Incident_PopupAnular_Title::Cerrar la incidencia
-Item_Incident_PopupDelete_Message::¿Eliminar la incidencia?
+Item_Incident_Plural::No conformidades
+Item_Incident_Popup_Delete_Title::Eliminar la no conformidad
+Item_Incident_PopupAnular_Title::Cerrar la no conformidad
+Item_Incident_PopupDelete_Message::¿Eliminar la no conformidad?
 Item_Incident_PopupDelete_Message_Actions::Se eliminarán también las acciones que estén vinculadas
 Item_Incident_Status1::Identificada
 Item_Incident_Status2::Analizada
@@ -1256,7 +1258,7 @@ Item_Incident_Tab_Basic::Datos básicos
 Item_Incident_Tab_Costs::Costes
 Item_Incident_Tab_Traces::Trazas
 Item_Incident_Tab_UploadFiles::Adjuntos
-Item_Incident_Warning_ActionSaveIncident::Para poder vincular una acción, guardar la incidencia
+Item_Incident_Warning_ActionSaveIncident::Para poder vincular una acción, guardar la no conformidad
 Item_Incident_Warning_ActionTabAvailable::En la pestaña de acción, informar los datos
 Item_IncidentAction::Acción
 Item_IncidentAction_AnulateMessageTile::Acción cerrada
@@ -1282,10 +1284,11 @@ Item_IncidentAction_ErrorMessage_CloseExecutor::Indicar responsable del cierre
 Item_IncidentAction_ErrorMessage_CloseExecutorDate::Indicar la fecha de cierre
 Item_IncidentAction_ErrorMessage_CloseResponsibleRequired::Indicar responsable del cierre
 Item_IncidentAction_ErrorMessage_DescriptionRequired::Introducir la descripción de la acción
-Item_IncidentAction_ErrorMessage_NoDeleteBusinessRisk::Esta acción proviene de un análisis de riesgo.<br />No se puede eliminar
-Item_IncidentAction_ErrorMessage_NoDeleteIncident::Esta acción está vinculada a una incidencia.<br />No se puede eliminar
-Item_IncidentAction_ErrorMessage_NoDeleteObjetive::Esta acción proviene de un objetivo.<br />No se puede eliminar
-Item_IncidentAction_ErrorMessage_NoDeleteOportunity::Esta acción está vinculada a una oportunidad.<br />No se puede eliminar
+Item_IncidentAction_ErrorMessage_NoDeleteBusinessRisk::No se puede eliminar porque proviene de un análisis de riesgo
+Item_IncidentAction_ErrorMessage_NoDeleteIncident::No se puede eliminar porque proviene de una no conformidad.
+Item_IncidentAction_ErrorMessage_NoDeleteObjetive::No se puede eliminar porque proviene de un objetivo
+Item_IncidentAction_ErrorMessage_NoDeleteOportunity::No se puede eliminar porque proviene de una oportunidad
+Item_IncidentAction_ErrorMessage_NoDeleteAuditory::No se puede eliminar porque proviene de una auditoria
 Item_IncidentAction_ErrorMessage_OriginRequired::Seleccionar el origen
 Item_IncidentAction_ErrorMessage_ReportedByRequired::Indicar quien reporta la acción
 Item_IncidentAction_ErrorMessage_TypeRequired::Seleccionar el tipo
@@ -1327,11 +1330,11 @@ Item_IncidentAction_Header_Type::Tipo
 Item_IncidentAction_Label_ApplyAction::¿Aplicar acción correctiva?
 Item_IncidentAction_Label_Auditory::Auditoría
 Item_IncidentAction_Label_BusinessRisk::Análisis de riesgo
-Item_IncidentAction_Label_Number::Nº
-Item_IncidentAction_Label_Description::Descripción
+Item_IncidentAction_Label_Description::Título
 Item_IncidentAction_Label_EndDate::Fecha
 Item_IncidentAction_Label_EndResponsible::Responsable
-Item_IncidentAction_Label_Incident::Incidencia
+Item_IncidentAction_Label_Incident::No conformidad
+Item_IncidentAction_Label_Number::Nº
 Item_IncidentAction_Label_Objetivo::Objetivo
 Item_IncidentAction_Label_Oportunity::Oportunidad
 Item_IncidentAction_Label_Origin::Origen
@@ -1351,7 +1354,7 @@ Item_IncidentAction_List_Filter_Type::Tipo
 Item_IncidentAction_Message_NoGrants::No tiene permisos para trabajar con acciones
 Item_IncidentAction_Origin1::Auditoría
 Item_IncidentAction_Origin2::Propuesto por dirección
-Item_IncidentAction_Origin3::Incidencia
+Item_IncidentAction_Origin3::No conformidad
 Item_IncidentAction_Origin4::Análisis de riesgo
 Item_IncidentAction_Origin46::Riesgos y Oportunidades
 Item_IncidentAction_Origin5::Objetivo
@@ -1390,14 +1393,14 @@ Item_IncidentActions::Acciones
 Item_IncidentActions_Detail::Ficha de la acción
 Item_IncidentActions_New_Label::Nueva acción
 Item_IncidentActoionCost_PopupTitle_Add::Añadir un nuevo coste
-Item_IncidentCost::Costes de incidencias
+Item_IncidentCost::Costes de no conformidades
 Item_IncidentCost_Btn_New::Añadir
 Item_IncidentCost_FieldLabel_Amount::Coste
 Item_IncidentCost_FieldLabel_Cost::Coste
 Item_IncidentCost_FieldLabel_Description::Descripción
 Item_IncidentCost_FieldLabel_Quantity::Cantidad
 Item_IncidentCost_FieldLabel_ReportedBy::Identificado por
-Item_IncidentCost_Filter_NoData::Esta incidencia no tiene costes registrados
+Item_IncidentCost_Filter_NoData::Esta no conformidad no tiene costes registrados
 Item_IncidentCost_Header_Amount::Importe
 Item_IncidentCost_Header_Description::Descripción
 Item_IncidentCost_Header_Quantity::Cantidad
@@ -1409,8 +1412,8 @@ Item_IncidentCost_PopupTitle_Update::Modificar un coste
 Item_IncidentCost_Radio_ManualEntry::Entrada manual
 Item_IncidentCost_Radio_SelectCost::Seleccionar el coste
 Item_IncidentCosts::Costes
-Item_IncidentList::Incidencias
-Item_Incidents::Incidencias
+Item_IncidentList::No conformidades
+Item_Incidents::No conformidades
 Item_Indicaddor_Filter_TypeLabel::Tipo
 Item_Indicaddor_Filter_TypeObjetivo::Vinculado a objetivo
 Item_Indicaddor_Filter_TypeProcess::Vinculado a proceso
@@ -1496,7 +1499,7 @@ Item_IndicentAction_Status1::Identificada
 Item_IndicentAction_Status2::Analizada
 Item_IndicentAction_Status3::En progreso
 Item_IndicentAction_Status4::Cerrada
-Item_Indicents::Incidencias
+Item_Indicents::No conformidades
 Item_ItemQuestion_Popup_Delete_Title::Eliminar pregunta
 Item_ItemQuestion_Popup_Edit_Title::Modificar pregunta
 Item_ItemQuestion_Popup_Insert_Title::Añadir pregunta
@@ -1742,7 +1745,7 @@ Item_Oportunity_LabelField_Rules::Norma
 Item_Oportunity_LabelField_Status::Estado
 Item_Oportunity_Message_InsertSucess::Ya se pueden usar las otras pestañas
 Item_Oportunity_Message_Reevaluate::Evaluar la oportunidad después de aplicar la acción
-Item_Oportunity_MessageClosingNotAvailable::No se puede dar por resuelta una oportunidad mientras la acción esté abierta
+Item_Oportunity_MessageClosingNotAvailable::No se puede valorar la situación final de una oportunidad mientras la acción esté abierta.
 Item_Oportunity_New::Nueva oportunidad
 Item_Oportunity_PopupDelete_Message::¿Eliminar la oportunidad?
 Item_Oportunity_Status_Assumed::Asumida
@@ -1848,7 +1851,7 @@ Item_Provider_Header_Type::Tipo
 Item_Provider_Help_Name::Nombre del proveedor
 Item_Provider_Label_Costs::Actuaciones a Calibraciones / Verificaciones / Mantenimientos / Reparaciones
 Item_Provider_Label_Definitions::Configurado en Calibraciones / Verificaciones / Mantenimientos
-Item_Provider_Label_Incidents::Incidencias y acciones
+Item_Provider_Label_Incidents::No conformidades y acciones
 Item_Provider_ListHeader_Name::Proveedor
 Item_Provider_Popup_Delete_Title::Eliminar el proveedor
 Item_Provider_PopupTitle_Delete::¿Eliminar el proveedor?
@@ -2154,6 +2157,7 @@ core_question_9_2_e::Se conserva información documentada como evidencia de la i
 core_question_9_3_a::La alta dirección revisa el sistema de gestión de calidad a intervalos planificados
 core_question_9_3_b::Se han tratado todas las entradas especificadas para esta norma
 core_question_9_3_c::Se han identificado oportunidades de mejora, necesidad de cambios o de recursos
+Task_TotalCaducadas::Total tareas caducadas
 core_question_9_3_d::Se conserva información documentada como evidencia de los resultados de la revisión por la dirección
 Mail_Message_InivitationAuditProv::Invitación a una auditoria
 Item_Auditory_PDF_Label_date::a fecha
@@ -2162,4 +2166,19 @@ Item_Auditory_PDF_Closing::Cierre
 Item_Auditory_PDF_Validation::Validación
 Auditory_Error_QuestionaryIni_CrossDate::No puede ser anterior al inicio de la planificación
 Page_DashboarReports::Panel de mando
-Item_Incident_Label_Number::Nº							   
+Item_Incident_Label_Number::Nº
+AuditoryLockedToReopen::Para modificar la fecha hay que reabrir los cuestionarios
+Item_Document_ListHeader_RevisionDate::Última Rev.
+Item_IncidentAction_ErrorMessage_BeforeStartObjective::La acción no puder ser anterior al inicio del objectivo
+Item_IncidentAction_ErrorMessage_AfterEndObjective::La acción no puede ser posterior al final del objectivo
+Auditory_Error_StartDateRequired::La fecha de inicio es obligatoria
+INCIDENTACTION_NoCloseError::Para cerrar la acción se han de rellenar 'Qué ha pasado', 'Por qué ha pasado' y 'Acciones'.
+INCIDENT_NoCloseError::Para cerrar la no conformidad se han de rellenar 'Qué ha pasado', 'Por qué ha pasado' y 'Acciones'.
+Item_JobPosition_FieldLabel_AprovedBy::Validado por
+Item_JobPosition_FieldLabel_AprovedOn::Fecha
+Item_JobPosition_FieldLabel_LastChange::Último cambio
+Action_NoSeguimentMessage::No se puede cerrar una acción sin registrar su seguimiento
+Auditory_QuestionaryQuestion_Status_Compliant::Cumple
+Auditory_QuestionaryQuestion_Status_NoCompliant::No cumple
+Auditory_QuestionaryQuestion_Status_NA::No aplicable
+Item_Document_FieldLabel_LinkField::Vínculo

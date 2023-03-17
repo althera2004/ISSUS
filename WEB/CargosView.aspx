@@ -38,6 +38,8 @@
         var first = true;
         var typeItemId = 3;
         var itemId = cargo.Id;
+        var aprovedByActual = <%=this.AprovedByText %>;
+        var pageType = "form";
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
@@ -88,23 +90,23 @@
                                                         <div class="col-sm-1"><span class="btn btn-light" style="height:30px;" id="BtnDepartment" title="<%=this.Dictionary["Item_JobPosition_Button_DepartmentsBAR"] %>">...</span></div>
                                                             
                                                     <!--/div-->
-                                                    <div class="col-sm-5" style="display:none;">										
-                                                            <select class="form-control col-xs-12 col-sm-12 tooltip-info" id="CmbDepartamentos" data-placeholder="<%=this.Dictionary["Item_Employees"] %>" onchange="GetEmployeesByDepartment(this.value);">
-                                                                <asp:Literal runat="server" ID="LtDepartamentos"></asp:Literal>
-                                                            </select>
-                                                            <span class="ErrorMessage" id="CmbDepartamentosErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
+                                                        <div class="col-sm-5" style="display:none;">										
+                                                                <select class="form-control col-xs-12 col-sm-12 tooltip-info" id="CmbDepartamentos" data-placeholder="<%=this.Dictionary["Item_Employees"] %>" onchange="GetEmployeesByDepartment(this.value);">
+                                                                    <asp:Literal runat="server" ID="LtDepartamentos"></asp:Literal>
+                                                                </select>
+                                                                <span class="ErrorMessage" id="CmbDepartamentosErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
+                                                            </div>
+                                                        <!--div class="form-group"-->
+                                                            <label class="col-sm-1 control-label no-padding-right" style="margin-right:15px;" id="CmbEmpleadosLabel"><%=this.Dictionary["Common_Responsible"] %></label>                                        
+                                                            <%=CmbResponsible %>
                                                         </div>
-                                                    <!--div class="form-group"-->
-                                                        <label class="col-sm-1 control-label no-padding-right" style="margin-right:15px;" id="CmbEmpleadosLabel"><%=this.Dictionary["Common_Responsible"] %></label>                                        
-                                                        <%=CmbResponsible %>
-                                                    </div>
                                                     <div class="for-group">
-                                                        <label class="col-sm-6"><%=this.Dictionary["Item_JobPosition_FieldLabel_Responsabilities"] %></label>
-                                                        <label class="col-sm-6"><%=this.Dictionary["Item_JobPosition_FieldLabel_Notes"] %></label>
+                                                        <label class="col-sm-6"><%=this.Dictionary["Item_JobPosition_FieldLabel_Responsabilities"] %></label>                                                        
+                                                        <label class="col-sm-6"><%=this.Dictionary["Item_JobPosition_FieldLabel_Habilities"] %></label>
                                                     </div>
                                                     <div class="form-group">
                                                         <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtResponsabilidades"><%=this.Cargo.Responsibilities %></textarea></div>
-                                                        <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtNotas"><%=this.Cargo.Notes %></textarea></div>
+                                                        <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtHabilidades"><%=this.Cargo.Habilities %></textarea></div>
                                                     </div>
                                                     <div class="for-group">
                                                         <label class="col-sm-6"><%=this.Dictionary["Item_JobPosition_FieldLabel_Academic_Learning"] %></label>
@@ -116,12 +118,32 @@
                                                     </div>
                                                     <div class="for-group">
                                                         <label class="col-sm-6"><%=this.Dictionary["Item_JobPosition_FieldLabel_Work_Experience"] %></label>
-                                                        <label class="col-sm-6"><%=this.Dictionary["Item_JobPosition_FieldLabel_Habilities"] %></label>
+                                                        <label class="col-sm-6"><%=this.Dictionary["Item_JobPosition_FieldLabel_Notes"] %></label>
                                                     </div>
                                                     <div class="form-group">
                                                         <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtExperienciaLaboral"><%=this.Cargo.WorkExperience %></textarea></div>
-                                                        <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtHabilidades"><%=this.Cargo.Habilities %></textarea></div>
+                                                        <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtNotas"><%=this.Cargo.Notes %></textarea></div>
                                                     </div> 
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-2 control-label no-padding-right" id="CmbAprovedByLabel" for="CmbAprovedBy"><%=this.Dictionary["Item_JobPosition_FieldLabel_AprovedBy"] %><span class="required" id="aprovedByRequired" style="display:none;">*</span></label>
+                                                        <div class="col-sm-4">
+                                                            <select id="CmbAprovedBy" class="form-control col-xs-12 col-sm-12" onchange="AprovedByChanged();"><asp:Literal runat="server" ID="LtCmbAprovedBy"></asp:Literal></select>
+                                                            <input style="display:none;" type="text" readonly="readonly" id="CmbAprovedByValue" class="col-xs-12 col-sm-12" value="<%=this.AprovedByText == "0" ? string.Empty : this.AprovedByText %>" />
+                                                            <span class="ErrorMessage" id="CmbAprovedByErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                        </div>
+                                                        <label class="col-sm-2 control-label no-padding-right" id="TxtAprovedOnLabel" for="TxtAprovedOn"><%=this.Dictionary["Item_JobPosition_FieldLabel_AprovedOn"] %><span class="required" id="aprovedOnRequired" style="display:none;">*</span></label>
+                                                        <div class="col-sm-2">
+                                                            <div class="input-group">
+                                                                <input style="width:90px;" class="form-control date-picker" id="TxtAprovedOn" onchange="AprovedOnChanged();" type="text" data-date-format="dd/mm/yyyy" maxlength="10" value="<%= string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.AprovedOnText) %>" />
+                                                                <span id="TxtAprovedOnBtn" class="input-group-addon" onclick="document.getElementById('TxtAprovedOn').focus();">
+                                                                    <i class="icon-calendar bigger-110"></i>
+                                                                </span>
+                                                            </div>
+                                                            <span class="ErrorMessage" id="TxtAprovedOnErrorRequired"><%= this.Dictionary["Common_Required"] %></span>
+                                                        </div>
+                                                    </div>
+
                                                     <% if (!this.NewJobPosition)
                                                         { %>
                                                     <h4><%=this.Dictionary["Item_JobPosition_ListEmployees_Title"]%></h4>											
@@ -139,7 +161,6 @@
                                                         </tbody>
                                                     </table>
                                                     <% } %>
-                                                    <%=this.FormFooter %>
                                                 </div>
                                             </div>
                                             <div id="uploadFiles" class="tab-pane">

@@ -45,6 +45,7 @@
         var orderList = "";
         var ActionsOpen = false;
         var Historic = <%=this.Historic %>;
+        var pageType = "form";
     </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
@@ -54,7 +55,7 @@
                                         <div class="tabbable">
                                             <%=this.TabBar %>
                                             <div class="tab-content no-border padding-24" style="height:500px;">
-                                                <div id="home" class="tab-pane active">       
+                                                <div id="home" class="tab-pane active">
                                                     <div class="row">
                                                         <form class="form-horizontal" role="form">
                                                             <div class="col-sm-12">
@@ -165,9 +166,6 @@
                                                                 <!--div class="col-sm-11">&nbsp;</div-->
                                                             </div>
                                                         </form>
-                                                    </div>
-                                                    <div class="row">
-                                                        <%=this.FormFooter %>
                                                     </div>
                                                 </div>
 
@@ -418,9 +416,9 @@
                                                             <thead class="thin-border-bottom" id="RegistrosTHead">
                                                                 <tr>
                                                                     <td colspan="8" style="text-align: right;">
-                                                                        <span title="<%=this.Dictionary["Common_PrintPdf"] %>" class="btn btn-xs btn-info" onclick="lockOrderList=true;ObjetivoRegistroFilter('PDF');"><i class="icon-file-pdf bigger-120"></i>&nbsp;PDF</span>
+                                                                        <span title="<%=this.Dictionary["Common_PrintPdf"] %>" class="btn btn-xs btn-info" onclick="Export('PDF');"><i class="icon-file-pdf bigger-120"></i>&nbsp;PDF</span>
                                                                         &nbsp;
-                                                                        <span title="<%=this.Dictionary["Common_PrintExcel"] %>" class="btn btn-xs btn-info" onclick="lockOrderList=true;ObjetivoRegistroFilter('Excel');"><i class="icon-file-excel bigger-120"></i>&nbsp;Excel</span>
+                                                                        <span title="<%=this.Dictionary["Common_PrintExcel"] %>" class="btn btn-xs btn-info" onclick="Export('Excel');"><i class="icon-file-excel bigger-120"></i>&nbsp;Excel</span>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -429,8 +427,8 @@
                                                                     <th id="th2" onclick="Sort(this,'ObjetivoRegistrosTable','date',false);" class="sort" style="width: 90px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Date"]%></th>
                                                                     <th id="th3"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Comments"]%></th>
                                                                     <th id="th4" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Meta"]%></th>
-                                                                    <!--th id="th4" onclick="Sort(this,'ObjetivoRegistrosTable','money',false);" class="sort" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Meta"]%></!--th>
-                                                                    <!--<th id="th5" onclick="Sort(this,'ObjetivoRegistrosTable','money',false);" class="sort" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Alarm"]%></th>-->
+                                                                    <!--th id="th4" onclick="Sort(this,'ObjetivoRegistrosTable','money',false);" class="sort" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Meta"]%></!--th-->
+                                                                    <th id="th5" onclick="Sort(this,'ObjetivoRegistrosTable','money',false);" class="sort" style="width: 120px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Alarm"]%></th>
                                                                     <th id="th5" onclick="Sort(this,'ObjetivoRegistrosTable','text',false);" class="sort" style="width: 175px;"><%=this.Dictionary["Item_Indicador_TableRecords_Header_Responsible"]%></th>
                                                                     <th style="width: 107px;">&nbsp;</th>
                                                                 </tr>

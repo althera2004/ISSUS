@@ -46,6 +46,7 @@
         var companyRules = <%=RulesJson %>;
         var companyId = <%=this.company.Id %>;
         var businessRisk = <%=this.BusinessRisksJson %>;
+        var pageType = "form";
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
@@ -138,8 +139,7 @@
                                                             </div><!-- /.table-responsive -->
                                                         </div><!-- /span -->
                                                     </div><!-- /row -->	
-                                                    <% } %>                                               
-                                                    <%=this.FormFooter %>
+                                                    <% } %>
                                                 </div>
                                             </div>
 

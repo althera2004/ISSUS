@@ -22,8 +22,6 @@ public partial class ProcesosView : Page
     private int processId;
     private Process process;
 
-    private FormFooter formFooter;
-
     /// <summary>Company of session</summary>
     private Company company;
 
@@ -34,14 +32,6 @@ public partial class ProcesosView : Page
         get
         {
             return this.user.ShowHelp;
-        }
-    }
-
-    public string FormFooter
-    {
-        get
-        {
-            return this.formFooter.Render(this.Dictionary);
         }
     }
 
@@ -160,11 +150,11 @@ public partial class ProcesosView : Page
         this.master.Titulo = label;
 
 
-        this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Hidden = true, Icon = "icon-undo", Text = this.Dictionary["Item_Process_Btn_Restaurar"], Action = "primary" });
-        this.formFooter.AddButton(new UIButton { Id = "BtnAnular", Hidden = true, Icon = "icon-ban-circle", Text = this.Dictionary["Item_Process_Btn_Anular"], Action = "danger" });
-        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+        this.master.formFooter = new FormFooter();
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Hidden = true, Icon = "icon-undo", Text = this.Dictionary["Item_Process_Btn_Restaurar"], Action = "primary" });
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnAnular", Hidden = true, Icon = "icon-ban-circle", Text = this.Dictionary["Item_Process_Btn_Anular"], Action = "danger" });
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         this.process = Process.Empty;
         if (processId > 0)
@@ -178,21 +168,30 @@ public partial class ProcesosView : Page
                 this.process = Process.Empty;
             }
 
-            this.formFooter.ModifiedBy = this.process.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.process.ModifiedOn;
+            //this.formFooter.ModifiedBy = this.process.ModifiedBy.Description;
+            //this.formFooter.ModifiedOn = this.process.ModifiedOn;
+            this.master.ModifiedBy = this.process.ModifiedBy.Description;
+            this.master.ModifiedOn = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.process.ModifiedOn);
+
             this.master.TitleInvariant = true;
             this.master.Titulo = string.Format("{0}: <strong>{1}</strong>", this.Dictionary["Item_Process"], this.process.Description);
             this.RenderIndicatorsData();
             this.RenderDocuments();
         }
+        else
+        {
+            this.process = new Process();
+            this.master.ModifiedBy = Dictionary["Common_New"];
+            this.master.ModifiedOn = "-";
+        }
 
         this.RenderProcesosData();
         this.RenderCmbUsers();
 
-        if (!IsPostBack)
-        {
-            this.LtTrazas.Text = ActivityTrace.RenderTraceTableForItem(this.processId, TargetType.Process);
-        }
+        //if (!IsPostBack)
+        //{
+        //    this.LtTrazas.Text = ActivityTrace.RenderTraceTableForItem(this.processId, TargetType.Process);
+        //}
     }
 
     private void RenderIndicatorsData()

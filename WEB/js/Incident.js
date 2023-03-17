@@ -1,4 +1,5 @@
-﻿var SaveAction = false;
+﻿var actualTab = 0;
+var SaveAction = false;
 var IncidentWhatHappenedRequired = true;
 var IncidentCausesRequired = IncidentStatus > 1;
 var IncidentActionsRequired = IncidentStatus > 2;
@@ -1192,7 +1193,30 @@ window.onload = function () {
     $("#TxtActions").bind("paste", TxtActionsChanged);
     $("#TxtActionCauses").bind("paste", TxtCausesChanged);
     $("#TxtActionActions").bind("paste", TxtActionsChanged);
+
+    $("#Tabhome").on("click", INCIDENT_NoAction);
+    $("#Tabaccion").on("click", INCIDENT_Action);
+    $("#Tabcostes").on("click", INCIDENT_NoAction);
+    $("#TabuploadFiles").on("click", INCIDENT_NoAction);
 };
+
+function INCIDENT_Action() { INCIDENT_SetTab(1); }
+function INCIDENT_NoAction() { INCIDENT_SetTab(0); }
+
+function INCIDENT_SetTab(tabId) {
+    if (tabId === 1) {
+        if (IncidentAction.ClosedOn === null) {
+            $("#BtnAnularAction").show();
+        } else {
+            $("#BtnRestaurarAction").show();
+            AnulateLayoutAccion();
+        }
+    }
+    else {
+        $("#BtnRestaurarAction").hide();
+        $("#BtnAnularAction").hide();
+    }
+}
 
 window.onresize = function () { Resize(); };
 
@@ -1213,12 +1237,7 @@ if (Incident.ClosedOn === null) {
 $("#BtnRestaurarAction").hide();
 $("#BtnAnularAction").hide();
 $("#BtnRestaurarAction").hide();
-if (IncidentAction.ClosedOn === null) {
-    $("#BtnAnularAction").show();
-} else {
-    $("#BtnRestaurarAction").show();
-    AnulateLayoutAccion();
-}
+
 
 $("#BtnAnular").on("click", AnularPopup);
 $("#BtnRestaurar").on("click", Restore);
@@ -1239,7 +1258,7 @@ function AnularPopup() {
     if ($("#CmbActionsResponsible").val() * 1 < 1) { ok = false; }
 
     if (ok === false) {
-        alertUI("Revise los campos obligatorios");
+        alertUI(Dictionary.INCIDENT_NoCloseError, 470);
         return false;
     }
 
@@ -1351,9 +1370,9 @@ function AnulateLayout() {
         message += "        " + Dictionary.Item_Incident_Field_CloseResponsible + ": <strong>" + Incident.ClosedBy.Value + "</strong><br />";
         message += "        " + Dictionary.Item_Incident_Field_CloseDate + ": <strong>" + $("#TxtClosedDate").val() + "</strong><br />";
         message += "    </p>";
-        message += "</div>";
+        message += "</div><br/>";
         //$("#home").append(message);
-        $("#oldFormFooter").before(message);
+        $("#ClosePlaceHolder").html(message);
         $("#BtnAnular").hide();
         $("#BtnRestaurar").show();
         $("#BtnSave").hide();
@@ -1404,7 +1423,7 @@ function AnularPopupAccion() {
     if ($("#CmbActionActionsResponsible").val() * 1 < 1) { ok = false; }
 
     if (ok === false) {
-        alertUI("Revise los campos obligatorios");
+        alertUI(Dictionary.INCIDENTACTION_NoCloseError, 450);
         return false;
     }
 
@@ -1414,7 +1433,7 @@ function AnularPopupAccion() {
     $("#CmbActionClosedResponsibleLabel").removeClass("no-padding-right");
     $("#TxtActionClosedDate").val(FormatDate(new Date(), "/"));
     $("#CmbActionClosedResponsible").val(user.Employee.Id);
-    var dialog = $("#dialogAnularAccion").removeClass("hide").dialog({
+    $("#dialogAnularAccion").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Item_IncidentAction_PopupAnular_Title,

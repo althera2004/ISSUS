@@ -52,6 +52,8 @@ namespace GisoFramework.Item
 
         public Provider Provider { get; set; }
 
+        public string Observations { get; set; }
+
         public Employee Responsible { get; set; }
 
         public override string Link
@@ -90,6 +92,7 @@ namespace GisoFramework.Item
                 res.Append(Tools.JsonPair("Result", this.Result, 6)).Append(",");
                 res.Append(Tools.JsonPair("MaxResult", this.MaxResult, 6)).Append(",");
                 res.Append(Tools.JsonPair("Cost", this.Cost)).Append(",");
+                res.Append(Tools.JsonPair("Observations", this.Observations)).Append(",");
                 res.Append(Tools.JsonPair("Active", this.Active)).Append(",");
 
                 if (this.Provider == null)
@@ -188,7 +191,8 @@ namespace GisoFramework.Item
                                         UserName = rdr.GetString(ColumnsEquipmentCalibrationActGet.ModifiedByUserName),
                                         CompanyId = companyId
                                     },
-                                    ModifiedOn = rdr.GetDateTime(ColumnsEquipmentCalibrationActGet.ModifiedOn)
+                                    ModifiedOn = rdr.GetDateTime(ColumnsEquipmentCalibrationActGet.ModifiedOn),
+                                    Observations = rdr.GetString(ColumnsEquipmentCalibrationActGet.Observations)
                                 };
 
                                 if (!rdr.IsDBNull(ColumnsEquipmentCalibrationActGet.Cost))
@@ -283,6 +287,7 @@ namespace GisoFramework.Item
              *   @Cost numeric(18,3),
              *   @ProviderId bigint,
              *   @ResponsableId int,
+             *   @Observations text
              *   @UserId int */
             var result = ActionResult.NoAction;
             using (var cmd = new SqlCommand("EquipmentCalibrationAct_Insert"))
@@ -313,6 +318,7 @@ namespace GisoFramework.Item
                         }
 
                         cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@Observations", this.Observations, 2000));
                         cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
@@ -409,6 +415,7 @@ namespace GisoFramework.Item
              *   @Cost numeric(18,3),
              *   @ProviderId bigint,
              *   @ResponsableId int,
+             *   @Observations text,
              *   @UserId int  */
             var result = ActionResult.NoAction;
             using (var cmd = new SqlCommand("EquipmentCalibrationAct_Update"))
@@ -438,6 +445,7 @@ namespace GisoFramework.Item
                         }
 
                         cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@Observations", this.Observations, 2000));
                         cmd.Parameters.Add(DataParameter.Input("@Cost", this.Cost));
                         cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                         cmd.Connection.Open();

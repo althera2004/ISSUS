@@ -44,6 +44,9 @@
         var SkillSpecificValid = <%=this.SkillSpecificValid %>;
         var SkillHabilityValid = <%=this.SkillHabilityValid %>;
         var HasActions = <%=this.Employee.HasActions ? "true" : "false" %>;
+        var pageType = "form";
+        var aprovedByActual = <%=this.AprovedByText %>;
+        var active = <%=this.Active ? "true" : "false" %>;
     </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
@@ -177,7 +180,6 @@
                                                         <div class="col-xs-12">&nbsp;</div>
                                                     </div>
                                                     <% } %>
-                                                    <%=this.FormFooter %>
                                                 </div>
                                                 <%if (this.EmployeeId > 0)
                                                   { %>
@@ -185,132 +187,146 @@
                                                     <h4><%=this.Dictionary["Item_Employee_SectionTitle_Skills"] %></h4>
                                                     <form class="form-horizontal" role="form">
                                                         <div class="for-group">
-                                                            <label class="col-sm-5"><%=this.Dictionary["Item_Employee_FieldLabel_Academic_Desired"]%></label>
-                                                            <label class="col-sm-7"><%=this.Dictionary["Item_Employee_FieldLabel_Academic_Real"]%></label>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <div class="col-sm-5"><textarea rows="5" class="form-control col-xs-12 col-sm-12" readonly="readonly" maxlength="250" id="TxtJobPositionAcademic"><%=this.JobPositionAcademic %></textarea></div>
-                                                            <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtAcademic" <%if(!this.Active) { %> readonly="readonly" <% } %>><%=this.Employee.EmployeeSkills.Academic %></textarea></div>
-                                                            <div class="col-sm-1">
-                                                                <table>
+                                                            <label class="col-sm-6"><%=this.Dictionary["Item_Employee_FieldLabel_Academic_Desired"]%></label>
+                                                            <label class="col-sm-6"><%=this.Dictionary["Item_Employee_FieldLabel_Academic_Real"]%>
+                                                                <table style="float:right;">
                                                                     <tr>
-                                                                        <td colspan="2"><label><%=this.Dictionary["Item_LearningAssistant_Status_Evaluated"] %></label><br /></td>
-                                                                    </tr>
+                                                                        <td colspan="2"><label><%=this.Dictionary["Item_LearningAssistant_Status_Evaluated"] %></label>:&nbsp;</td>
                                                                     <%if(this.Active) { %>
-                                                                    <tr>
-                                                                        <td><%=this.Dictionary["Common_Yes"]%></td>
+                                                                        <td>&nbsp;<%=this.Dictionary["Common_Yes"]%>&nbsp;</td>
                                                                         <td><input type="radio" id="AcademicValidYes" name="AcademicValid" /></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><%=this.Dictionary["Common_No"]%></td>
+                                                                        <td>&nbsp;<%=this.Dictionary["Common_No"]%></td>
                                                                         <td><input type="radio" id="AcademicValidNo" name ="AcademicValid" /></td>
-                                                                    </tr>
                                                                     <% }
                                                                       else
                                                                       { %>
-                                                                    <tr>
                                                                        <td align="center"><%= this.JobPositionAcademicValid %></td>
-                                                                    </tr>
                                                                     <%} %>
+                                                                    </tr>
                                                                 </table>
-                                                            </div>
-                                                        </div>
-                                                        <div class="for-group">
-                                                            <label class="col-sm-5"><%=this.Dictionary["Item_Employee_FieldLabel_Especific_Desired"]%></label>
-                                                            <label class="col-sm-7"><%=this.Dictionary["Item_Employee_FieldLabel_Especific_Real"]%></label>
+                                                            </label>
                                                         </div>
                                                         <div class="form-group">
-                                                            <div class="col-sm-5"><textarea rows="5" class="form-control col-xs-12 col-sm-12" readonly="readonly" maxlength="250" id="TxtJobPositionSpecific"><%=this.JobPositionSpecific %></textarea></div>
-                                                            <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtSpecific" <%if(!this.Active) { %> readonly="readonly" <% } %>><%=this.Employee.EmployeeSkills.Specific %></textarea></div>
-                                                            <div class="col-sm-1">
-                                                                <table>
+                                                            <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" readonly="readonly" maxlength="250" id="TxtJobPositionAcademic"><%=this.JobPositionAcademic %></textarea></div>
+                                                            <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtAcademic" <%if(!this.Active) { %> readonly="readonly" <% } %>><%=this.Employee.EmployeeSkills.Academic %></textarea></div>
+                                                        </div>
+                                                        <div class="for-group">
+                                                            <label class="col-sm-6"><%=this.Dictionary["Item_Employee_FieldLabel_Especific_Desired"]%></label>
+                                                            <label class="col-sm-6"><%=this.Dictionary["Item_Employee_FieldLabel_Especific_Real"]%>
+                                                                <table style="float:right;">
                                                                     <tr>
-                                                                        <td colspan="2"><label><%=this.Dictionary["Item_LearningAssistant_Status_Evaluated"] %></label><br /></td>
-                                                                    </tr>
+                                                                        <td colspan="2"><label><%=this.Dictionary["Item_LearningAssistant_Status_Evaluated"] %></label>:&nbsp;</td>
                                                                     <%if(this.Active) { %>
-                                                                    <tr>
-                                                                        <td><%=this.Dictionary["Common_Yes"]%></td>
+                                                                        <td>&nbsp;<%=this.Dictionary["Common_Yes"]%>&nbsp;</td>
                                                                         <td><input type="radio" id="SpecificValidYes" name="SpecificValid" /></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><%=this.Dictionary["Common_No"]%></td>
+                                                                        <td>&nbsp;<%=this.Dictionary["Common_No"]%></td>
                                                                         <td><input type="radio" id="SpecificValidNo" name="SpecificValid" /></td>
-                                                                    </tr>
                                                                     <% }
                                                                       else
                                                                       { %>
-                                                                    <tr>
                                                                        <td align="center"><%= this.JobPositionSpecificValid%></td>
-                                                                    </tr>
                                                                     <%} %>
+                                                                    </tr>
                                                                 </table>
-                                                            </div>
-                                                        </div>
-                                                        <div class="for-group">
-                                                            <label class="col-sm-5"><%=this.Dictionary["Item_Employee_Label_DesiredWorkExperience"]%></label>
-                                                            <label class="col-sm-5"><%=this.Dictionary["Item_Employee_Label_RealWorkExperience"]%></label>
+                                                            </label>
                                                         </div>
                                                         <div class="form-group">
-                                                            <div class="col-sm-5"><textarea rows="5" class="form-control col-xs-12 col-sm-12" readonly="readonly" maxlength="250" id="TxtJobPositionWorkExperience"><%=this.JobPositionWorkExperience %></textarea></div>
-                                                            <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtWorkExperience" <%if(!this.Active) { %> readonly="readonly" <% } %>><%=this.Employee.EmployeeSkills.WorkExperience %></textarea></div>
-                                                            <div class="col-sm-1">
-                                                                <table>
+                                                            <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" readonly="readonly" maxlength="250" id="TxtJobPositionSpecific"><%=this.JobPositionSpecific %></textarea></div>
+                                                            <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtSpecific" <%if(!this.Active) { %> readonly="readonly" <% } %>><%=this.Employee.EmployeeSkills.Specific %></textarea></div>
+                                                        </div>
+                                                        <div class="for-group">
+                                                            <label class="col-sm-6"><%=this.Dictionary["Item_Employee_Label_DesiredWorkExperience"]%></label>
+                                                            <label class="col-sm-6"><%=this.Dictionary["Item_Employee_Label_RealWorkExperience"]%>
+                                                                <table style="float:right;">
                                                                     <tr>
-                                                                        <td colspan="2"><label><%=this.Dictionary["Item_LearningAssistant_Status_Evaluated"] %></label><br /></td>
-                                                                    </tr>
+                                                                        <td colspan="2"><label><%=this.Dictionary["Item_LearningAssistant_Status_Evaluated"] %></label>:&nbsp;</td>
                                                                     <%if(this.Active) { %>
-                                                                    <tr>
-                                                                        <td><%=this.Dictionary["Common_Yes"]%></td>
+                                                                        <td>&nbsp;<%=this.Dictionary["Common_Yes"]%>&nbsp;</td>
                                                                         <td><input type="radio" id="WorkExperienceValidYes" name="WorkExperienceValid" /></td>
-                                                                    </tr>
-                                                                    <tr>
                                                                         <td><%=this.Dictionary["Common_No"]%></td>
-                                                                        <td><input type="radio" id="WorkExperienceValidNo" name ="WorkExperienceValid" /></td>
-                                                                    </tr>
+                                                                        <td>&nbsp;<input type="radio" id="WorkExperienceValidNo" name ="WorkExperienceValid" /></td>
                                                                     <% }
                                                                       else
                                                                       { %>
-                                                                    <tr>
                                                                        <td align="center"><%= this.JobPositionWorkExperienceValid %></td>
-                                                                    </tr>
                                                                     <%} %>
+                                                                    </tr>
                                                                 </table>
-                                                            </div>
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" readonly="readonly" maxlength="250" id="TxtJobPositionWorkExperience"><%=this.JobPositionWorkExperience %></textarea></div>
+                                                            <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtWorkExperience" <%if(!this.Active) { %> readonly="readonly" <% } %>><%=this.Employee.EmployeeSkills.WorkExperience %></textarea></div>
                                                         </div> 
                                                         <div class="for-group">
-                                                            <label class="col-sm-5"><%=this.Dictionary["Item_Employee_Skills_FieldLabel_DesiredHabilities"]%></label>
-                                                            <label class="col-sm-5"><%=this.Dictionary["Item_Employee_Skills_FieldLabel_RealHabilities"]%></label>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <div class="col-sm-5"><textarea rows="5" class="form-control col-xs-12 col-sm-12" readonly="readonly" maxlength="250" id="TxtJobPositionHability"><%=this.JobPositionHability %></textarea></div>
-                                                            <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtHability" <%if(!this.Active) { %> readonly="readonly" <% } %>><%=this.Employee.EmployeeSkills.Ability %></textarea></div>
-                                                            <div class="col-sm-1">
-                                                                <table>
+                                                            <label class="col-sm-6"><%=this.Dictionary["Item_Employee_Skills_FieldLabel_DesiredHabilities"]%></label>
+                                                            <label class="col-sm-6"><%=this.Dictionary["Item_Employee_Skills_FieldLabel_RealHabilities"]%>
+                                                                <table style="float:right;">
                                                                     <tr>
-                                                                        <td colspan="2"><label><%=this.Dictionary["Item_LearningAssistant_Status_Evaluated"] %></label><br /></td>
-                                                                    </tr>
+                                                                        <td colspan="2"><label><%=this.Dictionary["Item_LearningAssistant_Status_Evaluated"] %></label>:&nbsp;</td>
+                                                                    
                                                                     <%if (this.Active)
                                                                       { %>
-                                                                    <tr>
-                                                                        <td><%=this.Dictionary["Common_Yes"]%></td>
+                                                                        <td>&nbsp;<%=this.Dictionary["Common_Yes"]%>&nbsp;</td>
                                                                         <td><input type="radio" id="HabilityValidYes" name="HabilityValid" /></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><%=this.Dictionary["Common_No"]%></td>
+                                                                        <td>&nbsp;<%=this.Dictionary["Common_No"]%></td>
                                                                         <td><input type="radio" id="HabilityValidNo" name ="HabilityValid" /></td>
-                                                                    </tr>
                                                                     <% }
                                                                       else
                                                                       { %>
-                                                                    <tr>
                                                                        <td align="center"><%= this.JobPositionHabilityValid %></td>
-                                                                    </tr>
                                                                     <%} %>
+                                                                    </tr>
                                                                 </table>
-                                                            </div>
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" readonly="readonly" maxlength="250" id="TxtJobPositionHability"><%=this.JobPositionHability %></textarea></div>
+                                                            <div class="col-sm-6"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtHability" <%if(!this.Active) { %> readonly="readonly" <% } %>><%=this.Employee.EmployeeSkills.Ability %></textarea></div>                                                           
                                                         </div> 
+                                                    
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-6">&nbsp;</label>
+                                                            <label class="col-sm-1 control-label no-padding-right" style="padding-left: 0!important;" id="CmbAprovedByLabel" for="CmbAprovedBy"><%=this.Dictionary["Item_JobPosition_FieldLabel_AprovedBy"] %><span class="required" id="aprovedByRequired" style="display:none;">*</span></label>
+                                                            <div class="col-sm-5">
+                                                                <select id="CmbAprovedBy" class="form-control col-xs-12 col-sm-12" onchange="AprovedByChanged();"><asp:Literal runat="server" ID="LtCmbAprovedBy"></asp:Literal></select>
+                                                                <input style="display:none;" type="text" readonly="readonly" id="CmbAprovedByValue" class="col-xs-12 col-sm-12" value="<%=this.AprovedByText == "0" ? string.Empty : this.AprovedByText %>" />
+                                                                <span class="ErrorMessage" id="CmbAprovedByErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-6">&nbsp;</label>
+                                                            <label class="col-sm-1 control-label no-padding-right" id="TxtAprovedOnLabel" for="TxtAprovedOn"><%=this.Dictionary["Item_JobPosition_FieldLabel_AprovedOn"] %><span class="required" id="aprovedOnRequired" style="display:none;">*</span></label>
+                                                            <div class="col-sm-2">
+                                                                <div class="input-group">
+                                                                    <input style="width:90px;" class="form-control date-picker" id="TxtAprovedOn" onchange="AprovedOnChanged();" type="text" data-date-format="dd/mm/yyyy" maxlength="10" value="<%= string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.AprovedOnText) %>" />
+                                                                    <span id="TxtAprovedOnBtn" class="input-group-addon" onclick="document.getElementById('TxtAprovedOn').focus();">
+                                                                        <i class="icon-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+                                                                <span class="ErrorMessage" id="TxtAprovedOnErrorRequired"><%= this.Dictionary["Common_Required"] %></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-5" id="NotesLasbel" for="TxtNotes"><%=this.Dictionary["Item_JobPosition_FieldLabel_Notes"] %></label>
+                                                            <label class="col-sm-7">&nbsp;</label>
+                                                        </div>
+                                                        <div class="form-group">                                                        
+                                                            <div class="col-sm-12"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="250" id="TxtNotes" <%if(!this.Active) { %> readonly="readonly" <% } %>><%=this.Employee.EmployeeSkills.Notes %></textarea></div>                                                            
+                                                        </div>
+                                                        <div style="display:none"><label class="col-sm-2 control-label no-padding-right" id="TxtLastChangeLabel" for="TxtAprovedOn"><br /><%=this.Dictionary["Item_JobPosition_FieldLabel_LastChange"] %></label>
+                                                            <div class="col-sm-2">
+                                                                <br />
+                                                                <div class="input-group">
+                                                                    <input style="width:90px;" class="form-control date-picker" id="LastChange" type="text" data-date-format="dd/mm/yyyy" maxlength="10" value="<%= string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.LastChangeText) %>" />
+                                                                    <span id="TxtLastChangeBtn" class="input-group-addon" onclick="document.getElementById('TxtLastChange').focus();">
+                                                                        <i class="icon-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </form>
-                                                    <%=this.FormFooterLearning %>
                                                 </div>
                                                 <div id="formacionInterna" class="tab-pane<%=this.SelectedTab =="formacioninterna" ? " active" : String.Empty %>">		
                                                     <h4><%=this.Dictionary["Item_Employee_SectionTitle_InternalLearning"] %></h4>											
@@ -326,7 +342,6 @@
                                                             <asp:Literal runat="server" ID="TableLearningAssistance"></asp:Literal>
                                                         </tbody>
                                                     </table>
-                                                    <%=this.FormFooterInternalLearning %>
                                                 </div>
                                                 
                                                 <div id="uploadFiles" class="tab-pane">

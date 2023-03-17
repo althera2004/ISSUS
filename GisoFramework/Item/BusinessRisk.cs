@@ -240,7 +240,7 @@ namespace GisoFramework.Item
                     }}";
 
                 return string.Format(
-                    CultureInfo.GetCultureInfo("en-us"),
+                    CultureInfo.InvariantCulture,
                     formattedJson,
                     this.Id,
                     this.CompanyId,

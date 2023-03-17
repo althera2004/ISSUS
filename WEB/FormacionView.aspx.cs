@@ -30,8 +30,6 @@ public partial class FormacionView : Page
 
     /// <summary>Dictionary for fixed labels</summary>
     private Dictionary<string, string> dictionary;
-
-    private FormFooter formFooter;
     
     /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
@@ -39,14 +37,6 @@ public partial class FormacionView : Page
         get
         {
             return Guid.NewGuid().ToString().ToUpperInvariant();
-        }
-    }
-
-    public string FormFooter
-    {
-        get
-        {
-            return this.formFooter.Render(this.dictionary);
         }
     }
 
@@ -180,13 +170,18 @@ public partial class FormacionView : Page
     /// <summary>Begin page running after session validations</summary>
     private void Go()
     {
+        this.master = this.Master as Giso;
+        this.master.TitleInvariant = this.learningId != -1;
+        string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
+        this.master.AddBreadCrumb("Item_Learnings", "FormacionList.aspx", Constant.NotLeaft);
+        this.master.AddBreadCrumb("Item_Learning_NewLabel");
         this.user = Session["User"] as ApplicationUser;
         this.company = Session["company"] as Company;
         this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
-        this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-file-pdf", Text = this.dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
-        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+        this.master.formFooter = new FormFooter();
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-print", Text = this.dictionary["Common_Print"], Action = "info", ColumnsSpan = 12 });
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         if (this.Request.QueryString["id"] != null)
         {
@@ -203,8 +198,10 @@ public partial class FormacionView : Page
                 this.learning = Learning.Empty;
             }
 
-            this.formFooter.ModifiedBy = this.learning.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.learning.ModifiedOn;
+            //this.formFooter.ModifiedBy = this.learning.ModifiedBy.Description;
+            //this.formFooter.ModifiedOn = this.learning.ModifiedOn;
+            this.master.ModifiedBy = this.learning.ModifiedBy.Description;
+            this.master.ModifiedOn = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.learning.ModifiedOn);
 
             this.learning.ObtainAssistance();
             this.RenderDocuments();
@@ -212,6 +209,8 @@ public partial class FormacionView : Page
         else
         {
             this.learning = Learning.Empty;
+            this.master.ModifiedBy = Dictionary["Common_New"];
+            this.master.ModifiedOn = "-";
         }
 
         string label =  string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_Learning"], this.learning.Description);
@@ -220,13 +219,7 @@ public partial class FormacionView : Page
             label = "Item_Learning_NewLabel";
         }
 
-        this.master = this.Master as Giso;
-        this.master.TitleInvariant = this.learningId != -1;
-        string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
-        this.master.AddBreadCrumb("Item_Learnings", "FormacionList.aspx", Constant.NotLeaft);
-        this.master.AddBreadCrumb("Item_Learning_NewLabel");
         this.master.Titulo = label;
-
         var tableAssistance = new StringBuilder();
         jsonAssistance = new StringBuilder("[");
         this.assistans = new StringBuilder();

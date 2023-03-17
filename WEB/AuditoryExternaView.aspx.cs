@@ -6,9 +6,7 @@
 // --------------------------------
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -16,7 +14,6 @@ using System.Text;
 using System.Web.UI;
 using GisoFramework;
 using GisoFramework.Activity;
-using GisoFramework.DataAccess;
 using GisoFramework.Item;
 using SbrinnaCoreFramework;
 using SbrinnaCoreFramework.UI;
@@ -92,16 +89,6 @@ public partial class AuditoryExternaView : Page
         get
         {
             return Guid.NewGuid().ToString().ToUpperInvariant();
-        }
-    }
-
-    private FormFooter formFooter;
-
-    public string FormFooter
-    {
-        get
-        {
-            return this.formFooter.Render(this.Dictionary);
         }
     }
 
@@ -241,15 +228,15 @@ public partial class AuditoryExternaView : Page
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
 
-        this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
+        this.master.formFooter = new FormFooter();
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-print", Text = this.Dictionary["Common_Print"], Action = "info", ColumnsSpan = 12 });
 
         if (this.user.HasGrantToWrite(ApplicationGrant.Auditory))
         {
-            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
         }
 
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         if (this.auditoryId > 0)
         {
@@ -260,8 +247,10 @@ public partial class AuditoryExternaView : Page
                 Context.ApplicationInstance.CompleteRequest();
             }
 
-            this.formFooter.ModifiedBy = this.Auditory.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.Auditory.ModifiedOn;
+            //this.formFooter.ModifiedBy = this.Auditory.ModifiedBy.Description;
+            //this.formFooter.ModifiedOn = this.Auditory.ModifiedOn;
+            this.master.ModifiedBy = this.Auditory.ModifiedBy.Description;
+            this.master.ModifiedOn = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Auditory.ModifiedOn);
             this.master.TitleInvariant = true;
             this.RenderDocuments();
         }
@@ -272,6 +261,9 @@ public partial class AuditoryExternaView : Page
             {
                 this.Auditory.Type = Convert.ToInt32(this.Request.QueryString["t"] as string);
             }
+
+            this.master.ModifiedOn = Dictionary["Common_New"];
+            this.master.ModifiedBy = "-";
         }
 
         if (!IsPostBack)

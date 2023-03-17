@@ -88,6 +88,7 @@ window.onload = function () {
 
     if (Auditory.Status > AuditoryStatus.Pendiente) {
         $("#TxtCloseQuestionsOn").attr("disabled", "disabled");
+        $("#TxtCloseQuestionsOn").attr("title", Dictionary.AuditoryLockedToReopen);
         $("#TxtCloseQuestionsOn").css("background", "#ccc");
         $("#TxtReportStartBtn").hide();
         $("#TxtReportEndBtn").hide();
@@ -95,8 +96,10 @@ window.onload = function () {
     }
     else if (Auditory.Status === AuditoryStatus.Pendiente) {
         $("#TxtStartQuestionsOn").removeAttr("disabled");
+        $("#TxtStartQuestionsOn").removeAttr("title");
         $("#TxtStartQuestionsOn").css("background", "transparent");
         $("#TxtCloseQuestionsOn").removeAttr("disabled");
+        $("#TxtCloseQuestionsOn").removeAttr("title");
         $("#TxtCloseQuestionsOn").css("background", "transparent");
     }
 

@@ -88,6 +88,11 @@ $(document).ready(function () {
         $("#TxtStartDate").on("change", CopyStartToRevision);
         CopyStartToRevision();
     }
+
+    $("#BtnNewRequerimentAct").addClass("btn-sm");
+    $("#BtnNewRequerimentDefinition").addClass("btn-sm");
+
+    DOCUMENTREQUERIMENT_Init();
 });
 
 function CopyStartToRevision() {
@@ -193,7 +198,7 @@ function VersionedConfirmed() {
         "data": JSON.stringify(data, null, 2),
         "success": function (msg) {
             document.getElementById("TxtRevision").value = msg.d.MessageError;
-            document.getElementById("TxtRevisionDate").value = FormatDate(new Date(), "/");
+            document.getElementById("TxtRevisionDate").value = document.getElementById("TxtNewRevision").value;
             document.getElementById("TxtMotivo").value = document.getElementById("TxtNewReason").value;
             InsertVersionRow();
             $("#ReasonDialog").dialog("close");
@@ -215,7 +220,7 @@ function InsertVersionRow() {
     var td1 = document.createElement("TD");
     td1.appendChild(document.createTextNode(document.getElementById("TxtRevision").value));
     var td2 = document.createElement("TD");
-    td2.appendChild(document.createTextNode(FormatDate(new Date(), "/")));
+    td2.appendChild(document.createTextNode(document.getElementById("TxtRevisionDate").value));
     var td3 = document.createElement("TD");
     td3.appendChild(document.createTextNode(document.getElementById("TxtMotivo").value));
     var td4 = document.createElement("TD");
@@ -263,6 +268,7 @@ function Insert() {
             "ConservationType": $("#CmbConservacion").val(),
             "Source": $("#CmbOrigen").val() * 1 === 2,
             "Location": $("#TxtUbicacion").val(),
+            "LinkField": $("#TxtLinkField").val(),
             "Active": true
         },
         "revisionDate": $("#TxtRevisionDate").val(),
@@ -310,6 +316,7 @@ function Update() {
             "ConservationType": $("#CmbConservacion").val(),
             "Source": $("#CmbOrigen").val() * 1 === 2,
             "Location": $("#TxtUbicacion").val(),
+            "LinkField": $("#TxtLinkField").val(),
             "Active": true
         },
         "reason": selectedReason,
@@ -473,4 +480,19 @@ function Restore() {
             alertUI(msg.responseText);
         }
     });
+}
+
+function DOCUMENT_ViewLink() {
+    if ($("#TxtLinkField").val() !== "") {
+        window.open($("#TxtLinkField").val());
+    }
+}
+
+function DOCUMENT_LinkViewLayout() {
+    if ($("#TxtLinkField").val() !== "") {
+        $("#BtnLinkFieldView").removeAttr("disabled");
+    }
+    else {
+        $("#BtnLinkFieldView").attr("disabled", "disabled");
+    }
 }

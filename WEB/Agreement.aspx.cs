@@ -70,6 +70,7 @@ public partial class Agreement : Page
             return this.Company.Language;
         }
     }
+
     /// <summary>Creates agreement document</summary>
     /// <param name="companyId">Company identifier</param>
     /// <param name="userId">User identifier</param>
@@ -122,7 +123,7 @@ public partial class Agreement : Page
 
                     Dictionary<string, string> info = pdfReader.Info;
                     info["Title"] = "Agreement";
-                    info["Subject"] = "Agreemen";
+                    info["Subject"] = "Agreement";
                     info["Keywords"] = string.Empty;
                     info["Creator"] = "OpenFramework";
                     info["Author"] = "ISSUS";
@@ -144,6 +145,27 @@ public partial class Agreement : Page
                         stamper.Close();
                         pdfReader.Close();
                         res.SetSuccess(fileNameNew);
+
+                        using(var cmd = new SqlCommand("UPDATE Company SET Agreement = 1 WHERE Id = " + companyId.ToString()))
+                        {
+                            using(var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
+                            {
+                                cmd.Connection = cnn;
+                                cmd.CommandType = CommandType.Text;
+                                try
+                                {
+                                    cmd.Connection.Open();
+                                    cmd.ExecuteNonQuery();
+                                }
+                                finally
+                                {
+                                    if(cmd.Connection.State != ConnectionState.Closed)
+                                    {
+                                        cmd.Connection.Close();
+                                    }
+                                }
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {

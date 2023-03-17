@@ -16,6 +16,7 @@ using GisoFramework;
 using GisoFramework.Item;
 using SbrinnaCoreFramework.UI;
 using SbrinnaCoreFramework;
+using System.Web;
 
 public partial class EquipmentView : Page
 {
@@ -201,92 +202,6 @@ public partial class EquipmentView : Page
 
     public Equipment Equipment { get; set; }
 
-
-    private FormFooter formFooter;
-    private FormFooter formFooterCalibration;
-    private FormFooter formFooterVerification;
-    private FormFooter formFooterMaintenance;
-    private FormFooter formFooterRepair;
-    private FormFooter formFooterRecords;
-
-    public string FormFooter
-    {
-        get
-        {
-            if (this.formFooter == null)
-            {
-                return string.Empty;
-            }
-
-            return this.formFooter.Render(this.Dictionary);
-        }
-    }
-
-    public string FormFooterCalibration
-    {
-        get
-        {
-            if (this.formFooterCalibration == null)
-            {
-                return string.Empty;
-            }
-
-            return this.formFooterCalibration.Render(this.Dictionary);
-        }
-    }
-
-    public string FormFooterVerification
-    {
-        get
-        {
-            if (this.formFooterVerification == null)
-            {
-                return string.Empty;
-            }
-
-            return this.formFooterVerification.Render(this.Dictionary);
-        }
-    }
-
-    public string FormFooterMaintenance
-    {
-        get
-        {
-            if (this.formFooterMaintenance == null)
-            {
-                return string.Empty;
-            }
-
-            return this.formFooterMaintenance.Render(this.Dictionary);
-        }
-    }
-
-    public string FormFooterRepair
-    {
-        get
-        {
-            if (this.formFooterRepair == null)
-            {
-                return string.Empty;
-            }
-
-            return this.formFooterRepair.Render(this.Dictionary);
-        }
-    }
-
-    public string FormFooterRecords
-    {
-        get
-        {
-            if (this.formFooterRecords == null)
-            {
-                return string.Empty;
-            }
-
-            return this.formFooterRecords.Render(this.Dictionary);
-        }
-    }
-
     public string ReturnScript
     {
         get
@@ -457,13 +372,6 @@ public partial class EquipmentView : Page
             this.returnScript = "document.location = referrer;";
         }
 
-        this.formFooter = new FormFooter();
-        this.formFooterCalibration = new FormFooter();
-        this.formFooterVerification = new FormFooter();
-        this.formFooterMaintenance = new FormFooter();
-        this.formFooterRepair = new FormFooter();
-        this.formFooterRecords = new FormFooter();
-        this.Equipment = new Equipment();
 
         this.user = (ApplicationUser)Session["User"];
         this.Company = (Company)Session["company"];
@@ -473,6 +381,7 @@ public partial class EquipmentView : Page
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
         this.master.AddBreadCrumb("Item_Equipments", "EquipmentList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb("Item_Equipment_Tab_Details");
+        this.master.formFooter = new FormFooter();
 
         if (this.equipmentId > 0)
         {
@@ -488,33 +397,36 @@ public partial class EquipmentView : Page
             this.master.TitleInvariant = true;
             this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.Dictionary["Item_Equipment"], this.Equipment.Code + " - " + this.Equipment.Description);
 
-            this.formFooter.ModifiedBy = this.Equipment.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.Equipment.ModifiedOn;
-            this.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
-            this.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.Dictionary["Item_Equipment_Btn_Restaurar"], Action = "primary" });
-            this.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.Dictionary["Item_Equipment_Btn_Anular"], Action = "danger" });
-            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success", ColumnsSpan = 12 });
-            this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"], ColumnsSpan = 12 });
+            //this.formFooter.ModifiedBy = this.Equipment.ModifiedBy.Description;
+            //this.formFooter.ModifiedOn = this.Equipment.ModifiedOn;
+            this.master.ModifiedBy = this.Equipment.ModifiedBy.Description;
+            this.master.ModifiedOn = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Equipment.ModifiedOn);
 
-            this.formFooterCalibration.ModifiedBy = this.Equipment.ModifiedBy.Description;
-            this.formFooterCalibration.ModifiedOn = this.Equipment.ModifiedOn;
-            this.formFooterCalibration.AddButton(new UIButton { Id = "BtnCalibrationCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-print", Text = this.Dictionary["Common_Print"], Action = "info", ColumnsSpan = 12 });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.Dictionary["Item_Equipment_Btn_Restaurar"], Action = "primary" });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.Dictionary["Item_Equipment_Btn_Anular"], Action = "danger" });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success", ColumnsSpan = 12 });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"], ColumnsSpan = 12 });
 
-            this.formFooterVerification.ModifiedBy = this.Equipment.ModifiedBy.Description;
-            this.formFooterVerification.ModifiedOn = this.Equipment.ModifiedOn;
-            this.formFooterVerification.AddButton(new UIButton { Id = "BtnVerificationCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+            //this.formFooterCalibration.ModifiedBy = this.Equipment.ModifiedBy.Description;
+            //this.formFooterCalibration.ModifiedOn = this.Equipment.ModifiedOn;
+            //this.formFooterCalibration.AddButton(new UIButton { Id = "BtnCalibrationCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
-            this.formFooterMaintenance.ModifiedBy = this.Equipment.ModifiedBy.Description;
-            this.formFooterMaintenance.ModifiedOn = this.Equipment.ModifiedOn;
-            this.formFooterMaintenance.AddButton(new UIButton { Id = "BtnMaintenanceCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+            //this.formFooterVerification.ModifiedBy = this.Equipment.ModifiedBy.Description;
+            //this.formFooterVerification.ModifiedOn = this.Equipment.ModifiedOn;
+            //this.formFooterVerification.AddButton(new UIButton { Id = "BtnVerificationCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
-            this.formFooterRepair.ModifiedBy = this.Equipment.ModifiedBy.Description;
-            this.formFooterRepair.ModifiedOn = this.Equipment.ModifiedOn;
-            this.formFooterRepair.AddButton(new UIButton { Id = "BtnRepairCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+            //this.formFooterMaintenance.ModifiedBy = this.Equipment.ModifiedBy.Description;
+            //this.formFooterMaintenance.ModifiedOn = this.Equipment.ModifiedOn;
+            //this.formFooterMaintenance.AddButton(new UIButton { Id = "BtnMaintenanceCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
-            this.formFooterRecords.ModifiedBy = this.Equipment.ModifiedBy.Description;
-            this.formFooterRecords.ModifiedOn = this.Equipment.ModifiedOn;
-            this.formFooterRecords.AddButton(new UIButton { Id = "BtnRecordsCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+            //this.formFooterRepair.ModifiedBy = this.Equipment.ModifiedBy.Description;
+            //this.formFooterRepair.ModifiedOn = this.Equipment.ModifiedOn;
+            //this.formFooterRepair.AddButton(new UIButton { Id = "BtnRepairCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+
+            //this.formFooterRecords.ModifiedBy = this.Equipment.ModifiedBy.Description;
+            //this.formFooterRecords.ModifiedOn = this.Equipment.ModifiedOn;
+            //this.formFooterRecords.AddButton(new UIButton { Id = "BtnRecordsCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
             this.master.ItemCode = string.Format("{0} - {1}", this.Equipment.Code, this.Equipment.Description);
             this.RenderDocuments();
@@ -523,10 +435,11 @@ public partial class EquipmentView : Page
         {
             this.master.Titulo = "Item_Equipment_Tab_Details";
             this.Equipment = Equipment.Empty;
-            this.formFooter.ModifiedBy = this.Dictionary["Common_New"];
-            this.formFooter.ModifiedOn = DateTime.Now;
-            this.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
-            this.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+            this.master.formFooter.AddButton(new UIButton() { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
+            this.master.formFooter.AddButton(new UIButton() { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+
+            this.master.ModifiedBy = Dictionary["Common_New"];
+            this.master.ModifiedOn = "-";
         }
 
         this.SelectedTab = "home";
@@ -1275,7 +1188,7 @@ public partial class EquipmentView : Page
             Placeholder = this.Dictionary["Item_Equipment_Field_Measure_Range_PlaceHolder"],
             GrantToWrite = this.grantToWrite,
             Name = "TxtMeasureRange",
-            Value = this.Equipment.MeasureRange,
+            Value = GisoFramework.Tools.NumberFormat(this.Equipment.MeasureRange),
             MaximumLength = 10,
             Numeric = false
         };
@@ -1393,10 +1306,20 @@ public partial class EquipmentView : Page
             Value = this.Equipment.StartDate
         };
 
+        string imageName = @"images\equipments\noimage.jpg";
+
+        if (equipmentId > 0)
+        {
+            var path = this.Request.PhysicalApplicationPath + @"DOCS\" + this.Company.Id + "\\Equipments\\" + this.Equipment.Id + ".jpg";
+            if(File.Exists(path)){
+                imageName = path;
+            }
+        }
+
         this.ImgEquipment = new ImageSelector
         {
             Name = "Equipment",
-            ImageName = this.equipmentId > 0 ? @"images\equipments\" + this.Equipment.Image : @"images\equipments\noimage.jpg",
+            ImageName = imageName,
             Width = 150,
             Height = 150,
             Label = this.Dictionary["Item_Equipment_Field_Image_Label"]
@@ -1450,6 +1373,80 @@ public partial class EquipmentView : Page
         }
     }
 
+    public string RenderImage
+    {
+        get
+        {
+            /*string path = HttpContext.Current.Request.MapPath(HttpContext.Current.Request.ApplicationPath);
+            if (!path.EndsWith("\\", StringComparison.Ordinal))
+            {
+                path = string.Format(CultureInfo.CurrentCulture, @"{0}\DOCS\{2}\Equipments\{1}", path, this.ImgEquipment.ImageName, this.Company.Id);
+            }
+            else
+            {
+                path = string.Format(CultureInfo.CurrentCulture, @"{0}DOCS\{2}\Equipments\{1}", path, this.ImgEquipment.ImageName, this.Company.Id);
+            }*/
+
+
+            var imageUrl = "/Images/NoImage.jpg";
+            if (File.Exists(this.ImgEquipment.ImageName))
+            {
+
+                System.Drawing.Size size = ImageHelper.GetDimensions(this.ImgEquipment.ImageName);
+                decimal fileWidth = Convert.ToDecimal(size.Width);
+                decimal fileHeight = Convert.ToDecimal(size.Height);
+                decimal fileRatio = fileWidth / fileHeight;
+                decimal imageWidth = Convert.ToDecimal(this.ImgEquipment.Width);
+                decimal imageHeight = Convert.ToDecimal(this.ImgEquipment.Height);
+
+                if (imageWidth > imageHeight)
+                {
+                    if (imageWidth > fileWidth) { fileWidth = imageWidth; }
+                    else { imageWidth = fileWidth; }
+                }
+                else
+                {
+                    if (imageHeight > fileHeight) { }
+                }
+
+                if (fileRatio > 0)
+                {
+                    imageHeight = imageHeight / fileRatio;
+                }
+                else
+                {
+                    imageWidth = imageWidth / fileRatio;
+                }
+
+                this.ImgEquipment.Width = Convert.ToInt32(imageWidth);
+                this.ImgEquipment.Height = Convert.ToInt32(imageHeight);
+
+                imageUrl = this.ImgEquipment.ImageName.Replace(this.Request.PhysicalApplicationPath, string.Empty);
+            }
+
+            return string.Format(
+                CultureInfo.CurrentCulture,
+                @"<div class=""col-sm-12"">
+                                <img id=""{0}Img"" src=""{1}?ac={5}"" title=""{6}"" style=""width:{2};height:{3};"" class=""ItemImage"" />
+                            </div>
+                            <div class=""col-sm-12"" style=""margin-top:8px;"">
+                                <button class=""btn btn-success"" type=""button"" id=""Btn{0}ChangeImage"">
+                                    <i class=""icon-refresh bigger-110""></i>
+                                    {4}
+                                </button>
+                                <!--<button class=""col-sm-6 btn btn-danger"" type=""button"" id=""Btn{0}DeleteImage"">
+                                    <i class=""icon-trash bigger-110""></i>-->
+                                </button>
+                            </div>",
+                this.ImgEquipment.Name,
+                imageUrl,//this.ImgEquipment.ImageName,
+                this.ImgEquipment.Width > 0 ? string.Format("{0}px", this.ImgEquipment.Width) : "100%",
+                this.ImgEquipment.Height > 0 ? string.Format("{0}px", this.ImgEquipment.Height) : "100%",
+                this.ImgEquipment.Label,
+                Guid.NewGuid(),
+                this.ImgEquipment.ImageName);
+        }
+    }
     private void RenderDocuments()
     {
         this.LtDocumentsList.Text = string.Empty;

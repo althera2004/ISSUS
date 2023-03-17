@@ -77,5 +77,8 @@ namespace GisoFramework.Item.Binding
 
         /// <summary>Index of EndReason column</summary>
         public const int EndReason = 23;
+
+        /// <summary>Index of Link column</summary>
+        public const int Link = 24;
     }
 }

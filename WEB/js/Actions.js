@@ -96,14 +96,6 @@ function SaveAction() {
     var dateClose = null;
     var dateCloseExecution = null;
 
-    var CausesTxt = null;
-    var CausesResponsible = null;
-    var CausesDate = null;
-
-    var ActionsTxt = null;
-    var ActionsResponsible = null;
-    var ActionsDate = null;
-
     if (typeof IncidentAction.OportunityId === "undefined") {
         IncidentAction.OportunityId = -1;
     }
@@ -114,13 +106,22 @@ function SaveAction() {
         ok = false;
     }
 
-    // Se asume que si el Id es -1, es nuevo y sólo puede ser "Propuesta por dirección"
-    if (IncidentAction.Id < 0) {
-        IncidentAction.Origin = Origins.Propuesta;
+    if ($("#ROrigin1").prop("checked") === false && $("#ROrigin2").prop("checked") === false) {
+        ok = false;
+        ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_OriginRequired);
+    }
+    else {
+        // Se asume que si el Id es -1, es nuevo y sólo puede ser "Propuesta por dirección" ó "Auditoria"
+        if (IncidentAction.Id < 0) {
+            //IncidentAction.Origin = Origins.Propuesta;
+            if ($("#ROrigin1").prop("checked") === true) { IncidentAction.Origin = 1; }
+            if ($("#ROrigin2").prop("checked") === true) { IncidentAction.Origin = 2; }
+        }
     }
 
-    // Sólo para propuestas por dirección
-    if (IncidentAction.Origin === Origins.Propuesta) {
+
+    // Sólo para propuestas por dirección y auditorias
+    if (IncidentAction.Origin === Origins.Propuesta  || IncidentAction.Origin === Origins.Auditory) {
         if (!document.getElementById("RType1").checked && !document.getElementById("RType2").checked && !document.getElementById("RType3").checked) {
             ok = false;
             ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_TypeRequired);
@@ -140,10 +141,19 @@ function SaveAction() {
             if (document.getElementById("RReporterType3").checked && $("#CmbReporterType3").val() * 1 === 0) { origin = false; }
             if (origin === true) {
                 $("#RReporterTypeLabel").css("color", Color.Label);
-            } else {
-                ok = false;
-                ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_ReportedByRequired);
-                $("#RReporterTypeLabel").css("color", Color.Error);
+            } else {				
+				if(IncidentAction.Origin === Origins.Auditory &&  IncidentAction.AuditoryId !== null)
+				{
+					// en las acciones de aditorias reales, no se verifica el origen del reportador
+                }
+                else if (IncidentAction.Origin === Origins.Auditory && IncidentAction.AuditoryId == null && document.getElementById("RReporterType1").checked) {
+                    // en las acciones de aditorias reales, no se verifica el origen del reportador
+                }
+				else {
+					ok = false;
+					ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_ReportedByRequired);
+					$("#RReporterTypeLabel").css("color", Color.Error);
+				}
             }
         }
     }
@@ -277,6 +287,33 @@ function SaveAction() {
             SetFieldTextMessages("TxtWhatHappenedDate");
             SetFieldTextMessages("TxtClosedDate");
         }
+
+        if (Objetivo.Id > 0) {
+            var InicioObjetivo = GetDate(Objetivo.StartDate, "/", false);
+            if (dateWhatHappened < InicioObjetivo) {
+                ok = false;
+                ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_BeforeStartObjective + " (" + Objetivo.StartDate + ")");
+                SetFieldTextMessages("TxtWhatHappenedDate");
+            }
+
+            if (Objetivo.PreviewEndDate !== null) {
+                var FinalObjetivo = GetDate(Objetivo.PreviewEndDate, "/", false);
+                if (dateWhatHappened > FinalObjetivo) {
+                    ok = false;
+                    ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_AfterEndObjective + " (" + Objetivo.PreviewEndDate + ")");
+                    SetFieldTextMessages("TxtWhatHappenedDate");
+                }
+            }
+
+            if (Objetivo.EndDate !== null) {
+                var FinalObjetivo = GetDate(Objetivo.EndDate, "/", false);
+                if (dateWhatHappened > FinalObjetivo) {
+                    ok = false;
+                    ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_AfterEndObjective + " (" + Objetivo.EndDate + ")");
+                    SetFieldTextMessages("TxtWhatHappenedDate");
+                }
+            }
+        }
     }
 
     if (dateCauses !== null) {
@@ -291,6 +328,26 @@ function SaveAction() {
             SetFieldTextMessages("TxtCausesDate");
             SetFieldTextMessages("TxtClosedDate");
         }
+
+        if (Objetivo.Id > 0) {
+           if (Objetivo.PreviewEndDate !== null) {
+                var FinalObjetivo = GetDate(Objetivo.PreviewEndDate, "/", false);
+                if (dateCauses > FinalObjetivo) {
+                    ok = false;
+                    ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_AfterEndObjective + " (" + Objetivo.PreviewEndDate + ")");
+                    SetFieldTextMessages("TxtCausesDate");
+                }
+            }
+
+            if (Objetivo.EndDate !== null) {
+                var FinalObjetivo = GetDate(Objetivo.EndDate, "/", false);
+                if (dateCauses > FinalObjetivo) {
+                    ok = false;
+                    ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_AfterEndObjective + " (" + Objetivo.EndDate + ")");
+                    SetFieldTextMessages("TxtCausesDate");
+                }
+            }
+        }
     }
 
     if (dateActions !== null) {
@@ -298,6 +355,26 @@ function SaveAction() {
             okDates = false;
             SetFieldTextMessages("TxtActionsDate");
             SetFieldTextMessages("TxtClosedDate");
+        }
+
+        if (Objetivo.Id > 0) {
+            if (Objetivo.PreviewEndDate !== null) {
+                var FinalObjetivo = GetDate(Objetivo.PreviewEndDate, "/", false);
+                if (dateActions > FinalObjetivo) {
+                    ok = false;
+                    ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_AfterEndObjective + " (" + Objetivo.PreviewEndDate+")");
+                    SetFieldTextMessages("TxtActionsDate");
+                }
+            }
+
+            if (Objetivo.EndDate !== null) {
+                var FinalObjetivo = GetDate(Objetivo.EndDate, "/", false);
+                if (dateActions > FinalObjetivo) {
+                    ok = false;
+                    ErrorMessage.push(Dictionary.Item_IncidentAction_ErrorMessage_AfterEndObjective + " (" + Objetivo.EndDate + ")");
+                    SetFieldTextMessages("TxtActionsDate");
+                }
+            }
         }
     }
 
@@ -332,7 +409,8 @@ function SaveAction() {
 
     var ROrigin = 0;
     if (IncidentAction.Id === -1) {
-        ROrigin = Origins.Propuesta;
+        if ($("#ROrigin1").prop("checked") === true) { ROrigin = 1; };
+        if ($("#ROrigin2").prop("checked") === true) { ROrigin = 2; };
     }
     else if (IncidentAction.AuditoryId > 0) {
         RReporter = IncidentAction.ReporterType;
@@ -391,6 +469,10 @@ function SaveAction() {
             Rtype = ActionType.Preventiva;
         }
     }
+	else {
+		// 2022-15-05 si no tiene nada asociado es el que venia de base datos
+		ROrigin = IncidentAction.Origin;
+	}
 
     var whatHappenedOn = GetDate($("#TxtWhatHappenedDate").val(), "-");
     var causesOn = GetDate($("#TxtCausesDate").val(), "-");
@@ -412,7 +494,7 @@ function SaveAction() {
         "Number": IncidentAction.Number,
         "IncidentId": IncidentAction.IncidentId,
         "BusinessRiskId": IncidentAction.BusinessRiskId,
-        "Objetivo": Objetivo,
+        "Objetivo": { "Id": Objetivo.Id },
         "Oportunity": IncidentAction.Oportunity,
         "WhatHappened": $("#TxtWhatHappened").val(),
         "WhatHappenedBy": { "Id": $("#CmbWhatHappenedResponsible").val() },
@@ -494,6 +576,14 @@ function CmbReporterCustomersFill() {
 }
 
 function RReporterTypeChanged() {
+	if($("#ROrigin1").length > 0)
+	{
+    if (document.getElementById("RReporterType1").checked && document.getElementById("ROrigin1").checked) {
+        $("#RReporterTypeCmb").hide();
+        return;
+    }
+	}
+
     $("#RReporterTypeCmb").show();
     document.getElementById("DivCmbReporterType1").style.display = document.getElementById("RReporterType1").checked ? "" : "none";
     document.getElementById("DivCmbReporterType2").style.display = document.getElementById("RReporterType2").checked ? "" : "none";
@@ -741,6 +831,11 @@ function SetCloseRequired() {
 }
 
 function AnularPopup() {
+    if ($("#TxtMonitoring").val() === "") {
+        warningInfoUI(Dictionary.Action_NoSeguimentMessage, Dictionary.Common_Warning);
+        return false;
+    }
+
     var ok = true;
     if ($("#TxtDescription").val() === "") { ok = false; }
     if ($("#TxtWhatHappened").val() === "") { ok = false; }
@@ -868,9 +963,9 @@ function AnulateLayout() {
         message += "        " + Dictionary.Item_IncidentAction_Label_EndDate + ": <strong>" + GetDateYYYYMMDDText(IncidentAction.ClosedOn,"/", false) + "</strong><br />";
         message += "        " + Dictionary.Item_IncidentAction_Label_EndResponsible + ": <strong>" + IncidentAction.ClosedBy.Value + "</strong><br />";
         message += "    </p>";
-        message += "</div>";
+        message += "</div><br />";
         //$("#home").append(message);
-        $("#oldFormFooter").before(message);
+        $("#ClosedPlaceholder").html(message);
         $("#BtnAnular").hide();
         $("#BtnRestaurar").show();
         $("#BtnSave").hide();

@@ -360,6 +360,7 @@ function EquipmentVerificationActNewFormReset() {
     $("#TxtEquipmentVerificationActResult").val("");
     $("#TxtEquipmentVerificationActObservations").val("");
     $("#TxtEquipmentVerificationActCost").val("");
+    $("#TxtEquipmentVerificationActObservations").val("");
     $("#CmbEquipmentVerificationActResponsible").val(ApplicationUser.Employee.Id);
     $("#TxtEquipmentVerificationActDate").val(FormatDate(new Date, "/"));
     if (onlyExternal === true) {
@@ -547,7 +548,7 @@ function ShowDialogEquipmentVerificacionPopup(actionSelected) {
         "modal": true,
         "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentVerification_PopupNew_Title + "</h4>",
         "title_html": true,
-        "width": 400,
+        "width": 580,
         "buttons":
         [
             {
@@ -601,6 +602,7 @@ function EquipmentVerificationSave() {
         "Expiration": expiration,
         "Active": true,
         "Cost": cost,
+        "Observations": $("#TxtEquipmentVerificationActObservations").val(),
         "Provider": { "Id": $("#CmbEquipmentVerificationActProvider").val() },
         "Responsible": {
             "Id": $("#CmbEquipmentVerificationActResponsible").val(),

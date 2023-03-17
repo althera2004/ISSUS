@@ -171,7 +171,7 @@ function UpdateResult() {
     var calculatedResult = cost * impact;
     if (calculatedResult > 0) {
         $("#Result").html(calculatedResult);
-        $("#Result").css("color", calculatedResult < rule.Limit ? "#3f3" : "#4aa4ce");
+        $("#Result").css("color", calculatedResult > rule.Limit ? "#a5ca9f" : "#4aa4ce");
     }
     else {
         $("#Result").html("-");
@@ -1212,7 +1212,7 @@ function RenderStepsSliders() {
         "min": MinStepValue,
         "max": 5,
         "step": 1,
-        "slide": function (event, ui) { return null; }
+        "slide": function (event, ui) { return false; }
     });
 
     $("#Initial-input-span-slider-impact").slider({
@@ -1221,7 +1221,7 @@ function RenderStepsSliders() {
         "min": MinStepValue,
         "max": 5,
         "step": 1,
-        "slide": function (event, ui) { return null; }
+        "slide": function (event, ui) { return false; }
     });
 
     // Sliders situación final
@@ -1377,10 +1377,14 @@ if (Oportunity.Result > 0) {
 if (Action.ClosedOn === null) {
     $("#DivClosingRisk").hide();
     $("#DivClosingRiskUnavailable").show();
+    $("#SituacionFinalDiv").hide();
+    console.log("Test", "show");
 }
 else {
     $("#DivClosingRisk").show();
     $("#DivClosingRiskUnavailable").hide();
+    $("#SituacionFinalDiv").show();
+    console.log("Test", "hide");
 }
 
 if (Action.Id > 0) {
@@ -1498,10 +1502,10 @@ window.onload = function () {
     $("#TabhistoryActions").on("click", HideAnulateActionButton);
     $("#TabuploadFiles").on("click", HideAnulateActionButton);
 
-    var res = "&nbsp;<button class=\"btn btn-danger\" type=\"button\" id=\"BtnAnular\" style=\"display:inline-block;\"><i class=\"icon-ban-circle bigger-110\"></i>" + Dictionary.Item_BusinessRisk_Button_CloseAction + "</button>";
-    res += "&nbsp;<button class=\"btn btn-primary\" type=\"button\" id=\"BtnRestaurar\" style=\"display:inline-block;\"><i class=\"icon-undo bigger-110\"></i>" + Dictionary.Item_BusinessRisk_Button_RestoreAction + "</button>";
+    var res = "<button class=\"btn btn-warning\" type=\"button\" id=\"BtnAnular\" style=\"display:inline-block;\"><i class=\"icon-ban-circle bigger-110\"></i>" + Dictionary.Item_BusinessRisk_Button_CloseAction + "</button>";
+    res += "<button class=\"btn btn-primary\" type=\"button\" id=\"BtnRestaurar\" style=\"display:inline-block;\"><i class=\"icon-undo bigger-110\"></i>" + Dictionary.Item_BusinessRisk_Button_RestoreAction + "</button>";
 
-    $("#ItemButtons").prepend(res);
+    $("#BtnPrint").before(res);
 
     $("#BtnAnular").on("click", AnularPopup);
     $("#BtnRestaurar").on("click", Restore);

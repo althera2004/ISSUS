@@ -113,10 +113,16 @@ public class CompanyCreation : WebService
                 res.MessageError.Split('|')[2],
                 res.MessageError.Split('|')[0],
                 res.MessageError.Split('|')[3]);
-            
-			var mail = new MailMessage
+
+            string sender = ConfigurationManager.AppSettings["mailaddress"];
+            string pass = ConfigurationManager.AppSettings["mailpass"];
+            var senderMail = new MailAddress(sender, "ISSUS");
+            string server = ConfigurationManager.AppSettings["mailserver"];
+            int port = Convert.ToInt32(ConfigurationManager.AppSettings["mailport"]);
+
+            var mail = new MailMessage
             {
-                From = new MailAddress("issus@scrambotika.com", "ISSUS"),
+                From = senderMail,
                 IsBodyHtml = true,
                 Subject = subject,
                 Body = body
@@ -132,11 +138,14 @@ public class CompanyCreation : WebService
             }
             else
             {
-                var smtpServer = new SmtpClient("smtp.scrambotika.com")
+                var smtpServer = new SmtpClient
                 {
-                    Port = 587,
-                    Credentials = new System.Net.NetworkCredential("issus@scrambotika.com", key)
+                    Host = server,
+                    Port = port,
+                    Credentials = new System.Net.NetworkCredential(sender, key),
+                    DeliveryMethod = SmtpDeliveryMethod.Network
                 };
+
                 smtpServer.Send(mail);
             }
         }
@@ -144,7 +153,7 @@ public class CompanyCreation : WebService
         return res.MessageError;
     }
 
-    /// <summary>Insert a new compnay in database</summary>
+    /// <summary>Insert a new company in database</summary>
     /// <param name="companyName">Company name</param>
     /// <param name="companyCode">Company code</param>
     /// <param name="companyNif">Company nif</param>
@@ -157,11 +166,6 @@ public class CompanyCreation : WebService
     /// <param name="companyMobile">Company mobile</param>
     /// <param name="companyFax">Company fax</param>
     /// <param name="companyEmail">Company email</param>
-    /// <param name="employeeName">Admin employee name</param>
-    /// <param name="employeeLastName">Admin employee lastname</param>
-    /// <param name="employeeNif">Admin employee nif</param>
-    /// <param name="employeePhone">Admin employee phone</param>
-    /// <param name="employeeEmail">Admin employee email</param>
     /// <returns>Result of action</returns>
     public static ActionResult CreateDB(string companyName, string companyCode, string companyNif, string companyAddress, string companyPostalCode, string companyCity, string companyProvince, string companyCountry, string companyPhone, string companyMobile, string companyFax, string userName, string companyEmail, string language)
     {

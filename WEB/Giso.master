@@ -8,24 +8,24 @@
     <meta name="description" content="overview &amp; stats" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css?ac<%=this.Anticache %>" />
-    <link rel="stylesheet" href="assets/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css?ac<%=this.Anticache %>" />
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css" />
 
     <!--[if IE 7]>
-        <link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css" />
+        <link rel="stylesheet" href="/assets/css/font-awesome-ie7.min.css" />
     <![endif]-->
-    <link rel="stylesheet" href="assets/css/jquery-ui-1.10.3.custom.min.css" />
-    <link rel="stylesheet" href="assets/css/chosen.css" />
-    <link rel="stylesheet" href="assets/css/datepicker.css" />
-    <link rel="stylesheet" href="assets/css/bootstrap-timepicker.css" />
-    <link rel="stylesheet" href="assets/css/daterangepicker.css" />
-    <link rel="stylesheet" href="assets/css/colorpicker.css" />
-    <link rel="stylesheet" href="assets/css/ace-fonts.css" />
+    <link rel="stylesheet" href="/assets/css/jquery-ui-1.10.3.custom.min.css" />
+    <link rel="stylesheet" href="/assets/css/chosen.css" />
+    <link rel="stylesheet" href="/assets/css/datepicker.css" />
+    <link rel="stylesheet" href="/assets/css/bootstrap-timepicker.css" />
+    <link rel="stylesheet" href="/assets/css/daterangepicker.css" />
+    <link rel="stylesheet" href="/assets/css/colorpicker.css" />
+    <link rel="stylesheet" href="/assets/css/ace-fonts.css" />
     <%=this.Skin %>        
-    <link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
-    <link rel="stylesheet" href="assets/css/ace-skins.min.css" />    
-    <link rel="stylesheet" href="assets/css/jquery-ui-1.10.3.full.min.css" />
-    <link rel="stylesheet" href="assets/css/chosen.min.css" />
+    <link rel="stylesheet" href="/assets/css/ace-rtl.min.css" />
+    <link rel="stylesheet" href="/assets/css/ace-skins.min.css" />    
+    <link rel="stylesheet" href="/assets/css/jquery-ui-1.10.3.full.min.css" />
+    <link rel="stylesheet" href="/assets/css/chosen.min.css" />
     <link rel="stylesheet" href="/css/ModalImage.css" />
 
     <!--[if lte IE 8]>
@@ -67,6 +67,8 @@
             color: #55f;
             cursor:pointer;
         }
+
+        #btn-scroll-up { display:none;}
 
         .NoData { text-shadow:#fff 0px 1px 0, #000 0 -1px 0;}
 
@@ -147,6 +149,8 @@
             border-left: 1px solid #ccc;
             border-right: 1px solid #ccc;
         }
+
+        #FooterButton button { margin-left:6px;}
     </style>
     <!-- Specific style of page -->
     <script type="text/javascript" src="/js/Data.aspx"></script>
@@ -182,6 +186,7 @@
                 try { ace.settings.check("navbar", "fixed") } catch (e) { }
             </script>
             <div class="navbar-container" id="navbar-container">
+                <img src="/DOCS/<%=this.Company.Id %>/Logo_<%=this.Company.Id %>.jpg" style="background-color:#ffff;float:left;height:35px;margin:5px;padding:0;" />&nbsp;
                 <div class="navbar-header pull-left">
                     <span class="navbar-brand"><small><span id="brandTitle"><%=this.Company.Name %>&nbsp;-&nbsp;ISSUS&nbsp;</span><i id="brandVersion"><%=this.IssusVersion %></i></small></span>
                 </div><!-- /.navbar-header -->
@@ -280,7 +285,7 @@
                         <!-- #nav-search -->
                     </div>
 
-                    <div class="page-content" style="padding-top:60px !important;" id="content-page">
+                    <div class="page-content" style="padding-top:15px;margin-top:40px !important;overflow-y:auto;overflow-x:hidden;" id="content-page">
                         <div class="page-header col-sm-12" style="padding-top:0 !important;">
                             <div class="col-sm-8">
                                 <h1><%=this.Titulo %></h1>
@@ -377,11 +382,20 @@
             </div>
         </div><!-- /.main-container -->
         <div id="logofooter" class="btn-scroll-up hidden-sm" style="width:100%;background-color:#ddd;color:#333;font-size:1em;text-align:center;padding:8px;position:fixed; margin:0 !important;bottom:0;right:0;">
-            <div class="col-sm-4" id="FooterStatus"></div>
-            <div class="col-sm-4" style="text-align:center;">
-                &copy; <a href="http://www.scrambotika.com" target="_blank">Scramb&ograve;tika</a>
+            <div class="col-sm-6" id="FooterStatus" style="text-align:left;">
+                <div style="float:left;" id="ItemStatus">
+                    <%=Dictionary["Common_ModifiedBy"] %>:&nbsp;<strong><%=this.ModifiedBy %></strong>
+                    <br />
+                    <%=Dictionary["Common_ModifiedOn"] %>:&nbsp;<strong><%=this.ModifiedOn %></strong>
+                </div>
             </div>
-            <div id="FooterButton" class="col-sm-4" style="text-align:right;height:30px;"><asp:Image runat="server" ID="ImgCompany" /></div>            
+            <!--div class="col-sm-4" style="text-align:center;">
+                &copy; <a href="http://www.scrambotika.com" target="_blank">Scramb&ograve;tika</a>
+            </div-->
+            <div id="FooterButton" class="col-sm-6" style="text-align:right;height:30px;">
+                <!--<asp:Image runat="server" ID="ImgCompany" />-->
+                <%=this.FormFooterHtml %>
+            </div>            
         </div><!-- /.page-header -->
 
         <div id="TimeoutDialog" class="hide" style="width:300px;">
@@ -501,7 +515,7 @@
 
 			// @alex: aquí se decide de poner el bubble en la opción "Dashboard" con la cantidad de tareas pendientes caducadas
             if (PendentTasks > 0) {
-                $("#menuoption-1 i").append("<span class=\"badge badge-primary\" style=\"margin-right:8px;font-family:Arial;\">" + PendentTasks + "</span>");
+                $("#menuoption-1 i").append("<span id=\"tasksbadget\" class=\"badge badge-alert tooltip-error\" style=\"margin-right:8px;font-family:Arial;\" title=\"" + Dictionary.Task_TotalCaducadas + "\">" + PendentTasks + "</span>");
             }
 
             if (user.Admin !== true) {
@@ -516,6 +530,15 @@
             $(".pull-left").css("max-width", "90%");
             $(".pull-left").css("overflow", "hidden");
             $(".pull-left").css("text-overflow", "ellipsis");
+
+            //$("#FooterButton").html($("#ItemButtons").html());
+            //$("#ItemButtons").remove();
+            //$("#FooterStatus").html($("#oldFormFooter").html());
+            //$("#oldFormFooter").remove();
+            $("#FooterStatus").css("padding-left", ($("#sidebar").width() + 6) + "px");
+            if (pageType === "form") {
+                $("#content-page").height($(window).height() - 190);
+            }
         </script>
         <script type="text/javascript" src="/js/NumberFormat.js"></script>
         <div id="ModalImage" class="modal-image" style="display: none;">

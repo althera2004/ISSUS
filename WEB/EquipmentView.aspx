@@ -44,6 +44,7 @@
         var ProviderVerificationDefinition = <%=this.VerificationProviderId %>;
         var typeItemId = 11;
         var itemId = Equipment.Id;
+        var pageType = "form";
         var EquipmentForm =
         {
             "FieldsFormat":
@@ -99,11 +100,14 @@
                                                                     <%=this.TxtMeasureRange.Render %>
                                                                     <%=this.TxtScaleDivision.Render.Replace("decimalFormated","decimalFormated4") %>
                                                                     <%=this.BarScaleDivisionType.Render %>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-xs-6">&nbsp;</div>
                                                                     <%=this.TxtStartDate.Render %>
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-2">
-                                                                <%=this.ImgEquipment.Render %>
+                                                                <%=this.RenderImage %>
                                                             </div>
                                                             <div class="form-group col-sm-12">
 
@@ -124,9 +128,6 @@
                                                             <div style="height:12px;clear:both;">&nbsp;</div>
                                                             <%=this.TxtObservations.Render %>
                                                         </form>
-                                                    </div>
-                                                    <div class="row">
-                                                        <%=this.FormFooter %>
                                                     </div>
                                                 </div>
                                                 <div id="calibracion" class="tab-pane<%=this.SelectedTab =="calibracion" ? " active" : String.Empty %>">
@@ -215,7 +216,7 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label id="CmbCalibrationExternalProviderLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Equipment_Field_Calibration_Provider"] %><span class="required">*</span></label>
-                                                                    <div class="col-sm-9" id="CmbCalibrationExternalProviderrDiv" style="height:35px !important;">
+                                                                    <div class="col-sm-8" id="CmbCalibrationExternalProviderrDiv" style="height:35px !important;">
                                                                         <select id="CmbCalibrationExternalProvider" class="form-control col-xs-12 col-sm-12"></select>
                                                                         <input style="display:none;" type="text" readonly="readonly" id="CmbCalibrationExternalProviderValue" placeholder="Proveedor" class="col-xs-12 col-sm-12" />
                                                                         <span class="ErrorMessage" id="CmbCalibrationExternalProviderErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
@@ -300,9 +301,6 @@
                                                                 </div><!-- /widget-main -->
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row" style="height:50px;">
-                                                        <!-- <%=this.FormFooterCalibration%> -->
                                                     </div>
                                                 </div>
                                                 <div id="verificacion" class="tab-pane<%=this.SelectedTab =="verificacion" ? " active" : String.Empty %>">
@@ -390,7 +388,7 @@
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label id="CmbVerificationExternalProviderLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Equipment_Field_Verification_Provider"] %><span class="required">*</span></label>
-                                                                    <div class="col-sm-9" id="CmbVerificationExternalProviderrDiv" style="height:35px !important;">
+                                                                    <div class="col-sm-8" id="CmbVerificationExternalProviderrDiv" style="height:35px !important;">
                                                                         <select id="CmbVerificationExternalProvider" class="form-control col-xs-12 col-sm-12"></select>
                                                                         <input style="display:none;" type="text" readonly="readonly" id="CmbVerificationExternalProviderValue" placeholder="Proveedor" class="col-xs-12 col-sm-12" />
                                                                         <span class="ErrorMessage" id="CmbVerificationExternalProviderErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
@@ -477,9 +475,6 @@
                                                             </div><!-- /span -->
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        <!-- <%=this.FormFooterVerification%> -->
-                                                    </div>
                                                 </div>
 
                                                 <div id="mantenimiento" class="tab-pane<%=this.SelectedTab =="mantenimiento" ? " active" : String.Empty %>">
@@ -542,8 +537,7 @@
                                                                 <td colspan="2">&nbsp;</td>
                                                             </tr>
                                                         </tbody>                                                        
-                                                    </table>                                                    
-                                                    <%=this.FormFooterMaintenance%>
+                                                    </table>
                                                 </div>
                                                 <div id="reparaciones" class="tab-pane">                                                    
                                                     <div class="col-sm-12" style="margin-bottom:4px;">
@@ -585,7 +579,6 @@
                                                             </tr>
                                                         </tbody>
                                                     </table>
-                                                    <%=this.FormFooterRepair%>
                                                 </div>
                                                 <div id="registros" class="tab-pane">
                                                     <h4><%=this.Dictionary["Item_Equipment_Tab_Records"] %></h4> 
@@ -713,7 +706,6 @@
                                                             </tr>
                                                         </tfoot>
                                                     </table>
-                                                    <%=this.FormFooterRecords%>
                                                 </div>
                                                 <div id="uploadFiles" class="tab-pane">
                                                     <div class="col-sm-12">
@@ -839,7 +831,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label id="TxtNewMaintainmentFirstDateLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_EquipmentMaintenance_Popup_Register_FieldLabel_FirstDate"] %></label>
+                                        <label id="NewMaintainmentFirstDateLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_EquipmentMaintenance_Popup_Register_FieldLabel_FirstDate"] %><span class="required">*</span></label>
                                         <div class="col-sm-9">
                                             <div class="row">
                                                 <div class="col-xs-12 col-sm-12 tooltip-info" id="TxtNewMaintainmentFirstDateDiv">
@@ -1020,7 +1012,7 @@
                             </div>   
                             <!-- EQUIPMENTREPAIR POPUPS END -->
                             
-                            <div id="dialogEquipmentCalibrationForm" class="hide" style="width:400px;overflow:hidden;">
+                            <div id="dialogEquipmentCalibrationForm" class="hide" style="width:550px;overflow:hidden;">
                                 <form class="form-horizontal" role="form">
                                     <div class="form-group">
                                         <div class="col-sm-6">
@@ -1034,8 +1026,8 @@
                                         <span class="ErrorMessage" id="REquipmentCalibrationActTypeErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                     </div> 
                                     <div class="form-group">
-                                        <label id="TxtEquipmentCalibrationActDateLabel" class="col-sm-3 control-label no-padding-right">Data<span class="required">*</span></label>
-                                        <div class="col-sm-6">
+                                        <label id="TxtEquipmentCalibrationActDateLabel" class="col-sm-2 control-label no-padding-right">Data<span class="required">*</span></label>
+                                        <div class="col-sm-4">
                                             <div class="row">
                                                 <div class="col-xs-12 col-sm-12 tooltip-info" id="TxtEquipmentCalibrationActDateDiv">
                                                     <div class="input-group">
@@ -1052,21 +1044,19 @@
                                         </div>
                                     </div>    
                                     <div class="form-group">
-                                        <label id ="TxtEquipmentCalibrationActResultLabel" class="col-sm-3 control-label no-padding-right" for="TxtEquipmentCalibrationActResult"><%=this.Dictionary["Item_Equipment_Field_Calibration_Result"] %><span class="required">*</span></label>
+                                        <label id ="TxtEquipmentCalibrationActResultLabel" class="col-sm-2 control-label no-padding-right" for="TxtEquipmentCalibrationActResult"><%=this.Dictionary["Item_Equipment_Field_Calibration_Result"] %><span class="required">*</span></label>
                                         <div class="col-sm-4">
                                             <input type="text" class="col-xs-12 col-sm-12 decimalFormated6" id="TxtEquipmentCalibrationActResult" placeholder="<%=this.Dictionary["Item_Equipment_Field_Calibration_Result"] %>" value="" maxlength="12" />
                                             <span class="ErrorMessage" id="TxtEquipmentCalibrationActResultErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                         </div>
-                                    </div>   
-                                    <div class="form-group">
-                                        <label id ="TxtEquipmentCalibrationActCostLabel" class="col-sm-3 control-label no-padding-right" for="TxtEquipmentCalibrationActCost"><%=this.Dictionary["Item_Equipment_Field_Calibration_Cost"] %></label>
+                                        <label id ="TxtEquipmentCalibrationActCostLabel" class="col-sm-2 control-label no-padding-right" for="TxtEquipmentCalibrationActCost"><%=this.Dictionary["Item_Equipment_Field_Calibration_Cost"] %></label>
                                         <div class="col-sm-4">
                                             <input type="text" class="col-xs-12 col-sm-12 money-bank" id="TxtEquipmentCalibrationActCost" placeholder="<%=this.Dictionary["Item_Equipment_Field_Calibration_Cost"] %>" value="" maxlength="12" />                                            
                                         </div>
                                     </div>                                    
                                     <div class="form-group" id="CmbEquipmentCalibrationActProviderRow">
-                                        <label id="CmbEquipmentCalibrationActProviderLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_Equipment_Field_Calibration_Provider"] %><span class="required">*</span></label>
-                                        <div class="col-sm-7" id="CmbEquipmentCalibrationActProviderDiv" style="height:35px !important;">
+                                        <label id="CmbEquipmentCalibrationActProviderLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Equipment_Field_Calibration_Provider"] %><span class="required">*</span></label>
+                                        <div class="col-sm-8" id="CmbEquipmentCalibrationActProviderDiv" style="height:35px !important;">
                                             <select id="CmbEquipmentCalibrationActProvider" class="col-xs-12 col-sm-12"></select>
                                             <input style="display:none;" type="text" readonly="readonly" id="CmbEquipmentCalibrationActProviderValue" placeholder="><%=this.Dictionary["Item_Equipment_Field_Calibration_Provider"] %>" class="col-xs-12 col-sm-12" />
                                             <span class="ErrorMessage" id="CmbEquipmentCalibrationActProviderErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
@@ -1074,16 +1064,22 @@
                                         <div class="col-sm-1" id="CmbCalibrationActProviderBar"><span class="btn btn-light" style="height:30px;" title="<%=this.Dictionary["Item_Providers"] %>" id="BtnCalibrationActProviderBAR">...</span></div>
                                     </div>
                                     <div class="form-group">
-                                        <label id="CmbEquipmentCalibrationActResponsibleLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Common_Responsible"] %><span class="required">*</span></label>
-                                        <div class="col-sm-9">
+                                        <label id="CmbEquipmentCalibrationActResponsibleLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Common_Responsible"] %><span class="required">*</span></label>
+                                        <div class="col-sm-10">
                                             <select id="CmbEquipmentCalibrationActResponsible" class="col-xs-12 col-sm-12"></select>
                                             <span class="ErrorMessage" id="CmbEquipmentCalibrationActResponsibleErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label id ="TxtEquipmentCalibrationActObservationsLabel" class="col-sm-2 control-label no-padding-right" for="TxtEquipmentCalibrationActResult"><%=this.Dictionary["Item_EquipmentMaintenanceAct_Header_Observations"] %></label>
+                                        <div class="col-sm-12">
+                                            <textarea class="col-xs-12 col-sm-12" id="TxtEquipmentCalibrationActObservations" rows="3"></textarea>
+                                        </div>
+                                    </div>    
                                 </form>
                             </div>                       
                             
-                            <div id="dialogEquipmentVerificacionForm" class="hide" style="width:400px;overflow:hidden;">
+                            <div id="dialogEquipmentVerificacionForm" class="hide" style="width:580px;overflow:hidden;">
                                 <form class="form-horizontal" role="form" id="Form3">
                                     <div class="form-group">
                                         <div class="col-sm-6">
@@ -1097,8 +1093,8 @@
                                         <span class="ErrorMessage" id="REquipmentVerificationActTypeErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                     </div>  
                                     <div class="form-group">
-                                        <label id="TxtEquipmentVerificationActDateLabel" class="col-sm-3 control-label no-padding-right">Data<span class="required">*</span></label>
-                                        <div class="col-sm-6">
+                                        <label id="TxtEquipmentVerificationActDateLabel" class="col-sm-2 control-label no-padding-right">Data<span class="required">*</span></label>
+                                        <div class="col-sm-4">
                                             <div class="row">
                                                 <div class="col-xs-12 col-sm-12 tooltip-info" id="TxtEquipmentVerificationActDateDiv">
                                                     <div class="input-group">
@@ -1115,22 +1111,22 @@
                                         </div>
                                     </div>    
                                     <div class="form-group">
-                                        <label id ="TxtEquipmentVerificationActResultLabel" class="col-sm-3 control-label no-padding-right" for="TxtEquipmentVerificationActResult"><%=this.Dictionary["Item_Equipment_Field_Calibration_Result"] %><span class="required">*</span></label>
+                                        <label id ="TxtEquipmentVerificationActResultLabel" class="col-sm-2 control-label no-padding-right" for="TxtEquipmentVerificationActResult"><%=this.Dictionary["Item_Equipment_Field_Calibration_Result"] %><span class="required">*</span></label>
                                         <div class="col-sm-4">
-                                            <input type="text" class="col-xs-12 col-sm-12 decimalFormated6" id="TxtEquipmentVerificationActResult" placeholder="<%=this.Dictionary["Item_Equipment_Field_Calibration_Result"] %>" value="" maxlength="12" />
+                                            <input type="text" class="col-xs-12 col-sm-12 decimalFormated4" id="TxtEquipmentVerificationActResult" placeholder="<%=this.Dictionary["Item_Equipment_Field_Calibration_Result"] %>" value="" maxlength="12" />
                                             <span class="ErrorMessage" id="TxtEquipmentVerificationActErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
                                         </div>
-                                    </div>   
-                                    <div class="form-group">
-                                        <label id ="TxtEquipmentVerificationActCostLabel" class="col-sm-3 control-label no-padding-right" for="TxtEquipmentVerificationActCost"><%=this.Dictionary["Item_Equipment_Field_Calibration_Cost"] %></label>
+	
+	
+                                        <label id ="TxtEquipmentVerificationActCostLabel" class="col-sm-2 control-label no-padding-right" for="TxtEquipmentVerificationActCost"><%=this.Dictionary["Item_Equipment_Field_Calibration_Cost"] %></label>
                                         <div class="col-sm-4">
                                             <input type="text" class="col-xs-12 col-sm-12 money-bank" id="TxtEquipmentVerificationActCost" placeholder="<%=this.Dictionary["Item_Equipment_Field_Calibration_Cost"] %>" value="" maxlength="12" />
                                             <span class="ErrorMessage" id="TxtEquipmentVerificationActCostMalformed"><%=this.Dictionary["Common_Error_MoneyMalformed"] %></span>
                                         </div>
-                                    </div>                                   
+                                    </div>                                     
                                     <div class="form-group" id="CmbEquipmentVerificationActProviderRow">
-                                        <label id="CmbEquipmentVerificationActProviderLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_Equipment_Field_Verification_Provider"] %><span class="required">*</span></label>
-                                        <div class="col-sm-7" id="CmbEquipmentVerificationActProviderDiv" style="height:35px !important;">
+                                        <label id="CmbEquipmentVerificationActProviderLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Equipment_Field_Verification_Provider"] %><span class="required">*</span></label>
+                                        <div class="col-sm-8" id="CmbEquipmentVerificationActProviderDiv" style="height:35px !important;">
                                             <select id="CmbEquipmentVerificationActProvider" class="col-xs-12 col-sm-12"></select>
                                             <input style="display:none;" type="text" readonly="readonly" id="CmbEquipmentVerificationActProviderValue" placeholder="><%=this.Dictionary["Item_Equipment_Field_Verification_Provider"] %>" class="col-xs-12 col-sm-12" />
                                             <span class="ErrorMessage" id="CmbEquipmentVerificationActProviderErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
@@ -1138,10 +1134,16 @@
                                         <div class="col-sm-1" id="CmbVerificationActProviderBar"><span class="btn btn-light" style="height:30px;" title="<%=this.Dictionary["Item_Providers"] %>" id="BtnVerificationActProviderBAR">...</span></div>
                                     </div>
                                     <div class="form-group">
-                                        <label id="CmbEquipmentVerificationActResponsibleLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Common_Responsible"] %><span class="required">*</span></label>
-                                        <div class="col-sm-9">
+                                        <label id="CmbEquipmentVerificationActResponsibleLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Common_Responsible"] %><span class="required">*</span></label>
+                                        <div class="col-sm-10">
                                             <select id="CmbEquipmentVerificationActResponsible" class="col-xs-12 col-sm-12"></select>
                                             <span class="ErrorMessage" id="CmbEquipmentVerificationActResponsibleErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id ="TxtEquipmentVerificationActObservationsLabel" class="col-sm-2 control-label no-padding-right" for="TxtEquipmentVerificationActResult"><%=this.Dictionary["Item_EquipmentMaintenanceAct_Header_Observations"] %></label>
+                                        <div class="col-sm-12">
+                                            <textarea class="col-xs-12 col-sm-12" id="TxtEquipmentVerificationActObservations" rows="3"></textarea>
                                         </div>
                                     </div>
                                 </form>
@@ -1531,7 +1533,7 @@
                     "modal": true,
                     "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentCalibrationAct_PopupUpdate_Title + "</h4>",
                     "title_html": true,
-                    "width": 400,
+                    "width": 550,
                     "buttons": [
                         {
                             "id": 'BtnNewEquipmentCalibrationActSave',
@@ -1601,7 +1603,7 @@
                     "modal": true,
                     "title": "<h4 class=\"smaller\">" + Dictionary.Item_EquipmentVerification_PopupUpdate_Title + "</h4>",
                     "title_html": true,
-                    "width": 400,
+                    "width": 550,
                     "buttons": [
                         {
                             "id": "BtnEquipmentVerificationActEditSave",

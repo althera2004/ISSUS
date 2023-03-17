@@ -3,6 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="PageStyles" Runat="Server">
     <link rel="stylesheet" href="assets/css/jquery-ui-1.10.3.full.min.css" />
     <style type="text/css">
+        #FooterStatus{visibility:hidden;}
         #scrollTableDiv{
             background-color:#fafaff;
             border:1px solid #e0e0e0;

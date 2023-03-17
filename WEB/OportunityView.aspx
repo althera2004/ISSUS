@@ -72,6 +72,7 @@
         var Costs = <%=this.CostsJson %>;
         var typeItemId = 26;
         var itemId = <%=this.Oportunity.Id %>;
+        var pageType = "form";
     </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
@@ -93,7 +94,7 @@
                                                             <label id="TxtNameLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Oportunity_LabelField_Name"]%></label>
                                                             <%=this.TxtName %>
                                                             <div class="hidden"><%=this.TxtCode %></div>
-                                                            <label id="TxtDateStartLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Oportunity_LabelField_DateStart"]%></label>
+                                                            <label id="TxtDateStartLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_Oportunity_LabelField_DateStart"]%></label>
                                                             <div class="col-sm-2">
                                                                 <div class="row">
                                                                     <div class="col-xs-12 col-sm-12 tooltip-info" id="DateStartDiv">
@@ -201,6 +202,7 @@
                                                             </div>
                                                         </div>
                                                     </form>
+                                                    <br />
                                                 </div>
                                                 <div id="accion" class="tab-pane">
                                                     <div>
@@ -305,7 +307,7 @@
                                                 <div id="graphic" class="tab-pane">                                            
                                                     <div>
                                                         <form class="form-horizontal" role="form">
-                                                            <div class="col-sm-12" style="border:1px solid #eee;background-color:#fcfcfc;">
+                                                            <div class="col-sm-12" style="border:1px solid #eee;background-color:#fcfcfc;" id="SituacionFinalDiv">
                                                                 <h4><strong><%=this.Dictionary["Item_Oportunity_Message_Reevaluate"] %></strong></h4>
                                                                 <hr />
                                                                 <h5><strong><%=this.Dictionary["Item_Oportunity_Tab_Basic"] %></strong></h5>
@@ -392,7 +394,8 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div style="border:1px solid #777;background-color:#f33;color:#ff3;padding:12px;margin-bottom:12px;" id="DivClosingRiskUnavailable">
+                                                            </div>
+                                                                <div style="border:1px solid #777;background-color:#f33;color:#fff;padding:12px;margin-bottom:12px;" id="DivClosingRiskUnavailable">
                                                                     <table style="border:none;">
                                                                         <tr>
                                                                             <td rowspan="2" style="border:none;"><i class="icon-info-sign" style="font-size:36px;"></i></td>        
@@ -402,7 +405,6 @@
                                                                         </tr>
                                                                     </table>
                                                                 </div>
-                                                            </div>
                                                             <div style="clear:both;height:20px;">&nbsp;</div>
                                                             <div class="form-group">
                                                                 <br />
@@ -545,12 +547,8 @@
                                                             </tbody>
                                                         </table>
                                                     </div>
-                                            </div>
-                                            
+                                            </div>                                            
                                         </div>
-                                            <div class="row">                                                            
-                                                <%=this.FormFooter %>
-                                            </div>
                                     </div>
                                 </div>
                             </div>

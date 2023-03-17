@@ -41,6 +41,7 @@
         var jobPositionSelected = process.JobPosition.Id;
         var typeItemId = 9;
         var itemId = <%= this.Proceso.Id %>;
+        var pageType = "form";
     </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
@@ -73,7 +74,7 @@
                                                 </li>
                                                 <% } %>
                                             </ul>
-                                            <div class="tab-content no-border padding-24">
+                                            <div class="tab-content no-border">
                                                 <div id="home" class="tab-pane active">                                                
                                                     <form class="form-horizontal" role="form">
                                                         <div class="form-group">
@@ -112,9 +113,7 @@
                                                             <label class="col-sm-12">3.- <%=this.Dictionary["Item_Process_FieldLabel_End"] %></label>
                                                             <div class="col-sm-12"><textarea rows="5" class="form-control col-xs-12 col-sm-12" maxlength="500" id="TxtFinalizacion"><%=this.Proceso.End %></textarea></div>
                                                             <!--div class="col-sm-12">&nbsp;</div-->
-                                                        </div>  
-															  
-                                                        <%=this.FormFooter %>
+                                                        </div>
                                                     </form>
                                                 </div>
                                                 <div id="indicators" class="tab-pane">

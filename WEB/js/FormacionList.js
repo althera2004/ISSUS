@@ -350,6 +350,8 @@ window.onload = function () {
 
     Resize();
     RenderLearningTable();
+	$("#th1").click();	
+	$("#th1").click();	
 };
 
 window.onresize = function () {

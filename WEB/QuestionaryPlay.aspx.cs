@@ -212,8 +212,10 @@ public partial class QuestionaryPlay : Page
                 Context.ApplicationInstance.CompleteRequest();
             }
 
-            this.formFooter.ModifiedBy = this.Questionary.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.Questionary.ModifiedOn;
+            //this.formFooter.ModifiedBy = this.Questionary.ModifiedBy.Description;
+            //this.formFooter.ModifiedOn = this.Questionary.ModifiedOn;
+            this.master.ModifiedBy = this.Questionary.ModifiedBy.Description;
+            this.master.ModifiedOn = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Questionary.ModifiedOn);
             this.master.TitleInvariant = true;
 
             this.observations = AuditoryCuestionarioObservations.ById(this.questionnaireId, this.auditoryId, this.company.Id);
@@ -221,6 +223,8 @@ public partial class QuestionaryPlay : Page
         else
         {
             this.Questionary = Questionary.Empty;
+            this.master.ModifiedBy = Dictionary["Common_New"];
+            this.master.ModifiedOn = "-";
         }
 
         string label = this.questionnaireId == -1 ? "Item_Questionary_BreadCrumb_Edit" : string.Format("{0}: <strong>{1}</strong>", this.Dictionary["Item_Questionary"], this.Questionary.Description);
@@ -235,23 +239,40 @@ public partial class QuestionaryPlay : Page
     private void FillLists()
     {
         var res = new StringBuilder();
-        var rowPattern = @"
+
+        foreach (var q in AuditoryQuestionaryQuestion.ByAuditoryId(this.auditoryId, this.questionnaireId, this.company.Id))
+        {
+            var color = "333";
+            var label = "-";
+            var value = "0";
+            if (q.Compliant.HasValue)
+            {
+                switch (q.Compliant.Value)
+                {
+                    case 1: color = "070"; label = "Cumple"; value = "1"; break;
+                    case 2: color = "700"; label = "No cumple"; value = "2"; break;
+                    case 3: color = "777"; label = "N/A"; value = "3"; break;
+                }
+            }
+
+            var rowPattern = @"
                 <tr id=""RQ{0}"">
                     <td style=""vertical-align:top;"">{1}</td>
                     <td style=""vertical-align:top;width:157px;text-align:center;"">
                         <span id=""Q{0}"" style=""color:#{2};cursor:pointer;"" onclick=""Toggle(this);"" data-status=""{4}"">{3}</span>
                     </td>
                 </tr>";
-        foreach (var q in AuditoryQuestionaryQuestion.ByAuditoryId(this.auditoryId, this.questionnaireId, this.company.Id))
-        {
-            res.AppendFormat(
-             CultureInfo.InvariantCulture,
-             rowPattern,
-             q.Id,
-             q.Description,
-             q.Compliant.HasValue ? (q.Compliant.Value == true ? "070" : "700") : "333",
-             q.Compliant.HasValue ? (q.Compliant.Value == true ? "Cumple" : "No cumple") : "-",
-             q.Compliant.HasValue ? (q.Compliant.Value == true ? "1" : "2") : "0");
+                res.AppendFormat(
+                 CultureInfo.InvariantCulture,
+                 rowPattern,
+                 q.Id,
+                 q.Description,
+                 color,
+                 label,
+                 value);
+             //q.Compliant.HasValue ? (q.Compliant.Value == true ? "070" : "700") : "333",
+             //q.Compliant.HasValue ? (q.Compliant.Value == true ? "Cumple" : "No cumple") : "-",
+             //q.Compliant.HasValue ? (q.Compliant.Value == true ? "1" : "2") : "0");
         }
 
         this.LtQuestions.Text = res.ToString();

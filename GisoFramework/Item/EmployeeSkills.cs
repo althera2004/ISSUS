@@ -11,7 +11,6 @@ namespace GisoFramework.Item
     using System.Data;
     using System.Data.SqlClient;
     using System.Globalization;
-    using System.Text;
     using GisoFramework.Activity;
     using GisoFramework.DataAccess;
     using GisoFramework.Item.Binding;
@@ -65,6 +64,7 @@ namespace GisoFramework.Item
                                 this.Specific = rdr.GetString(ColumnsGetSkillByEmployee.Specific);
                                 this.WorkExperience = rdr.GetString(ColumnsGetSkillByEmployee.WorkExperience);
                                 this.Ability = rdr.GetString(ColumnsGetSkillByEmployee.Ability);
+                                this.Notes = rdr.GetString(ColumnsGetSkillByEmployee.Notes);
 
                                 if (!rdr.IsDBNull(ColumnsGetSkillByEmployee.AcademicValid))
                                 {
@@ -94,6 +94,30 @@ namespace GisoFramework.Item
                                 };
 
                                 this.ModifiedBy.Employee = Employee.ByUserId(this.ModifiedBy.Id);
+
+                                if (rdr.IsDBNull(ColumnsGetSkillByEmployee.AprovedBy))
+                                {
+                                    this.AprovedBy = Employee.EmptySimple;
+                                }
+                                else
+                                {
+                                    this.AprovedBy = new Employee
+                                    {
+                                        Id = rdr.GetInt64(ColumnsGetSkillByEmployee.AprovedBy),
+                                        Name = rdr.GetString(ColumnsGetSkillByEmployee.AprovedByName),
+                                        LastName = rdr.GetString(ColumnsGetSkillByEmployee.AprovedByLastName),
+                                    };
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsGetSkillByEmployee.AprovedOn))
+                                {
+                                    this.AprovedOn = rdr.GetDateTime(ColumnsGetSkillByEmployee.AprovedOn);
+                                }
+
+                                if (!rdr.IsDBNull(ColumnsGetSkillByEmployee.LastChange))
+                                {
+                                    this.LastChange = rdr.GetDateTime(ColumnsGetSkillByEmployee.LastChange);
+                                }
                             }
                         }
                     }
@@ -151,6 +175,14 @@ namespace GisoFramework.Item
 
         /// <summary>Gets or sets a value indicating whether employee's abilities are valid</summary>
         public bool? AbilityValid { get; set; }
+
+        public Employee AprovedBy { get; set; }
+
+        public DateTime AprovedOn { get; set; }
+
+        public string Notes { get; set; }
+
+        public DateTime LastChange { get; set; }
 
         /// <summary>Gets link to Employee Skill page</summary>
         public override string Link
@@ -250,6 +282,24 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add("@HabilityValid", SqlDbType.Bit);
                         cmd.Parameters.Add("@UserId", SqlDbType.Int);
 
+                        if (this.AprovedBy.Id > 0)
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@AprovedBy", this.AprovedBy.Id));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@AprovedBy"));
+                        }
+
+                        if (this.AprovedOn.Year > 1970)
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@AprovedOn", this.AprovedOn));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@AprovedOn"));
+                        }
+
                         if (this.AcademicValid.HasValue)
                         {
                             cmd.Parameters["@AcademicValid"].Value = this.AcademicValid.Value;
@@ -310,18 +360,21 @@ namespace GisoFramework.Item
         public ActionResult Update(int userId)
         {
             /* CREATE PROCEDURE EmployeeSkills_Update
-             * @Id int,
-             * @EmployeeId int,
-             * @CompanyId int,
-             * @Academic text,
-             * @Specific text,
-             * @WorkExperience text,
-             * @Hability text,
-             * @AcademicValid bit,
-             * @SpecificValid bit,
-             * @WorkExperienceValid bit,
-             * @HabilityValid bit,
-             * @UserId int */
+             *   @Id int out,
+             *   @EmployeeId bigint,
+             *   @CompanyId int,
+             *   @Academic text,
+             *   @Specific text,
+             *   @WorkExperience text,
+             *   @Hability text,
+             *   @AcademicValid bit,
+             *   @SpecificValid bit,
+             *   @WorkExperienceValid bit,
+             *   @HabilityValid bit,
+             *   @AprovedBy bigint,
+             *   @AprovedOn datetime,
+             *   @Notes text,
+             *   @UserId int */
             var res = ActionResult.NoAction;
             using (var cmd = new SqlCommand("EmployeeSkills_Update"))
             {
@@ -338,11 +391,40 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@Specific", this.Specific));
                         cmd.Parameters.Add(DataParameter.Input("@WorkExperience", this.WorkExperience));
                         cmd.Parameters.Add(DataParameter.Input("@Hability", this.Ability));
+                        cmd.Parameters.Add(DataParameter.Input("@Notes", this.Notes.Trim(), 2000));
+
                         cmd.Parameters.Add("@AcademicValid", SqlDbType.Bit);
                         cmd.Parameters.Add("@SpecificValid", SqlDbType.Bit);
                         cmd.Parameters.Add("@WorkExperienceValid", SqlDbType.Bit);
                         cmd.Parameters.Add("@HabilityValid", SqlDbType.Bit);
                         cmd.Parameters.Add("@UserId", SqlDbType.Int);
+
+                        if (this.AprovedBy.Id > 0)
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@AprovedBy", this.AprovedBy.Id));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@AprovedBy"));
+                        }
+
+                        if (this.AprovedOn.Year > 1970)
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@AprovedOn", this.AprovedOn));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@AprovedOn"));
+                        }
+
+                        if (this.LastChange.Year > 1970)
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@LastChange", this.LastChange));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@LastChange"));
+                        }
 
                         if (this.AcademicValid.HasValue)
                         {

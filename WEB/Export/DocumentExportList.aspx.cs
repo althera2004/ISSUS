@@ -81,7 +81,7 @@ public partial class ExportDocumentExportList : Page
             WidthPercentage = 100
         };
 
-        criteriatable.SetWidths(new float[] { 10f, 20f, 12f, 30f, 10f, 80f });
+        criteriatable.SetWidths(new float[] { 10f, 20f, 12f, 20f, 10f, 80f });
 
         var criteria1Label = new iTSpdf.PdfPCell(new iTS.Phrase(Dictionary["Common_Status"] + " :", ToolsPdf.LayoutFonts.TimesBold))
         {
@@ -203,7 +203,7 @@ public partial class ExportDocumentExportList : Page
         table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Origin"]));
         table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Location"]));
         table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_Revision"]));
-        table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_BusinessRisk_LabelField_DateStart"]));
+        table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Document_ListHeader_RevisionDate"]));
 
         switch (listOrder.ToUpperInvariant())
         {
@@ -227,10 +227,10 @@ public partial class ExportDocumentExportList : Page
                 data = data.OrderByDescending(d => d.LastNumber).ToList();
                 break;
             case "TH3|ASC":
-                data = data.OrderBy(d => d.Origin).ToList();
+                data = data.OrderBy(d => d.Origin.Id).ToList();
                 break;
             case "TH3|DESC":
-                data = data.OrderByDescending(d => d.Origin).ToList();
+                data = data.OrderByDescending(d => d.Origin.Id).ToList();
                 break;
             // @alex-20200605: toda columna ordenable en pantalla debe aparece aquí para replicar el orden en el pdf
             case "TH4|ASC":
@@ -246,10 +246,10 @@ public partial class ExportDocumentExportList : Page
                 data = data.OrderByDescending(d => d.LastNumber).ToList();
                 break;
             case "TH6|ASC":
-                data = data.OrderBy(d => d.StartDate).ToList();
+                data = data.OrderBy(d => d.LastVersion.Date).ToList();
                 break;
             case "TH6|DESC":
-                data = data.OrderByDescending(d => d.StartDate).ToList();
+                data = data.OrderByDescending(d => d.LastVersion.Date).ToList();
                 break;
         }
         
@@ -263,7 +263,7 @@ public partial class ExportDocumentExportList : Page
             table.AddCell(ToolsPdf.DataCell(document.Origin.Id == 0 ? Dictionary["Common_Internal"] : Dictionary["Common_External"]));
             table.AddCell(ToolsPdf.DataCell(document.Location));
             table.AddCell(ToolsPdf.DataCell(document.LastNumber));
-            table.AddCell(ToolsPdf.DataCell(document.StartDate));
+            table.AddCell(ToolsPdf.DataCell(document.LastVersion.Date));
         }
 
         string totalRegistros = string.Format(

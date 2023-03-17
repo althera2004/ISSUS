@@ -1,7 +1,8 @@
-﻿function alertUI(message) {
+﻿function alertUI(message, width) {
     $("#AlertUIMessage").html(message);
-    var dialog = $("#AlertUIDialog").removeClass("hide").dialog({
+    $("#AlertUIDialog").removeClass("hide").dialog({
         "resizable": false,
+        "width": width === null ? 300 : width,
         "modal": true,
         "title": Dictionary.Common_Warning,
         "title_html": true,
@@ -21,7 +22,7 @@
 
 function alertInfoUI(message, action) {
     $("#InfoUIMessage").html(message);
-    var dialog = $("#InfoUIDialog").removeClass("hide").dialog({
+    $("#InfoUIDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Common_Warning,
@@ -45,7 +46,7 @@ function alertInfoUI(message, action) {
 
 function alertInfoNoGrantsUI(message) {
     $("#InfoUIMessage").html(message);
-    var dialog = $("#InfoUINoGrantsDialog").removeClass("hide").dialog({
+    $("#InfoUINoGrantsDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Common_Warning,
@@ -78,7 +79,7 @@ function alertInfoNoGrantsUI(message) {
 
 function warningInfoUI(message, action, width) {
     $("#WarningUIMessage").html(message);
-    var dialog = $("#WarningUIDialog").removeClass("hide").dialog({
+    $("#WarningUIDialog").removeClass("hide").dialog({
         "resizable": false,
         "width": width === null ? 300 : width,
         "modal": true,
@@ -103,7 +104,7 @@ function warningInfoUI(message, action, width) {
 
 function successInfoUI(message, action, width) {
     $("#SuccessUIMessage").html(message);
-    var dialog = $("#SuccessUIDialog").removeClass("hide").dialog({
+    $("#SuccessUIDialog").removeClass("hide").dialog({
         "resizable": false,
         "width": width === null ? 300 : width,
         "modal": true,
@@ -134,7 +135,7 @@ function timeoutAlert() {
     }
 
     timeoutAlerted = false;
-    var dialog = $("#TimeoutDialog").removeClass("hide").dialog({
+    $("#TimeoutDialog").removeClass("hide").dialog({
         "resizable": false,
         "width": 500,
         "modal": true,
@@ -159,7 +160,7 @@ function timeoutAlert() {
 
 function promptInfoUI(message, width, actionYes, actionNo) {
     $("#PromptUIMessage").html(message);
-    var dialog = $("#PromptUIDialog").removeClass("hide").dialog({
+    $("#PromptUIDialog").removeClass("hide").dialog({
         "resizable": false,
         "width": width === null ? 300 : width,
         "modal": true,

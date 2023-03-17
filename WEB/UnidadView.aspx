@@ -79,7 +79,6 @@
                                                             </tbody>
                                                         </table>
                                                         <% } %>
-                                                        <%=this.FormFooter %>
                                                     </form>
                                                 </div>
                                                 <div id="trazas" class="tab-pane">													

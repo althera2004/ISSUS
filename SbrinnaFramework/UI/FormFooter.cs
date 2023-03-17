@@ -107,7 +107,7 @@ namespace SbrinnaCoreFramework.UI
                     }
                     else
                     {
-                        buttonsHtml.Append("&nbsp;&nbsp;");
+                        //buttonsHtml.Append("&nbsp;&nbsp;");
                         iconsHtml.Append("&nbsp;");
                     }
 
@@ -127,21 +127,22 @@ namespace SbrinnaCoreFramework.UI
                     this.ModifiedOn);
             }
 
-            return string.Format(
-                CultureInfo.InvariantCulture,
-                    @"
-                    <!-- Form footer -->
-                    <div id=""oldFormFooter"" class=""clearfix form-actions"" style=""margin-bottom:50px;"">
-                        <div style=""float:left;"" id=""ItemStatus"">
-                            {0}
-                        </div>
-                        <div style=""float:right;"" id=""ItemButtons"">
-                            {1}
-                        </div>
-                    </div>
-                    <!-- Form footer -->",
-                    modifiedBy,
-                    buttonsHtml);
+            //return string.Format(
+            //    CultureInfo.InvariantCulture,
+            //        @"
+            //        <!-- Form footer -->
+            //        <div id=""oldFormFooter"" class=""clearfix form-actions"" style=""margin-bottom:50px;"">
+            //            <div style=""float:left;"" id=""ItemStatus"">
+            //                {0}
+            //            </div>
+            //            <div style=""float:right;"" id=""ItemButtons"">
+            //                {1}
+            //            </div>
+            //        </div>
+            //        <!-- Form footer -->",
+            //        modifiedBy,
+            //        buttonsHtml);
+            return buttonsHtml.ToString();
         }
     }
 }

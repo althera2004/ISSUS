@@ -54,8 +54,13 @@ function EquipmentRepairRenderRow(EquipmentRepair, targetName) {
 
     tdFecha.align = "center";
     tdCost.align = "right";
+	
+	var text = EquipmentRepair.Description.split('\\n');
+	for(var t = 0; t < text.length; t++) {
+		tdDescription.appendChild(document.createTextNode(text[t]));
+		tdDescription.appendChild(document.createElement('br'));
+	}
 
-    tdDescription.appendChild(document.createTextNode(EquipmentRepair.Description));
     tdFecha.appendChild(document.createTextNode(FormatYYYYMMDD(EquipmentRepair.Date, "/")));
     tdResponsible.appendChild(document.createTextNode(EquipmentRepair.Responsible.Value));
 
@@ -63,7 +68,11 @@ function EquipmentRepairRenderRow(EquipmentRepair, targetName) {
         tdObservaciones.appendChild(document.createTextNode(""));
     }
     else {
-        tdObservaciones.appendChild(document.createTextNode(EquipmentRepair.Observations));
+		var text = EquipmentRepair.Observations.split('\\n');
+		for(var t = 0; t < text.length; t++) {
+			tdObservaciones.appendChild(document.createTextNode(text[t]));
+			tdObservaciones.appendChild(document.createTextNode('br'));
+		}
     }
 
     if (EquipmentRepair.Cost !== null) {
@@ -187,9 +196,9 @@ function EquipmentRepairEditFormFill(EquipmentRepair) {
     }
 
     $("#TxtEquipmentRepairDate").val(FormatYYYYMMDD(EquipmentRepair.Date, "/"));
-    $("#TxtEquipmentRepairDescription").val(EquipmentRepair.Description);
-    $("#TxtEquipmentRepairTools").val(EquipmentRepair.Tools);
-    $("#TxtEquipmentRepairObservations").val(EquipmentRepair.Observations);
+    $("#TxtEquipmentRepairDescription").val(EquipmentRepair.Description.split('\\n').join('\n'));
+    $("#TxtEquipmentRepairTools").val(EquipmentRepair.Tools.split('\\n').join('\n'));
+    $("#TxtEquipmentRepairObservations").val(EquipmentRepair.Observations.split('\\n').join('\n'));
     if (EquipmentRepair.Cost !== null) {
         $("#TxtEquipmentRepairCost").val(ToMoneyFormat(EquipmentRepair.Cost, 2));
     }

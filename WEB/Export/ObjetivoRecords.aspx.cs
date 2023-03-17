@@ -1022,7 +1022,7 @@ public partial class ExportObjetivoRecords : Page
             periode = Dictionary["Common_PeriodAll"];
         }
 
-        periode += listOrder;
+        //periode += listOrder;
 
         var criteriatable = new iTSpdf.PdfPTable(2)
         {
@@ -1080,10 +1080,11 @@ public partial class ExportObjetivoRecords : Page
             WidthPercentage = 100,
             HorizontalAlignment = 0,
             SpacingBefore = 20f,
-            SpacingAfter = 30f
+            SpacingAfter = 30f,
+            HeaderRows = 1
         };
 
-        table.SetWidths(new float[] { 15f, 10f, 10f, 15f, 20f, 20f, 30f });
+        table.SetWidths(new float[] { 15f, 8f, 8f, 20f, 8f, 8f, 15f });
 
         table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Indicador_TableRecords_Header_Status"].ToUpperInvariant()));
         table.AddCell(ToolsPdf.HeaderCell(Dictionary["Item_Indicador_TableRecords_Header_Value"].ToUpperInvariant()));
@@ -1191,8 +1192,8 @@ public partial class ExportObjetivoRecords : Page
             table.AddCell(ToolsPdf.DataCellRight(string.Format(CultureInfo.InvariantCulture, "{0:#,##0.00}", registro.Value), times));
             table.AddCell(ToolsPdf.DataCellCenter(registro.Date, times));
             table.AddCell(ToolsPdf.DataCell(registro.Comments, times));
-            table.AddCell(ToolsPdf.DataCell(metaText, times));
-            table.AddCell(ToolsPdf.DataCell(alarmText, times));
+            table.AddCell(ToolsPdf.DataCellCenter(metaText, times));
+            table.AddCell(ToolsPdf.DataCellCenter(alarmText, times));
             table.AddCell(ToolsPdf.DataCell(registro.Responsible.FullName, times));
 
             dataPoints.Add(new PointData
@@ -1226,7 +1227,7 @@ public partial class ExportObjetivoRecords : Page
         });
 
         string graphName = string.Format(CultureInfo.InvariantCulture, @"{0}Temp\{1}", path, "graph.jpg");
-        dataPoints = dataPoints.OrderBy(dp => dp.Date).ToList();
+        dataPoints = dataPoints.OrderByDescending(dp => dp.Date).ToList();
         using (var ch = new Chart())
         {
             ch.ChartAreas.Add(new ChartArea("Valor"));
@@ -1249,7 +1250,7 @@ public partial class ExportObjetivoRecords : Page
             ch.Series["Alarma"].BorderColor = DR.Color.Pink;
             ch.Series["Alarma"].YValueType = ChartValueType.Double;
 
-            foreach (var dataPoint in dataPoints)
+            foreach (var dataPoint in dataPoints.OrderByDescending(dp=>dp.Date))
             {
                 ch.Series["Values"].Points.AddXY(string.Format("{0:dd/MM/yyyy}", dataPoint.Date), dataPoint.Value);
                 ch.Series["Meta"].Points.AddY(dataPoint.Meta);

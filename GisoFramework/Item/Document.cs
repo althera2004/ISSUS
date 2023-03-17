@@ -34,6 +34,7 @@ namespace GisoFramework.Item
             this.Conservation = 0;
             this.ConservationType = 0;
             this.Source = true;
+            this.LinkField = string.Empty;
         }
 
         /// <summary>Gets or sets the code of document</summary>
@@ -63,6 +64,10 @@ namespace GisoFramework.Item
         /// <summary>Gets or sets a value indicating whether the source of document</summary>
         [DifferenciableAttribute]
         public bool Source { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether a link of document</summary>
+        [DifferenciableAttribute]
+        public string LinkField { get; set; }
 
         /// <summary>Gets or sets the quantity of document conservation</summary>
         [DifferenciableAttribute]
@@ -137,6 +142,7 @@ namespace GisoFramework.Item
                 ""ConservationType"":{8},
                 ""Conservation"":{9},
                 ""Source"":{10},
+                ""LinkField"":""{16}"",
                 ""Location"":""{11}"",
                 ""LastVersion"":{13},
                 ""Baja"": {14},
@@ -162,7 +168,8 @@ namespace GisoFramework.Item
                     this.Active ? "true" : "false",
                     actual.Version,
                     this.EndDate.HasValue ? "true" : "false",
-                    Tools.JsonCompliant(this.EndReason));
+                    Tools.JsonCompliant(this.EndReason),
+                    string.IsNullOrEmpty(this.LinkField) ? string.Empty : this.LinkField);
             }
         }
 
@@ -609,6 +616,7 @@ namespace GisoFramework.Item
                                     res.ConservationType = rdr.GetInt32(ColumnsDocumentGetById.ConservationType);
                                     res.Source = rdr.GetInt32(ColumnsDocumentGetById.Origen) == 1;
                                     res.Location = rdr.GetString(ColumnsDocumentGetById.Location);
+                                    res.LinkField = rdr.GetString(ColumnsDocumentGetById.Link);
                                     res.ModifiedOn = rdr.GetDateTime(ColumnsDocumentGetById.ModifiedOn);
                                     res.ModifiedBy = new ApplicationUser
                                     {
@@ -1067,6 +1075,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@Activo", Constant.DefaultActive));
                     cmd.Parameters.Add(DataParameter.Input("@Codigo", this.Code, 25));
                     cmd.Parameters.Add(DataParameter.Input("@Ubicacion", this.Location, 100));
+                    cmd.Parameters.Add(DataParameter.Input("@LinkField", this.LinkField, 500));
                     cmd.Parameters.Add(DataParameter.Input("@Version", version));
                     cmd.Parameters.Add(DataParameter.Input("@Revisiondate", revisionDate));
                     cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
@@ -1153,6 +1162,7 @@ namespace GisoFramework.Item
                     cmd.Parameters.Add(DataParameter.Input("@Activo", this.Active));
                     cmd.Parameters.Add(DataParameter.Input("@Codigo", this.Code, 25));
                     cmd.Parameters.Add(DataParameter.Input("@Ubicacion", this.Location, 100));
+                    cmd.Parameters.Add(DataParameter.Input("@LinkField", this.LinkField, 500));
                     cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                     cmd.Parameters.Add("@ProcedenciaId", SqlDbType.Int);
                     if (this.Origin.Id > 0)

@@ -29,7 +29,7 @@
 
         var pattern = document.getElementById("nav-search-input").value.toUpperCase();
         var list = document.getElementById(listId);
-        cont = 0;
+        var cont = 0;
         var total = 0;
         for (var x = 0; x < list.childNodes.length; x++) {
             var row = list.childNodes[x];
@@ -65,5 +65,13 @@
             $("#TotalList").html(cont);
         }
         $("#TotalAmount").html(ToMoneyFormat(total, 2));
+
+
+        if (cont === Tasks.length) {
+            $("#TotalRows").html(Tasks.length);
+        }
+        else {
+            $("#TotalRows").html(cont + " de " + Tasks.length);
+        }
     }
 }

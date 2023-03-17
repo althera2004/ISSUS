@@ -3,6 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="PageStyles" Runat="Server">
     <link rel="stylesheet" href="assets/css/jquery-ui-1.10.3.full.min.css" />
     <style type="text/css">
+        #FooterStatus{visibility:hidden;}
         #scrollTableDiv{
             background-color:#fafaff;
             border:1px solid #e0e0e0;
@@ -97,8 +98,8 @@
                                                     <tr id="ListDataHeader">
                                                         <th onclick="Sort(this,'ListDataTable');" id="th0" class="sort search" style="width:45px;"></th>
                                                         <th onclick="Sort(this,'ListDataTable');" id="th1" class="sort search"><%=this.Dictionary["Item_Auditory_ListHeader_Name"] %></th>
-                                                        <th onclick="Sort(this,'ListDataTable');" id="th2" class="sort search" style="width:100px;"><%=this.Dictionary["Item_Auditory_ListHeader_Planned"] %></th>
-                                                        <th onclick="Sort(this,'ListDataTable');" id="th3" class="sort search" style="width:100px;"><%=this.Dictionary["Item_Auditory_ListHeader_Closed"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable', 'date', false);" id="th2" class="sort search" style="width:100px;"><%=this.Dictionary["Item_Auditory_ListHeader_Planned"] %></th>
+                                                        <th onclick="Sort(this,'ListDataTable', 'date', false);" id="th3" class="sort search" style="width:100px;"><%=this.Dictionary["Item_Auditory_ListHeader_Closed"] %></th>
                                                         <th onclick="Sort(this,'ListDataTable');" id="th4" class="sort search totalizable" style="width:150px;"><%=this.Dictionary["Item_Auditory_ListHeader_Ammount"] %></th>
                                                         <th style="width:107px;">&nbsp;</th>
                                                     </tr>

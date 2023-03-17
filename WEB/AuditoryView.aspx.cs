@@ -178,16 +178,6 @@ public partial class AuditoryView : Page
         }
     }
 
-    private FormFooter formFooter;
-
-    public string FormFooter
-    {
-        get
-        {
-            return this.formFooter.Render(this.Dictionary);
-        }
-    }
-
     public Auditory Auditory { get; private set; }
 
     public string TxtName
@@ -331,16 +321,10 @@ public partial class AuditoryView : Page
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
 
-        this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
+        this.master.formFooter = new FormFooter();
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-print", Text = this.Dictionary["Common_Print"], Action = "info", ColumnsSpan = 12 });
 
-        if (this.user.HasGrantToWrite(ApplicationGrant.Auditory))
-        {
-            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
-        }
-
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
-
+        
         if (this.auditoryId > 0)
         {
             this.Auditory = Auditory.ById(this.auditoryId, this.company.Id);
@@ -350,8 +334,10 @@ public partial class AuditoryView : Page
                 Context.ApplicationInstance.CompleteRequest();
             }
 
-            this.formFooter.ModifiedBy = this.Auditory.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.Auditory.ModifiedOn;
+            //this.formFooter.ModifiedBy = this.Auditory.ModifiedBy.Description;
+            //this.formFooter.ModifiedOn = this.Auditory.ModifiedOn;
+            this.master.ModifiedOn = this.Auditory.ModifiedBy.Description;
+            this.master.ModifiedBy = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Auditory.ModifiedOn);
             this.master.TitleInvariant = true;
             this.RenderDocuments();
         }
@@ -362,15 +348,28 @@ public partial class AuditoryView : Page
             {
                 this.Auditory.Type = Convert.ToInt32(this.Request.QueryString["t"] as string);
             }
+
+            this.master.ModifiedOn = Dictionary["Common_New"];
+            this.master.ModifiedBy = "-";
         }
 
-        if (!IsPostBack)
+        if (this.Auditory.Status == 3)
         {
-            if (this.user.HasTraceGrant())
-            {
-                this.LtTrazas.Text = ActivityTrace.RenderTraceTableForItem(this.auditoryId, TargetType.Auditory);
-            }
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnCloseAuditoria", Icon = "icon-ok", Text = this.Dictionary["Item_Auditory_Btn_Close"], Action = "info", ColumnsSpan = 12 });
         }
+
+        if (this.Auditory.Status == 4)
+        {
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnValidarAuditoria", Icon = "icon-ok", Text = this.Dictionary["Item_Auditory_Btn_Validation"], Action = "info", ColumnsSpan = 12 });
+        }
+
+        if (this.user.HasGrantToWrite(ApplicationGrant.Auditory))
+        {
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
+        }
+
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+
 
         string label = this.auditoryId == -1 ? this.Dictionary["Item_Auditory_BreadCrumb_Edit"] : string.Format("{0} {2}: <strong>{1}</strong>", this.Dictionary["Item_Auditory"], this.Auditory.Description, this.Dictionary["Item_Adutory_Type_Label_" + this.Auditory.Type.ToString()].ToLowerInvariant());
         this.master.AddBreadCrumb("Item_Auditories", "AuditoryList.aspx", Constant.NotLeaft);
@@ -525,27 +524,23 @@ public partial class AuditoryView : Page
                     this.Auditory.ValidatedBy.Id == employee.Id ? " selected=\"selected\"" : string.Empty);
             }
 
-            if (employee.Active)
+            // Trajeta trello T-001
+            if (employee.Active && employee.DisabledDate == null)
             {
                 auditedList.AppendFormat(
                     CultureInfo.InvariantCulture,
                     @"<option value=""{0}"">{1}</option>",
                     employee.Id,
                     employee.FullName);
-                //closedList.AppendFormat(
-                //    CultureInfo.InvariantCulture,
-                //    @"<option value=""{0}"">{1}</option>",
-                //    employee.Id,
-                //    employee.FullName);
             }
         }
 
         this.LtCmbInternalResponsible.Text = employesList.ToString();
         this.LtAuditedList.Text = auditedList.ToString();
-        this.LtAuditoryPlanningResponsible.Text = planningList.ToString();
+        this.LtAuditoryPlanningResponsible.Text = employesList.ToString(); //planningList.ToString();
         //this.LtClosedByList.Text = closedList.ToString();
-        this.LtValidatedByList.Text = validatedList.ToString();
-        this.LtWhatHappendByList.Text = validatedList.ToString();
+        this.LtValidatedByList.Text = employesList.ToString(); validatedList.ToString();
+        this.LtWhatHappendByList.Text = employesList.ToString(); validatedList.ToString();
 
 
         var auditorList = new StringBuilder();

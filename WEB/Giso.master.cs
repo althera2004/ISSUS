@@ -37,6 +37,9 @@ public partial class Giso : MasterPage
         }
     }
 
+    public string ModifiedBy { get; set; }
+    public string ModifiedOn { get; set; }
+
     public int PendentTasks { get; private set; }
 
     /// <summary>Gets Issus version</summary>
@@ -246,6 +249,21 @@ public partial class Giso : MasterPage
         }
     }
 
+    public FormFooter formFooter { get; set; }
+
+    public string FormFooterHtml
+    {
+        get
+        {
+            if(this.formFooter == null)
+            {
+                return string.Empty;
+            }
+
+            return this.formFooter.Render(this.Dictionary);
+        }
+    }
+
     public UIButton ButtonNewItem { get; set; }
 
     public string ButtonNewItemHtml
@@ -369,9 +387,8 @@ public partial class Giso : MasterPage
 
     private void GetTasks()
     {
-        var tasks = ScheduledTask.ByEmployee(this.ApplicationUser, this.Company.Id).Where(t => t.Expiration >= Constant.Now.AddYears(-1)).ToList();
+        var tasks = ScheduledTask.ByEmployee(this.ApplicationUser, this.Company.Id).OrderByDescending(t => t.Expiration).ToList();//.Where(t => t.Expiration >= Constant.Now.AddYears(-1)).ToList();
         var printedTasks = new List<ScheduledTask>();
-        tasks = tasks.OrderByDescending(t => t.Expiration).ToList();
         foreach (var task in tasks)
         {
             if (printedTasks.Any(t => t.Action == task.Action && t.Equipment.Id == task.Equipment.Id && task.TaskType == t.TaskType))
@@ -467,7 +484,7 @@ public partial class Giso : MasterPage
 
         res.Append("<div></div>");
 
-        if(cont > 8)
+        if(cont > 0)
         {
             res.AppendFormat(@"<li class=""dropdown-footer""><a href=""Alerts.aspx"">{0}<i class=""ace-icon fa fa-arrow-right""></i></a></li>", this.Dictionary["Common_ViewAll"]);
         }

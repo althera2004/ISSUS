@@ -90,6 +90,16 @@ namespace GisoFramework.Item
                                     }
 
                                     this.ModifiedBy.Employee = Employee.ByUserId(this.ModifiedBy.Id);
+
+                                    if (!rdr.IsDBNull(ColumnsJobPositionGetById.AprovedBy))
+                                    {
+                                        this.AprovedBy = new Employee(rdr.GetInt32(ColumnsJobPositionGetById.AprovedBy), false);
+                                    }
+
+                                    if (!rdr.IsDBNull(ColumnsJobPositionGetById.AprovedOn))
+                                    {
+                                        this.AprovedOn = rdr.GetDateTime(ColumnsJobPositionGetById.AprovedOn);
+                                    }
                                 }
                             }
                         }
@@ -185,6 +195,9 @@ namespace GisoFramework.Item
         /// <summary>Gets or sets a text for the habilities required for the job position</summary>
         public string Habilities { get; set; }
 
+        public Employee AprovedBy { get; set; }
+        public DateTime AprovedOn { get; set; }
+
         /// <summary>Gets an identifier/description json item</summary>
         public override string JsonKeyValue
         {
@@ -243,10 +256,18 @@ namespace GisoFramework.Item
                     ""WorkExperience"": ""{7}"",
                     ""Abilities"": ""{8}"",
                     ""Department"": {9},
+                    ""Responsible"": {10},
+                    ""AprovedBy"": {11},
                     ""Responsible"": {10}
                     }}";
                 if (this.Id > 0)
                 {
+                    var aprovedOnText = "null";
+                    if(this.AprovedOn != null && this.AprovedOn.Year > 1700)
+                    {
+                        aprovedOnText = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.AprovedOn);
+                    }
+
                     return string.Format(
                         CultureInfo.InvariantCulture,
                         pattern,
@@ -260,7 +281,9 @@ namespace GisoFramework.Item
                         Tools.JsonCompliant(this.WorkExperience),
                         Tools.JsonCompliant(this.Habilities),
                         this.Department.JsonKeyValue,
-                        this.Responsible == null ? "null" : this.Responsible.JsonKeyValue);
+                        this.Responsible == null ? "null" : this.Responsible.JsonKeyValue,
+                        this.AprovedBy == null ? "null" : this.AprovedBy.JsonKeyValue,
+                        aprovedOnText);
                 }
 
                 return @"{
@@ -572,6 +595,26 @@ namespace GisoFramework.Item
                 }
 
                 res.Append(string.Format(CultureInfo.InvariantCulture, "Experience:{0}", jobPosition2.WorkExperience));
+            }
+
+            if (jobPosition1.AprovedBy != jobPosition2.AprovedBy)
+            {
+                if (!first)
+                {
+                    res.Append(", ");
+                }
+
+                res.Append(string.Format(CultureInfo.InvariantCulture, "AprovedBy:{0}", jobPosition2.AprovedBy));
+            }
+
+            if (jobPosition1.AprovedOn != jobPosition2.AprovedOn)
+            {
+                if (!first)
+                {
+                    res.Append(", ");
+                }
+
+                res.Append(string.Format(CultureInfo.InvariantCulture, "AprovedOn:{0:dd/MM/yyyy}", jobPosition2.AprovedOn));
             }
 
             return res.ToString();
@@ -941,6 +984,8 @@ namespace GisoFramework.Item
              * @FormacionEspecificaDesdeada text,
              * @ExperienciaLaboralDeseada text,
              * @HabilidadesDeseadas text,
+             * @AprovedBy int,
+             * @AprovedOn datetime,
              * @ModifiedBy int */
             using (var cmd = new SqlCommand("JobPosition_Update"))
             {
@@ -962,6 +1007,25 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@ExperienciaLaboralDeseada", this.WorkExperience, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@HabilidadesDeseadas", this.Habilities, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@ModifiedBy", userId));
+
+                        if (this.AprovedBy.Id > 0)
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@AprovedBy", this.AprovedBy.Id));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@AprovedBy"));
+                        }
+
+                        if (this.AprovedOn.Year > 1970)
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@AprovedOn", this.AprovedOn));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@AprovedOn"));
+                        }
+
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         res.SetSuccess();
@@ -1033,7 +1097,23 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@FormacionEspecificaDeseada", this.SpecificSkills, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@ExperienciaLaboralDeseada", this.WorkExperience, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@HabilidadesDeseadas", this.Habilities, Constant.MaximumTextAreaLength));
-                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
+                        cmd.Parameters.Add(DataParameter.Input("@UserId", userId)); if (this.AprovedBy.Id > 0)
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@AprovedBy", this.AprovedBy.Id));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@AprovedBy"));
+                        }
+
+                        if (this.AprovedOn.Year > 1970)
+                        {
+                            cmd.Parameters.Add(DataParameter.Input("@AprovedOn", this.AprovedOn));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(DataParameter.InputNull("@AprovedOn"));
+                        }
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
                         this.Id = Convert.ToInt32(cmd.Parameters["@JobPositionId"].Value.ToString(), CultureInfo.InvariantCulture);

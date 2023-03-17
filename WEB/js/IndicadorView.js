@@ -103,6 +103,8 @@ window.onload = function () {
     else {
         $("#BtnPrint").hide();
     }
+
+    $("#content-page").height($(window).height() - 190)
 };
 
 window.onresize = function () { Resize(); };
@@ -1086,51 +1088,6 @@ function DrawGraphics(stop) {
                 if ($("#canvas").css("width") === "0px") { DrawGraphics(true); }
             }
         }.bind(this), 100);
-
-        /*console.log("gauge");
-
-        var maxValue = lastAlarm;
-        if (lastValue > maxValue) { maxValue = lastValue; }
-        if (lastMeta > maxValue) { maxValue = lastMeta; }
-
-        $("#circularGaugeContainer").dxCircularGauge({
-            "width":10,
-            "rangeContainer": {
-                "offset": 10,
-                "width": 20,
-                "ranges": [
-                    { "startValue": 0, "endValue": lastAlarm, "color": "#f00" },
-                    { "startValue": lastAlarm, "endValue": lastMeta, "color": "#fa0" },
-                    { "startValue": lastMeta, "endValue": maxValue, "color": "#0f0" }
-                ]
-            },
-            "scale": {
-                "startValue": 0,
-                "endValue": maxValue,
-                "majorTick": { tickInterval: lastMeta / 4 }
-            },
-            "title": {
-                "text": Indicador.Unidad.Description,
-                "subtitle": "hola",
-                "position": "left"
-            },
-            "tooltip": {
-                "enabled": true,
-                "customizeText": function (arg) {
-                    return arg.valueText * 1;
-                }
-            },
-            "subvalueIndicator": {
-                "type": "textCloud",
-                "text": {
-                    "customizeText": function (arg) {
-                        return arg.valueText.split(',').join('') * 1;
-                    }
-                }
-            },
-            "value": lastValue,
-            "subvalues": [lastValue]
-        });*/
     }
 }
 
@@ -1699,4 +1656,15 @@ function Compute() {
 function PrintData() {
     window.open("/export/IndicadorExportData.aspx?id=" + IndicadorId + "&companyId=" + Company.Id);
     return false;
+}
+
+function DefaultOrder() {
+    if ($("#records #th2").hasClass("desc") === false) {
+        if ($("#records #th2").hasClass("asc") === true) {
+            $("#records #th2").click();
+        } else {
+            $("#records #th2").click();
+            $("#records #th2").click();
+        }
+    }
 }

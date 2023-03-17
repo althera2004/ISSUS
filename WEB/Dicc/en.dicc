@@ -13,9 +13,9 @@ Alert_Large_EquipmentIncomplete::Incomplete equipment
 Alert_Large_EquipmentMaintenance::Missing to do at least one maintenance
 Alert_Large_EquipmentVerification::Missing to do at least one verification
 Alert_Large_ExpiredTasks::The scheduled date for the task has expired
-Alert_Large_IncidentEvaluatedWithoutAction::Missing fill the field 'Actions' of the incident
-Alert_Large_IncidentIdentifiedNotEvaluated::Missing fill the field 'Why it has happened' of the incident
-Alert_Large_IncidentLastWeek::The scheduled date for the closing of the incident has expired
+Alert_Large_IncidentEvaluatedWithoutAction::Missing fill the field 'Actions' of the nonconformity
+Alert_Large_IncidentIdentifiedNotEvaluated::Missing fill the field 'Why it has happened' of the nonconformity
+Alert_Large_IncidentLastWeek::The scheduled date for the closing of the nonconformity has expired
 Alert_Large_LearningExpired::The scheduled date for the start of the course has expired
 Alert_Large_LearningFinishedWithoutEvaluation::Course completed pending evaluation
 Alert_Large_LearningStartedWithoutAssistants::Course started without enrolled students
@@ -30,9 +30,9 @@ Alert_Short_EquipmentIncomplete::Incomplete team
 Alert_Short_EquipmentMaintenance::Missing to do maintenance
 Alert_Short_EquipmentVerification::Missing to do verification
 Alert_Short_ExpiredTasks::Expired task
-Alert_Short_IncidentEvaluatedWithoutAction::Incidence without actions
-Alert_Short_IncidentIdentifiedNotEvaluated::Incidence not analyzed
-Alert_Short_IncidentLastWeek::Expired incidence
+Alert_Short_IncidentEvaluatedWithoutAction::Nonconformity without actions
+Alert_Short_IncidentIdentifiedNotEvaluated::Nonconformity not analyzed
+Alert_Short_IncidentLastWeek::Expired nonconformity
 Alert_Short_LearningExpired::Course not started
 Alert_Short_LearningFinishedWithoutEvaluation::Course without evaluation
 Alert_Short_LearningStartedWithoutAssistants::Course without students
@@ -143,6 +143,7 @@ Common_Message_ItemNoAccess::You do not have access to this item, contact the ad
 Common_Message_Saving::Saving ...
 Common_MessageMailMalformed::The email is not valid
 Common_ModifiedBy::Modified by
+Common_ModifiedOn::Modified on
 Common_Modify::Modify
 Common_Month::Month
 Common_MonthName_April::April
@@ -177,6 +178,7 @@ Common_PeriodAll::All the period
 Common_Previous::Previous
 Common_PrintExcel::Print in Excel
 Common_PrintPdf::PDF
+Common_Print::Print
 Common_RegisterCount::Nº. of registers
 Common_Report_Rendering::Generating report ...
 Common_Required::Required
@@ -327,7 +329,7 @@ Item_Auditory_Label_Provider::Provider
 Item_Auditory_Label_PuntosFuertes::Strengths
 Item_Auditory_Label_Requeriment::Requirement
 Item_Auditory_Label_Rules::Norms
-Item_Auditory_Label_Scope::Ambit
+Item_Auditory_Label_Scope::Scope
 Item_Auditory_Label_Type::Kind
 Item_Auditory_Label_Unconformity::Nonconformity
 Item_Auditory_Label_ValidatedBy::Validated by
@@ -384,7 +386,7 @@ Item_AuditoryPlanning_Header_Audited::Audited
 Item_AuditoryPlanning_Header_Auditor::Auditor
 Item_AuditoryPlanning_Header_Date::Date
 Item_AuditoryPlanning_Header_Duration::Hours
-Item_AuditoryPlanning_Header_Hour::Hour
+Item_AuditoryPlanning_Header_Hour::Start
 Item_AuditoryPlanning_Header_Process::Process
 Item_AuditoryPlanning_Label_Audited::Audited
 Item_AuditoryPlanning_Label_Auditor::Auditor
@@ -602,7 +604,7 @@ Item_Customer_Label_Costs::Calibrations / Maintenance / Repairs
 Item_Customer_ListHeader_Name::Customer
 Item_Customer_Popup_Delete_Question::Delete the customer?
 Item_Customer_Popup_Delete_Title::Delete the customer
-Item_Customer_Section_Incidents::Incidents and actions
+Item_Customer_Section_Incidents::Nonconformities and actions
 Item_Customers::Customers
 Item_Customers_Tab_Principal::Basic data
 Item_Customers_Tab_Traces::Traces
@@ -742,7 +744,7 @@ Item_Employee_Button_Unlink::Unlink
 Item_Employee_Delete_Item_CalibrationExternal::External calibration
 Item_Employee_Delete_Item_CalibrationInternal::Internal calibration
 Item_Employee_Delete_Item_Equipment::Equipment
-Item_Employee_Delete_Item_IncidentActionExecutor::Who will do the action of the incident
+Item_Employee_Delete_Item_IncidentActionExecutor::Who will do the action of the nonconformity
 Item_Employee_Delete_Item_MaintenanceExternal::External maintenance
 Item_Employee_Delete_Item_MaintenanceInternal::Internal maintenance
 Item_Employee_Delete_Item_VerificationExternal::External verification
@@ -1149,8 +1151,8 @@ Item_EquipmentVerification_PopupUpdate_Title::Modify a verification
 Item_EquipmentVerification_Reg::Registration of Verifications
 Item_EquipmentVerificationAct::Verifications made
 Item_EquipmentVerificationDefinition::Definition of verifications
-Item_Incident::Incidence
-Item_Incident_AnulateMessageTile::Closed incidence
+Item_Incident::Nonconformity
+Item_Incident_AnulateMessageTile::Closed nonconformity
 Item_Incident_Btn_Anular::Close
 Item_Incident_Btn_AnularAction::Close action
 Item_Incident_Btn_Restaurar::Reopen
@@ -1159,11 +1161,11 @@ Item_Incident_Button_New::Add
 Item_Incident_Button_Print::Print
 Item_Incident_Cost_Error_Range::It can not be prior to
 Item_Incident_Cost_IncidentActionCheck::Own costs of the action
-Item_Incident_Cost_IncidentCheck::Own costs of the incidence
-Item_Incident_Detail::Incidence sheet
+Item_Incident_Cost_IncidentCheck::Own costs of the nonconformity
+Item_Incident_Detail::Nonconformity sheet
 Item_Incident_Detail_Dates::The dates are not ordered chronologically
-Item_Incident_Detail_Description::Indicate a description of the incident
-Item_Incident_Detail_Origin::Select the origin of the incident
+Item_Incident_Detail_Description::Indicate a description of the nonconformity
+Item_Incident_Detail_Origin::Select the origin of the nonconformity
 Item_Incident_Detail_Title::Review the data of the card
 Item_Incident_Detail_WhatHappened::Inform about what happened
 Item_Incident_Detail_WhatHappenedResponsible::Select who identifies what has happened
@@ -1184,10 +1186,10 @@ Item_Incident_ErrorMessage_ClosedDateRequired::Specify the closing date
 Item_Incident_ErrorMessage_ClosedResponsibleRequired::Specify responsible for closing
 Item_Incident_ErrorMessage_DatesUntemporality::The dates are not ordered chronologically
 Item_Incident_ErrorMessage_DescriptionRequired::Enter a description
-Item_Incident_ErrorMessage_ReporterCustomerRequired::Specify the customer related to the incident
-Item_Incident_ErrorMessage_ReporterDepartmentRequired::Specify the department related to the incident
-Item_Incident_ErrorMessage_ReporterProviderRequired::Specify the provider related to the incident
-Item_Incident_ErrorMessage_ReporterTypeRequired::Specify who reports the incident
+Item_Incident_ErrorMessage_ReporterCustomerRequired::Specify the customer related to the nonconformity
+Item_Incident_ErrorMessage_ReporterDepartmentRequired::Specify the department related to the nonconformity
+Item_Incident_ErrorMessage_ReporterProviderRequired::Specify the provider related to the nonconformity
+Item_Incident_ErrorMessage_ReporterTypeRequired::Specify who reports the nonconformity
 Item_Incident_ErrorMessage_WhatHappenedDateRequired::Indicate the information date of what happened
 Item_Incident_ErrorMessage_WhatHappenedRequired::Inform about what happened
 Item_Incident_ErrorMessage_WhatHappenedResponsibleRequired::Indicate who registers what happened
@@ -1202,8 +1204,8 @@ Item_Incident_Field_CausesDate::Date
 Item_Incident_Field_CausesResponsible::Written up
 Item_Incident_Field_CloseDate::Date
 Item_Incident_Field_CloseResponsible::Responsible
-Item_Incident_Field_Description::Description
-Item_Incident_Field_Notes::Notes / Relationship with risks and opportunities (if applicable)
+Item_Incident_Field_Description::Title
+Item_Incident_Field_Notes::Notes / Relationship with risks and opportunities (if applicable) / Incident (sanitary product)
 Item_Incident_Field_WhatHappened::What happened?
 Item_Incident_Field_WhatHappenedDate::Date
 Item_Incident_Field_WhatHappenedResponsible::Registered by
@@ -1217,11 +1219,12 @@ Item_Incident_FilterError_Title::Review the query data
 Item_Incident_Header_ActionNumber::Action
 Item_Incident_Header_Close::Closing
 Item_Incident_Header_Cost::Cost
-Item_Incident_Header_Description::Incidence
+Item_Incident_Header_Description::Nonconformity
 Item_Incident_Header_Number::Number
 Item_Incident_Header_Open::Opening
 Item_Incident_Header_Origin::Origin
 Item_Incident_Header_Status::State
+Item_Incident_Label_Number::#
 Item_Incident_Label_Actions::Contingency actions
 Item_Incident_Label_Causes::Why has it happened?
 Item_Incident_Label_Closing::Closing
@@ -1235,17 +1238,17 @@ Item_Incident_List_Filter_Periode1::Period
 Item_Incident_List_Filter_Periode2::-
 Item_Incident_List_Filter_Status::State
 Item_Incident_List_Filter_To::Until
-Item_Incident_Message_DeleteAction::The action linked to this incident will be deleted
-Item_Incident_New_Label::New incidence
+Item_Incident_Message_DeleteAction::The action linked to this nonconformity will be deleted
+Item_Incident_New_Label::New nonconformity
 Item_Incident_Origin0::All
 Item_Incident_Origin1::Internal
 Item_Incident_Origin2::Provider
 Item_Incident_Origin3::Client
 Item_Incident_PDF_ActionPageTitle::Data of the vinculated action
-Item_Incident_Plural::Incidents
-Item_Incident_Popup_Delete_Title::Delete the incidence
-Item_Incident_PopupAnular_Title::Close the incidence
-Item_Incident_PopupDelete_Message::Eliminate the incidence?
+Item_Incident_Plural::Nonconformities
+Item_Incident_Popup_Delete_Title::Delete the nonconformity
+Item_Incident_PopupAnular_Title::Close the nonconformity
+Item_Incident_PopupDelete_Message::Eliminate the nonconformity?
 Item_Incident_PopupDelete_Message_Actions::The actions that are linked will also be eliminated
 Item_Incident_Status1::Identified
 Item_Incident_Status2::analysed
@@ -1256,7 +1259,7 @@ Item_Incident_Tab_Basic::Basic data
 Item_Incident_Tab_Costs::Costs
 Item_Incident_Tab_Traces::Traces
 Item_Incident_Tab_UploadFiles::Attachments
-Item_Incident_Warning_ActionSaveIncident::To be able to link an action, save the incident
+Item_Incident_Warning_ActionSaveIncident::To be able to link an action, save the nonconformity
 Item_Incident_Warning_ActionTabAvailable::In the action tab, inform the data
 Item_IncidentAction::Action
 Item_IncidentAction_AnulateMessageTile::Closed action
@@ -1282,10 +1285,11 @@ Item_IncidentAction_ErrorMessage_CloseExecutor::Indicate responsible for the clo
 Item_IncidentAction_ErrorMessage_CloseExecutorDate::Indicate the closing date
 Item_IncidentAction_ErrorMessage_CloseResponsibleRequired::Indicate responsible for the closure
 Item_IncidentAction_ErrorMessage_DescriptionRequired::Enter the description of the action
-Item_IncidentAction_ErrorMessage_NoDeleteBusinessRisk::This action comes from a risk analysis. <br /> cannot be eliminated
-Item_IncidentAction_ErrorMessage_NoDeleteIncident::This action is linked to an issue. <br /> cannot be deleted
-Item_IncidentAction_ErrorMessage_NoDeleteObjetive::This action comes from a goal.<br />cannot be deleted
-Item_IncidentAction_ErrorMessage_NoDeleteOportunity::This action comes from an opportunity.<br />cannot be deleted
+Item_IncidentAction_ErrorMessage_NoDeleteBusinessRisk::It cannot be removed because it comes from a risk analysis
+Item_IncidentAction_ErrorMessage_NoDeleteIncident::It cannot be removed because it comes from a non conformity
+Item_IncidentAction_ErrorMessage_NoDeleteObjetive::It cannot be removed because it comes from a goal
+Item_IncidentAction_ErrorMessage_NoDeleteOportunity::It cannot be removed because it comes from an opportunity
+Item_IncidentAction_ErrorMessage_NoDeleteAuditory::It cannot be removed because it comes from an audit
 Item_IncidentAction_ErrorMessage_OriginRequired::Select the origin
 Item_IncidentAction_ErrorMessage_ReportedByRequired::Indicate who reports the action
 Item_IncidentAction_ErrorMessage_TypeRequired::Select type
@@ -1327,11 +1331,12 @@ Item_IncidentAction_Header_Type::Type
 Item_IncidentAction_Label_ApplyAction::Apply corrective action?
 Item_IncidentAction_Label_Auditory::Audit
 Item_IncidentAction_Label_BusinessRisk::Risk analysis
-Item_IncidentAction_Label_Number::Number
-Item_IncidentAction_Label_Description::Description
+Item_IncidentAction_Label_Number::#
+Item_IncidentAction_Label_Description::Title
 Item_IncidentAction_Label_EndDate::Date
 Item_IncidentAction_Label_EndResponsible::Responsible
-Item_IncidentAction_Label_Incident::Incidence
+Item_IncidentAction_Label_Incident::Nonconformity
+Item_IncidentAction_Label_Number::Id
 Item_IncidentAction_Label_Objetivo::objective
 Item_IncidentAction_Label_Oportunity::Opportunity
 Item_IncidentAction_Label_Origin::Origin
@@ -1351,7 +1356,7 @@ Item_IncidentAction_List_Filter_Type::Type
 Item_IncidentAction_Message_NoGrants::You do not have permissions to work with actions
 Item_IncidentAction_Origin1::Audit
 Item_IncidentAction_Origin2::Proposed by direction
-Item_IncidentAction_Origin3::Incidence
+Item_IncidentAction_Origin3::Nonconformity
 Item_IncidentAction_Origin4::Risk analysis
 Item_IncidentAction_Origin46::Risks and Opportunities
 Item_IncidentAction_Origin5::Objective
@@ -1390,14 +1395,14 @@ Item_IncidentActions::Actions
 Item_IncidentActions_Detail::Action sheet
 Item_IncidentActions_New_Label::New action
 Item_IncidentActoionCost_PopupTitle_Add::Add a new cost
-Item_IncidentCost::Incident costs
+Item_IncidentCost::Nonconformity costs
 Item_IncidentCost_Btn_New::Add
 Item_IncidentCost_FieldLabel_Amount::Cost
 Item_IncidentCost_FieldLabel_Cost::Cost
 Item_IncidentCost_FieldLabel_Description::Description
 Item_IncidentCost_FieldLabel_Quantity::Quantity
 Item_IncidentCost_FieldLabel_ReportedBy::Identified by
-Item_IncidentCost_Filter_NoData::This incidence has no registered costs
+Item_IncidentCost_Filter_NoData::This nonconformity has no registered costs
 Item_IncidentCost_Header_Amount::Amount
 Item_IncidentCost_Header_Description::Description
 Item_IncidentCost_Header_Quantity::Quantity
@@ -1409,8 +1414,8 @@ Item_IncidentCost_PopupTitle_Update::Modify a cost
 Item_IncidentCost_Radio_ManualEntry::Manual entry
 Item_IncidentCost_Radio_SelectCost::Select the cost
 Item_IncidentCosts::Costs
-Item_IncidentList::Incidents
-Item_Incidents::Incidents
+Item_IncidentList::Nonconformities
+Item_Incidents::Nonconformities
 Item_Indicaddor_Filter_TypeLabel::Type
 Item_Indicaddor_Filter_TypeObjetivo::Linked to objective
 Item_Indicaddor_Filter_TypeProcess::Linked to process
@@ -1496,7 +1501,7 @@ Item_IndicentAction_Status1::Identified
 Item_IndicentAction_Status2::Analysed
 Item_IndicentAction_Status3::In progress
 Item_IndicentAction_Status4::Closed
-Item_Indicents::Incidents
+Item_Indicents::Nonconformities
 Item_ItemQuestion_Popup_Delete_Title::Delete question
 Item_ItemQuestion_Popup_Edit_Title::Edit question
 Item_ItemQuestion_Popup_Insert_Title::Add question
@@ -1742,7 +1747,7 @@ Item_Oportunity_LabelField_Rules::Norm
 Item_Oportunity_LabelField_Status::Status
 Item_Oportunity_Message_InsertSucess::You can use the other tabs
 Item_Oportunity_Message_Reevaluate::Evaluate the opportunity after applying the action
-Item_Oportunity_MessageClosingNotAvailable::An opportunity cannot be considered resolved while the action is open
+Item_Oportunity_MessageClosingNotAvailable::You cannot assess the final status of an opportunity while the action is open.
 Item_Oportunity_New::New opportunity
 Item_Oportunity_PopupDelete_Message::Eliminate the opportunity?
 Item_Oportunity_Status_Assumed::Assumed
@@ -1848,7 +1853,7 @@ Item_Provider_Header_Type::Type
 Item_Provider_Help_Name::Supplier name
 Item_Provider_Label_Costs::Actions to Calibrations / Verifications / Maintenance / Repairs
 Item_Provider_Label_Definitions::Configured in Calibrations / Verifications / Maintenance
-Item_Provider_Label_Incidents::Incidents and actions
+Item_Provider_Label_Incidents::Nonconformities and actions
 Item_Provider_ListHeader_Name::Supplier
 Item_Provider_Popup_Delete_Title::Delete the supplier
 Item_Provider_PopupTitle_Delete::Eliminate the supplier?
@@ -2155,3 +2160,26 @@ core_question_9_3_a::Top management reviews the quality management system at pla
 core_question_9_3_b::All entries specified for this standard have been addressed
 core_question_9_3_c::Opportunities for improvement, need for changes or resources have been identified
 core_question_9_3_d::Documented information is retained as evidence of management review results
+Task_TotalCaducadas::Total expired tasks
+Mail_Message_InivitationAuditProv::Invitació a una auditoria
+Item_Auditory_PDF_Label_date::a data
+Item_Audiotry_PDF_Planned::Planning
+Item_Auditory_PDF_Closing::Close
+Item_Auditory_PDF_Validation::Validation
+Auditory_Error_QuestionaryIni_CrossDate::Can't be previous plafinicaction start
+Page_DashboarReports::Dashboard
+AuditoryLockedToReopen::Should reopen questionaries in order to change this date
+Item_IncidentAction_ErrorMessage_BeforeStartObjective::Action can't occurs before objetive starts
+Item_IncidentAction_ErrorMessage_AfterEndObjective::Action can't occurs after objetive closes
+Item_Document_ListHeader_RevisionDate::Last Rev.
+Auditory_Error_StartDateRequired::Start date required
+INCIDENTACTION_NoCloseError::To close action shold be fill 'What happened', 'Why has happened' and 'Contingency actions'.
+INCIDENT_NoCloseError::To close no-conformity shold be fill 'What happened', 'Why has happened' and 'Contingency actions'.
+Item_JobPosition_FieldLabel_AprovedBy::Aproved by
+Item_JobPosition_FieldLabel_AprovedOn::Date
+Item_JobPosition_FieldLabel_LastChange::last change
+Action_NoSeguimentMessage::Can't close actions without register 'Notes'
+Auditory_QuestionaryQuestion_Status_Compliant::Comply
+Auditory_QuestionaryQuestion_Status_NoCompliant::Not comply
+Auditory_QuestionaryQuestion_Status_NA::Not applicable
+Item_Document_FieldLabel_LinkField::Link

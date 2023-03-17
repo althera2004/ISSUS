@@ -175,12 +175,13 @@ public partial class ExportPrintAuditoryData : Page
         //table.AddCell(TitleData(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", auditory.PlannedOn) ?? "-"));
 
         table.AddCell(TitleLabel(dictionary["Item_Auditory_PDF_Closing"]));
-        if (auditory.ClosedBy.Employee.Id > 0)
+        if (auditory.ClosedBy.Id > 0)
         {
             var closedText = string.Format(
                 CultureInfo.InvariantCulture,
                 "{0} {1} {2}",
-                auditory.ClosedBy.Employee.FullName,
+                //auditory.ClosedBy.Employee.FullName,
+                auditory.ClosedBy.UserName,
                 dictionary["Item_Auditory_PDF_Label_date"],
                 string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", auditory.ClosedOn) ?? "-");
             table.AddCell(TitleData(closedText, 3));

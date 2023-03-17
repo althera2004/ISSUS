@@ -119,9 +119,9 @@
                                                     <table class="table table-bordered table-striped" style="margin: 0">
                                                         <thead class="thin-border-bottom">
                                                             <tr id="ListDataHeaderHallazgos">
-			                                                    <th><%=this.Dictionary["Item_Auditory_Header_Found"] %></th>
-			                                                    <th style="width:200px;"><%=this.Dictionary["Item_Auditory_Header_Requirement"] %></th>
-			                                                    <th style="width:200px;"><%=this.Dictionary["Item_Auditory_Header_Result"] %></th>
+			                                                    <th id="thFound1"><%=this.Dictionary["Item_Auditory_Header_Found"] %></th>
+			                                                    <th id="thFound2"><%=this.Dictionary["Item_Auditory_Header_Requirement"] %></th>
+			                                                    <th id="thFound3"><%=this.Dictionary["Item_Auditory_Header_Result"] %></th>
 			                                                    <th style="width:107px;">&nbsp;</th>
 		                                                    </tr>
                                                         </thead>
@@ -218,4 +218,3 @@
         <script type="text/javascript" src="/js/common.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/QuestionaryPlay.js?<%=this.AntiCache %>"></script>
 </asp:Content>
-

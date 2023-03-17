@@ -1,6 +1,10 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Giso.master" AutoEventWireup="true" CodeFile="TrazasList.aspx.cs" Inherits="TrazasList" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PageStyles" Runat="Server">
+    <link rel="stylesheet" href="assets/css/jquery-ui-1.10.3.full.min.css" />
+    <style type="text/css">
+        #FooterStatus{visibility:hidden;}
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
 </asp:Content>

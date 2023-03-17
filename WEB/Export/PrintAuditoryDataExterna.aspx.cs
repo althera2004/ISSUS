@@ -163,13 +163,16 @@ public partial class ExportPrintAuditoryDataExterna : Page
         //table.AddCell(TitleLabel(dictionary["Item_Auditory_Label_PlanningDate"]));
         //table.AddCell(TitleData(string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", auditory.PlannedOn) ?? "-"));
 
-        table.AddCell(TitleLabel(dictionary["Item_Auditory_PDF_Closing"]));
-        if (auditory.ClosedBy.Employee.Id > 0)
+        table.AddCell(TitleLabel(dictionary["Item_Auditory_PDF_Closing"]+"*"));
+        if (auditory.ClosedBy.Id > 0)
         {
+            var closeEmployee = Employee.ByUserId(auditory.ClosedBy.Id);
+
             var closedText = string.Format(
                 CultureInfo.InvariantCulture,
                 "{0} {1} {2}",
-                auditory.ClosedBy.Employee.FullName,
+                auditory.ClosedBy.UserName,
+                //closeEmployee.FullName,
                 dictionary["Item_Auditory_PDF_Label_date"],
                 string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", auditory.ClosedOn) ?? "-");
             table.AddCell(TitleData(closedText, 3));

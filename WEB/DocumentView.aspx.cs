@@ -36,16 +36,6 @@ public partial class DocumentView : Page
     /// <summary>Dictionary for fixed labels</summary>
     private Dictionary<string, string> dictionary;
 
-    private FormFooter formFooter;
-
-    public string FormFooter
-    {
-        get
-        {
-            return this.formFooter.Render(this.dictionary);
-        }
-    }
-
     /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
@@ -174,6 +164,33 @@ public partial class DocumentView : Page
             return this.dictionary;
         }
     }
+    public UIButton RequerimentNewDefinition { get; set; }
+    public UIButton RequerimentNewAct { get; set; }
+
+    public string RequerimentDefinitionList
+    {
+        get
+        {
+            return DocumentRequerimentDefinition.JsonList(this.DocumentId, this.Company.Id);
+        }
+    }
+
+    public string RequerimentActList
+    {
+        get
+        {
+            return DocumentRequerimentAct.JsonList(this.DocumentId, this.Company.Id);
+        }
+    }
+
+    public string EmployeesJson
+    {
+        get
+        {
+            return Employee.CompanyListJson(this.Company.Id);
+        }
+    }
+
 
     /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
@@ -228,7 +245,7 @@ public partial class DocumentView : Page
         this.master.AddBreadCrumb("Item_Documents", "Documents.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb(label);
         this.master.Titulo = label;
-        this.formFooter = new FormFooter();
+        this.master.formFooter = new FormFooter();
 
         if (this.DocumentId != -1)
         {
@@ -240,8 +257,10 @@ public partial class DocumentView : Page
                 this.Document = new Document();
             }
 
-            this.formFooter.ModifiedBy = this.Document.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.Document.ModifiedOn;
+            //this.formFooter.ModifiedBy = this.Document.ModifiedBy.Description;
+            //this.formFooter.ModifiedOn = this.Document.ModifiedOn;
+            this.master.ModifiedBy = this.Document.ModifiedBy.Description;
+            this.master.ModifiedOn = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Document.ModifiedOn);
 
             label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_Document"], this.Document.Description);
             this.master.TitleInvariant = true;
@@ -250,6 +269,8 @@ public partial class DocumentView : Page
         else
         {
             this.Document = new Document();
+            this.master.ModifiedBy = Dictionary["Common_New"];
+            this.master.ModifiedOn = "-";
         }
 
         this.RenderHistorico();
@@ -259,16 +280,33 @@ public partial class DocumentView : Page
         {
             this.dictionary = Session["Dictionary"] as Dictionary<string, string>;
             this.FillCmbConservacion();
-            this.LtTrazas.Text = ActivityTrace.RenderTraceTableForItem(this.DocumentId, TargetType.Document);
         }
 
         if (this.DocumentId != -1)
         {
-            this.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.dictionary["Item_Document_Btn_Restaurar"], Action = "primary", Hidden = !this.Document.EndDate.HasValue });
-            this.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.dictionary["Item_Document_Btn_Anular"], Action = "danger", Hidden = this.Document.EndDate.HasValue });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.dictionary["Item_Document_Btn_Restaurar"], Action = "primary", Hidden = !this.Document.EndDate.HasValue });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.dictionary["Item_Document_Btn_Anular"], Action = "danger", Hidden = this.Document.EndDate.HasValue });
         }
-        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.dictionary["Common_Accept"], Action = "success" });
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+
+        this.RequerimentNewDefinition = new UIButton()
+        {
+            Action = "success",
+            Icon = "icon-save",
+            Id = "BtnNewRequerimentDefinition",
+            Text = this.Dictionary["Item_DocumentRequeriment_Button_AddDefinition"]
+        };
+
+        this.RequerimentNewAct = new UIButton()
+        {
+            Action = "success",
+            Icon = "icon-plus",
+            Id = "BtnNewRequerimentAct",
+            Text = this.Dictionary["Item_DocumentRequeriment_Button_AddAct"]
+        };
+
     }
 
     /// <summary>Generates HTML code for historical changes table</summary>

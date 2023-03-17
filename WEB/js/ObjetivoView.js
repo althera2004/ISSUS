@@ -14,7 +14,7 @@ window.onload = function () {
     else {
         periodicityIndicador = ItemData.RevisionId;
         $("#TxtName").val(ItemData.Name);
-        $("#TxtDescription").val(ItemData.Description);
+        $("#TxtDescription").val(ItemData.Description.split("\\n").join("\n"));
         $("#TxtMethodology").val(ItemData.Methodology);
         $("#TxtResources").val(ItemData.Resources);
         $("#TxtPeriodicity").val(ItemData.RevisionId);
@@ -67,6 +67,7 @@ window.onload = function () {
 
     Resize();
     ObjetivoRegistroFilter();
+    DefaultOrder();
 
     DrawGraphics();
     $("#Tabgraphics").on("click", DrawGraphics);
@@ -399,9 +400,13 @@ function RenderRegistroRow(registro) {
     var statusLabel = Dictionary.Item_Objetivo_StatusLabelWithoutMeta;
     var icon = "icon-circle bigger-110";
     var metaText = ToMoneyFormat(registro.Meta, 2);
+    var alarmaText = ToMoneyFormat(registro.Alarma, 2);
     if (registro.Meta === null) {
         color = "#444";
         metaText = "";
+    }
+    if (registro.Alarma === null) {
+        alarmaText = "";
     }
     else if (registro.MetaComparer === "=" && registro.Value === registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Objetivo_StatusLabelMeta; }
     else if (registro.MetaComparer === ">" && registro.Value > registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Objetivo_StatusLabelMeta; }
@@ -413,12 +418,12 @@ function RenderRegistroRow(registro) {
     else if (registro.MetaComparer === "<" && registro.Value < registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Objetivo_StatusLabelMeta; }
     else if (registro.MetaComparer === "<=" && registro.Value <= registro.Meta) { color = "#a5ca9f"; statusLabel = Dictionary.Item_Objetivo_StatusLabelMeta; }
     else if (registro.Alarma !== null) {
-        if (registro.AlarmaComparer === ">" && registro.Value > registro.Alarma) { color = "#ffc97d"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Objetivo_StatusLabelWarning; }
-        else if (registro.AlarmaComparer === ">=" && registro.Value >= registro.Alarma) { color = "#ffc97d"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Objetivo_StatusLabelWarning; }
-        else if (registro.AlarmaComparer === "<" && registro.Value < registro.Alarma) { color = "#ffc97d"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Objetivo_StatusLabelWarning; }
-        else if (registro.AlarmaComparer === "<=" && registro.Value <= registro.Alarma) { color = "#ffc97d"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Objetivo_StatusLabelWarning; }
+        if (registro.AlarmaComparer === ">" && registro.Value > registro.Alarma) { color = "#dc8475"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Objetivo_StatusLabelWarning; }
+        else if (registro.AlarmaComparer === ">=" && registro.Value >= registro.Alarma) { color = "#dc8475"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Objetivo_StatusLabelWarning; }
+        else if (registro.AlarmaComparer === "<" && registro.Value < registro.Alarma) { color = "#dc8475"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Objetivo_StatusLabelWarning; }
+        else if (registro.AlarmaComparer === "<=" && registro.Value <= registro.Alarma) { color = "#dc8475"; icon = "ace-icon fa icon-circle bigger-110"; statusLabel = Dictionary.Item_Objetivo_StatusLabelWarning; }
         else {
-            color = "#dc8475";
+            color = "#ffc97d";
             statusLabel = Dictionary.Item_Objetivo_StatusLabelNoMeta;
         }
     }
@@ -436,6 +441,7 @@ function RenderRegistroRow(registro) {
     }
 
     var row = "";
+    console.log(registro);
     row += "<tr>";
     row += "    <td style=\"width:35px;\">";
     row += "        <i title=\"" + statusLabel + "\" class=\"" + icon + "\" style=\"color:" + color + ";\"></i>";
@@ -444,6 +450,7 @@ function RenderRegistroRow(registro) {
     row += "    <td align=\"center\" style=\"width:90px;\">" + registro.Date + "</td>";
     row += "    <td>" + registro.Comments + "</td>";
     row += "    <td align=\"right\" style=\"width:120px;\">" + registro.MetaComparer + " " + metaText + "</td>";
+    row += "    <td align=\"right\" style=\"width:120px;\">" + registro.AlarmaComparer + " " + alarmaText + "</td>";
     row += "    <td style=\"width:175px;\">" + responsibleName + "</td>";
     row += "    <td style=\"width:90px;\">";
 	
@@ -1021,8 +1028,18 @@ function DrawGraphics(stop) {
         firstChart = false;
 
         // ---------- BARRAS
+        var labels = new Array();
+        var values = new Array();
+        var metas = new Array();
+        var alarmas = new Array();
+
+        var lastValue = null;
+        var lastMeta = null;
+        var lastAlarm = null;
+        var lastLabel = "";
+
         var barOptions = {
-            "scaleBeginAtZero": true,
+            "scaleBeginAtZero": false,
             "scaleShowGridLines": true,
             "scaleGridLineColor": "rgba(0,0,0,.05)",
             "scaleGridLineWidth": 1,
@@ -1040,22 +1057,12 @@ function DrawGraphics(stop) {
             }
         };
 
-        var labels = new Array();
-        var values = new Array();
-        var metas = new Array();
-        var alarmas = new Array();
-
-        var lastValue = null;
-        var lastMeta = null;
-        var lastAlarm = null;
-        var lastLabel = "";
-
         recordsGraph = recordsGraph.sort(function (a, b) {
             var x = a["RealDate"];
             var y = b["RealDate"];
             return ((x < y) ? -1 : ((x > y) ? 1 : 0));
         });
-
+        var colors = [];
         for (var x = 0; x < recordsGraph.length; x++) {
             labels.push(recordsGraph[x].Date);
             values.push(recordsGraph[x].Value);
@@ -1073,8 +1080,9 @@ function DrawGraphics(stop) {
         }
 
         var overlayData = {
-            labels: labels,
-            datasets: [
+            "colors": colors,
+            "labels": labels,
+            "datasets": [
                 {
                     "label": "Meta",
                     "type": "line",
@@ -1084,14 +1092,21 @@ function DrawGraphics(stop) {
                     "highlightStroke": "rgba(94,114,95,1)",
                     "data": metas
                 },
-               {
+                {
                    "label": "Valor",
                    "fillColor": "#275b89",
                    "strokeColor": "rgba(77,110,240,0.8)",
                    "highlightFill": "rgba(77,100,240,0.75)",
                    "highlightStroke": "rgba(77,100,240,1)",
                    "data": values
-               }
+                },
+                {
+                    "label": "Alarma",
+                    "type": "line",
+                    "fillColor": "rgba(244,210,210,0)",
+                    "strokeColor": "rgba(216,33,0,0.8)",
+                    "data": alarmas
+                }
             ]
         };
 
@@ -1101,14 +1116,36 @@ function DrawGraphics(stop) {
         this.chartCanvas = document.createElement("canvas");
         this.div.appendChild(this.chartCanvas);
         this.chartCanvas.style.width = $("#barChartDiv").width() + "px";
+        this.chartCanvas.width = $("#barChartDiv").width();
         this.chartCanvas.style.heitgh = $("#barChartDiv").height();
+        this.chartCanvas.height = 500;
         this.chartCanvas.id = "canvas";
 
+        var barOptions = {
+            "scaleBeginAtZero": false,
+            "scaleShowGridLines": true,
+            "scaleGridLineColor": "rgba(0,0,0,.05)",
+            "scaleGridLineWidth": 1,
+            "barShowStroke": false,
+            "barStrokeWidth": 1,
+            "barValueSpacing": 5,
+            "barDatasetSpacing": 10,
+            "responsive": true,
+            "legendTemplate": "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
+            "legend": {
+                "display": true,
+                "labels": {
+                    "fontColor": "rgb(255, 99, 132)"
+                }
+            }
+        };
+
         this.ctx = this.chartCanvas.getContext("2d");
-        this.chart = new Chart(this.ctx).Overlay(overlayData, {
-            populateSparseData: true,
-            overlayBars: false,
-            datasetFill: true
+        this.chart = new Chart(this.ctx, barOptions).Overlay(overlayData, {
+            "populateSparseData": true,
+            "overlayBars": false,
+            "datasetFill": true,
+            "scaleBeginAtZero": false
         });
         this.div.style.display = "none";
 
@@ -1692,4 +1729,17 @@ function IncidentActiongetById(id) {
 function PrintData() {
     window.open("/export/ObjetivoExportData.aspx?id=" + ItemData.Id + "&companyId=" + Company.Id);
     return false;
+}
+
+function DefaultOrder() {
+    if ($("#records #th2").hasClass("desc") === false) {
+        if ($("#records #th2").hasClass("asc") === true) {
+            $("#records #th2").click();
+        } else {
+            $("#records #th2").click();
+            $("#records #th2").click();
+        }
+
+        listOrder = "th2|DESC";
+    }
 }

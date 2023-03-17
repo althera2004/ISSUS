@@ -265,13 +265,6 @@ public class AuditoryActions : WebService
     public ActionResult QuestionToggle(long questionId, int status)
     {
         var res = ActionResult.NoAction;
-
-        status++;
-        if (status == 3)
-        {
-            status = 0;
-        }
-
         using (var cmd = new SqlCommand("AuditoryCuestionarioPregunta_Toogle"))
         {
             using (var cnn = new SqlConnection(ConfigurationManager.ConnectionStrings["cns"].ConnectionString))
@@ -279,14 +272,16 @@ public class AuditoryActions : WebService
                 cmd.Connection = cnn;
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add(DataParameter.Input("@PreguntaId", questionId));
-                if (status == 0)
-                {
-                    cmd.Parameters.Add(DataParameter.InputNull("@Compliant"));
-                }
-                else
-                {
-                    cmd.Parameters.Add(DataParameter.Input("@Compliant", status == 1));
-                }
+
+                //switch (status)
+                //{
+                //    case 0: cmd.Parameters.Add(DataParameter.Input("@Compliant", 1)); break;
+                //    case 1: cmd.Parameters.Add(DataParameter.Input("@Compliant", 2)); break;
+                //    case 2: cmd.Parameters.Add(DataParameter.Input("@Compliant", 3)); break;
+                //    case 3: cmd.Parameters.Add(DataParameter.Input("@Compliant", 0)); break;
+                //}
+
+                cmd.Parameters.Add(DataParameter.Input("@Compliant", status));
 
                 try
                 {
@@ -533,10 +528,16 @@ public class AuditoryActions : WebService
             horarioText,
             planning.Duration);
 
+        string sender = ConfigurationManager.AppSettings["mailaddress"];
+        string pass = ConfigurationManager.AppSettings["mailpass"];
+        var senderMail = new MailAddress(sender, "ISSUS");
+        string server = ConfigurationManager.AppSettings["mailserver"];
+        int port = Convert.ToInt32(ConfigurationManager.AppSettings["mailport"]);
+
 
         var mail = new MailMessage
         {
-            From = new MailAddress("issus@scrambotika.com", "ISSUS"),
+            From = senderMail,
             IsBodyHtml = true,
             Subject = subject,
             Body = body
@@ -555,10 +556,12 @@ public class AuditoryActions : WebService
             }
             else
             {
-                var smtpServer = new SmtpClient("smtp.scrambotika.com")
+                var smtpServer = new SmtpClient
                 {
-                    Port = 587,
-                    Credentials = new System.Net.NetworkCredential("issus@scrambotika.com", key)
+                    Host = server,
+                    Port = port,
+                    Credentials = new System.Net.NetworkCredential(sender, key),
+                    DeliveryMethod = SmtpDeliveryMethod.Network
                 };
                 smtpServer.Send(mail);
             }

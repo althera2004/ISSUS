@@ -57,5 +57,8 @@ namespace GisoFramework.Item.Binding
 
         /// <summary>Index of ModifiedByEmployeeId column</summary>
         public const int ModifiedByUserName = 14;
+
+        public const int AprovedBy = 15;
+        public const int AprovedOn = 16;
     }
 }

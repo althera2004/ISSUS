@@ -36,6 +36,7 @@
         var Questionary = <%=this.Questionary.Json %>;
         var Questions = <%=this.Questions %>;
         var ApartadosNorma = <%=this.ApartadosNormasList %>;
+        var pageType = "form";
     </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
@@ -126,7 +127,6 @@
                                                             </thead>
                                                         </table>
                                                     </div> <!-- /.table-responsive -->
-                                                    <%=this.FormFooter %>
                                                 </div>
                                             </div>
                                             <div id="trazas" class="tab-pane">													

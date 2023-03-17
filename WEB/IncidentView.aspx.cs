@@ -230,30 +230,6 @@ public partial class IncidentView : Page
         }
     }
 
-    private FormFooter formFooter;
-    private FormFooter formFooterAction;
-
-    public string FormFooter
-    {
-        get
-        {
-            if (this.formFooter == null)
-            {
-                return string.Empty;
-            }
-
-            return this.formFooter.Render(this.Dictionary);
-        }
-    }
-
-    public string FormFooterAction
-    {
-        get
-        {
-            return this.formFooterAction.Render(this.Dictionary);
-        }
-    }
-
     public string ReturnScript { get; private set; }
 
     /// <summary>Gets dictionary for fixed labels</summary>
@@ -351,8 +327,6 @@ public partial class IncidentView : Page
             this.ReturnScript = "document.location = referrer;";
         }
 
-        this.formFooter = new FormFooter();
-        this.formFooterAction = new FormFooter();
 
         this.ApplicationUser = (ApplicationUser)Session["User"];
         this.company = (Company)Session["company"];
@@ -363,6 +337,7 @@ public partial class IncidentView : Page
         this.master.AddBreadCrumb("Item_Incidents", "IncidentList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb("Item_Incident_Detail");
         this.grantToWrite = this.ApplicationUser.HasGrantToWrite(ApplicationGrant.Incident);
+        this.master.formFooter = new FormFooter();
 
         if (this.IncidentId > 0)
         {
@@ -377,24 +352,23 @@ public partial class IncidentView : Page
             this.master.TitleInvariant = true;
             this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{2} - {1}</strong>", this.Dictionary["Item_Incident"], this.Incident.Description, this.Incident.Code.ToString());
 
-            this.formFooter.ModifiedBy = this.Incident.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.Incident.ModifiedOn;
-            this.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
-            this.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.Dictionary["Item_Incident_Btn_Restaurar"], Action = "primary", Hidden = !this.Incident.ClosedOn.HasValue });
-            this.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.Dictionary["Item_Incident_Btn_Anular"], Action = "danger", Hidden = this.Incident.ClosedOn.HasValue });
-            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
-            this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnRestaurarAction", Icon = "icon-undo", Text = this.Dictionary["Item_Incident_Btn_RestaurarAction"], Action = "primary" });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnAnularAction", Icon = "icon-ban-circle", Text = this.Dictionary["Item_Incident_Btn_AnularAction"], Action = "danger" });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-print", Text = this.Dictionary["Common_Print"], Action = "info", ColumnsSpan = 12 });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.Dictionary["Item_Incident_Btn_Restaurar"], Action = "primary", Hidden = !this.Incident.ClosedOn.HasValue });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.Dictionary["Item_Incident_Btn_Anular"], Action = "danger", Hidden = this.Incident.ClosedOn.HasValue });
+            //this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
+            //this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
             this.master.ItemCode = this.Incident.Description;
 
             this.IncidentAction = IncidentAction.ByIncidentId(this.IncidentId, this.company.Id);
 
-            this.formFooterAction.ModifiedBy = this.Incident.ModifiedBy.Description;
-            this.formFooterAction.ModifiedOn = this.Incident.ModifiedOn;
-            this.formFooterAction.AddButton(new UIButton { Id = "BtnRestaurarAction", Icon = "icon-undo", Text = this.Dictionary["Item_Incident_Btn_RestaurarAction"], Action = "primary" });
-            this.formFooterAction.AddButton(new UIButton { Id = "BtnAnularAction", Icon = "icon-ban-circle", Text = this.Dictionary["Item_Incident_Btn_AnularAction"], Action = "danger" });
-            this.formFooterAction.AddButton(new UIButton { Id = "BtnSaveAction", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
-            this.formFooterAction.AddButton(new UIButton { Id = "BtnCancelAction", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+            this.master.ModifiedBy = this.Incident.ModifiedBy.Description;
+            this.master.ModifiedOn = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Incident.ModifiedOn);
+
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnSaveAction", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnCancelAction", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
             if (this.IncidentAction.Id == 0)
             {
@@ -419,23 +393,22 @@ public partial class IncidentView : Page
             this.master.Titulo = "Item_Incident_Detail";
             this.Incident = Incident.Empty;
             this.IncidentAction = IncidentAction.Empty;
-            this.formFooter.ModifiedBy = this.Dictionary["Common_New"];
-            this.formFooter.ModifiedOn = DateTime.Now;
-            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
-            this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
-            this.formFooter.ModifiedBy = this.Dictionary["Common_New"];
-            this.formFooter.ModifiedOn = DateTime.Now;
-            this.formFooterAction.AddButton(new UIButton { Id = "BtnSaveAction", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
-            this.formFooterAction.AddButton(new UIButton { Id = "BtnCancelAction", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnSaveAction", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnCancelAction", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+
+
+            this.master.ModifiedBy = Dictionary["Common_New"];
+            this.master.ModifiedOn = "-";
         }
 
         this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.Dictionary["Item_Incident_Tab_Basic"], Available = true });
         this.tabBar.AddTab(new Tab { Id = "accion", Available = this.ApplicationUser.HasGrantToRead(ApplicationGrant.IncidentActions), Active = true, Hidden = this.IncidentId < 1, Label = this.Dictionary["Item_Incident_Tab_Action"] });
         this.tabBar.AddTab(new Tab { Id = "costes", Available = this.ApplicationUser.HasGrantToRead(ApplicationGrant.Cost) && this.IncidentId > 0, Hidden = this.IncidentId < 1, Active = this.IncidentId > 0, Label = this.Dictionary["Item_Incident_Tab_Costs"] });
         this.tabBar.AddTab(new Tab { Id = "uploadFiles", Available = true, Active = this.IncidentId > 0, Hidden = this.IncidentId < 1, Label = this.Dictionary["Item_Incident_Tab_UploadFiles"] });
-        //// this.tabBar.AddTab(new Tab { Id = "trazas", Available = this.user.HasGrantToRead(ApplicationGrant.Trace) && this.IncidentId > 0, Active = this.IncidentId > 0, Label = this.dictionary["Item_Incident_Tab_Traces"] });
-
+        
         this.RenderForm();
         this.RenderActionForm();
 

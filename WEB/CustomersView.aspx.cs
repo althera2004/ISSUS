@@ -23,7 +23,6 @@ public partial class CustomersView : Page
 
     private int customerId;
     private Customer customer;
-    private FormFooter formFooter;
 
     /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
@@ -61,14 +60,6 @@ public partial class CustomersView : Page
         get
         {
             return this.tabBar.Render;
-        }
-    }
-
-    public string FormFooter
-    {
-        get
-        {
-            return this.formFooter.Render(this.dictionary);
         }
     }
 
@@ -213,9 +204,9 @@ public partial class CustomersView : Page
         this.master.AddBreadCrumb(label);
         this.master.Titulo = label;
 
-        this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
+        this.master.formFooter = new FormFooter();
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.dictionary["Common_Accept"] });
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.dictionary["Common_Cancel"] });
 
         if (this.customerId != -1)
         {
@@ -227,8 +218,8 @@ public partial class CustomersView : Page
                 this.customer = Customer.Empty;
             }
 
-            this.formFooter.ModifiedBy = this.customer.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.customer.ModifiedOn;
+            this.master.ModifiedBy = this.customer.ModifiedBy.Description;
+            this.master.ModifiedOn = string.Format(CultureInfo.InvariantCulture.Name,"{0:dd/MM/yyyy}", this.customer.ModifiedOn);
 
             var tableActions = new StringBuilder();
             var actions = CustomerIncidentActions.GetByCustomer(this.customer);
@@ -237,19 +228,17 @@ public partial class CustomersView : Page
                 tableActions.Append(action.Row(this.dictionary, this.user.Grants));
             }
 
-            this.TableActions.Text = tableActions.ToString();
             label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.dictionary["Item_Customer"], this.customer.Description);
             this.master.TitleInvariant = true;
             this.master.Titulo = label;
-            //// this.LtTrazas.Text = ActivityTrace.RenderTraceTableForItem(this.customerId, TargetType.Customer);
         }
         else
         {
             this.customer = Customer.Empty;
-            this.TableActions.Text = string.Empty;
+            this.master.ModifiedBy = Dictionary["Common_New"];
+            this.master.ModifiedOn = "-";
         }
 
         this.tabBar.AddTab(new Tab { Id = "home", Available = true, Active = true, Selected = true, Label = this.dictionary["Item_Customers_Tab_Principal"] });
-        //// this.tabBar.AddTab(new Tab() { Id = "trazas", Label = this.dictionary["Item_Customers_Tab_Traces"], Active = this.customerId > 0, Available = this.user.HasTraceGrant() });
     }
 }

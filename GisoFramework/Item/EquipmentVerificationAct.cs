@@ -61,6 +61,9 @@ namespace GisoFramework.Item
         /// <summary>Gets or sets responsible of verification</summary>
         public Employee Responsible { get; set; }
 
+        /// <summary>Gets or sets observations of verification</summary>
+        public string Observations { get; set; }
+
         /// <summary>Gets or sets provider of verification if external</summary>
         public Provider Provider { get; set; }
 
@@ -97,6 +100,7 @@ namespace GisoFramework.Item
                 res.Append(Tools.JsonPair("Result", this.Result, 6)).Append(", ");
                 res.Append(Tools.JsonPair("MaxResult", this.MaxResult, 6)).Append(", ");
                 res.Append(Tools.JsonPair("Cost", this.Cost)).Append(", ");
+                res.Append(Tools.JsonPair("Observations", this.Observations)).Append(", ");
                 res.Append(Tools.JsonPair("Active", this.Active)).Append(", ");
 
                 if (this.Provider == null)
@@ -200,7 +204,8 @@ namespace GisoFramework.Item
                                         Id = rdr.GetInt32(ColumnsEquipmentVerificationActGet.ModifiedByUserId),
                                         UserName = rdr.GetString(ColumnsEquipmentVerificationActGet.ModifiedByUserName)
                                     },
-                                    ModifiedOn = rdr.GetDateTime(ColumnsEquipmentVerificationActGet.ModifiedOn)
+                                    ModifiedOn = rdr.GetDateTime(ColumnsEquipmentVerificationActGet.ModifiedOn),
+                                    Observations = rdr.GetString(ColumnsEquipmentVerificationActGet.Observations)
                                 };
 
                                 if (!rdr.IsDBNull(ColumnsEquipmentVerificationActGet.Cost))
@@ -340,6 +345,7 @@ namespace GisoFramework.Item
              *   @MaxResult numeric(18,3),
              *   @Cost numeric(18,3),
              *   @ResponsableId int,
+             *   @Observations text,
              *   @UserId int */
             var result = ActionResult.NoAction;
             using (var cmd = new SqlCommand("EquipmentVerificationAct_Insert"))
@@ -370,6 +376,7 @@ namespace GisoFramework.Item
                         }
 
                         cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@Observations", this.Observations, 2000));
                         cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                         cmd.Connection.Open();
                         cmd.ExecuteNonQuery();
@@ -416,6 +423,7 @@ namespace GisoFramework.Item
              *   @MaxResult numeric(18,3),
              *   @Cost numeric(18,3),
              *   @ProviderId bigint,
+             *   @Observations text,
              *   @ResponsableId int,
              *   @UserId int  */
             var result = new ActionResult() { Success = false, MessageError = "No action" };
@@ -446,6 +454,7 @@ namespace GisoFramework.Item
                         }
 
                         cmd.Parameters.Add(DataParameter.Input("@ResponsableId", this.Responsible.Id));
+                        cmd.Parameters.Add(DataParameter.Input("@Observations", this.Observations, 2000));
                         cmd.Parameters.Add(DataParameter.Input("@Cost", this.Cost));
                         cmd.Parameters.Add(DataParameter.Input("@UserId", userId));
                         cmd.Connection.Open();

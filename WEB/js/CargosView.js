@@ -7,12 +7,12 @@ function DepartmentDelete(sender) {
     DepartmentSelected = sender.id * 1;
     var department = GetCompanyDepartment(DepartmentSelected);
     $("#DepartmentName").html(department.Name);
-    var dialog = $("#DepartmentDeleteDialog").removeClass("hide").dialog({
+    $("#DepartmentDeleteDialog").removeClass("hide").dialog({
         "resizable": false,
         "modal": true,
         "title": Dictionary.Common_Delete,
         "title_html": true,
-        buttons:
+        "buttons":
         [
             {
                 "html": "<i class=\"icon-trash bigger-110\"></i>&nbsp;" + Dictionary.Common_Delete,
@@ -239,7 +239,13 @@ function ShowDepartmentPopup() {
 
 function ValidateJobPositionForm() {
     var ok = true;
+    $("#TxtNameLabel").css("color", Color.Label);
     $("#TxtNameErrorDuplicated").hide();
+    $("#CmbAprovedByLabel").css("color", Color.Label);
+    $("#TxtAprovedOnLabel").css("color", Color.Label);
+    $("#TxtAprovedOnErrorRequired").hide();
+    $("#CmbAprovedByErrorRequired").hide();
+
     if (!RequiredFieldText("TxtName")) { ok = false; }
     else
     {
@@ -259,11 +265,31 @@ function ValidateJobPositionForm() {
     }
 
     if (!RequiredFieldText("TxtDepartmentName")) { ok = false; }
+
+    // Validar aprovedBy
+    // ----------------------------------
+    if (aprovedByActual > 0 || $("#CmbAprovedByValue").val() !== "" || $("#TxtAprovedOn").val() !== "") {
+        if ($("#CmbAprovedByValue").val() === "") {
+            ok = false;
+            $("#CmbAprovedByLabel").css("color", Color.Error);
+            $("#CmbAprovedByErrorRequired").show();
+        }
+
+        if ($("#TxtAprovedOn").val() === "") {
+            ok = false;
+            $("#TxtAprovedOnLabel").css("color", Color.Error);
+            $("#TxtAprovedOnErrorRequired").show();
+        }
+    }
+
+
+    // ----------------------------------
+
     return ok;
 }
 
 jQuery(function ($) {
-    $('#TxtDepartmentName').val(getDepartmentName(SelectedDepartment));
+    $("#TxtDepartmentName").val(getDepartmentName(SelectedDepartment));
 
     $.widget("ui.dialog", $.extend({}, $.ui.dialog.prototype, {
         "_title": function (title) {
@@ -305,10 +331,21 @@ jQuery(function ($) {
             // Puede que no haya responsable
             var ResponsibleItem = null;
             if (SelectedResponsible * 1 > 0) {
-                ResponsibleItem = { Id: SelectedResponsible * 1, CompanyId: Company.Id };
+                ResponsibleItem = { "Id": SelectedResponsible * 1, "CompanyId": Company.Id };
             }
 
             cargo.Department.id = originalDepartmentId;
+
+            var aprovedBy = { "Id": -1, "CompanyId": Company.Id };
+            if ($("#CmbAprovedByValue").val() !== "") {
+                aprovedBy.Id = $("#CmbAprovedByValue").val() * 1;
+            }
+
+            var aprovedOn = GetDate("01/01/1970", "/", false);;
+            if ($("#TxtAprovedOn").val() !== "") {
+                aprovedOn = GetDate($("#TxtAprovedOn").val(), "/", false);
+            }
+
             var data = {
                 "oldJobPositionId": cargo.Id,
                 "newJobPosition":
@@ -317,16 +354,20 @@ jQuery(function ($) {
                     "Description": $("#TxtName").val(),
                     "CompanyId": Company.Id,
                     "Responsible": ResponsibleItem,
-                    "Department": { Id: SelectedDepartment, CompanyId: Company.Id },
+                    "Department": { "Id": SelectedDepartment, "CompanyId": Company.Id },
                     "Responsibilities": $("#TxtResponsabilidades").val(),
                     "Notes": $("#TxtNotas").val(),
                     "AcademicSkills": $("#TxtFormacionAcademicaDeseada").val(),
                     "SpecificSkills": $("#TxtFormacionEspecificaDeseada").val(),
                     "WorkExperience": $("#TxtExperienciaLaboral").val(),
-                    "Habilities": $("#TxtHabilidades").val()
+                    "Habilities": $("#TxtHabilidades").val(),
+                    "AprovedBy": aprovedBy,
+                    "AprovedOn": aprovedOn
                 },
                 "userId": user.Id
             };
+
+            console.log(data);
 
             $.ajax({
                 "type": "POST",
@@ -361,6 +402,16 @@ jQuery(function ($) {
                 ResponsibleItem = { Id: SelectedResponsible * 1, CompanyId: Company.Id };
             }
 
+            var aprovedBy = { "Id": -1, "CompanyId": Company.Id };
+            if ($("#CmbAprovedByValue").val() !== "") {
+                aprovedBy.Id = $("#CmbAprovedByValue").val() * 1;
+            }
+
+            var aprovedOn = GetDate("01/01/1970", "/", false);;
+            if ($("#TxtAprovedOn").val() !== "") {
+                aprovedOn = GetDate($("#TxtAprovedOn").val(), "/", false);
+            }
+
             cargo.Department.id = originalDepartmentId;
             var data = {
                 "newJobPosition":
@@ -375,7 +426,9 @@ jQuery(function ($) {
                     "AcademicSkills": $("#TxtFormacionAcademicaDeseada").val(),
                     "SpecificSkills": $("#TxtFormacionEspecificaDeseada").val(),
                     "WorkExperience": $("#TxtExperienciaLaboral").val(),
-                    "Habilities": $("#TxtHabilidades").val()
+                    "Habilities": $("#TxtHabilidades").val(),
+                    "AprovedBy": aprovedBy,
+                    "AprovedOn": aprovedOn
                 },
                 "userId": user.Id
             };
@@ -649,6 +702,7 @@ function FillDepartmentCombo() {
 }
 
 FillDepartmentCombo();
+CARGO_AprovedLayout();
 
 if (ApplicationUser.Grants.JobPosition.Write === false) {
     $("#TxtName").attr("disabled", "disabled");
@@ -670,3 +724,39 @@ if (ApplicationUser.Grants.JobPosition.Write === false) {
 else {
     document.getElementById("TxtName").focus();
 }
+
+function CARGO_AprovedLayout() {
+    $("#aprovedByRequired").hide();
+    $("#aprovedOnRequired").hide();
+
+    if (aprovedByActual > 0) {
+        $("#aprovedByRequired").show();
+        $("#aprovedOnRequired").show();
+    }
+
+    if ($("#CmbAprovedByValue").val() !== "") {
+        $("#aprovedByRequired").show();
+        $("#aprovedOnRequired").show();
+    }
+
+    if ($("#TxtAprovedOn").val() !== "") {
+        $("#aprovedByRequired").show();
+        $("#aprovedOnRequired").show();
+    }
+}
+
+function AprovedByChanged() {
+    $("#CmbAprovedByValue").val($("#CmbAprovedBy").val());
+    if ($("#CmbAprovedByValue").val() === "-1") {
+        $("#CmbAprovedByValue").val("");
+    }
+    CARGO_AprovedLayout();
+}
+
+function AprovedOnChanged() {
+    CARGO_AprovedLayout();
+}
+
+var options = $.extend({}, $.datepicker.regional[ApplicationUser.Language], { "dateFormat": "dd/mm/yy", "autoclose": true, "todayHighlight": true });
+$(".date-picker").datepicker(options);
+$(".hasDatepicker").on("blur", function () { DatePickerChanged(this); });

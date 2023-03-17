@@ -3,6 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="PageStyles" runat="Server">
     <link rel="stylesheet" href="assets/css/jquery-ui-1.10.3.full.min.css" />
     <style type="text/css">
+        #FooterStatus{visibility:hidden;}
         #scrollTableDiv, #scrollTableDivCosts{
             background-color:#fafaff;
             border:1px solid #e0e0e0;
@@ -146,10 +147,10 @@
 										                </td>
                                                         <td style="width:25px;">&nbsp;</td>
                                                         <td><strong><%=this.Dictionary["Item_Equipment_FilterLabel_CostType"] %>:&nbsp;</strong></td>
-                                                        <td><input type="checkbox" name="RBOperationCost" id="RBCI" checked="checked" />&nbsp;<%= this.Dictionary["Item_Equipment_FilterLabel_Calibration_Int"] %></td>
-                                                        <td><input type="checkbox" name="RBOperationCost" id="RBVI" checked="checked" />&nbsp;<%= this.Dictionary["Item_Equipment_FilterLabel_Verification_Int"] %></td>
-                                                        <td><input type="checkbox" name="RBOperationCost" id="RBMI" checked="checked" />&nbsp;<%= this.Dictionary["Item_Equipment_FilterLabel_Maintenance_Int"] %></td>
-                                                        <td><input type="checkbox" name="RBOperationCost" id="RBRI" checked="checked" />&nbsp;<%= this.Dictionary["Item_Equipment_FilterLabel_Repair_Int"] %></td>  
+                                                        <td><input type="checkbox" class="RBCost" name="RBOperationCost" id="RBCI" checked="checked" />&nbsp;<%= this.Dictionary["Item_Equipment_FilterLabel_Calibration_Int"] %></td>
+                                                        <td><input type="checkbox" class="RBCost" name="RBOperationCost" id="RBVI" checked="checked" />&nbsp;<%= this.Dictionary["Item_Equipment_FilterLabel_Verification_Int"] %></td>
+                                                        <td><input type="checkbox" class="RBCost" name="RBOperationCost" id="RBMI" checked="checked" />&nbsp;<%= this.Dictionary["Item_Equipment_FilterLabel_Maintenance_Int"] %></td>
+                                                        <td><input type="checkbox" class="RBCost" name="RBOperationCost" id="RBRI" checked="checked" />&nbsp;<%= this.Dictionary["Item_Equipment_FilterLabel_Repair_Int"] %></td>  
                                                         <!--<td><strong><%=this.Dictionary["Item_Equipment_List_Filter_ShowByStatus"] %>:</strong></td>                                       
                                                         <td>
                                                             <input type="checkbox" name="RBStatusCost" id="RBCostStatus1" /><%= this.Dictionary["Item_Equipment_List_Filter_ShowActive"] %>
@@ -159,10 +160,10 @@
                                                     </tr>
                                                     <tr>
                                                         <td colspan="6">&nbsp;</td>
-                                                        <td><input type="checkbox" name="RBOperationCost" id="RBCE" checked="checked" /><%= this.Dictionary["Item_Equipment_FilterLabel_Calibration_Ext"] %></td>
-                                                        <td><input type="checkbox" name="RBOperationCost" id="RBVE" checked="checked" /><%= this.Dictionary["Item_Equipment_FilterLabel_Verification_Ext"] %></td>
-                                                        <td><input type="checkbox" name="RBOperationCost" id="RBME" checked="checked" /><%= this.Dictionary["Item_Equipment_FilterLabel_Maintenance_Ext"] %></td>
-                                                        <td><input type="checkbox" name="RBOperationCost" id="RBRE" checked="checked" /><%= this.Dictionary["Item_Equipment_FilterLabel_Repair_Ext"] %></td> 
+                                                        <td><input type="checkbox" class="RBCost" name="RBOperationCost" id="RBCE" checked="checked" /><%= this.Dictionary["Item_Equipment_FilterLabel_Calibration_Ext"] %></td>
+                                                        <td><input type="checkbox" class="RBCost" name="RBOperationCost" id="RBVE" checked="checked" /><%= this.Dictionary["Item_Equipment_FilterLabel_Verification_Ext"] %></td>
+                                                        <td><input type="checkbox" class="RBCost" name="RBOperationCost" id="RBME" checked="checked" /><%= this.Dictionary["Item_Equipment_FilterLabel_Maintenance_Ext"] %></td>
+                                                        <td><input type="checkbox" class="RBCost" name="RBOperationCost" id="RBRE" checked="checked" /><%= this.Dictionary["Item_Equipment_FilterLabel_Repair_Ext"] %></td> 
                                                     </tr>
                                                 </table>
                                             </div>

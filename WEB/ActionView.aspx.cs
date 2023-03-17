@@ -132,22 +132,8 @@ public partial class ActionView : Page
     }
 
     private string returnScript;
-    private FormFooter formFooter;
-
-    public string FormFooter
-    {
-        get
-        {
-            if (this.formFooter == null)
-            {
-                return string.Empty;
-            }
-
-            return this.formFooter.Render(this.Dictionary);
-        }
-    }
-
-    public string ReturnScript
+	
+	public string ReturnScript
     {
         get
         {
@@ -298,17 +284,20 @@ public partial class ActionView : Page
             this.master.TitleInvariant = true;
             this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{2} - {1}</strong>", this.Dictionary["Item_IncidentAction"], this.IncidentAction.Description, this.IncidentAction.Number.ToString());
 
-            this.formFooter = new FormFooter
+            this.master.formFooter = new FormFooter
             {
                 ModifiedBy = this.IncidentAction.ModifiedBy.Description,
                 ModifiedOn = this.IncidentAction.ModifiedOn
             };
+			
+			this.master.ModifiedBy = this.IncidentAction.ModifiedBy.Description;
+            this.master.ModifiedOn = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.IncidentAction.ModifiedOn);
 
-            this.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.Dictionary["Item_IncidentAction_Btn_Restaurar"], Action = "primary" });
-            this.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.Dictionary["Item_IncidentAction_Btn_Anular"], Action = "danger" });
-            this.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success", ColumnsSpan = 12 });
-            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success", ColumnsSpan = 12 });
-            this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"], ColumnsSpan = 12 });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-print", Text = this.Dictionary["Common_Print"], Action = "info", ColumnsSpan = 12 });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.Dictionary["Item_IncidentAction_Btn_Restaurar"], Action = "primary" });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.Dictionary["Item_IncidentAction_Btn_Anular"], Action = "danger" });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success", ColumnsSpan = 12 });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"], ColumnsSpan = 12 });
 
             this.master.ItemCode = this.IncidentAction.Description;
             this.OriginItemLink = this.Dictionary["Item_IncidentAction_Origin2"];
@@ -327,7 +316,7 @@ public partial class ActionView : Page
 
             if(this.IncidentAction.Objetivo.Id > 0)
             {
-                this.Objetivo = this.IncidentAction.Objetivo;
+                this.Objetivo = Objetivo.ById(this.IncidentAction.Objetivo.Id, this.IncidentAction.CompanyId);
                 this.OriginItemLink = this.Dictionary["Item_IncidentAction_Origin5"] + " " + this.Objetivo.Link;
             }
 
@@ -358,9 +347,11 @@ public partial class ActionView : Page
         }
         else
         {
+            this.master.ModifiedBy = Dictionary["Common_New"];
+            this.master.ModifiedOn = "-";
             this.master.Titulo = "Item_IncidentActions_Detail";
             this.IncidentAction = IncidentAction.Empty;
-            this.formFooter = new FormFooter(this.Dictionary, this.grantToWrite);
+            this.master.formFooter = new FormFooter(this.Dictionary, this.grantToWrite);
 
             if(this.Request.QueryString["o"] != null)
             {
@@ -369,7 +360,7 @@ public partial class ActionView : Page
                 this.IncidentAction.Description = this.Objetivo.Name;
                 this.IncidentAction.Origin = 5;
                 this.IncidentAction.Objetivo = this.Objetivo;
-                this.IncidentAction.WhatHappened = this.Objetivo.Description;
+                this.IncidentAction.WhatHappened = this.Objetivo.Description.Replace("\n", Environment.NewLine);
                 this.IncidentAction.WhatHappenedOn = DateTime.Now;
             }
 

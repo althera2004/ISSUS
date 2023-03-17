@@ -9,6 +9,7 @@
         companyId = <%=this.Company.Id %>;
         userId = <%=this.User.Id %>;
         departments = [<%=this.Departments %>];
+        var pageType = "form";
     </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
@@ -59,7 +60,6 @@
                                                             </tbody>
                                                         </table>
                                                         <% } %>
-                                                        <%=this.FormFooter %>
                                                     </form>
                                                 </div>
                                                 <div id="trazas" class="tab-pane">													

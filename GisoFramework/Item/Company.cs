@@ -686,8 +686,9 @@ namespace GisoFramework.Item
                 path += string.Format(CultureInfo.InvariantCulture, @"{0}\", path);
             }
 
-            path = string.Format(CultureInfo.InvariantCulture, @"{0}\images\Logos\", path);
-            string pattern = string.Format(CultureInfo.InvariantCulture, "{0}.*", companyId);
+            //path = string.Format(CultureInfo.InvariantCulture, @"{0}\images\Logos\", path);
+            path = string.Format(CultureInfo.InvariantCulture, @"{0}\DOCS\{1}\", path, companyId);
+            string pattern = string.Format(CultureInfo.InvariantCulture, "Logo_{0}.*", companyId);
             var last = new DateTime(1900, 1, 1);
             var files = Directory.GetFiles(path, pattern);
             foreach (string file in files)

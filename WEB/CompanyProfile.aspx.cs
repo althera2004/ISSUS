@@ -85,16 +85,6 @@ public partial class CompanyProfile : Page
         }
     }
 
-    private FormFooter formFooter;
-
-    public string FormFooter
-    {
-        get
-        {
-            return this.formFooter.Render(this.Dictionary);
-        }
-    }
-
     public string CountryData { get; private set; }
     public string Countries { get; private set; }
 
@@ -185,9 +175,10 @@ public partial class CompanyProfile : Page
         this.LtTrazas.Text = ActivityTrace.RenderTraceTableForItem(Convert.ToInt32(Session["CompanyId"]), TargetType.Company);
         this.RenderCountries();
 
-        this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Action = "success", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+        this.master.formFooter = new FormFooter();
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Action = "success", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"] });
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+       
 
         this.ImgLogo = new ImageSelector
         {

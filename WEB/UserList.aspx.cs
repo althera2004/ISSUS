@@ -209,7 +209,7 @@ public partial class UserList : Page
             contData++;
         }
 
-        foreach (var userItem in users.Where(u=>u.PrimaryUser == false))
+        foreach (var userItem in users.Where(u=> u.PrimaryUser == false))
         {
             active.Append(userItem.ListRow(this.dictionary, this.user.Grants));
 

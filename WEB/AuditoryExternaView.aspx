@@ -141,6 +141,7 @@
         var Zombies = <%=this.Zombie %>;
         var Providers = <%=this.ProvidersJson %>;
         var Customers = <%=this.CustomersJson %>;
+        var pageType = "form";
 
         // For Upload files
         // --------------------------------------
@@ -183,11 +184,6 @@
                                             <li class="" <% if (this.Auditory.Id < 1) { %>style="display:none;" <% } %>>
                                                 <a data-toggle="tab" href="#uploadFiles"><%=this.Dictionary["Item_Equipment_Tab_UploadFiles"]%></a>
                                             </li>
-                                            <!--<% if (this.GrantTraces) { %>
-                                            <li class="" id="TabTrazas">
-                                                <a data-toggle="tab" href="#trazas"><%=this.Dictionary["Item_Auditory_Tab_Traces"]%></a>
-                                            </li>
-                                            <% } %>-->
                                         </ul>
                                         <% } %>
                                         <div class="tab-content no-border padding-24">
@@ -286,8 +282,7 @@
                                                         <div class="col-sm-11">
                                                             <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtNotes"><%=this.Auditory.Notes %></textarea>
                                                         </div>
-                                                    </div>                                                    
-                                                    <%=this.FormFooter %>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div id="reportExternal" class="tab-pane">

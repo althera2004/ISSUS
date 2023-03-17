@@ -50,6 +50,16 @@ function numberDecimalDown(e) {
             e.stopPropagation();
         }
     }
+
+    if (code === 13) {
+        //var x = e.currentTarget.value.split(".").join(",");
+
+        //if (x.charAt(0) === ',') {
+        //    x = "0" + x;
+        //}
+        //e.currentTarget.value = x;
+        $(e.currentTarget).blur();
+    }
 }
 
 function numberIntegerDown(e) {

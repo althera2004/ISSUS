@@ -1081,6 +1081,7 @@ namespace GisoFramework
                         string userName = cmd.Parameters["@UserName"].Value as string;
                         string password = cmd.Parameters["@Password"].Value as string;
                         string email = cmd.Parameters["@Email"].Value as string;
+                        string server = ConfigurationManager.AppSettings["mailserver"];
 
                         var selectedUser = new ApplicationUser(userId);
 
@@ -1091,7 +1092,7 @@ namespace GisoFramework
                             res.SetFail(key);
                         }
 
-                        string pass = key;
+                        string pass = ConfigurationManager.AppSettings["mailpass"];// key;
                         int port = Convert.ToInt32(ConfigurationManager.AppSettings["mailport"]);
 
                         var senderMail = new MailAddress(sender, "ISSUS");
@@ -1099,7 +1100,7 @@ namespace GisoFramework
 
                         using (var client = new SmtpClient
                         {
-                            Host = "smtp.scrambotika.com",
+                            Host = server,
                             Credentials = new System.Net.NetworkCredential(sender, pass),
                             Port = port,
                             DeliveryMethod = SmtpDeliveryMethod.Network
@@ -1905,6 +1906,7 @@ namespace GisoFramework
                         string sender = ConfigurationManager.AppSettings["mailaddress"];
                         string pass = ConfigurationManager.AppSettings["mailpass"];
                         var senderMail = new MailAddress(sender, "ISSUS");
+                        string server = ConfigurationManager.AppSettings["mailserver"];
                         int port = Convert.ToInt32(ConfigurationManager.AppSettings["mailport"]);
                         var to = new MailAddress(this.Email);
 
@@ -1916,8 +1918,8 @@ namespace GisoFramework
 
                         using (var client = new SmtpClient
                         {
-                            Host = "smtp.scrambotika.com",
-                            Credentials = new System.Net.NetworkCredential(sender, key),
+                            Host = server,
+                            Credentials = new System.Net.NetworkCredential(sender, pass),
                             Port = port,
                             DeliveryMethod = SmtpDeliveryMethod.Network
                         })

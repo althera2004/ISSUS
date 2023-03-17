@@ -34,12 +34,6 @@ public partial class BusinessRiskView : Page
     /// <summary>Barra de BusinessRisk<summary>
     private TabBar tabBar = new TabBar() { Id = "BusinessRiskTabBar" };
 
-    /// <summary>Footer of main tab</summary>
-    private FormFooter formFooter;
-
-    /// <summary>Footer of actions tab</summary>
-    private FormFooter formFooterActions;
-
     /// <summary>Action associated to businessRisk</summary>
     private IncidentAction incidentAction = IncidentAction.Empty;
     
@@ -101,24 +95,6 @@ public partial class BusinessRiskView : Page
         get
         {
             return this.tabBar.Render;
-        }
-    }
-
-    /// <summary>Render of formFooter</summary>
-    public string FormFooter
-    {
-        get
-        {
-            return this.formFooter.Render(this.Dictionary);
-        }
-    }
-    
-    /// <summary>Render of formFooterActions</summary>
-    public string FormFooterActions
-    {
-        get
-        {
-            return this.formFooterActions.Render(this.Dictionary);
         }
     }
     
@@ -319,7 +295,7 @@ public partial class BusinessRiskView : Page
             {
                 Name = "Name",
                 Value = string.Empty,
-                ColumnSpan =8,
+                ColumnSpan =7,
                 Placeholder = this.Dictionary["Item_BusinessRisk_LabelField_Name"],
                 Required = true,
                 RequiredMessage = this.Dictionary["Common_Required"],
@@ -845,19 +821,16 @@ public partial class BusinessRiskView : Page
 
         this.master.AddBreadCrumb(label);
         this.master.Titulo = label;
-        if (!this.Page.IsPostBack)
-        {
-            //this.LtTrazas.Text = ActivityTrace.RenderTraceTableForItem(this.businessRisk, TargetTypes.BusinessRisk);
-        }
+        //if (!this.Page.IsPostBack)
+        //{
+        //    //this.LtTrazas.Text = ActivityTrace.RenderTraceTableForItem(this.businessRisk, TargetTypes.BusinessRisk);
+        //}
 
-        this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success" });
-        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+        this.master.formFooter = new FormFooter();
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-print", Text = this.Dictionary["Common_Print"], Action = "info" });
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
         
-        this.formFooterActions = new FormFooter();
-        this.formFooterActions.AddButton(new UIButton { Id = "BtnSave2", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
-        this.formFooterActions.AddButton(new UIButton { Id = "BtnCancel2", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"], Hidden = this.incidentAction.Id < 1 });
         
         if (this.BusinessRiskId != -1)
         {
@@ -870,8 +843,8 @@ public partial class BusinessRiskView : Page
                 this.businessRisk = BusinessRisk.Empty;
             }
 
-            this.formFooter.ModifiedBy = this.businessRisk.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.businessRisk.ModifiedOn;
+            this.master.ModifiedBy = this.businessRisk.ModifiedBy.Description;
+            this.master.ModifiedOn = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.businessRisk.ModifiedOn);
             label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.Dictionary["Item_BusinessRisk"], this.businessRisk.Description);
             this.master.TitleInvariant = true;
             this.master.Titulo = label;
@@ -880,6 +853,8 @@ public partial class BusinessRiskView : Page
         {
             this.businessRisk = BusinessRisk.Empty;
             this.incidentAction = IncidentAction.Empty;
+            this.master.ModifiedBy = Dictionary["Common_New"];
+            this.master.ModifiedOn = "-";
         }
         
         historyActionActive = false;
@@ -910,32 +885,6 @@ public partial class BusinessRiskView : Page
         }
 
         this.LTProcess.Text = processList.ToString();
-    }
-
-    /// <summary>Renders the selectable Rules</summary>
-    private void RenderLimit()
-    {
-        var limitCollection = ProbabilitySeverityRange.All(this.Company.Id);
-        var limitList = new StringBuilder();
-        var probabilityList = new StringBuilder();
-        var severityList = new StringBuilder();
-        probabilityList.Append(string.Format(CultureInfo.InvariantCulture, @"<option value=""0"">{0}</option>", this.Dictionary["Common_SelectOne"]));
-        probabilityList.Append(string.Format(CultureInfo.InvariantCulture, @"<optgroup label=""Probability"">", this.Dictionary["Common_SelectOne"]));
-        severityList.Append(string.Format(CultureInfo.InvariantCulture, @"<optgroup label=""Severity"">", this.Dictionary["Common_SelectOne"]));
-        foreach (var limit in limitCollection.OrderBy(limit => limit.Code))
-        {
-            if(limit.Type == ProbabilitySeverityRange.ProbabilitySeverityType.Probability) 
-            {
-                probabilityList.Append(string.Format(CultureInfo.InvariantCulture, @"<option value=""{0}"">{1}</option>", limit.Id, limit.Description));
-            }
-            else
-            {
-                severityList.Append(string.Format(CultureInfo.InvariantCulture, @"<option value=""{0}"">{1}</option>", limit.Id, limit.Description));
-            }
-        }
-
-        limitList.Append(probabilityList);
-        limitList.Append(severityList);
     }
 
     /// <summary>Renders the selectable ProbabilitySeverityRanges</summary>

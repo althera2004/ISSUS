@@ -5,6 +5,8 @@
     <link href="/nv.d3/nv.d3.css" rel="stylesheet" type="text/css" />
     <style>
         .nvtooltip  .value {display:none;}
+
+        #ItemStatus { display:none;}
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
@@ -166,7 +168,6 @@
                                                     &nbsp;
                                                 </div>
                                             </div>
-                                            <%=this.FormFooter %>
                                         </div>
                                         <div id="disk" class="tab-pane active">
                                             <div class="row">        

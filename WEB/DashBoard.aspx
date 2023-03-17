@@ -3,6 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="PageStyles" runat="server">
     <link rel="stylesheet" href="assets/css/jquery-ui-1.10.3.full.min.css" />
     <style type="text/css">
+        #FooterStatus{visibility:hidden;}
         #scrollTableDiv{
             background-color:#fafaff;
             border:1px solid #e0e0e0;
@@ -74,6 +75,7 @@
         <script type="text/javascript">
             var Filter = <%=this.Filter %>;
             var Tasks = <%=this.Tasks %>;
+            var pageType = "DashBoard";
 
             function Resize() {
                 var containerHeight = $(window).height();
@@ -86,6 +88,7 @@
                 $("#th3").click();
                 Resize();
                 $(".page-header .col-sm-4").html("<button class=\"btn btn-success\" type=\"button\" id=\"BtnShowSchedule\" onclick=\"document.location='Schedule.aspx';\"><i class=\"icon-calendar bigger-110\"></i> " + Dictionary.DashBoard_Calendar + "</button>");
+                FilterChanged();
             }
             window.onresize = function () { Resize(); }
 
@@ -106,7 +109,7 @@
                     $("#Chk1").attr("disabled", "disabled");
                 }
 
-                RenderTaskTable();
+                //RenderTaskTable();
                 var filterData =
                     {
                         "owners": document.getElementById("Chk1").checked,
@@ -125,6 +128,49 @@
                         alertUI(msg.responseText);
                     }
                 });
+
+
+                var owners = document.getElementById("Chk1").checked;
+                var others = document.getElementById("Chk2").checked;
+                var passed = document.getElementById("Chk3").checked;
+
+                $("#ListDataTable TR").show();
+                if (passed === true) {
+                    $(".no-expired").hide();
+                }
+                if (owners === false) {
+                    $(".owner").hide();
+                }
+                if (others === false) {
+                    $(".other").hide();
+                }
+
+                var showed = Tasks.length;
+
+                if (passed === true || owners === false || others === false) {
+                    if (passed === true && others === true && owners === true) {
+                        showed = $(".expired").length;
+                    }
+                    if (passed === true && others === false) {
+                        showed = $(".expired.owner").length;
+                    }
+                    if (passed === true && owners === false) {
+                        showed = $(".expired.other").length;
+                    }
+                    if (passed === false && others === false) {
+                        showed = $(".owner").length;
+                    }
+                    if (passed === false && owners === false) {
+                        showed = $(".other").length;
+                    }
+                }
+
+                if (showed === Tasks.length) {
+                    $("#TotalRows").html(Tasks.length);
+                }
+                else {
+                    $("#TotalRows").html(showed + " de " + Tasks.length);
+                }
             }
 
             function RenderTaskTable() {
@@ -138,22 +184,22 @@
                         continue;
                     }
 
-                    if (owners === true && others === true) {
+                    //if (owners === true && others === true) {
                         RenderTaskRow(Tasks[x]);
                         count++;
-                    }
-                    else if (owners === true) {
-                        if (user.Employee.Id === Tasks[x].ResponsibleId) {
-                            RenderTaskRow(Tasks[x]);
-                            count++;
-                        }
-                    }
-                    else if (others === true) {
-                        if (user.Employee.Id !== Tasks[x].ResponsibleId) {
-                            RenderTaskRow(Tasks[x]);
-                            count++;
-                        }
-                    }
+                    //}
+                    //else if (owners === true) {
+                    //    if (user.Employee.Id === Tasks[x].ResponsibleId) {
+                    //        RenderTaskRow(Tasks[x]);
+                    //        count++;
+                    //    }
+                    //}
+                    //else if (others === true) {
+                    //    if (user.Employee.Id !== Tasks[x].ResponsibleId) {
+                    //        RenderTaskRow(Tasks[x]);
+                    //        count++;
+                    //    }
+                    //}
                 }
 
                 $("#TotalRows").html(count);
@@ -165,6 +211,20 @@
                 tr.style.cursor = "pointer";
                 tr.location = task.location;
                 tr.ResponsibleId = task.ResponsibleId;
+                var className = "";
+                if (task.color === "#f00") {
+                    className = "expired";
+                } else {
+                    className = "no-expired";
+                }
+
+                if (task.ResponsibleId !== user.Employee.Id) {
+                    className += " other";
+                } else {
+                    className += " owner";
+                }
+
+                tr.className = className;
 
                 if (task.Type === "A") {
                     task.location = "/ActionView.aspx?" + task.location.split('?')[1];

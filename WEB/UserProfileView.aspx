@@ -7,6 +7,7 @@
         .sidebar1:before{content:"";display:block;width:190px;position:fixed;z-index:-1;background-color:#f2f2f2;border:1px solid #ccc;border-width:0 1px 0 0}
         .avatar{float:left;padding:4px;background-color:#fff;border:1px solid #ccc;}
         .avatarSelected{float:left;padding:4px;background-color:#0f0;border:1px solid #0f0;}
+        #ItemStatus{display:none;}
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="PageScripts" Runat="Server">
@@ -97,7 +98,6 @@
                                                     <div class="row">
                                                         <div class="col-xs-12"></div>
                                                     </div>
-                                                    <%=this.FormFooter %>
                                                 </div>
                                                 <div id="password" class="tab-pane">	                                            
                                                     <form class="form-horizontal" role="form">

@@ -1,5 +1,6 @@
 ﻿function RestoreUpload() {
     document.getElementById("fileName").files = null;
+    $("#fileName").val("");
     $("#UploadMessage").show();
     $("#UploadMessageSelected").hide();
     $("#UploadMessageSelectedFileName").html("");

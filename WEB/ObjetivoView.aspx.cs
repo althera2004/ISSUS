@@ -111,21 +111,6 @@ public partial class ObjetivoView : Page
         }
     }
 
-    private FormFooter formFooter;
-
-    public string FormFooter
-    {
-        get
-        {
-            if (this.formFooter == null)
-            {
-                return string.Empty;
-            }
-
-            return this.formFooter.Render(this.Dictionary);
-        }
-    }
-
     /// <summary>Gets or sets if user show help in interface</summary>
     public bool ShowHelp
     {
@@ -241,7 +226,7 @@ public partial class ObjetivoView : Page
         this.master.AddBreadCrumb("Item_Objetivos", "ObjetivoList.aspx", Constant.NotLeaft);
         this.master.AddBreadCrumb("Item_Objetivo_Detail");
         this.master.Titulo = "Item_Objetivo_Detail";
-        this.formFooter = new FormFooter();
+        this.master.formFooter = new FormFooter();
 
         this.ActionsOpen = 0;
         if (this.objetivoId > 0)
@@ -258,24 +243,29 @@ public partial class ObjetivoView : Page
             this.master.TitleInvariant = true;
             this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.Dictionary["Item_Objetivo_Header_Name"], this.Objetivo.Name);
 
-            this.formFooter.ModifiedBy = this.Objetivo.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.Objetivo.ModifiedOn;
-            this.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success" });
-            this.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.Dictionary["Item_Objetivo_Btn_Restaurar"], Action = "primary" });
-            this.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.Dictionary["Item_Objetivo_Btn_Anular"], Action = "danger" });
-            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Save"], Action = "success" });
+            //this.formFooter.ModifiedBy = this.Objetivo.ModifiedBy.Description;
+            //this.formFooter.ModifiedOn = this.Objetivo.ModifiedOn;
+            this.master.ModifiedBy = this.Objetivo.ModifiedBy.Description;
+            this.master.ModifiedOn = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Objetivo.ModifiedOn);
+
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-print", Text = this.Dictionary["Common_Print"], Action = "info" });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnRestaurar", Icon = "icon-undo", Text = this.Dictionary["Item_Objetivo_Btn_Restaurar"], Action = "primary" });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.Dictionary["Item_Objetivo_Btn_Anular"], Action = "danger" });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Save"], Action = "success" });
         }
         else
         {
             //this.master.AddBreadCrumb("Item_Objetivo");
             this.master.Titulo = "Item_Objetivo_Detail";
             this.Objetivo = Objetivo.Empty;
-            this.formFooter.ModifiedBy = this.Dictionary["Common_New"];
-            this.formFooter.ModifiedOn = DateTime.Now;
-            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
+            this.master.ModifiedBy = Dictionary["Common_New"];
+            this.master.ModifiedOn = "-";
+            //this.formFooter.ModifiedBy = this.Dictionary["Common_New"];
+            //this.formFooter.ModifiedOn = DateTime.Now;
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
         }
 
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         this.tabBar.AddTab(new Tab { Id = "home", Selected = true, Active = true, Label = this.Dictionary["Item_Objetivo_TabBasic"], Available = true });
         this.tabBar.AddTab(new Tab { Id = "actions", Available = this.objetivoId > 0 && this.ApplicationUser.HasGrantToRead(ApplicationGrant.IncidentActions), Active = this.objetivoId > 0, Hidden = this.objetivoId < 1, Label = this.Dictionary["Item_Objetivo_TabActions"] });

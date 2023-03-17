@@ -1,4 +1,5 @@
-﻿var foundSelectedId = null;
+﻿var pageType = "";
+var foundSelectedId = null;
 var foundSelected = null;
 var improvementSelectedId = null;
 var improvementSelected = null;
@@ -78,9 +79,11 @@ function Toggle(sender) {
     console.log("Toggle", sender.id + " - " + $("#" + sender.id).data("status"));
 
     var id = sender.id.split('Q')[1] * 1;
+    var status = $("#" + sender.id).data("status") * 1 + 1;
+    if (status === 4) { status = 0; }
     var data = {
         "questionId": id,
-        "status": $("#" + sender.id).data("status")
+        "status": status
     };
 
     LoadingShow(Dictionary.Common_Message_Saving);
@@ -98,6 +101,7 @@ function Toggle(sender) {
                 var color = "333";
                 if (parts[1] === "1") { text = "Cumple"; color = "070"; }
                 else if (parts[1] === "2") { text = "No cumple"; color = "700"; }
+                else if (parts[1] === "3") { text = "N/A"; color = "777"; }
                 var html = "<span id=\"Q" + parts[0] + "\" style=\"color:#" + color + ";cursor:pointer;\" onclick=\"Toggle(this);\" data-status=\""+ parts[1] +"\">" + text + "</span>";
                 $("#Q" + parts[0]).parent().html(html);
                 window.opener.GetReportData();
@@ -229,9 +233,9 @@ function RenderFounds() {
         if (found.Active === true) {
             count++;
             res += "<tr id=\"" + found.Id + "\">";
-            res += "<td>" + found.Text + "</td>";
-            res += "<td style=\"width:200px;\">" + found.Requeriment + "</td>";
-            res += "<td style=\"width:200px;\">" + found.Unconformity + "</td>";
+            res += "<td style=\"width:" + ($("#thFound1").outerWidth()) + "px;\">" + found.Text + "</td>";
+            res += "<td style=\"width:" + ($("#thFound2").outerWidth()) + "px;\">" + found.Requeriment + "</td>";
+            res += "<td style=\"width:" + ($("#thFound3").outerWidth()) + "px;\">" + found.Unconformity + "</td>";
             res += "<td class=\"hidden-480\" style=\"width: 90px;white-space:nowrap;\">";
             res += "  <span class=\"btn btn-xs btn-info\" onclick=\"ShowPopupFoundDialog(" + found.Id + "); \">";
             res += "    <i class=\"icon-edit bigger-120\"></i>";

@@ -6,7 +6,7 @@
 // --------------------------------
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -16,11 +16,6 @@ using GisoFramework;
 using GisoFramework.Item;
 using SbrinnaCoreFramework;
 using SbrinnaCoreFramework.UI;
-using System.Data.SqlClient;
-using System.Data;
-using System.Configuration;
-using GisoFramework.DataAccess;
-using GisoFramework.Item.Binding;
 
 public partial class OportunityView : Page
 {
@@ -30,12 +25,6 @@ public partial class OportunityView : Page
 
     /// <summary>Barra de BusinessRisk<summary>
     private TabBar tabBar = new TabBar { Id = "BusinessRiskTabBar" };
-
-    /// <summary>Footer of main tab</summary>
-    private FormFooter formFooter;
-
-    /// <summary>Footer of actions tab</summary>
-    private FormFooter formFooterActions;
 
     /// <summary>Gets oportinity identifier</summary>
     public long OportunityId { get; private set; }
@@ -82,24 +71,6 @@ public partial class OportunityView : Page
         get
         {
             return this.tabBar.Render;
-        }
-    }
-
-    /// <summary>Render of formFooter</summary>
-    public string FormFooter
-    {
-        get
-        {
-            return this.formFooter.Render(this.Dictionary);
-        }
-    }
-
-    /// <summary>Render of formFooterActions</summary>
-    public string FormFooterActions
-    {
-        get
-        {
-            return this.formFooterActions.Render(this.Dictionary);
         }
     }
 
@@ -211,7 +182,7 @@ public partial class OportunityView : Page
             {
                 Name = "TxtDescription",
                 Value = this.Oportunity.Description,
-                ColumnSpan = 8,
+                ColumnSpan = 7,
                 Placeholder = this.Dictionary["Item_Oportunity_LabelField_Name"],
                 Required = true,
                 RequiredMessage = this.Dictionary["Common_Required"],
@@ -592,19 +563,11 @@ public partial class OportunityView : Page
         }
 
         this.master.AddBreadCrumb("Item_Oportunity_Detail");
-        if (!this.Page.IsPostBack)
-        {
-            //this.LtTrazas.Text = ActivityTrace.RenderTraceTableForItem(this.businessRisk, TargetTypes.BusinessRisk);
-        }
 
-        this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-file-pdf", Text = this.Dictionary["Common_PrintPdf"], Action = "success" });
-        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
-
-        this.formFooterActions = new FormFooter();
-        this.formFooterActions.AddButton(new UIButton { Id = "BtnSave2", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
-        this.formFooterActions.AddButton(new UIButton { Id = "BtnCancel2", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+        this.master.formFooter = new FormFooter();
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnPrint", Icon = "icon-print", Text = this.Dictionary["Common_Print"], Action = "info" });        
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         if (this.OportunityId != -1)
         {
@@ -617,8 +580,10 @@ public partial class OportunityView : Page
                 this.Oportunity = Oportunity.Empty;
             }
 
-            this.formFooter.ModifiedBy = this.Oportunity.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.Oportunity.ModifiedOn;
+            //this.formFooter.ModifiedBy = this.Oportunity.ModifiedBy.Description;
+            //this.formFooter.ModifiedOn = this.Oportunity.ModifiedOn;
+            this.master.ModifiedBy = this.Oportunity.ModifiedBy.Description;
+            this.master.ModifiedOn = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Oportunity.ModifiedOn);
             label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.Dictionary["Item_Oportunity"], this.Oportunity.Description);
             this.master.TitleInvariant = true;
             this.master.Titulo = label;
@@ -629,6 +594,9 @@ public partial class OportunityView : Page
             this.master.TitleInvariant = true;
             this.Oportunity = Oportunity.Empty;
             this.IncidentAction = IncidentAction.Empty;
+
+            this.master.ModifiedBy = Dictionary["Common_New"];
+            this.master.ModifiedOn = "-";
         }
 
         this.RenderProcess();

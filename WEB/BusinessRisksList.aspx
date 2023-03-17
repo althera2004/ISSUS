@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="assets/css/jquery-ui-1.10.3.full.min.css" />
     <link rel="stylesheet" href="/css/nv.d3.css" />
     <style>
+        #FooterStatus{visibility:hidden;}
         .ui-datepicker {z-index:1000!important;}
          
         .bar {

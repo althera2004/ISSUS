@@ -35,10 +35,13 @@ public partial class AsyncUploadFile : Page
             description = file.FileName;
         }
 
-        int applicationUserId = Convert.ToInt32(this.Request.Form["ApplicationUserId"]);
-        string itemLinkedText = UploadFile.ResolveItemLinked(itemLinked);
-        string fileName = string.Format(@"{0}_{1}_{2}", itemLinkedText, itemId, Path.GetFileName(ToolsPdf.NormalizeFileName(file.FileName))).Replace("/", "-").Replace("/", "-");
-        string fileDisk = string.Format(@"{0}DOCS\{1}\{2}", path, companyId, fileName);
+        var applicationUserId = Convert.ToInt32(this.Request.Form["ApplicationUserId"]);
+        var itemLinkedText = UploadFile.ResolveItemLinked(itemLinked);
+
+        var normalized = ToolsPdf.NormalizeFileName(file.FileName);
+
+        var fileName = string.Format(@"{0}_{1}_{2}", itemLinkedText, itemId, Path.GetFileName(normalized)).Replace("/", "-").Replace("/", "-");
+        var fileDisk = string.Format(@"{0}DOCS\{1}\{2}", path, companyId, fileName);
 
         bool exists = File.Exists(fileDisk);
         int cont = 1;

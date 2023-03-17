@@ -78,6 +78,7 @@
         var typeItemId = 18;
         var itemId = <%=this.BusinessRisk.Id %>;
         var RulesCompany = <%=this.RulesJson%>;
+        var pageType = "form";
     </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
@@ -105,9 +106,8 @@
                                                         <div class="form-group">
                                                             <label id="TxtNameLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Common_Name"]%></label>
                                                             <%=this.TxtName %>
-                                                            <!--<label id="TxtCodeLabel" class="col-sm-1 no-padding-right"><%=this.Dictionary["Item_BusinessRisk_LabelField_Code"]%></label>-->
                                                             <div class="hidden"><%=this.TxtCode %></div>
-                                                            <label id="TxtDateStartLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_BusinessRisk_LabelField_DateStart"]%></label>
+                                                            <label id="TxtDateStartLabel" class="col-sm-2 control-label no-padding-right"><%=this.Dictionary["Item_BusinessRisk_LabelField_DateStart"]%></label>
                                                             <div class="col-sm-2">
                                                                 <div class="row">
                                                                     <div class="col-xs-12 col-sm-12 tooltip-info" id="DateStartDiv">
@@ -462,7 +462,6 @@
                                                                                 <th id="th4" style="width: 90px;"><%=this.Dictionary["Item_IncidentAction_Header_Close"] %></th>
                                                                                 <th class="hidden-480" style="width: 90px !important;">&nbsp;</th>
                                                                             </tr>
-
                                                                         </thead>
                                                                         <tbody id="ListDataTable">
                                                                             <asp:Literal runat="server" ID="BusinessRiskActionData"></asp:Literal>
@@ -566,12 +565,8 @@
                                                             </tbody>
                                                         </table>
                                                     </div>
-                                            </div>
-                                            
+                                            </div>                                            
                                         </div>
-                                            <div class="row">                                                            
-                                                <%=this.FormFooter %>
-                                            </div>
                                     </div>
                                 </div>
                             </div>
@@ -901,7 +896,7 @@
     <script type="text/javascript" src="/js/BusinessRiskView.js?<%=this.AntiCache %>"></script>
     <script type="text/javascript" src="/js/BusinessRiskViewRules.js?<%=this.AntiCache %>"></script>
     <script src="//d3js.org/d3.v3.min.js"></script>
-    <script type="text/javascript" src="http://issus.scrambotika.com/js/nv.d3.js"></script>
+    <script type="text/javascript" src="/js/nv.d3.js"></script>
     <script type="text/javascript" src="/js/BusinessRiskHistoryChart.js?<%=this.AntiCache %>"></script>
     <script type="text/javascript" src="/js/CostBar.js?<%=this.AntiCache %>"></script>
     <script type="text/javascript" src="/js/UploadFile.js?ac<%= this.AntiCache %>"></script>

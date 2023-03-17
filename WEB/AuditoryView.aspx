@@ -149,6 +149,8 @@
         var UserEmployess = <%=this.UserEmployees %>;
         var Providers = <%=this.ProvidersJson %>;
         var Customers = <%=this.CustomersJson %>;
+        var pageType = "form";
+        var closedOn = "<%= string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Auditory.ClosedOn) %>";
 
         // For Upload files
         // --------------------------------------
@@ -190,14 +192,6 @@
                                             </li>
                                             <li class="" <% if (this.Auditory.Id < 1) { %>style="display:none;" <% } %>>
                                                 <a data-toggle="tab" href="#uploadFiles"><%=this.Dictionary["Item_Equipment_Tab_UploadFiles"]%></a>
-                                            </li>
-                                            <!--<% if (this.GrantTraces) { %>
-                                            <li class="" id="TabTrazas">
-                                                <a data-toggle="tab" href="#trazas"><%=this.Dictionary["Item_Auditory_Tab_Traces"]%></a>
-                                            </li>
-                                            <% } %>-->
-                                            <li style="float:right;">
-                                                <button class="btn btn-success btn-filter" type="button" id="BtnPrintPDF" title="Imprimir" onclick="$('#BtnPrint').click();"><i class="icon-file-pdf"></i>&nbsp;PDF</button> 
                                             </li>
                                         </ul>
                                         <% } %>
@@ -264,7 +258,8 @@
                                                         <div class="form-group">
                                                         <label id="TxtScopeLabel" class="col-sm-1 no-padding-right"><%=this.Dictionary["Item_Auditory_Label_Scope"]%><span style="color:#f00;">*</span></label>
                                                         <div class="col-sm-11">
-                                                            <input type="text" id="TxtScope" placeholder="<%=this.Dictionary["Item_Auditory_Label_Scope"] %>" class="col-xs-12 col-sm-12" value="<%=this.Auditory.Scope %>" />                                                            
+                                                            <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtScope"><%=this.Auditory.Scope %></textarea>
+                                                            <!--input type="text" id="TxtScope" placeholder="<%=this.Dictionary["Item_Auditory_Label_Scope"] %>" class="col-xs-12 col-sm-12" value="<%=this.Auditory.Scope %>" /-->                                                            
                                                             <span class="ErrorMessage" id="TxtScopeErrorRequired"><%= this.Dictionary["Common_Required"] %></span>
                                                         </div>
                                                     </div>                                                    
@@ -343,6 +338,7 @@
                                                             </thead>
                                                         </table>
                                                     </div> <!-- /.table-responsive -->
+                                                    <div id="SendMailWhenPlannedMessage" style="display:none;padding:8px;color:#478fca!important;text-align:center;"><i class="fa fa-info-circle blue"></i>&nbsp;Els correus s'enviaran una vegada planificada l'auditoria</i></div>
                                                     <hr />
                                                     <div class="alert alert-info" style="display:none;" id="DivNoPlanning">
                                                         <strong><i class="icon-info-sign"></i></strong>
@@ -371,7 +367,7 @@
                                                             <span class="ErrorMessage" id="TxtAuditoryPlanningDateErrorRequired"><%= this.Dictionary["Common_Required"] %></span>
                                                         </div>
                                                     </div>
-                                                    <%=this.FormFooter %>
+                                                    <br />
                                                 </div>
                                             </div>
                                             <div id="questionaries" class="tab-pane">
@@ -509,12 +505,12 @@
                                                     <textarea rows="3" class="form-control col-xs-12 col-sm-12" maxlength="2000" id="TxtPuntosFuertes"><%=this.Auditory.PuntosFuertes %></textarea>
                                                 </div>
 
-                                                <div class="col-sm-12" style="margin-top:12px;margin-bottom:20px;display:none;" id="DivCloseButton">
+                                                <!--<div class="col-sm-12" style="margin-top:12px;margin-bottom:20px;display:none;" id="DivCloseButton">
                                                     <div class="col-sm-10"></div>
                                                     <div class="col-sm-2">
                                                         <button type="button" class="btn btn-success" id="BtnCloseAuditoria"><i class="fa fa-check"></i>&nbsp;<%=this.Dictionary["Item_Auditory_Btn_Close"] %></button>
                                                     </div>
-                                                </div>
+                                                </div>-->
                                                 <div class="col-sm-12 alert alert-info" style="display:none;margin-top:12px;margin-bottom:40px;" id="DivCloseResume">
                                                     <strong><i class="icon-info-sign fa-2x"></i></strong>
                                                     <h3 style="display:inline;"><%=this.Dictionary["Item_Auditory_Message_Closed"] %></h3>
@@ -525,12 +521,12 @@
                                                         </p>
                                                 </div>
 
-                                                <div class="col-sm-12" style="margin-top:-24px;margin-bottom:32px;display:none;" id="DivValidationButton">
+                                                <!--<div class="col-sm-12" style="margin-top:-24px;margin-bottom:32px;display:none;" id="DivValidationButton">
                                                     <div class="col-sm-10"></div>
                                                     <div class="col-sm-2">
                                                         <button type="button" class="btn btn-success" id="BtnValidarAuditoria"><i class="fa fa-check"></i>&nbsp;<%=this.Dictionary["Item_Auditory_Btn_Validation"] %></button>
                                                     </div>
-                                                </div>
+                                                </div>-->
                                                 <div class="col-sm-12 alert alert-info" style="display:none;margin-top:12px;margin-bottom:40px;" id="DivValidationResume">
                                                     <strong><i class="icon-info-sign fa-2x"></i></strong>
                                                     <h3 style="display:inline;"><%=this.Dictionary["Item_Auditory_Message_Validated"] %></h3>

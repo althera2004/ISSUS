@@ -18,7 +18,7 @@ function Login() {
     if ($("#TxtUserName").val() === "") {
         ok = false;
         $("#TxtUserName").css("background-color", "#f00");
-        errorMessage = "El nombre de usuario es obligatorio.";
+        errorMessage = Dictionary[language].RequiredUser;
     }
     else {
         $("#TxtUserName").css("background-color", "transparent");
@@ -30,10 +30,18 @@ function Login() {
         if (errorMessage !== "") {
             errorMessage += "<br />";
         }
-        errorMessage += "La contraseña es obligatoria.";
+        errorMessage += Dictionary[language].RequiredPassword;
     }
     else {
         $("#TxtPassword").css("background-color", "transparent");
+    }
+
+    if (window.navigator.onLine === false) {
+        ok = false;
+        if (errorMessage !== "") {
+            errorMessage += "<br />";
+        }
+        errorMessage = Dictionary[language].NoConnection;
     }
 
     if (ok) {
@@ -55,7 +63,8 @@ function Login() {
                 var result = msg.d;
 
                 if (msg.d.ReturnValue.Id === -1) {
-                    $("#ErrorSpan").show();
+                    $("#ErrorMessage").html(Dictionary[language].PasswordInvalid);
+                    $("#ErrorMessage").show();
                     $("#BtnLogin").html(Dictionary[language].Btn);
                     return false;
                 }
@@ -68,7 +77,7 @@ function Login() {
                 }
                 else {
                     if (msg.d.ReturnValue.Id === 2) {
-                        $("#ErrorSpan").show();
+                        $("#ErrorMessage").show();
                         $("#BtnLogin").html(Dictionary[language].Btn);
                         return false;
                     }

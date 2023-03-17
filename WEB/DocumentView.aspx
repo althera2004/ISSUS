@@ -21,7 +21,11 @@
         var firstDate = <%=this.FirstVersionDate%>;
         var attachs = <%=this.Attachs%>;
         var attachActual = <%=this.DocumentAttachActual%>;
-        </script>
+        var pageType = "form";
+        var Employees = <%=this.EmployeesJson %>;
+        var requerimentDefinitions = <%=this.RequerimentDefinitionList %>;
+        var requerimentActs = <%=this.RequerimentActList %>;
+    </script>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptHeadContentHolder" Runat="Server">
     <link rel="stylesheet" href="/Document-Viewer/style.css" />
@@ -40,22 +44,12 @@
                                                 <li class="active">
                                                     <a data-toggle="tab" href="#home"><%=this.Dictionary["Item_Document_Tab_Principal"]%></a>
                                                 </li>
+                                                <li class="" id="TabRequeriments">
+                                                    <a data-toggle="tab" href="#requeriments"><%=this.Dictionary["Item_Document_Tab_Requeriments"]%></a>
+                                                </li>
                                                 <li class="" id="TabHistoricoSelector">
                                                     <a data-toggle="tab" href="#feed"><%=this.Dictionary["Item_Document_Tab_Versions"]%></a>
                                                 </li>
-                                                <!--<% if (this.Trace)
-                                                   { %>
-                                                <li class="" id="TabTrazas">
-                                                    <a data-toggle="tab" href="#trazas"><%=this.Dictionary["Item_Document_Tab_Traces"]%></a>
-                                                </li>
-                                                <% } %>-->
-                                                <!--
-                                                <li style="float:right;">
-                                                    <div class="col-sm-6">
-                                                        <label class="control-label no-padding-right" for="form-input-readonly"><%=this.Dictionary["Item_Document_Status_Active_Single"]%></label>
-                                                    </div>
-                                                </li>
-                                                -->
                                             </ul>
                                             <% } %>
                                             <div class="tab-content no-border padding-24">
@@ -110,7 +104,7 @@
                                                             <label id="TxtRevisionLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_Version"]%></label>
                                                             <div class="col-sm-1">
                                                                 <input type="text" <% if (this.DocumentId > 0)
-                                                                                      { %>readonly="readonly" <% } %>id="TxtRevision" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_Version"] %>" class="col-xs-12 col-sm-12" value="<%= this.Document.LastVersion.Version == 0 ? string.Empty : this.Document.LastVersion.Version.ToString().Trim() %>" maxlength="4" onkeypress="validate(event)" onblur="this.value=$.trim(this.value);" />
+                                                                                      { %>readonly="readonly" <% } %>id="TxtRevision" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_Version"] %>" class="col-xs-12 col-sm-12 integerFormated" value="<%= this.Document.LastVersion.Version == 0 ? string.Empty : this.Document.LastVersion.Version.ToString().Trim() %>" maxlength="4" onkeypress="validate(event)" onblur="this.value=$.trim(this.value);" />
                                                                 <span class="ErrorMessage" id="TxtRevisionErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
                                                             </div>
                                                             <div class="cols-sm-1">
@@ -187,15 +181,83 @@
                                                         </div>
                                                         <div class="space-4"></div>
                                                         <div class="form-group">
+                                                            <label id="TxtLinkFielLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Item_Document_FieldLabel_LinkField"]%></label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" id="TxtLinkField" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_LinkField"]%>" class="col-xs-12 col-sm-12" maxlength="500" onblur="this.value=$.trim(this.value);DOCUMENT_LinkViewLayout();" />
+                                                            </div>
+                                                            <button type="button" id="BtnLinkFieldView" class="btn btn-info" style="padding: 0 !important" onclick="DOCUMENT_ViewLink();" disabled="disabled">&nbsp;<i class="fa fa-globe"></i>&nbsp;</button>
+                                                        </div>
+                                                        <div class="space-4"></div>
+                                                        <div class="form-group">
                                                             <label id="Label5" class="col-sm-12"><%=this.Dictionary["Item_Document_FieldLabel_Reason"]%></label>
                                                             <div class="col-sm-12">
                                                                 <!--input type="text" readonly="readonly" id="TxtMotivo" placeholder="<%=this.Dictionary["Item_Document_FieldLabel_Reason"] %>" class="col-xs-12 col-sm-12" value="</div>/%=this.LastVersion.Reason %>" /-->
                                                                 <textarea disabled="disabled" id="TxtMotivo" class="form-control col-xs-12 col-sm-12" maxlength="500" rows="3" onblur="this.value=$.trim(this.value);"><%=this.Document.LastVersion.Reason %></textarea>
                                                                 </div>
                                                         </div>
-                                                        <%=this.FormFooter %>
                                                     </form>
 
+                                                </div>
+                                                <div id="requeriments" class="tab-pane">
+                                                    <div class="col-sm-12" style="margin-bottom:4px;">
+                                                        <div class="col-sm-6"><h4><%=this.Dictionary["Item_DocumentRequerimentAct_Plural"] %></h4></div>
+                                                        <div class="col-sm-6" style="text-align:right"><%=this.RequerimentNewAct.Render %></div>
+                                                    </div>                                                                                                       
+                                                    <table class="table table-bordered table-striped" id="DocumentRequerimentActTable">
+                                                        <thead class="thin-border-bottom">
+                                                            <tr>
+                                                                <th onclick="Sort(this,'TableDocumentRequerimentAct','date');" id="th0" class="sort" style="width:90px;"><%=this.Dictionary["Item_DocumentRequerimentAct_Header_Date"] %></th>
+                                                                <th onclick="Sort(this,'TableDocumentRequerimentAct','text');" id="th1" class="sort" style="width:400px;"><%=this.Dictionary["Item_DocumentRequerimentAct_Header_Requeriment"] %></th>
+                                                                <th id="th14" class=""><%=this.Dictionary["Item_DocumentRequerimentAct_Header_Observations"] %></th>	
+                                                                <th id="th15" class="" style="width:200px;"><%=this.Dictionary["Item_DocumentRequerimentAct_Header_Responsible"] %></th>	
+                                                                <th onclick="Sort(this,'TableDocumentRequerimentAct','money');" id="th4" class="sort" style="width:70px;"><%=this.Dictionary["Item_DocumentRequerimentAct_Header_Cost"] %></th>	
+                                                                <th onclick="Sort(this,'TableDocumentRequerimentAct','date');" id="th5" class="sort" style="width:120px;"><%=this.Dictionary["Item_DocumentRequerimentAct_Header_Expiration"] %></th>
+                                                                <th style="width:80px;">&nbsp;</th>														
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td colspan="7" style="padding:0;">
+                                                                    <div class="scrollTable" style="width:100%;height:200px;overflow-y:scroll;">
+                                                                        <table style="width:100%;">
+                                                                            <tbody id="TableDocumentRequerimentAct"></tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="4"><div id="TableDocumentRequerimentActTotalLabel" style="width:100%"></div></td>
+                                                                <td align="right" style="font-weight: bold;"><span id="TableDocumentRequerimentActTotal"></span></td>
+                                                                <td colspan="2">&nbsp;</td>
+                                                            </tr>
+                                                        </tbody>                                                        
+                                                    </table>
+                                                    <div class="col-sm-12" style="margin-bottom:4px;">
+                                                        <div class="col-sm-6"><h4><%=this.Dictionary["Item_DocumentRequerimentDefinition_Plural"] %></h4></div>
+                                                        <div class="col-sm-6" style="text-align:right"><%=this.RequerimentNewDefinition.Render  %></div>
+                                                    </div>
+                                                    <table class="table table-bordered table-striped">
+                                                        <thead class="thin-border-bottom">
+                                                            <tr>
+                                                                <th onclick="Sort(this,'TableDocumentRequerimentDefinition','text',false);" id="th0" class="sort" style="width:400px;"><%=this.Dictionary["Item_DocumentRequerimentDefinition_Header_Requeriment"] %></th>
+                                                                <th onclick="Sort(this,'TableDocumentRequerimentDefinition','money',false);" id="th1" class="sort" style="width:150px;cursor:pointer;"><%=this.Dictionary["Item_DocumentRequerimentDefinition_Header_Periodicity"] %></th>	
+                                                                <th><%=this.Dictionary["Item_DocumentRequerimentDefinition_Header_Actuacio"] %></th>	
+                                                                <th onclick="Sort(this,'TableDocumentRequerimentDefinition','money',false);" id="th3" class="sort" style="width:90px;cursor:pointer;"><%=this.Dictionary["Item_DocumentRequerimentDefinition_Header_Cost"] %></th>	
+                                                                <th style="width:80px;">&nbsp;</th>											
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="TableDocumentRequerimentDefinitionContainer">
+                                                            <tr>
+                                                                <td colspan="6" style="padding:0;">
+                                                                    <div class="scrollTable" style="width:100%;height:200px;overflow-y:scroll;">
+                                                                        <table style="width:100%;">
+                                                                            <tbody id="TableDocumentRequerimentDefinition"></tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                                 <div id="feed" class="tab-pane">
                                                         <div class="col-sm-6">
@@ -225,25 +287,6 @@
                                                             </tbody>
                                                         </table>
                                                     </div>
-                                                <% if (this.Trace)
-                                                   { %>
-                                                <div id="trazas" class="tab-pane">													
-                                                        <table class="table table-bordered table-striped">
-                                                            <thead class="thin-border-bottom">
-                                                                <tr>                                                                    
-                                                                    <th style="width:150px;"><%=this.Dictionary["Item_Tace_ListHeader_Date"]%></th>
-                                                                    <th><%=this.Dictionary["Item_Tace_ListHeader_Reason"]%></th>
-                                                                    <th><%=this.Dictionary["Item_Tace_ListHeader_Trace"]%></th>
-                                                                    <th style="width:250px;"><%= this.Dictionary["Item_Tace_ListHeader_User"]%></th>													
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <asp:Literal runat="server" ID="LtTrazas"></asp:Literal>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                                <% } %>
                                         </div>
                                     </div>
                                 </div>
@@ -403,6 +446,101 @@
                                     </div>
                                 </form>
                             </div>
+
+                                
+                            
+                            <div id="dialogNewRequerimentDefinition" class="hide" style="width:500px;">
+                                <form class="form-horizontal" role="form" id="FormDialogNewRequerimentDefinition">
+                                    <div class="form-group">
+                                        <label id ="TxtNewRequerimentDefinitionRequerimentLabel" class="col-sm-3 control-label no-padding-right" for="TxtNewRequerimentDefinitionRequeriment"><%=this.Dictionary["Item_DocumentRequeriment_Popup_FieldLabel_Requeriment"] %><span class="required">*</span></label>
+                                        <div class="col-sm-9">
+                                            <textarea class="col-xs-12 col-sm-12" id="TxtNewRequerimentDefinitionRequeriment" placeholder="<%=this.Dictionary["Item_DocumentRequeriment_Popup_FieldLabel_Requeriment"] %>" rows="4" maxlength="200" onblur="this.value=$.trim(this.value);"></textarea>
+                                            <span class="ErrorMessage" id="TxtNewRequerimentDefinitionRequerimentErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
+                                            <span class="ErrorMessage" id="TxtNewRequerimentDefinitionRequerimentDuplicated"><%=this.Dictionary["Common_Error_NameAlreadyExists"]%></span>
+                                        </div>
+                                    </div>                             
+                                    <div class="form-group">
+                                        <label id ="TxtNewRequerimentDefinitionPeriodicityLabel" class="col-sm-3 control-label no-padding-right" for="TxtNewRequerimentDefinitionPeriodicity"><%=this.Dictionary["Item_DocumentRequeriment_Popup_FieldLabel_Periodicity"] %><span class="required">*</span></label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="col-xs-12 col-sm-12 integerFormated" id="TxtNewRequerimentDefinitionPeriodicity" placeholder="<%=this.Dictionary["Item_DocumentRequeriment_Popup_FieldLabel_Periodicity"] %>" value="" maxlength="8" />
+                                            <span class="ErrorMessage" id="TxtNewRequerimentDefinitionPeriodicityErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
+                                        </div>
+                                    </div>                             
+                                    <div class="form-group">
+                                        <label id ="TxtNewRequerimentDefinitionActuacioLabel" class="col-sm-3 control-label no-padding-right" for="TxtNewRequerimentDefinitionActuacio"><%=this.Dictionary["Item_DocumentRequeriment_Popup_FieldLabel_Actuacio"] %></label>
+                                        <div class="col-sm-9">
+                                            <textarea class="col-xs-12 col-sm-12" id="TxtNewRequerimentDefinitionActuacio" placeholder="<%=this.Dictionary["Item_DocumentRequeriment_Popup_FieldLabel_Actuacio"] %>" rows="3" maxlength="100" onblur="this.value=$.trim(this.value);"></textarea>
+                                        </div>
+                                    </div>                           
+                                    <div class="form-group">
+                                        <!-- ISSUS-18 -->
+                                        <label id ="TxtNewRequerimentDefinitionCostLabel" class="col-sm-3 control-label no-padding-right" for="TxtNewRequerimentDefinitionCost"><%=this.Dictionary["Item_DocumentRequeriment_Popup_FieldLabel_Cost"] %></label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="col-xs-12 col-sm-12 money-bank" id="TxtNewRequerimentDefinitionCost" placeholder="<%=this.Dictionary["Item_DocumentRequeriment_Popup_FieldLabel_Cost"] %>" value="" maxlength="8" />
+                                        </div>
+                                    </div> 
+                                    <div class="form-group">
+                                        <label id="CmbNewDefinitionResponsibleLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_DocumentRequeriment_Popup_FieldLabel_Responisble"] %><span class="required">*</span></label>
+                                        <div class="col-sm-9">
+                                                <select id="CmbNewDefinitionResponsible" class="col-xs-12 col-sm-12"></select>
+                                            <input style="display:none;" type="text" readonly="readonly" id="CmbNewDefinitionResponsibleValue" placeholder="<%=this.Dictionary["Item_DocumentRequeriment_Popup_FieldLabel_Responisble"] %>" class="col-xs-12 col-sm-12" />
+                                            <span class="ErrorMessage" id="CmbNewDefinitionResponsibleErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <div id="dialogNewRequerimentAct" class="hide" style="width:500px;">
+                                <form class="form-horizontal" role="form" id="FormDialogNewRequerimentAct">
+                                    <div class="form-group">                                        
+                                        <label id="CmbNewActDefinitionIdLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_DocumentAct_Popup_FieldLabel_Definition"] %><span class="required">*</span></label>
+                                        <div class="col-sm-9">
+                                                <select id="CmbNewActDefinitionId" class="col-xs-12 col-sm-12"></select>
+                                            <input style="display:none;" type="text" readonly="readonly" id="CmbNewActDefinitionIdValue" placeholder="<%=this.Dictionary["Item_DocumentRequeriment_Popup_FieldLabel_Responisble"] %>" class="col-xs-12 col-sm-12" />
+                                            <span class="ErrorMessage" id="CmbNewActDefinitionIdErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">                                        
+                                        <label id="TxtNewRequerimentActDateLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_DocumentAct_Popup_FieldLabel_Date"] %><span class="required">*</span></label>
+                                        <div class="col-sm-4">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-12 tooltip-info" id="TxtNewRequerimentActDateDiv">
+                                                    <div class="input-group">
+                                                        <input class="form-control date-picker" id="TxtNewRequerimentActDate" type="text" data-date-format="dd/mm/yyyy" maxlength="10" />
+                                                        <span id="TxtNewRequerimentActDateDateBtn" class="input-group-addon" onclick="document.getElementById('TxtNewRequerimentActDate').focus();">
+                                                            <i class="icon-calendar bigger-110"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            <span class="ErrorMessage" id="TxtNewRequerimentActDateErrorRequired"><%=this.Dictionary["Common_Required"]%></span>
+                                            <span class="ErrorMessage" id="TxtNewRequerimentActDateMalformed"><%=this.Dictionary["Common_Error_DateMalformed"]%></span>
+                                            <span class="ErrorMessage" id="TxtNewRequerimentActDateOverTime">No pot ser anterior al darrer registre</span>
+                                        
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label id ="TxtNewRequerimentActObservationsLabel" class="col-sm-3 control-label no-padding-right" for="TxtNewRequerimentDefinitionActuacio"><%=this.Dictionary["Item_DocumentAct_Popup_FieldLabel_Observations"] %></label>
+                                        <div class="col-sm-9">
+                                            <textarea class="col-xs-12 col-sm-12" id="TxtNewRequerimentActObservations" placeholder="<%=this.Dictionary["Item_DocumentAct_Popup_FieldLabel_Observations"] %>" rows="3" maxlength="100" onblur="this.value=$.trim(this.value);"></textarea>
+                                        </div>
+                                    </div>                           
+                                    <div class="form-group">
+                                        <label id ="TxtNewRequerimentActCostLabel" class="col-sm-3 control-label no-padding-right" for="TxtNewRequerimentDefinitionCost"><%=this.Dictionary["Item_DocumentRequeriment_Popup_FieldLabel_Cost"] %></label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="col-xs-12 col-sm-12 money-bank" id="TxtNewRequerimentActCost" placeholder="<%=this.Dictionary["Item_DocumentRequeriment_Popup_FieldLabel_Cost"] %>" value="" maxlength="8" />
+                                        </div>
+                                    </div> 
+                                    <div class="form-group">
+                                        <label id="CmbNewActResponsibleLabel" class="col-sm-3 control-label no-padding-right"><%=this.Dictionary["Item_DocumentRequeriment_Popup_FieldLabel_Responisble"] %><span class="required">*</span></label>
+                                        <div class="col-sm-9">
+                                                <select id="CmbNewActResponsible" class="col-xs-12 col-sm-12"></select>
+                                            <input style="display:none;" type="text" readonly="readonly" id="CmbNewActResponsibleValue" placeholder="<%=this.Dictionary["Item_DocumentRequeriment_Popup_FieldLabel_Responisble"] %>" class="col-xs-12 col-sm-12" />
+                                            <span class="ErrorMessage" id="CmbNewActResponsibleErrorRequired"><%=this.Dictionary["Common_Required"] %></span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
 </asp:Content>
 <asp:Content ID="Content5" ContentPlaceHolderID="ScriptBodyContentHolder" Runat="Server">
         <script type="text/javascript" src="/assets/js/jquery-ui-1.10.3.full.min.js"></script>
@@ -413,6 +551,7 @@
         <script type="text/javascript" src="/assets/js/date-time/moment.min.js"></script>
         <script type="text/javascript" src="/js/common.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/DocumentView.js?<%=this.AntiCache %>"></script>
+        <script type="text/javascript" src="/js/DocumentRequeriment.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/Procedencia.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/Categoria.js?<%=this.AntiCache %>"></script>
         <script type="text/javascript" src="/js/DocumentAttachment.js?<%=this.AntiCache %>"></script>
@@ -660,19 +799,21 @@
                 $("#TxtRevisionDate").val(documento.RevisionDate);
                 $("#TxtUbicacion").val(documento.Location);
                 $("#TxtConservacion").val(documento.Conservation);
+                $("#TxtLinkField").val(documento.LinkField);
                 document.getElementById("CmbOrigen").value = sourceSelected;
                 SetCategoryText();
                 SetProcedenciaText();
                 SetOrigen();
+                DOCUMENT_LinkViewLayout();
             }
             else {
                 $("#TabHistoricoSelector").hide();
                 $("#TxtStartDate").val(FormatDate(new Date(), "/"));
                 $("#BtnNewVersion").hide();
-                document.getElementById("TxtProcedencia").style.display = "none";
-                document.getElementById("TxtProcedenciaLabel").style.display = "none";
-                document.getElementById("BtnProcedencia").style.display = "none";
-                document.getElementById("CmbProcedencia").style.display = "none";
+                $("#TxtProcedencia").hide();
+                $("#TxtProcedenciaLabel").hide();
+                $("#BtnProcedencia").hide();
+                $("#CmbProcedencia").hide();
             }
 
             FillCmbCategory();

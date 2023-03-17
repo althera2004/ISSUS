@@ -21,7 +21,6 @@ public partial class CostDefinitionView : Page
     private Giso master;
 
     private int costDefinitionId;
-    private FormFooter formFooter;
 
     /// <summary>Company of session</summary>
     private Company company;
@@ -70,14 +69,6 @@ public partial class CostDefinitionView : Page
         get
         {
             return this.tabBar.Render;
-        }
-    }
-
-    public string FormFooter
-    {
-        get
-        {
-            return this.formFooter.Render(this.Dictionary);
         }
     }
 
@@ -172,9 +163,9 @@ public partial class CostDefinitionView : Page
         this.master.AddBreadCrumb("Item_CostDefinitions_Title");
         this.master.Titulo = "Item_CostDefinitions_Title";
 
-        this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+        this.master.formFooter = new FormFooter();
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         if (this.costDefinitionId != -1)
         {
@@ -186,9 +177,11 @@ public partial class CostDefinitionView : Page
                 this.CostDefinitionItem = CostDefinition.Empty;
             }
 
-            this.formFooter.ModifiedBy = this.CostDefinitionItem.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.CostDefinitionItem.ModifiedOn;
-
+            //this.formFooter.ModifiedBy = this.CostDefinitionItem.ModifiedBy.Description;
+            //this.formFooter.ModifiedOn = this.CostDefinitionItem.ModifiedOn;
+            this.master.ModifiedBy = this.CostDefinitionItem.ModifiedBy.Description;
+            this.master.ModifiedOn = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.CostDefinitionItem.ModifiedOn);
+                
             label = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.Dictionary["Item_Cost"], this.CostDefinitionItem.Description);
             this.master.TitleInvariant = true;
             this.master.Titulo = label;
@@ -196,6 +189,8 @@ public partial class CostDefinitionView : Page
         else
         {
             this.CostDefinitionItem = CostDefinition.Empty;
+            this.master.ModifiedBy = Dictionary["Common_New"];
+            this.master.ModifiedOn = "-";
         }
 
         this.tabBar.AddTab(new Tab { Id = "home", Available = true, Active = true, Selected = true, Label = this.Dictionary["Item_CostDefinition_Tab_Principal"] });

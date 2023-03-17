@@ -27,59 +27,7 @@
                                                             <label id="TxtNameLabel" class="col-sm-1 control-label no-padding-right"><%=this.Dictionary["Nombre"]%></label>
                                                             <%=this.TxtName %>
                                                         </div>
-
-                                                        <% if (this.ProviderId != -1)
-                                                           { %>
-                                                        <h4><%=this.Dictionary["Item_Provider_Label_Costs"]%></h4>											
-                                                        <table class="table table-bordered table-striped">
-                                                            <thead class="thin-border-bottom">
-                                                                <tr>
-                                                                    <th style="cursor:pointer;"><%=this.Dictionary["Item_Provider_Header_Equipment"]%></th>
-                                                                    <th><%=this.Dictionary["Item_Provider_Header_Type"]%></th>
-                                                                    <th><%=this.Dictionary["Item_Provider_Header_Operation"]%></th>
-                                                                    <th style="width:90px;"><%=this.Dictionary["Item_Provider_Header_Date"]%></th>
-                                                                    <th><%=this.Dictionary["Item_Provider_Header_Responsable"]%></th>
-                                                                    <th style="width:120px;"><%=this.Dictionary["Item_Provider_Header_Cost"]%></th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody id="InternalLearningDataTable">
-                                                                <asp:Literal runat="server" ID="TableCosts"></asp:Literal>
-                                                            </tbody>
-                                                        </table>
-
-                                                        <h4><%=this.Dictionary["Item_Provider_Label_Incidents"]%></h4>											
-                                                        <table class="table table-bordered table-striped">
-                                                            <thead class="thin-border-bottom">
-                                                                <tr>
-                                                                    <th style="width:100px;"><%=this.Dictionary["Item_Provider_Header_Type"]%></th>
-                                                                    <th><%=this.Dictionary["Item_Provider_Header_Description"]%></th>
-                                                                    <th style="width:90px;"><%=this.Dictionary["Item_Provider_Header_Status"]%></th>
-                                                                    <th><%=this.Dictionary["Item_Provider_Header_Associated"]%></th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody id="TableJobPositionDataTable">
-                                                                <asp:Literal runat="server" ID="TableActions"></asp:Literal>
-                                                            </tbody>
-                                                        </table>
-                                                        <% } %>
-                                                        <%=this.FormFooter %>
                                                     </form>
-                                                </div>
-                                                <div id="trazas" class="tab-pane">													
-                                                        <table class="table table-bordered table-striped">
-                                                            <thead class="thin-border-bottom">
-                                                                <tr>
-                                                                    <th style="width:50px;"><%=this.Dictionary["Fecha"]%></th>
-                                                                    <th><%=this.Dictionary["Motivo"]%></th>
-                                                                    <th><%=this.Dictionary["Trazas"]%></th>
-                                                                    <th style="width:250px;"><%= this.Dictionary["Usuario"]%></th>													
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <asp:Literal runat="server" ID="LtTrazas"></asp:Literal>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
                                                 </div>
                                         </div>
                                     </div>

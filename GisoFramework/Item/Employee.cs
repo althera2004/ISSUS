@@ -1651,7 +1651,7 @@ namespace GisoFramework.Item
                 grantEmployeeDelete ? "true" : "false",
                 this.DisabledDate.HasValue ? "true" : "false",
                 Tools.JsonCompliant(this.FullName),
-                this.HasActionAssigned ? "true" : "false");
+                this.HasActions ? "true" : "false");
         }
 
         /// <summary>Obtain the assistance of employee in company learning</summary>

@@ -3,6 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="PageStyles" Runat="Server">
     <link rel="stylesheet" href="assets/css/jquery-ui-1.10.3.full.min.css" />
     <style type="text/css">
+        #FooterStatus{visibility:hidden;}
         #scrollTableDiv{
             background-color:#fafaff;
             border:1px solid #e0e0e0;
@@ -64,7 +65,7 @@
                                             <td>
                                                 <select id="CmbTipusIndicador" class="col-sm-12" onchange="CmbTipusIndicadorChange()" style="max-width:300px;">
                                                     <option value="0"><%=this.Dictionary["Common_All_Male_Plural"] %></option>
-                                                    <option value ="1"><%=this.Dictionary["Item_Indicaddor_Filter_TypeProcess"] %></option>
+                                                    <option value="1"><%=this.Dictionary["Item_Indicaddor_Filter_TypeProcess"] %></option>
                                                     <option value="2"><%=this.Dictionary["Item_Indicaddor_Filter_TypeObjetivo"] %></option>
                                                 </select>
                                             </td>
@@ -73,9 +74,9 @@
                                             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
 
                                             <td><strong><%=this.Dictionary["Item_Indicador_Filter_Status"] %>:</strong></td>
-                                            <td>&nbsp;&nbsp;&nbsp;<input type="radio" name="RBStatus" id="RBStatus1" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowActive"] %></td>
-                                            <td>&nbsp;&nbsp;&nbsp;<input type="radio" name="RBStatus" id="RBStatus2" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowClosed"] %></td>
-											<td>&nbsp;&nbsp;&nbsp;<input type="radio" name="RBStatus" id="RBStatus0" /><%= this.Dictionary["Common_All"] %></td>
+                                            <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="RBStatus" id="RBStatus1" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowActive"] %></td>
+                                            <td>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="RBStatus" id="RBStatus2" /><%= this.Dictionary["Item_ObjetivoAction_List_Filter_ShowClosed"] %></td>
+											<!--<td>&nbsp;&nbsp;&nbsp;<input type="radio" name="RBStatus" id="RBStatus0" /><%= this.Dictionary["Common_All"] %></td>-->
 
 
                                             <td style="padding-bottom:35px;">&nbsp;&nbsp;&nbsp;&nbsp;</td> 

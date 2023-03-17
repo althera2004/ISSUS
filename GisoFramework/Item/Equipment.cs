@@ -58,7 +58,7 @@ namespace GisoFramework.Item
         public string Location { get; set; }
 
         [DifferenciableAttribute]
-        public string MeasureRange { get; set; }
+        public decimal? MeasureRange { get; set; }
 
         [DifferenciableAttribute]
         public decimal? ScaleDivisionValue { get; set; }
@@ -137,7 +137,7 @@ namespace GisoFramework.Item
                 res.Append("\t\"Model\":\"").Append(Tools.JsonCompliant(this.Model)).Append("\",").Append(Environment.NewLine);
                 res.Append("\t\"SerialNumber\":\"").Append(Tools.JsonCompliant(this.SerialNumber)).Append("\",").Append(Environment.NewLine);
                 res.Append("\t\"Location\":\"").Append(Tools.JsonCompliant(this.Location)).Append("\",").Append(Environment.NewLine);
-                res.Append("\t\"MeasureRange\":\"").Append(Tools.JsonCompliant(this.MeasureRange)).Append("\",").Append(Environment.NewLine);
+                res.Append("\t\"MeasureRange\":\"").Append(this.MeasureRange.HasValue ? this.MeasureRange.Value.ToString("#0.0000", CultureInfo.GetCultureInfo("en-us")) : string.Empty).Append("\",").Append(Environment.NewLine);
                 res.Append("\t\"ScaleDivision\":\"").Append(this.ScaleDivisionValue.HasValue ? this.ScaleDivisionValue.Value.ToString("#0.0000", CultureInfo.GetCultureInfo("en-us")) : string.Empty).Append("\",").Append(Environment.NewLine);
                 res.Append("\t\"MeasureUnit\":").Append(this.MeasureUnit == null ? "null" : this.MeasureUnit.JsonKeyValue).Append(",").Append(Environment.NewLine);
                 res.Append("\t\"Responsible\":").Append(this.Responsible.JsonSimple).Append(",").Append(Environment.NewLine);
@@ -233,7 +233,6 @@ namespace GisoFramework.Item
                                     Model = rdr[ColumnsEquipmentGetById.Model].ToString(),
                                     SerialNumber = rdr[ColumnsEquipmentGetById.SerialNumber].ToString(),
                                     Location = rdr[ColumnsEquipmentGetById.Location].ToString(),
-                                    MeasureRange = rdr.IsDBNull(ColumnsEquipmentGetById.MeasureRange) ? null : rdr[ColumnsEquipmentGetById.MeasureRange].ToString(),
                                     MeasureUnit = rdr.IsDBNull(ColumnsEquipmentGetById.ScaleDivisionId) ? null : new EquipmentScaleDivision()
                                     {
                                         Id = rdr.GetInt64(ColumnsEquipmentGetById.ScaleDivisionId),
@@ -258,6 +257,16 @@ namespace GisoFramework.Item
                                     },
                                     ModifiedOn = rdr.GetDateTime(ColumnsEquipmentGetById.ModifiedOn)
                                 };
+
+
+                                if (rdr.IsDBNull(ColumnsEquipmentGetById.MeasureRange))
+                                {
+                                    res.MeasureRange = null;  
+                                }
+                                else
+                                {
+                                    res.MeasureRange = rdr.GetDecimal(ColumnsEquipmentGetById.MeasureRange);
+                                }
 
                                 if (rdr.IsDBNull(ColumnsEquipmentGetById.ScaleDivisionValue))
                                 {
@@ -792,7 +801,7 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@Model", this.Model, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@SerialNumber", this.SerialNumber, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@Location", this.Location, Constant.DefaultDatabaseVarChar));
-                        cmd.Parameters.Add(DataParameter.Input("@MeasureRange", string.IsNullOrEmpty(this.MeasureRange) ? string.Empty : this.MeasureRange));
+                        cmd.Parameters.Add(DataParameter.Input("@MeasureRange", this.MeasureRange));
                         cmd.Parameters.Add(DataParameter.Input("@ScaleDivision", this.ScaleDivisionValue));
                         cmd.Parameters.Add(DataParameter.Input("@MeasureUnit", this.MeasureUnit.Id));
                         cmd.Parameters.Add(DataParameter.Input("@Responsable", this.Responsible.Id));
@@ -867,7 +876,7 @@ namespace GisoFramework.Item
                         cmd.Parameters.Add(DataParameter.Input("@Model", this.Model, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@SerialNumber", this.SerialNumber, Constant.MaximumTextAreaLength));
                         cmd.Parameters.Add(DataParameter.Input("@Location", this.Location, Constant.MaximumTextAreaLength));
-                        cmd.Parameters.Add(DataParameter.Input("@MeasureRange", string.IsNullOrEmpty(this.MeasureRange) ? string.Empty : this.MeasureRange));
+                        cmd.Parameters.Add(DataParameter.Input("@MeasureRange", this.MeasureRange));
                         cmd.Parameters.Add(DataParameter.Input("@ScaleDivision", this.ScaleDivisionValue));
                         cmd.Parameters.Add(DataParameter.Input("@MeasureUnit", this.MeasureUnit.Id));
                         cmd.Parameters.Add(DataParameter.Input("@Responsable", this.Responsible.Id));

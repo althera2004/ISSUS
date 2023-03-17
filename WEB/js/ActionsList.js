@@ -97,6 +97,7 @@ function IncidentActionGetFilter(exportType) {
         "data": JSON.stringify(data, null, 2),
         "success": function (msg) {
             eval("IncidentActionlist=" + msg.d + ";");
+            console.log("--->", IncidentActionlist);
             ItemRenderTable(IncidentActionlist);
             if (exportType !== "undefined" && exportType !== null) {
                 if (exportType === "PDF") {
@@ -152,14 +153,15 @@ function ItemRenderTable(list) {
 
         var origin = "";
 
-        if (item.Associated.Id === 0) {
-            item.Origin = 2;
-        }
+        // Tambien pueden ser de "Auditoria"
+        //if (item.Associated.Id === 0) {
+        //    item.Origin = 2;
+        //}
 
         switch (item.Origin) {
             case 1:
-
-                if (item.Associated.Id === 0) {
+                // Tambien las de auditoria puede ser de creacion directa
+                if (item.Associated.Id === 0 || 1 === 1) {
                     origin = document.createTextNode(Dictionary.Item_IncidentAction_Origin1);
                 }
                 else {
@@ -180,7 +182,9 @@ function ItemRenderTable(list) {
                     origin.title = item.Associated.Description;
                 }
                 break;
-            case 2: origin = document.createTextNode(Dictionary.Item_IncidentAction_Origin2);
+            case 2: 
+			case 0:
+				origin = document.createTextNode(Dictionary.Item_IncidentAction_Origin2);
                 break;
             case 3:
                 origin = document.createElement("A");
@@ -257,7 +261,7 @@ function ItemRenderTable(list) {
         tdOpen.appendChild(document.createTextNode(FormatYYYYMMDD(item.OpenDate, "/")));
         tdType.appendChild(document.createTextNode(type));
         tdStatus.appendChild(iconStatus);
-        tdOrigin.appendChild(origin);
+		tdOrigin.appendChild(origin);
 
         var actionLinkDescription = document.createElement("A");
         actionLinkDescription.appendChild(document.createTextNode(item.Number + " - " + item.Description));
@@ -302,7 +306,10 @@ function ItemRenderTable(list) {
             innerDelete.className = "icon-trash bigger-120";
             iconDelete.appendChild(innerDelete);
 
-            if (item.Origin === 3) {
+            if (item.Origin === 1) {
+                iconDelete.onclick = function () { NoDeleteAuditory(); };
+            }
+            else if (item.Origin === 3) {
                 iconDelete.onclick = function () { NoDeleteIncident(); };
             }
             else if (item.Origin === 4) {
@@ -452,6 +459,10 @@ function NoDeleteOportunity() {
 
 function NoDeleteIncident() {
     alertInfoUI(Dictionary.Item_IncidentAction_ErrorMessage_NoDeleteIncident, null);
+}
+
+function NoDeleteAuditory() {
+    alertInfoUI(Dictionary.Item_IncidentAction_ErrorMessage_NoDeleteAuditory, null);
 }
 
 $("#nav-search").hide();

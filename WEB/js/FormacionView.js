@@ -843,7 +843,7 @@ function SaveConfirmed(evaluatedAll)
         "dataType": "json",
         "data": JSON.stringify(data, null, 2),
         "success": function (response) {
-            LoadingHide();
+            //LoadingHide();
             if (response.d.Success === true) {
                 document.location = referrer;
             }
@@ -852,7 +852,7 @@ function SaveConfirmed(evaluatedAll)
             }
         },
         "error": function (jqXHR) {
-            LoadingHide();
+            //LoadingHide();
             alertUI(jqXHR.responseText);
         }
     });

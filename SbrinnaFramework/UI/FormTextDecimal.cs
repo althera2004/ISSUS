@@ -59,7 +59,7 @@ namespace SbrinnaCoreFramework.UI
                              duplicatedLabel,
                              label,
                              Nullable ? "money-bank nullable" : "money-bank",
-                             (this.GrantToWrite.HasValue && this.GrantToWrite.Value == false) ? string.Empty : " readonly=\"readonly\"");
+                             (this.GrantToWrite.HasValue && this.GrantToWrite.Value == false) ?  " readonly=\"readonly\"" : string.Empty);
             }
         }
     }

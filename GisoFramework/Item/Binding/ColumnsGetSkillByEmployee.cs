@@ -49,5 +49,12 @@ namespace GisoFramework.Item.Binding
 
         /// <summary>Index of ModifiedByUserName column</summary>
         public static readonly int ModifiedByUserName = 13;
+
+        public const int AprovedBy = 14;
+        public const int AprovedByName = 15;
+        public const int AprovedByLastName = 16;
+        public const int AprovedOn = 17;
+        public const int Notes = 18;
+        public const int LastChange = 19;
     }
 }

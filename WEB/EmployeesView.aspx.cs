@@ -213,39 +213,6 @@ public partial class EmployeesView : Page
         }
     }
 
-    private FormFooter formFooter;
-    private FormFooter formFooterLearning;
-    private FormFooter formFooterInternalLearning;
-
-    public string FormFooter
-    {
-        get
-        {
-            if (this.formFooter == null)
-            {
-                return string.Empty;
-            }
-
-            return this.formFooter.Render(this.Dictionary);
-        }
-    }
-
-    public string FormFooterLearning
-    {
-        get
-        {
-            return this.formFooterLearning.Render(this.Dictionary);
-        }
-    }
-
-    public string FormFooterInternalLearning
-    {
-        get
-        {
-            return this.formFooterInternalLearning.Render(this.Dictionary);
-        }
-    }
-
     public string ReturnScript
     {
         get
@@ -340,6 +307,34 @@ public partial class EmployeesView : Page
         }
     }
 
+    public string AprovedByText { get; private set; }
+
+    public string AprovedOnText
+    {
+        get
+        {
+            if (this.Employee.EmployeeSkills.AprovedOn != null && this.Employee.EmployeeSkills.AprovedOn.Year > 1)
+            {
+                return string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Employee.EmployeeSkills.AprovedOn);
+            }
+
+            return string.Empty;
+        }
+    }
+
+    public string LastChangeText
+    {
+        get
+        {
+            if (this.Employee.EmployeeSkills.LastChange != null && this.Employee.EmployeeSkills.LastChange.Year > 1)
+            {
+                return string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Employee.EmployeeSkills.LastChange);
+            }
+
+            return string.Empty;
+        }
+    }
+
     /// <summary>Gets dictionary for fixed labels</summary>
     public Dictionary<string, string> Dictionary { get; private set; }
 
@@ -390,9 +385,6 @@ public partial class EmployeesView : Page
             this.returnScript = "document.location = referrer;";
         }
 
-        this.formFooter = new FormFooter();
-        this.formFooterLearning = new FormFooter();
-        this.formFooterInternalLearning = new FormFooter();
 
         this.user = (ApplicationUser)Session["User"];
         this.company = (Company)Session["company"];
@@ -405,6 +397,7 @@ public partial class EmployeesView : Page
         this.master.AddBreadCrumb("Item_Employee_Title_EmployeeData");
         this.master.TitleInvariant = true;
         this.master.Titulo = this.Dictionary["Item_Employee_Title_EmployeeData"];
+        this.master.formFooter = new FormFooter();
 
         if (employeeId > 0)
         {
@@ -533,14 +526,11 @@ public partial class EmployeesView : Page
 
             this.Employee.ObtainEmployeeSkills();
 
-            this.formFooter.ModifiedBy = this.Employee.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.Employee.ModifiedOn;
+            //this.formFooter.ModifiedBy = this.Employee.ModifiedBy.Description;
+            //this.formFooter.ModifiedOn = this.Employee.ModifiedOn;
+            this.master.ModifiedBy = this.Employee.ModifiedBy.Description;
+            this.master.ModifiedOn = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Employee.ModifiedOn);
 
-            if (this.Employee.EmployeeSkills != null && this.Employee.EmployeeSkills.ModifiedBy != null)
-            {
-                this.formFooterLearning.ModifiedBy = this.Employee.EmployeeSkills.ModifiedBy.Description;
-                this.formFooterLearning.ModifiedOn = this.Employee.EmployeeSkills.ModifiedOn;
-            }
 
             if (this.Employee.User == null)
             {
@@ -560,6 +550,8 @@ public partial class EmployeesView : Page
             this.userName = string.Empty;
             this.companyUserNames = new StringBuilder();
             this.Employee.Address = EmployeeAddress.Empty;
+            this.master.ModifiedBy = Dictionary["Common_New"];
+            this.master.ModifiedOn = "-";
         }
 
         this.RenderCountries();
@@ -567,27 +559,18 @@ public partial class EmployeesView : Page
         {
             if (employeeId > 0)
             {
-                this.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.Dictionary["Item_Employee_Btn_Inactive"], Action = "danger" });
+                this.master.formFooter.AddButton(new UIButton { Id = "BtnAnular", Icon = "icon-ban-circle", Text = this.Dictionary["Item_Employee_Btn_Inactive"], Action = "danger" });
             }
-            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
         }
         else
         {
-            this.formFooter.AddButton(new UIButton { Id = "BtnRestore", Icon = "icon-undo", Text = this.Dictionary["Item_Employee_Button_Restore"], Action = "primary" });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnRestore", Icon = "icon-undo", Text = this.Dictionary["Item_Employee_Button_Restore"], Action = "primary" });
             //this.formFooter.AddButton(new UIButton { Id = "BtnRestore", Icon = "icon-ok", Text = this.Dictionary["Item_Employee_Button_Restore"], Action = "success" });
         }
 
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
-        if (this.Active)
-        {
-            this.formFooterInternalLearning.ModifiedBy = this.formFooter.ModifiedBy;
-            this.formFooterInternalLearning.ModifiedOn = this.formFooter.ModifiedOn;
-            this.formFooterLearning.AddButton(new UIButton { Id = "BtnSaveFormacion", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
-            this.formFooterLearning.AddButton(new UIButton { Id = "BtnCancelFormacion", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
-            this.formFooterInternalLearning.AddButton(new UIButton { Id = "BtnSaveInternalLearning", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
-            this.formFooterInternalLearning.AddButton(new UIButton { Id = "BtnCancelInternalLearning", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
-        }
 
         this.SelectedTab = "home";
         if (this.Request.QueryString["Tab"] != null)
@@ -600,6 +583,8 @@ public partial class EmployeesView : Page
         this.tabBar.AddTab(new Tab { Id = "formacionInterna", Selected = SelectedTab == "formacioninterna", Available = true, Active = this.employeeId > 0, Hidden = this.employeeId < 1, Label = this.Dictionary["Item_Employee_Tab_InternalLearning"] });
         this.tabBar.AddTab(new Tab { Id = "uploadFiles", Selected = SelectedTab == "uploadfiles", Available = true, Active = this.employeeId > 0, Hidden = this.employeeId < 1, Label = this.Dictionary["Item_Employee_Tab_UploadFiles"] });
         //// this.tabBar.AddTab(new Tab { Id = "trazas", Available = this.user.HasTraceGrant() && this.employeeId > 0, Active = this.employeeId > 0, Label = this.dictionary["Item_Employee_Tab_Traces"] });
+        
+        ComboAprovedBy();
     }
 
     private void RenderDocuments()
@@ -716,35 +701,74 @@ public partial class EmployeesView : Page
         switch (this.user.Language)
         {
             case "es":
-                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Andorra" ? "true" : "false", "Andorra", "Andorra", 4);
-                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Australia" ? "true" : "false", "Australia", "Australia", 44);
-                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Cataluña" ? "true" : "false", "Cataluña", "Cataluña", 45);
-                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "España" ? "true" : "false", "España", "España", 1);
-                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Euskal Herria" ? "true" : "false", "Euskal Herria", "Euskal Herria", 46);
-                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Francia" ? "true" : "false", "Francia", "Francia", 7);
-                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Great Britain" ? "true" : "false", "Gran Bretaña", "Great Britain", 12);
+                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Andorra" ? "true" : "false", "Andorra", "Andorra", 4);
+                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Australia" ? "true" : "false", "Australia", "Australia", 44);
+                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Cataluña" ? "true" : "false", "Cataluña", "Cataluña", 45);
+                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "España" ? "true" : "false", "España", "España", 1);
+                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Euskal Herria" ? "true" : "false", "Euskal Herria", "Euskal Herria", 46);
+                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Francia" ? "true" : "false", "Francia", "Francia", 7);
+                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Great Britain" ? "true" : "false", "Gran Bretaña", "Great Britain", 12);
                 break;
             case "ca":
-                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Andorra" ? "true" : "false", "Andorra", "Andorra", 4);
-                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Australia" ? "true" : "false", "Australia", "Australia", 44);
-                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Cataluña" ? "true" : "false", "Catalunya", "Cataluña", 45);
-                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "España" ? "true" : "false", "Espanya", "España", 1);
-                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Euskal Herria" ? "true" : "false", "Euskal Herria", "Euskal Herria", 46);
-                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Francia" ? "true" : "false", "França", "Francia", 7);
-                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Great Britain" ? "true" : "false", "Gran Bretanya", "Gran Bretanya", 12);
+                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Andorra" ? "true" : "false", "Andorra", "Andorra", 4);
+                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Australia" ? "true" : "false", "Australia", "Australia", 44);
+                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Cataluña" ? "true" : "false", "Catalunya", "Cataluña", 45);
+                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "España" ? "true" : "false", "Espanya", "España", 1);
+                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Euskal Herria" ? "true" : "false", "Euskal Herria", "Euskal Herria", 46);
+                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Francia" ? "true" : "false", "França", "Francia", 7);
+                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Great Britain" ? "true" : "false", "Gran Bretanya", "Gran Bretanya", 12);
                 break;
             case "en":
-                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Andorra" ? "true" : "false", "Andorra", "Andorra", 4);
-                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Australia" ? "true" : "false", "Australia", "Australia", 44);
-                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Cataluña" ? "true" : "false", "Catalonia", "Cataluña", 45);
-                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "España" ? "true" : "false", "Spain", "España", 1);
-                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Euskal Herria" ? "true" : "false", "Basque Country", "Euskal Herria", 46);
-                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Francia" ? "true" : "false", "France", "Francia", 7);
-                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": ""{3}"", ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Great Britain" ? "true" : "false", "Great Britain", "Great Britain", 12);
+                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Andorra" ? "true" : "false", "Andorra", "Andorra", 4);
+                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Australia" ? "true" : "false", "Australia", "Australia", 44);
+                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Cataluña" ? "true" : "false", "Catalonia", "Cataluña", 45);
+                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "España" ? "true" : "false", "Spain", "España", 1);
+                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Euskal Herria" ? "true" : "false", "Basque Country", "Euskal Herria", 46);
+                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Francia" ? "true" : "false", "France", "Francia", 7);
+                res.AppendFormat(@",{{""text"": ""{1}"", ""value"": {3}, ""selected"": {0}, ""description"": ""{2}"", ""imageSrc"": ""assets/flags/{3}.png""}}", countryCompare == "Great Britain" ? "true" : "false", "Great Britain", "Great Britain", 12);
                 break;
         }
 
         this.countryData = res.ToString();
         this.LtCountries.Text = res.ToString();
+    }
+
+    private void ComboAprovedBy()
+    {
+        var employesList = new StringBuilder();
+        var employes = Employee.ByCompany(this.company.Id);
+        long aprovedByActual = 0;
+
+        if (this.Employee.EmployeeSkills.AprovedBy != null)
+        {
+            aprovedByActual = this.Employee.EmployeeSkills.AprovedBy.Id;
+        }
+
+        this.AprovedByText = aprovedByActual.ToString();
+
+        if (aprovedByActual < 1)
+        {
+            employesList.AppendFormat(
+                       CultureInfo.InvariantCulture,
+                       @"<option value=""{0}""{2}>{1}</option>",
+                       -1,
+                       this.Dictionary["Common_SelectOne"],
+                       " selected=\"selected\"");
+        }
+
+        foreach (var employee in employes)
+        {
+            if ((employee.Active && employee.DisabledDate == null) || aprovedByActual == employee.Id)
+            {
+                employesList.AppendFormat(
+                    CultureInfo.InvariantCulture,
+                    @"<option value=""{0}""{2}>{1}</option>",
+                    employee.Id,
+                    employee.FullName,
+                    aprovedByActual == employee.Id ? " selected=\"selected\"" : string.Empty);
+            }
+        }
+
+        this.LtCmbAprovedBy.Text = employesList.ToString();
     }
 }

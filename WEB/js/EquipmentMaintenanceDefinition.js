@@ -24,8 +24,12 @@ function EquipmentMaintenanceDefinitionRenderRow(equipmentMaintenance, targetNam
 
     var MaintenanceType = equipmentMaintenance.MaintenanceType === 0 ? Dictionary.Common_Internal : Dictionary.Common_External;
 
+	var textOperacion = equipmentMaintenance.Description.split('\\n');
+	for(var t =0; t < textOperacion.length; t++) {
+		tdOperation.appendChild(document.createTextNode(textOperacion[t]));
+		tdOperation.appendChild(document.createElement('BR'));
+	}
     
-    tdOperation.appendChild(document.createTextNode(equipmentMaintenance.Description));
     tdType.appendChild(document.createTextNode(MaintenanceType));
     tdPeriodicity.appendChild(document.createTextNode(ToMoneyFormat(equipmentMaintenance.Periodicity, 0))); // ISSUS-129 + " " + Dictionary.Common_Days.toLowerCase()));
 
@@ -33,7 +37,11 @@ function EquipmentMaintenanceDefinitionRenderRow(equipmentMaintenance, targetNam
         tdAccessories.appendChild(document.createTextNode(""));
     }
     else {
-        tdAccessories.appendChild(document.createTextNode(equipmentMaintenance.Accessories));
+		var text = equipmentMaintenance.Accessories.split('\\n');
+		for(var t=0; t < text.length; t++) {		
+			tdAccessories.appendChild(document.createTextNode(text[t]));
+			tdAccessories.appendChild(document.createElement('BR'));
+		}
     }
 
     if (equipmentMaintenance.Cost !== null) {
@@ -155,6 +163,9 @@ function EquipmentMaintenanceNewFormReset() {
     $("#CmbNewMaintainmentProvider").val(0);
     $("#NewMaintainmentFirstDate").val("");
     $("#CmbNewMaintainmentResponsible").val(ApplicationUser.Employee.Id);
+    $("#NewMaintainmentFirstDateLabel").parent().show();
+
+    SelectedEquipmentDefinitionSelectedId = -1;
 }
 
 function EquipmentMaintenanceEditFormFill(equipmentMaintenanceDefinition) {
@@ -167,9 +178,9 @@ function EquipmentMaintenanceEditFormFill(equipmentMaintenanceDefinition) {
     $("#RMaintainmentTypeInternal").prop("checked", equipmentMaintenanceDefinition.MaintenanceType === 0);
     $("#RMaintainmentTypeExternal").prop("checked", equipmentMaintenanceDefinition.MaintenanceType === 1);
     document.getElementById("dialogNewMaintaimentProviderRow").style.display = equipmentMaintenanceDefinition.MaintenanceType === 0 ? "none" : "";
-    $("#TxtNewMaintainmentOperation").val(equipmentMaintenanceDefinition.Description);
+    $("#TxtNewMaintainmentOperation").val(equipmentMaintenanceDefinition.Description.split('\\n').join('\n'));
     $("#TxtNewMaintainmentPeriodicity").val(ToMoneyFormat(equipmentMaintenanceDefinition.Periodicity,0));
-    $("#TxtNewMaintainmentAccessories").val(equipmentMaintenanceDefinition.Accessories);
+    $("#TxtNewMaintainmentAccessories").val(equipmentMaintenanceDefinition.Accessories.split('\\n').join('\n'));
     if (equipmentMaintenanceDefinition.Cost !== null) {
         $("#TxtNewMaintainmentCost").val(ToMoneyFormat(equipmentMaintenanceDefinition.Cost, 2));
     }
@@ -193,11 +204,18 @@ function EquipmentMaintenanceEditFormFill(equipmentMaintenanceDefinition) {
     }
     $("#NewMaintainmentFirstDate").val(fecha);
 
-    $("#CmbNewMaintainmentProvider").val(equipmentMaintenanceDefinition.Provider.Id);
+    if (SelectedEquipmentMaintenanceDefinition.Provider.Id > 0) {
+        $("#CmbNewMaintainmentProvider").val(equipmentMaintenanceDefinition.Provider.Id);
+    }
+    else {
+        $("#CmbNewMaintainmentProvider").val(0);
+    }
+
     $("#CmbNewMaintainmentResponsible").val(equipmentMaintenanceDefinition.Responsible.Id);
     if ($("#CmbNewMaintainmentResponsible").val() === null) {
         $("#CmbNewMaintainmentResponsible").val(ApplicationUser.Employee.Id);
     }
+    $("#NewMaintainmentFirstDateLabel").parent().hide();
 }
 
 function EquipmentMaintenanceDefinitionValidateForm() {

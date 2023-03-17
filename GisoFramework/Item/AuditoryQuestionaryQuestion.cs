@@ -22,19 +22,25 @@ namespace GisoFramework.Item
     {
         public long QuestionaryId { get; set; }
         public long AuditoryId { get; set; }
-        public bool? Compliant { get; set; }
+        public int? Compliant { get; set; }
 
         /// <summary>Gets an identifier/description json item</summary>
         public override string JsonKeyValue
         {
             get
             {
+                var compliantValue = Constant.JavaScriptNull;
+                if (this.Compliant.HasValue)
+                {
+                    compliantValue = this.Compliant.Value.ToString();
+                }
                 return string.Format(
                     CultureInfo.InvariantCulture,
                     @"{{""Id"":{0}, ""Question"":""{1}"", ""Compliant"":{2}}}",
                     this.Id,
                     Tools.JsonCompliant(this.Description),
-                    this.Compliant.HasValue ? (this.Compliant.Value ? Constant.JavaScriptTrue : Constant.JavaScriptFalse) : Constant.JavaScriptNull);
+                    compliantValue);
+                    //this.Compliant.HasValue ? (this.Compliant.Value ? Constant.JavaScriptTrue : Constant.JavaScriptFalse) : Constant.JavaScriptNull);
             }
         }
 
@@ -43,6 +49,12 @@ namespace GisoFramework.Item
         {
             get
             {
+                var compliantValue = Constant.JavaScriptNull;
+                if (this.Compliant.HasValue)
+                {
+                    compliantValue = this.Compliant.Value.ToString();
+                }
+
                 string pattern = @"{{
                         ""Id"":{0},
                         ""Question"":""{1}"",
@@ -57,7 +69,8 @@ namespace GisoFramework.Item
                     pattern,
                     this.Id,
                     Tools.JsonCompliant(this.Description),
-                    this.Compliant.HasValue ? (this.Compliant.Value ? Constant.JavaScriptTrue : Constant.JavaScriptFalse) : Constant.JavaScriptNull,
+                    //this.Compliant.HasValue ? (this.Compliant.Value ? Constant.JavaScriptTrue : Constant.JavaScriptFalse) : Constant.JavaScriptNull,
+                    compliantValue,
                     this.QuestionaryId,
                     this.AuditoryId,
                     this.CompanyId,
@@ -126,7 +139,7 @@ namespace GisoFramework.Item
 
                                 if (!rdr.IsDBNull(ColumnsAuditoryQuestionGet.Compliant))
                                 {
-                                    newAuditoryQuestionaryQuestion.Compliant = rdr.GetBoolean(ColumnsAuditoryQuestionGet.Compliant);
+                                    newAuditoryQuestionaryQuestion.Compliant = rdr.GetInt32(ColumnsAuditoryQuestionGet.Compliant);
                                 }
 
                                 res.Add(newAuditoryQuestionaryQuestion);

@@ -232,7 +232,7 @@ function RenderDocumentRow(data) {
     tdCategory.appendChild(document.createTextNode(data.Category.Description));
     tdOrigin.appendChild(document.createTextNode(data.Origin.Id === 0 ? Dictionary.Common_Internal : Dictionary.Common_External));
     tdLocation.appendChild(document.createTextNode(data.Location));
-    tdStartDate.appendChild(document.createTextNode(data.StartDate)); //AKI GTK
+    tdStartDate.appendChild(document.createTextNode(data.RevisionDate)); //AKI GTK
     
     var buttonEdit = document.createElement("SPAN");
     buttonEdit.id = data.Id;

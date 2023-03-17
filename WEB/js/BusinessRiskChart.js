@@ -30,7 +30,7 @@ function RenderChartBusinessRisk() {
             .x(function (d) { return d.label; })
             .y(function (d) { return d.value; })
             .tooltips(true)
-            .showValues(true)
+            .showValues(graphicDataBusinessRisk[0].values.length < 12)
             .showXAxis(false)
             .transitionDuration(0)
             .forceY([0, 25])

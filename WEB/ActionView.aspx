@@ -52,7 +52,8 @@
         var CompanyIncidentActionCosts = <%=this.CompanyIncidentActionCosts %>;
         var typeItemId = 13;
         var itemId = IncidentActionId;
-        var Objetivo = <%=this.Objetivo.JsonKeyValue %>;
+        var Objetivo = <%=this.Objetivo.Json %>;
+        var pageType = "form";
     </script>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="Contentholder1" Runat="Server">
@@ -66,12 +67,18 @@
                                                     <div>
                                                         <form class="form-horizontal" role="form">
                                                             <div class="form-group">
-                                                                <label id="CodeLabel" class="col-sm-1"><%=this.Dictionary["Item_IncidentAction_Label_Number"] %>:&nbsp;<strong style="background-color: transparent;padding: 4px 6px 4px 6px;color: #848484;border: none;"><%=this.Code %></strong></label>
+                                                                <label id="CodeLabel" class="col-sm-1"><%=this.Dictionary["Item_IncidentAction_Label_Number"] %>:&nbsp;<strong style="background-color: transparent;padding: 4px 6px 4px 6px;color: #848484;border: none;"><%=this.Code.Equals("0", StringComparison.OrdinalIgnoreCase) ? "-" : this.Code %></strong></label>
                                                                 <%=this.TxtDescription.Render %>
                                                             </div>
                                                             <div class="form-group" id="OriginDiv">
                                                                 <label class="col-sm-1"><%=this.Dictionary["Item_IncidentAction_Label_Origin"] %></label>
+                                                                <% if (this.IncidentAction.Id < 0) { %>
+                                                                <div class="col-sm-1" style="width:115px;"><input type="radio" value="0" id="ROrigin1" name="ROrigin" onclick="RReporterTypeChanged();" /><%=this.Dictionary["Item_IncidentAction_Origin1"] %></div>
+                                                                <div class="col-sm-3"><input type="radio" value="1" id="ROrigin2" name="ROrigin" onclick="RReporterTypeChanged();" /><%=this.Dictionary["Item_IncidentAction_Origin2"] %></div> 
+                                                                <div class="col-sm-6"><span class="ErrorMessage" id="ROriginErrorRequired"><%=this.Dictionary["Common_Required"]%></span></div>                                                               
+                                                                <% } else { %>
                                                                 <label class="col-sm-11"><strong><%= this.OriginItemLink %></strong></label>
+                                                                <% } %>
                                                             </div>
                                                             <div class="form-group" id="RTypeDiv" style="display: none;">
                                                                 <label id="RTypeLabel" class="col-sm-1"><%=this.Dictionary["Item_IncidentAction_Label_Type"] %><span style="color: #f00;">*</span></label>
@@ -150,9 +157,8 @@
                                                                 <%=this.TxtNotes.Render %>
                                                             </div>
                                                         </form>
-                                                    </div> 
-                                                    <%=this.FormFooter %>
-													</br>
+                                                    </div>
+                                                    <div id="ClosedPlaceholder"></div>
                                                 </div>			
                                                 <div id="costes" class="tab-pane">
                                                     <div class="col-sm-12">

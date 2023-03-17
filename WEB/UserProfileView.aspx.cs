@@ -28,8 +28,6 @@ public partial class UserProfileView : Page
     /// <summary>Company of session</summary>
     private Company company;
 
-    private FormFooter formFooter;
-
     /// <summary>Gets a random value to prevents static cache files</summary>
     public string AntiCache
     {
@@ -54,14 +52,6 @@ public partial class UserProfileView : Page
             }
 
             return this.ApplicationUser.UserName;
-        }
-    }
-
-    public string FormFooter
-    {
-        get
-        {
-            return this.formFooter.Render(this.Dictionary);
         }
     }
 
@@ -185,9 +175,9 @@ public partial class UserProfileView : Page
 
         this.LtAvatar.Text = avatars.ToString();
 
-        this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Text = this.Dictionary["Common_Accept"], Icon = "icon-ok", Action = "success" });
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Text = this.Dictionary["Common_Cancel"], Icon = "icon-undo" });
+        this.master.formFooter = new FormFooter();
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Text = this.Dictionary["Common_Accept"], Icon = "icon-ok", Action = "success" });
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Text = this.Dictionary["Common_Cancel"], Icon = "icon-undo" });
     }
 
     private void RenderShortCuts()

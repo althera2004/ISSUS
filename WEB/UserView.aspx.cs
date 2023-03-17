@@ -148,25 +148,6 @@ public partial class UserView : Page
         }
     }
 
-    private FormFooter formFooter;
-    private FormFooter formFooterLearning;
-
-    public string FormFooter
-    {
-        get
-        {
-            return this.formFooter.Render(this.Dictionary);
-        }
-    }
-
-    public string FormFooterLearning
-    {
-        get
-        {
-            return this.formFooterLearning.Render(this.Dictionary);
-        }
-    }
-
     /// <summary>Page's load event</summary>
     /// <param name="sender">Loaded page</param>
     /// <param name="e">Event's arguments</param>
@@ -222,9 +203,6 @@ public partial class UserView : Page
             this.returnScript = "document.location = referrer;";
         }
 
-        this.formFooter = new FormFooter();
-        this.formFooterLearning = new FormFooter();
-
         this.user = Session["User"] as ApplicationUser;
         this.company = Session["company"] as Company;
         this.Dictionary = Session["Dictionary"] as Dictionary<string, string>;
@@ -235,14 +213,16 @@ public partial class UserView : Page
         this.master.AddBreadCrumb("Item_User_Title_Add");
         this.master.Titulo = "Item_User_Title_Add";
 
+        this.master.formFooter = new FormFooter();
+
         if (this.userItemId > 0)
         {
             this.userItem = ApplicationUser.GetById(this.userItemId, this.company.Id);
             this.master.TitleInvariant = true;
             this.master.Titulo = string.Format(CultureInfo.InvariantCulture, "{0}: <strong>{1}</strong>", this.Dictionary["Item_User"], this.userItem.UserName);
 
-            this.formFooter.ModifiedBy = string.Empty;
-            this.formFooter.ModifiedOn = DateTime.Now.Date;
+            this.master.formFooter.ModifiedBy = string.Empty;
+            this.master.formFooter.ModifiedOn = DateTime.Now.Date;
 
             string grants = "|";
 
@@ -305,6 +285,10 @@ public partial class UserView : Page
             this.LtIdiomas.Text += "<option value=\"es\"" + (this.company.Language == "es" ? " selected=\"selected\"" : string.Empty) + ">Castellano</option>";
             this.LtIdiomas.Text += "<option value=\"ca\"" + (this.company.Language == "ca" ? " selected=\"selected\"" : string.Empty) + ">Català</option>";
             this.LtIdiomas.Text += "<option value=\"en\"" + (this.userItem.Language == "en" ? " selected=\"selected\"" : string.Empty) + ">English</option>";
+
+
+            this.master.ModifiedBy = Dictionary["Common_New"];
+            this.master.ModifiedOn = "-";
         }
 
         this.companyUserNames = new StringBuilder();
@@ -323,9 +307,8 @@ public partial class UserView : Page
             this.companyUserNames.Append(string.Format(@"{{""UserName"":""{0}"",""UserId"":{1}}}", userName.Key, userName.Value));
         }
 
-        this.formFooter = new FormFooter();
-        this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Action = "success", Text = this.Dictionary["Common_Accept"] });
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         this.RenderCmbEmployeeData();
     }

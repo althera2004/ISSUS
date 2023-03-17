@@ -71,31 +71,47 @@
         var language = navigator.language || navigator.userLanguage;
         var ip = "<%=this.IP %>";
 
+        if (language !== "es" && language !== "es-ES" && language !== "ca" && language !== "ca-ES") {
+            language = "ca";
+        }
+
         var Dictionary =
             {
                 "es": {
                     "Title": "Acceso a la aplicación",
                     "Btn": "Acceder",
                     "PasswordInvalid": "El mail y/o la contraseña no son válidos",
-                    "Loging": "Accediendo..."
+                    "Loging": "Accediendo...",
+                    "RequiredUser": "El nombre de usuario es obligatorio.",
+                    "RequiredPassword": "La contraseña es obligatoria.",
+                    "NoConnection": "No hay conexión a Internet"
                 },
                 "es-ES": {
                     "Title": "Acceso a la aplicación",
                     "Btn": "Acceder",
                     "PasswordInvalid": "El mail y/o la contraseña no son válidos",
-                    "Loging": "Accediendo..."
+                    "Loging": "Accediendo...",
+                    "RequiredUser": "El nombre de usuario es obligatorio.",
+                    "RequiredPassword": "La contraseña es obligatoria.",
+                    "NoConnection": "No hay conexión a Internet"
                 },
                 "ca": {
                     "Title": "Accès a l'aplicació",
                     "Btn": "Accedir",
                     "PasswordInvalid": "El mail i/o la paraula de pas no són vàlids",
-                    "Loging": "Accedint..."
+                    "Loging": "Accedint...",
+                    "RequiredUser": "El nom de l'usuari és obligatori.",
+                    "RequiredPassword": "La contrasenya es obligatòria.",
+                    "NoConnection": "No hi ha conexió a Internet"
                 },
                 "ca-ES": {
                     "Title": "Accès a l'aplicació",
                     "Btn": "Accedir",
                     "PasswordInvalid": "El mail i/o la paraula de pas no són vàlids",
-                    "Loging": "Accedint..."
+                    "Loging": "Accedint...",
+                    "RequiredUser": "El nombre de usuario es obligatorio.",
+                    "RequiredPassword": "La contraseña es obligatoria.",
+                    "NoConnection": "No hi ha conexió a Internet"
                 }
         };
 
@@ -151,7 +167,7 @@
                                                 <%=this.IssusVersion%>
 												<div class="space-4"></div>
                                                 <h4>
-                                                    <span id="ErrorSpan" style="color: #f00; display: none;"></span>
+                                                    <span id="ErrorMessage" style="color: #f00; display: none;"></span>
                                                 </h4>
                                             </fieldset>
                                         </form>

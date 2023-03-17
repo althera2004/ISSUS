@@ -34,7 +34,7 @@ a.hover, a.visited, a.link {
 </style>
 <p>&nbsp;</p>
 <center>
-  <img src="http://issus.scrambotika.com/scrambotika_agreement.png" alt="Scrambotika" style="max-width:90%" />
+  <img src="https://issus.scrambotika.com/scrambotika_agreement.png" alt="Scrambotika" style="max-width:90%" />
 </center>
 
 <center>
@@ -45,7 +45,7 @@ a.hover, a.visited, a.link {
 
 <p align="right">Rev. 1.0.</p>
 <center>
-  <img src="http://issus.scrambotika.com/issus_agreement.png" alt="ISSUS" style="max-width:90%" />
+  <img src="https://issus.scrambotika.com/issus_agreement.png" alt="ISSUS" style="max-width:90%" />
 </center>
 <p align="right">Sabadell, 6 de març de 2018</p>
 

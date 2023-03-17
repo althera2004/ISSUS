@@ -330,9 +330,9 @@ function Sort(sender, targetName, dataType, HasTotalFooter) {
         if (rows[y].childNodes[0].nodeName === "#text") {
             pivot = rows[y].childNodes[id * 2 + 1];
         }
-        var value = pivot.innerHTML;
+        var value = pivot.innerText;
         if (pivot.childNodes.length > 0 && typeof (pivot.childNodes[0].tagName) !== "undefined") {
-            value = pivot.childNodes[0].innerHTML;
+            value = pivot.childNodes[0].innerText;
         }
 
         if (dataType === "date") {

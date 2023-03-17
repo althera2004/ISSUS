@@ -49,16 +49,6 @@ public partial class QuestionaryView : Page
         }
     }
 
-    private FormFooter formFooter;
-
-    public string FormFooter
-    {
-        get
-        {
-            return this.formFooter.Render(this.Dictionary);
-        }
-    }
-
     public Questionary Questionary { get; private set; }
 
     public string TxtName
@@ -191,13 +181,13 @@ public partial class QuestionaryView : Page
         this.master.AdminPage = true;
         string serverPath = this.Request.Url.AbsoluteUri.Replace(this.Request.RawUrl.Substring(1), string.Empty);
 
-        this.formFooter = new FormFooter();
+        this.master.formFooter = new FormFooter();
         if (this.user.HasGrantToWrite(ApplicationGrant.Questionary))
         {
-            this.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
+            this.master.formFooter.AddButton(new UIButton { Id = "BtnSave", Icon = "icon-ok", Text = this.Dictionary["Common_Accept"], Action = "success" });
         }
 
-        this.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
+        this.master.formFooter.AddButton(new UIButton { Id = "BtnCancel", Icon = "icon-undo", Text = this.Dictionary["Common_Cancel"] });
 
         if (this.questionaryId > 0)
         {
@@ -208,13 +198,17 @@ public partial class QuestionaryView : Page
                 Context.ApplicationInstance.CompleteRequest();
             }
 
-            this.formFooter.ModifiedBy = this.Questionary.ModifiedBy.Description;
-            this.formFooter.ModifiedOn = this.Questionary.ModifiedOn;
+            //this.formFooter.ModifiedBy = this.Questionary.ModifiedBy.Description;
+            //this.formFooter.ModifiedOn = this.Questionary.ModifiedOn;
+            this.master.ModifiedBy = this.Questionary.ModifiedBy.Description;
+            this.master.ModifiedOn = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Questionary.ModifiedOn);
             this.master.TitleInvariant = true;
         }
         else
         {
             this.Questionary = Questionary.Empty;
+            this.master.ModifiedBy = this.Questionary.ModifiedBy.Description;
+            this.master.ModifiedOn = string.Format(CultureInfo.InvariantCulture, "{0:dd/MM/yyyy}", this.Questionary.ModifiedOn);
         }
 
         if (!IsPostBack)
